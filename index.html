@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KleverPEPE | Blockchain Revolution</title>
+    
+    <link rel="stylesheet" href="styles.css">
+
+    <script defer src="script.js"></script>
+
+    <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
+    <style>
+        #live-price-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .livecoinwatch-widget-6 {
+            margin: 0 auto;
+        }
+    </style>
     <style>
         body {
             margin: 0;
@@ -183,6 +202,7 @@
             <a href="#staking">Staking</a>
             <a href="#roadmap">Roadmap</a>
             <a href="#swap">Swap</a>
+            <a href="news.html">News</a>
             <a href="#community">Community</a>
         </nav>
     </header>
@@ -223,6 +243,19 @@
             <li>Wallet Integration <span class="checkmark">✔</span></li>
             <li>Ecosystem Expansion</li>
         </ul>
+    </section>
+
+    <section id="live-price-section">
+        <h1>Live Price</h1>
+        <!-- LiveCoinWatch Widget -->
+        <div class="livecoinwatch-widget-6" 
+             lcw-coin="_KPEPE" 
+             lcw-base="USD" 
+             lcw-period="d" 
+             lcw-color-tx="#ffffff" 
+             lcw-color-bg="#1f2434" 
+             lcw-border-w="1">
+        </div>
     </section>
 
     <section id="trade">
