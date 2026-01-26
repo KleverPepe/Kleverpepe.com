@@ -66,20 +66,20 @@
                 
                 <div class="hero-stats">
                     <div class="stat">
-                        <div class="stat-value" id="hero-supply">21M</div>
-                        <div class="stat-label">Max Supply</div>
+                        <div class="stat-value" id="hero-supply">7,989</div>
+                        <div class="stat-label">Total Holders</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">50%</div>
-                        <div class="stat-label">Staking APR</div>
+                        <div class="stat-value">251</div>
+                        <div class="stat-label">Staking Holders</div>
                     </div>
                     <div class="stat">
                         <div class="stat-value" id="hero-staked">1.4M</div>
                         <div class="stat-label">Total Staked</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value" id="hero-holders">--</div>
-                        <div class="stat-label">Holders</div>
+                        <div class="stat-value">50%</div>
+                        <div class="stat-label">Staking APR</div>
                     </div>
                 </div>
 
@@ -267,10 +267,19 @@
                             <div class="feature-desc">50% APR with compound benefits</div>
                         </div>
                         <div class="feature">
-                            <div class="feature-icon">⚡</div>
-                            <div class="feature-title">Instant</div>
-                            <div class="feature-desc">Unstake anytime with no lockup</div>
+                            <div class="feature-icon">⏱️</div>
+                            <div class="feature-title">Epochs</div>
+                            <div class="feature-desc">24 epochs to unstake, 4 to withdraw</div>
                         </div>
+                    </div>
+                    <div style="background: var(--bg-card); border-radius: 12px; padding: 20px; margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+                        <h4 style="margin-bottom: 12px;">📋 Staking Requirements</h4>
+                        <ul style="text-align: left; color: var(--text-secondary); line-height: 1.8;">
+                            <li><strong>Minimum Stake:</strong> No minimum</li>
+                            <li><strong>Lock Period:</strong> 24 epochs minimum</li>
+                            <li><strong>Withdraw Delay:</strong> 4 epochs after unstaking</li>
+                            <li><strong>Early Unstake:</strong> Not available</li>
+                        </ul>
                     </div>
                     <div style="margin-top: 40px;">
                         <a href="https://klever.io/" target="_blank" class="btn btn-primary btn-large">Stake Now on Klever Wallet</a>
@@ -319,11 +328,7 @@
                         <div class="phase-items">
                             <div class="roadmap-item completed">
                                 <span class="item-status">✓</span>
-                                <span>DEX Listings (Vox Swap, Swopus)</span>
-                            </div>
-                            <div class="roadmap-item completed">
-                                <span class="item-status">✓</span>
-                                <span>CEX Listing (Bitcoin.me)</span>
+                                <span>DEX Listings (Vox Swap, Swopus, Digiko, Same)</span>
                             </div>
                             <div class="roadmap-item completed">
                                 <span class="item-status">✓</span>
@@ -332,6 +337,14 @@
                             <div class="roadmap-item completed">
                                 <span class="item-status">✓</span>
                                 <span>CampfireLab Integration</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Baby Pengolin Partnership</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Digiko & Same DEX Integration</span>
                             </div>
                         </div>
                     </div>
@@ -427,21 +440,27 @@
                 </div>
                 <div class="trading-platforms">
                     <div class="trading-card">
-                        <div class="trading-logo" style="color: #4CAF50;">Bitcoin.me</div>
-                        <div class="trading-type">Centralized Exchange</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Trade KPEPE/USDT with low fees</p>
-                        <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" target="_blank" class="btn btn-primary">Trade Now</a>
+                        <div class="trading-logo" style="color: #4CAF50;">Digiko</div>
+                        <div class="trading-type">DEX on KleverChain</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Fast and secure swaps on KleverChain</p>
+                        <a href="https://www.digiko.io/swap" target="_blank" class="btn btn-primary">Swap Now</a>
                     </div>
                     <div class="trading-card">
-                        <div class="trading-logo" style="color: #9B59B6;">Vox Swap</div>
+                        <div class="trading-logo" style="color: #9B59B6;">Same DEX</div>
+                        <div class="trading-type">DEX on KleverChain</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Decentralized trading on Klever</p>
+                        <a href="https://dex.want-same.com/dex" target="_blank" class="btn btn-secondary">Swap Now</a>
+                    </div>
+                    <div class="trading-card">
+                        <div class="trading-logo" style="color: #3498DB;">Vox Swap</div>
                         <div class="trading-type">DEX Aggregator</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Swap directly from your wallet</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Best rates across DEXs</p>
                         <a href="https://app.voxswap.io/swap/KPEPE-USDT?ref=klv18zx596wxvnqvd6cst09lely7903hkv8kln7g4g7thf06hc6yrtnq3xlu0z" target="_blank" class="btn btn-secondary">Swap Now</a>
                     </div>
                     <div class="trading-card">
-                        <div class="trading-logo" style="color: #3498DB;">Swopus</div>
+                        <div class="trading-logo" style="color: #E67E22;">Swopus</div>
                         <div class="trading-type">DEX on KleverChain</div>
-                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Fast swaps with low fees</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Low fees, fast transactions</p>
                         <a href="https://swopus.com/swap" target="_blank" class="btn btn-secondary">Swap Now</a>
                     </div>
                 </div>
