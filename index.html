@@ -66,7 +66,7 @@
                 
                 <div class="hero-stats">
                     <div class="stat">
-                        <div class="stat-value">21M</div>
+                        <div class="stat-value" id="hero-supply">21M</div>
                         <div class="stat-label">Max Supply</div>
                     </div>
                     <div class="stat">
@@ -74,8 +74,12 @@
                         <div class="stat-label">Staking APR</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">4+</div>
-                        <div class="stat-label">DEX Listings</div>
+                        <div class="stat-value" id="hero-staked">1.4M</div>
+                        <div class="stat-label">Total Staked</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="hero-holders">--</div>
+                        <div class="stat-label">Holders</div>
                     </div>
                 </div>
 
@@ -167,24 +171,32 @@
                 <div class="tokenomics-grid">
                     <div class="tokenomic-card">
                         <div class="tokenomic-icon">💎</div>
-                        <div class="tokenomic-value">21,000,000</div>
+                        <div class="tokenomic-value" id="total-supply">21,000,000</div>
                         <div class="tokenomic-label">Maximum Supply</div>
                     </div>
                     <div class="tokenomic-card">
                         <div class="tokenomic-icon">📈</div>
-                        <div class="tokenomic-value">4,293,717</div>
+                        <div class="tokenomic-value" id="circulating-supply">4,293,717</div>
                         <div class="tokenomic-label">Circulating Supply</div>
                     </div>
                     <div class="tokenomic-card">
                         <div class="tokenomic-icon">🔥</div>
-                        <div class="tokenomic-value">2,061,798</div>
+                        <div class="tokenomic-value" id="burned">2,061,798</div>
                         <div class="tokenomic-label">Burned Value</div>
                     </div>
                     <div class="tokenomic-card">
                         <div class="tokenomic-icon">🔒</div>
-                        <div class="tokenomic-value">1,402,308</div>
+                        <div class="tokenomic-value" id="total-staked">1,402,308</div>
                         <div class="tokenomic-label">Total Staked</div>
                     </div>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <span style="color: var(--text-muted); font-size: 0.85rem;">
+                        Last updated: <span id="last-updated">Loading...</span>
+                    </span>
+                    <button id="refresh-tokenomics" class="btn btn-secondary" style="margin-left: 10px; padding: 8px 16px; font-size: 0.85rem;">
+                        🔄 Refresh
+                    </button>
                 </div>
                 <div class="tokenomics-chart">
                     <h3 style="text-align: center; margin-bottom: 24px;">Distribution Breakdown</h3>
@@ -218,6 +230,9 @@
                             <span class="chart-percent">63%</span>
                         </div>
                     </div>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 16px;">
+                        ℹ️ Data automatically fetched from KleverChain via API
+                    </p>
                 </div>
             </div>
         </section>
@@ -584,6 +599,7 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/tokenomics.js"></script>
     <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
 </body>
 </html>

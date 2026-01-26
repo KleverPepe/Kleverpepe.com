@@ -7,6 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initAnimations();
     initPriceFetcher();
+    
+    // Initialize tokenomics fetcher
+    if (typeof KleverPepeTokenomics !== 'undefined') {
+        KleverPepeTokenomics.updateDisplay();
+    }
 });
 
 // Header scroll effect
