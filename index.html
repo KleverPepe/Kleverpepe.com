@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KleverPEPE - Where DeFi, Community Governance, and Gaming Meet on the Klever Blockchain">
+    <meta name="keywords" content="KPEPE, KleverPepe, KleverChain, DeFi, Meme Coin, Staking, Gaming">
+    <meta property="og:title" content="KleverPEPE | Blockchain Revolution">
+    <meta property="og:description" content="Join the revolution on KleverChain. Stake KPEPE, play games, and be part of the community.">
+    <meta property="og:image" content="https://kleverpepe.com/og-image.jpg">
+    <meta property="og:url" content="https://kleverpepe.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KleverPEPE | Blockchain Revolution">
+    <meta name="twitter:description" content="Join the revolution on KleverChain. Stake KPEPE, play games, and be part of the community.">
+    <title>KleverPEPE | Blockchain Revolution</title>
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-logo">
+            <video autoplay muted loop playsinline width="48" style="border-radius: 50%;">
+                <source src="assets/images/KPEPELOGO.mp4" type="video/mp4">
+            </video>
+            <span class="logo-text">KleverPEPE</span>
+        </div>
+        <nav id="nav">
+            <a href="#about">About</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#staking">Staking</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#trade">Trade</a>
+            <a href="#gaming">Gaming</a>
+            <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" class="nav-cta">Buy KPEPE</a>
+        </nav>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>🚀 Now Live on KleverChain</span>
+                </div>
+                <h1>Welcome to <span>KleverPEPE</span></h1>
+                <p class="hero-subtitle">Where DeFi, community governance, and gaming meet on the Klever blockchain. Your key to success in the crypto world!</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">21M</div>
+                        <div class="stat-label">Max Supply</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">50%</div>
+                        <div class="stat-label">Staking APR</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">4+</div>
+                        <div class="stat-label">DEX Listings</div>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" class="btn btn-primary btn-large">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                        Buy Now
+                    </a>
+                    <a href="#contract" class="btn btn-secondary btn-large">Contract</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contract Address -->
+        <section class="contract-section" id="contract">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Contract Address</h2>
+                    <p class="section-subtitle">Verified token on KleverChain</p>
+                </div>
+                <div class="contract-card">
+                    <div class="contract-label">KPEPE Token Address</div>
+                    <div class="contract-address">
+                        <code id="contractAddress">KPEPE-1EOD</code>
+                        <button class="copy-btn" onclick="copyAddress()" title="Copy address">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="contract-links">
+                        <a href="https://kleverscan.org/asset/KPEPE-1EOD" target="_blank" class="contract-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                            Kleverscan
+                        </a>
+                        <a href="https://klever.io/" target="_blank" class="contract-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                            </svg>
+                            Klever Wallet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">About KleverPEPE</h2>
+                    <p class="section-subtitle">Fuel your crypto journey with the next-generation meme token</p>
+                </div>
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px;">
+                        KleverPEPE is more than just a meme coin — it's a community-driven ecosystem built on the Klever blockchain. 
+                        Combining DeFi utility, gaming rewards, and transparent governance, we're creating a sustainable future 
+                        for Pepe enthusiasts worldwide.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.8;">
+                        Our mission is to bring real utility to the meme coin space through staking rewards, 
+                        play-to-earn gaming, and strong community governance on one of the fastest, cheapest blockchains.
+                    </p>
+                    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                        <a href="https://kleverscan.org/asset/KPEPE-1EOD" target="_blank" class="btn btn-primary">View on Kleverscan</a>
+                        <a href="#staking" class="btn btn-secondary">Start Staking</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tokenomics -->
+        <section class="section tokenomics" id="tokenomics">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Tokenomics</h2>
+                    <p class="section-subtitle">Transparent distribution with real utility</p>
+                </div>
+                <div class="tokenomics-grid">
+                    <div class="tokenomic-card">
+                        <div class="tokenomic-icon">💎</div>
+                        <div class="tokenomic-value">21,000,000</div>
+                        <div class="tokenomic-label">Maximum Supply</div>
+                    </div>
+                    <div class="tokenomic-card">
+                        <div class="tokenomic-icon">📈</div>
+                        <div class="tokenomic-value">4,293,717</div>
+                        <div class="tokenomic-label">Circulating Supply</div>
+                    </div>
+                    <div class="tokenomic-card">
+                        <div class="tokenomic-icon">🔥</div>
+                        <div class="tokenomic-value">2,061,798</div>
+                        <div class="tokenomic-label">Burned Value</div>
+                    </div>
+                    <div class="tokenomic-card">
+                        <div class="tokenomic-icon">🔒</div>
+                        <div class="tokenomic-value">1,402,308</div>
+                        <div class="tokenomic-label">Total Staked</div>
+                    </div>
+                </div>
+                <div class="tokenomics-chart">
+                    <h3 style="text-align: center; margin-bottom: 24px;">Distribution Breakdown</h3>
+                    <div class="chart-visual">
+                        <div class="chart-bar">
+                            <span class="chart-label">Circulating</span>
+                            <div class="chart-fill-container">
+                                <div class="chart-fill" style="width: 20%;"></div>
+                            </div>
+                            <span class="chart-percent">20%</span>
+                        </div>
+                        <div class="chart-bar">
+                            <span class="chart-label">Burned</span>
+                            <div class="chart-fill-container">
+                                <div class="chart-fill" style="width: 10%;"></div>
+                            </div>
+                            <span class="chart-percent">10%</span>
+                        </div>
+                        <div class="chart-bar">
+                            <span class="chart-label">Staked</span>
+                            <div class="chart-fill-container">
+                                <div class="chart-fill" style="width: 7%;"></div>
+                            </div>
+                            <span class="chart-percent">7%</span>
+                        </div>
+                        <div class="chart-bar">
+                            <span class="chart-label">Reserved</span>
+                            <div class="chart-fill-container">
+                                <div class="chart-fill" style="width: 63%;"></div>
+                            </div>
+                            <span class="chart-percent">63%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Staking -->
+        <section class="section staking" id="staking">
+            <div class="container">
+                <div class="staking-content">
+                    <div class="section-header">
+                        <h2 class="section-title">Staking Rewards</h2>
+                        <p class="section-subtitle">Earn passive income by holding KPEPE</p>
+                    </div>
+                    <div class="staking-highlight">
+                        <div class="apr-value">50%</div>
+                        <div class="apr-label">Annual Percentage Rate</div>
+                        <p style="color: var(--text-secondary);">Stake $KPEPE and earn rewards. The more you stake, the more you earn!</p>
+                    </div>
+                    <div class="staking-features">
+                        <div class="feature">
+                            <div class="feature-icon">🔐</div>
+                            <div class="feature-title">Secure</div>
+                            <div class="feature-desc">Smart contract audited on KleverChain</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">📊</div>
+                            <div class="feature-title">Transparent</div>
+                            <div class="feature-desc">Real-time tracking of staked amounts</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">💰</div>
+                            <div class="feature-title">High Rewards</div>
+                            <div class="feature-desc">50% APR with compound benefits</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-title">Instant</div>
+                            <div class="feature-desc">Unstake anytime with no lockup</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <a href="https://klever.io/" target="_blank" class="btn btn-primary btn-large">Stake Now on Klever Wallet</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap -->
+        <section class="section roadmap" id="roadmap">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Roadmap</h2>
+                    <p class="section-subtitle">Our journey to revolutionizing meme tokens</p>
+                </div>
+                <div class="roadmap-timeline">
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <div class="phase-number">1</div>
+                            <h3 class="phase-title">Foundation ✓</h3>
+                        </div>
+                        <div class="phase-items">
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Token Launch on KleverChain</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Community Building</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Website Launch</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Klever Wallet Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <div class="phase-number">2</div>
+                            <h3 class="phase-title">Expansion ✓</h3>
+                        </div>
+                        <div class="phase-items">
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>DEX Listings (Vox Swap, Swopus)</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>CEX Listing (Bitcoin.me)</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>Partnership with Pandemic Games</span>
+                            </div>
+                            <div class="roadmap-item completed">
+                                <span class="item-status">✓</span>
+                                <span>CampfireLab Integration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <div class="phase-number" style="background: linear-gradient(135deg, var(--warning), #FF9800);">3</div>
+                            <h3 class="phase-title">Growth 🔄</h3>
+                        </div>
+                        <div class="phase-items">
+                            <div class="roadmap-item in-progress">
+                                <span class="item-status">◐</span>
+                                <span>Additional CEX Listings</span>
+                            </div>
+                            <div class="roadmap-item in-progress">
+                                <span class="item-status">◐</span>
+                                <span>Marketing Campaign</span>
+                            </div>
+                            <div class="roadmap-item in-progress">
+                                <span class="item-status">◐</span>
+                                <span>New Gaming Partnerships</span>
+                            </div>
+                            <div class="roadmap-item pending">
+                                <span class="item-status">○</span>
+                                <span>Cross-chain Bridge</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <div class="phase-number" style="background: var(--text-muted);">4</div>
+                            <h3 class="phase-title">Future ○</h3>
+                        </div>
+                        <div class="phase-items">
+                            <div class="roadmap-item pending">
+                                <span class="item-status">○</span>
+                                <span>NFT Collection Launch</span>
+                            </div>
+                            <div class="roadmap-item pending">
+                                <span class="item-status">○</span>
+                                <span>Governance Token Implementation</span>
+                            </div>
+                            <div class="roadmap-item pending">
+                                <span class="item-status">○</span>
+                                <span>Mobile App Development</span>
+                            </div>
+                            <div class="roadmap-item pending">
+                                <span class="item-status">○</span>
+                                <span>Global Exchange Listings</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Price -->
+        <section class="section price-section" id="price">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Live Price</h2>
+                    <p class="section-subtitle">Real-time KPEPE price from LiveCoinWatch</p>
+                </div>
+                <div class="price-display">
+                    <div class="price-value" id="priceValue">$0.00</div>
+                    <div class="price-change" id="priceChange">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
+                        <span id="changePercent">+0.00%</span>
+                    </div>
+                </div>
+                <div class="price-chart">
+                    <div class="livecoinwatch-widget-6" 
+                         lcw-coin="_KPEPE" 
+                         lcw-base="USD" 
+                         lcw-period="d" 
+                         lcw-color-tx="#ffffff" 
+                         lcw-color-bg="#14141F" 
+                         lcw-border-w="1"
+                         style="border-radius: 16px; overflow: hidden;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trading -->
+        <section class="section trading-section" id="trade">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Where to Trade</h2>
+                    <p class="section-subtitle">Buy and sell KPEPE on these platforms</p>
+                </div>
+                <div class="trading-platforms">
+                    <div class="trading-card">
+                        <div class="trading-logo" style="color: #4CAF50;">Bitcoin.me</div>
+                        <div class="trading-type">Centralized Exchange</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Trade KPEPE/USDT with low fees</p>
+                        <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" target="_blank" class="btn btn-primary">Trade Now</a>
+                    </div>
+                    <div class="trading-card">
+                        <div class="trading-logo" style="color: #9B59B6;">Vox Swap</div>
+                        <div class="trading-type">DEX Aggregator</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Swap directly from your wallet</p>
+                        <a href="https://app.voxswap.io/swap/KPEPE-USDT?ref=klv18zx596wxvnqvd6cst09lely7903hkv8kln7g4g7thf06hc6yrtnq3xlu0z" target="_blank" class="btn btn-secondary">Swap Now</a>
+                    </div>
+                    <div class="trading-card">
+                        <div class="trading-logo" style="color: #3498DB;">Swopus</div>
+                        <div class="trading-type">DEX on KleverChain</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Fast swaps with low fees</p>
+                        <a href="https://swopus.com/swap" target="_blank" class="btn btn-secondary">Swap Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gaming -->
+        <section class="section gaming" id="gaming">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Play KPEPE Games</h2>
+                    <p class="section-subtitle">Earn $PMD and $KPEPE tokens by playing games</p>
+                </div>
+                <div class="game-grid">
+                    <div class="game-card">
+                        <img src="assets/images/kpepegamecenter.jpg" alt="KPEPE Game Center" class="game-image">
+                        <div class="game-content">
+                            <h3 class="game-title">KPEPE Game Center</h3>
+                            <p class="game-desc">Play Street Fight, Crazy Gangster, and more to earn rewards!</p>
+                            <div class="game-store-buttons">
+                                <a href="https://play.google.com/store/apps/details?id=com.PandemicMultiverse.KPEPEGameCenter" class="store-btn" target="_blank">
+                                    Android
+                                </a>
+                                <a href="https://testflight.apple.com/join/u63y6h9k" class="store-btn" target="_blank">
+                                    iOS
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card">
+                        <img src="assets/images/pandemic-game.png" alt="Pandemic Games" class="game-image">
+                        <div class="game-content">
+                            <h3 class="game-title">Pandemic Multiverse</h3>
+                            <p class="game-desc">Partnership with Pandemic Games for play-to-earn gaming</p>
+                            <div class="game-store-buttons">
+                                <a href="#" class="store-btn">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Swap Widget -->
+        <section class="section swap-section" id="swap">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Swap DEX</h2>
+                    <p class="section-subtitle">Swap KPEPE directly from your wallet</p>
+                </div>
+                <div class="swap-widget">
+                    <iframe
+                        id="swap-iframe"
+                        src="https://app.voxswap.io/widget/KPEPE-USDT?widgetBackgroundColor=09090B&widgetBorderColor=09090B&cardBackgroundColor=111116&cardBorderColor=111116&payBackgroundColor=16161B&payBorderColor=16161B&getBackgroundColor=16161B&getBorderColor=16161B&payTokenBackgroundColor=282A2C&payTokenBorderColor=282A2C&getTokenBackgroundColor=282A2C&getTokenBorderColor=282A2C&percentageButtonBackground=16161B&percentageButtonBorderColor=282A2C&percentageButtonBackgroundActive=09090B&percentageButtonBorderColorActive=416CCF&switchBackgroundColor=282A2C&iconColor=ffffff&primaryTextColor=b7bdc6&secondaryTextColor=50505E&tokenSymbolColor=ffffff&tokenSubColor=50505E&statusMessageColor=FB8A4C&halfButtonColor=BBB&maxButtonColor=BBB&proceedButtonBGColor=9e347ebf&proceedButtonBorderColor=121312&proceedButtonLabelColor=09090B&proceedButtonBorderRadius=32&selectedFont=Urbanist&modalBackground=18181E&modalBorderColor=18181E&modalPercentageButtonBackground=18181E&modalPercentageButtonBorderColor=ffffff&modalPercentageButtonBackgroundActive=09090B&modalPercentageButtonBorderColorActive=416CCF&modalAlertBackground=09090B&modalAlertBorderColor=09090B&modalButtonBGColor=18181E&modalButtonBorderColor=416CCF&modalButtonLabelColor=ffffff&modalButtonBorderRadius=32&selectedKeypair=KPEPE-USDT&BaseNetwork=KLV&QuoteNetwork=TRX&ref_address=klv18zx596wxvnqvd6cst09lely7903hkv8kln7g4g7thf06hc6yrtnq3xlu0z&partnerName=KleverPepe&selectedServices=Swap,Limit,Orders"
+                        style="border: none; border-radius: 16px; background-color: var(--bg-dark);"
+                        width="100%"
+                        height="700"
+                        scrolling="no"
+                        title="KPEPE Swap Widget"
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community -->
+        <section class="section community" id="community">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Join Our Community</h2>
+                    <p class="section-subtitle">Be part of the KleverPEPE revolution</p>
+                </div>
+                <div class="social-grid">
+                    <a href="https://twitter.com/Klvpepe" target="_blank" class="social-link">
+                        <div class="social-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </div>
+                        <span class="social-name">Twitter</span>
+                        <span class="social-followers">Follow Us</span>
+                    </a>
+                    <a href="https://t.me/KleverPEPE" target="_blank" class="social-link">
+                        <div class="social-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.696.065-1.225-.46-1.901-.903-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        </div>
+                        <span class="social-name">Telegram</span>
+                        <span class="social-followers">Join Channel</span>
+                    </a>
+                    <a href="https://kleverscan.org/asset/KPEPE-1EOD" target="_blank" class="social-link">
+                        <div class="social-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <span class="social-name">Kleverscan</span>
+                        <span class="social-followers">View Token</span>
+                    </a>
+                    <a href="https://klever.io/" target="_blank" class="social-link">
+                        <div class="social-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                        </div>
+                        <span class="social-name">Klever</span>
+                        <span class="social-followers">Ecosystem</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <video autoplay muted loop playsinline width="40" style="border-radius: 50%;">
+                        <source src="assets/images/KPEPELOGO.mp4" type="video/mp4">
+                    </video>
+                    <span class="logo-text">KleverPEPE</span>
+                </div>
+                <p class="footer-desc">The next-generation meme token on KleverChain. Join the revolution today!</p>
+            </div>
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#tokenomics">Tokenomics</a></li>
+                    <li><a href="#staking">Staking</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="https://kleverscan.org/asset/KPEPE-1EOD" target="_blank">Kleverscan</a></li>
+                    <li><a href="https://klever.io/" target="_blank">Klever Wallet</a></li>
+                    <li><a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" target="_blank">Bitcoin.me</a></li>
+                    <li><a href="https://app.voxswap.io/swap/KPEPE-USDT" target="_blank">Vox Swap</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Community</h4>
+                <ul class="footer-links">
+                    <li><a href="https://twitter.com/Klvpepe" target="_blank">Twitter</a></li>
+                    <li><a href="https://t.me/KleverPEPE" target="_blank">Telegram</a></li>
+                    <li><a href="#" target="_blank">Discord</a></li>
+                    <li><a href="#" target="_blank">Medium</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2025 KleverPEPE. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Disclaimer</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
+</body>
+</html>
