@@ -223,3 +223,20 @@ window.addEventListener('load', function() {
 console.log('%c🦕 KleverPEPE', 'font-size: 32px; font-weight: bold; color: #2ECC71;');
 console.log('%cBlockchain Revolution', 'font-size: 16px; color: #9B59B6;');
 console.log('%cJoin the community: https://t.me/KleverPEPE', 'font-size: 12px; color: #B0B0C0;');
+
+// FAQ Toggle Function
+function toggleFaq(element) {
+    const answer = element.querySelector('.faq-answer');
+    const icon = element.querySelector('.faq-icon');
+    
+    if (answer.style.display === 'none') {
+        answer.style.display = 'block';
+        icon.textContent = '−';
+    } else {
+        answer.style.display = 'none';
+        icon.textContent = '+';
+    }
+}
+
+// Make it globally available
+window.toggleFaq = toggleFaq;

@@ -9,6 +9,10 @@ const STATIC_DATA = {
     circulatingSupply: 4293717,
     burned: 2061798,
     totalStaked: 1402308,
+    totalHolders: 7989,
+    stakingHolders: 251,
+    price: 0.015, // Fallback price
+    volume24h: 15000, // Fallback volume
     lastUpdated: new Date().toISOString()
 };
 
@@ -62,8 +66,6 @@ async function fetchTokenData() {
 
 function parseApiResponse(data) {
     // Parse API response based on Klever API structure
-    // Adjust this based on actual API response format
-    
     if (!data) return null;
 
     try {
@@ -72,6 +74,10 @@ function parseApiResponse(data) {
             circulatingSupply: data.circulatingSupply || data.inCirculation || STATIC_DATA.circulatingSupply,
             burned: data.burned || data.burn || STATIC_DATA.burned,
             totalStaked: data.totalStaked || data.staked || data.staking || STATIC_DATA.totalStaked,
+            totalHolders: data.holders || data.totalHolders || STATIC_DATA.totalHolders,
+            stakingHolders: data.stakingHolders || data.stakers || STATIC_DATA.stakingHolders,
+            price: data.price || STATIC_DATA.price,
+            volume24h: data.volume24h || data.volume || STATIC_DATA.volume24h,
             lastUpdated: new Date().toISOString()
         };
     } catch (error) {
@@ -90,10 +96,12 @@ function formatNumber(num) {
 }
 
 function formatCurrency(num) {
-    return new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    }).format(num);
+    if (num >= 1000000) {
+        return '$' + (num / 1000000).toFixed(2) + 'M';
+    } else if (num >= 1000) {
+        return '$' + (num / 1000).toFixed(2) + 'K';
+    }
+    return '$' + num.toFixed(2);
 }
 
 async function updateTokenomicsDisplay() {
@@ -105,18 +113,27 @@ async function updateTokenomicsDisplay() {
         circulatingSupply: document.getElementById('circulating-supply'),
         burned: document.getElementById('burned'),
         totalStaked: document.getElementById('total-staked'),
-        lastUpdated: document.getElementById('last-updated')
+        lastUpdated: document.getElementById('last-updated'),
+        // Hero elements
+        heroSupply: document.getElementById('hero-supply'),
+        heroMarketCap: document.getElementById('hero-marketcap'),
+        heroVolume: document.getElementById('hero-volume')
     };
     
-    Object.keys(elements).forEach(key => {
-        if (elements[key]) {
-            if (key === 'lastUpdated') {
-                elements[key].textContent = new Date(data.lastUpdated).toLocaleString();
-            } else {
-                elements[key].textContent = formatNumber(data[key]);
-            }
-        }
-    });
+    // Update tokenomics section
+    if (elements.totalSupply) elements.totalSupply.textContent = formatNumber(data.totalSupply);
+    if (elements.circulatingSupply) elements.circulatingSupply.textContent = formatNumber(data.circulatingSupply);
+    if (elements.burned) elements.burned.textContent = formatNumber(data.burned);
+    if (elements.totalStaked) elements.totalStaked.textContent = formatNumber(data.totalStaked);
+    if (elements.lastUpdated) elements.lastUpdated.textContent = new Date(data.lastUpdated).toLocaleString();
+    
+    // Update hero section
+    if (elements.heroSupply) elements.heroSupply.textContent = formatNumber(data.totalHolders || data.circulatingSupply);
+    if (elements.heroMarketCap) {
+        const marketCap = (data.price || 0) * (data.circulatingSupply || data.totalHolders);
+        elements.heroMarketCap.textContent = formatCurrency(marketCap);
+    }
+    if (elements.heroVolume) elements.heroVolume.textContent = formatCurrency(data.volume24h || 0);
     
     // Update chart if exists
     updateTokenomicsChart(data);
