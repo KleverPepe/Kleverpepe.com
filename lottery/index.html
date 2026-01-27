@@ -349,6 +349,8 @@
       const TICKET_PRICE = 100, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
       const KPEPE_JACKPOT = 500000;
+      // Demo: tickets sold (update from contract in production)
+      let TOTAL_TICKETS_SOLD = 618;
       // Prize percentages of pool
       const PRIZE_PERCENTAGES = {
         jackpot: 0.40,
@@ -431,8 +433,7 @@
       }
       
       function loadStats() {
-        const tickets = 247;
-        const poolAmount = Math.floor(tickets * TICKET_PRICE * POOL_SHARE);
+        const poolAmount = Math.floor(TOTAL_TICKETS_SOLD * TICKET_PRICE * POOL_SHARE);
         const kpepeValueUSD = KPEPE_JACKPOT * KPEPE_PRICE_USD;
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
         const totalUSD = kpepeValueUSD + klvValueUSD;
