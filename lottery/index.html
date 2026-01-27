@@ -418,9 +418,14 @@
             <div class="benefit-label">Your Ticket Price</div>
           </div>
           <div class="benefit-item">
-            <div class="benefit-value" id="user-free-tickets">0</div>
-            <div class="benefit-label">Free Tickets/Day</div>
+            <div class="benefit-value" id="user-free-available">0</div>
+            <div class="benefit-label">Free Tickets Available</div>
           </div>
+        </div>
+        <div id="free-tickets-info" style="margin-top: 10px; padding: 10px; background: rgba(155, 89, 182, 0.1); border-radius: 8px; font-size: 0.75rem; color: var(--text-secondary); display: none;">
+          <div style="color: var(--purple); font-weight: 600; margin-bottom: 4px;">🎁 Free Tickets Earned</div>
+          <div>Earned: <span id="free-earned" style="color: var(--primary);">0</span> | Used: <span id="free-used" style="color: var(--red);">0</span> | Staking Bonus: <span id="staking-bonus" style="color: var(--orange);">0</span>/day</div>
+          <div style="margin-top: 4px;">💡 Buy 1 paid ticket = 1 free ticket!</div>
         </div>
       </div>
       
@@ -475,11 +480,15 @@
         <!-- Cost -->
         <div class="cost-display">
           <span class="cost-label">Total Cost</span>
-          <span class="cost-value"><span id="total-cost">5</span> KLV</span>
+          <span class="cost-value"><span id="total-cost">5</span> KLV <span id="free-badge" style="display:none; font-size: 0.7rem; background: var(--purple); padding: 2px 6px; border-radius: 8px; margin-left: 8px;">FREE</span></span>
         </div>
         
         <button class="lottery-btn lottery-btn-primary" id="buy-btn" onclick="buyTickets()">
           🎟️ Buy Ticket(s)
+        </button>
+        
+        <button class="lottery-btn lottery-btn-secondary" id="free-btn" onclick="useFreeTicket()" style="display:none; margin-top: 8px;">
+          🎁 Use Free Ticket (<span id="free-count">0</span> available)
         </button>
       </div>
       
@@ -609,6 +618,12 @@
       let selectedPowerball = null;
       let ticketQuantity = 1;
       let klvPriceUSD = 0.00154;
+      
+      // Ticket tracking (1:1 paid:free system)
+      let paidTicketsPurchased = 0;
+      let freeTicketsEarned = 0;
+      let freeTicketsUsed = 0;
+      let stakingBonus = 0; // Daily bonus from staking
       
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {
@@ -744,7 +759,7 @@
           let html = '';
           selectedMainNumbers.forEach(num => {
             html += `<div class="ticket-number">${num}</div>`;
-          });
+          }
           if (selectedPowerball) {
             html += `<div class="ticket-number powerball">${selectedPowerball}</div>`;
           }
@@ -757,7 +772,21 @@
         
         // Update cost
         const totalCost = ticketQuantity * TICKET_PRICE;
-        document.getElementById('total-cost').textContent = totalCost.toLocaleString();
+        const available = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        
+        // Show/hide free ticket option
+        const freeBtn = document.getElementById('free-btn');
+        if (available > 0 && selectedMainNumbers.length === MAIN_PICK && selectedPowerball && ticketQuantity === 1) {
+          freeBtn.style.display = 'block';
+          document.getElementById('free-count').textContent = available;
+          document.getElementById('free-badge').style.display = 'inline';
+          document.getElementById('total-cost').textContent = '0';
+        } else {
+          freeBtn.style.display = 'none';
+          document.getElementById('free-badge').style.display = 'none';
+          document.getElementById('total-cost').textContent = totalCost.toLocaleString();
+        }
+        
         document.getElementById('ticket-qty').textContent = ticketQuantity;
         
         // Enable/disable buy button
@@ -783,23 +812,75 @@
         
         const totalKLV = ticketQuantity * TICKET_PRICE;
         
-        alert(`🎫 Buying ${ticketQuantity} ticket(s) for ${totalKLV} KLV
+        // Calculate free tickets earned (1:1 ratio)
+        const earned = ticketQuantity;
+        paidTicketsPurchased += ticketQuantity;
+        freeTicketsEarned += earned;
+        
+        const totalFree = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        
+        alert(`🎫 Buying ${ticketQuantity} PAID ticket(s) for ${totalKLV} KLV
 
 Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
 Powerball: ${selectedPowerball}
+
+✅ Earned ${earned} FREE ticket(s)!
+📊 Free tickets available: ${totalFree}
 
 Send ${totalKLV} KLV to:
 ${CONTRACT_ADDRESS}
 
 Good luck! 🍀`);
         
-        // Reset after purchase
+        // Update stats
+        loadStats();
+        
+        // Reset selections
         selectedMainNumbers = [];
         selectedPowerball = null;
         ticketQuantity = 1;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
+        
+        // Update user status
+        if (walletAddress) updateUserStatus();
+      }
+      
+      // Use free ticket
+      function useFreeTicket() {
+        const available = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        if (available <= 0) {
+          alert('No free tickets available! Buy paid tickets to earn free ones.');
+          return;
+        }
+        
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
+          alert('Please select 6 main numbers and 1 Powerball!');
+          return;
+        }
+        
+        freeTicketsUsed++;
+        const remaining = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        
+        alert(`🎫 Using 1 FREE ticket!
+
+Your numbers:
+Main: ${selectedMainNumbers.join(', ')}
+Powerball: ${selectedPowerball}
+
+✅ Free tickets remaining: ${remaining}
+
+Good luck! 🍀`);
+        
+        // Reset selections
+        selectedMainNumbers = [];
+        selectedPowerball = null;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        updateUI();
+        
+        // Update user status
+        if (walletAddress) updateUserStatus();
       }
       
       // Countdown timer
@@ -882,7 +963,7 @@ Good luck! 🍀`);
           const kpepePrice = 0.005371;
           const holdingUSD = (kpepeBalance * kpepePrice).toFixed(2);
           
-          // Determine tier
+          // Determine tier and ticket price
           let tier = 'Standard';
           let tierClass = 'standard';
           let ticketPrice = 5;
@@ -901,6 +982,16 @@ Good luck! 🍀`);
             ticketPrice = 4;
           }
           
+          // Calculate staking bonus (free tickets per day)
+          let bonus = 0;
+          if (kpepeBalance >= 500000) bonus = 10;
+          else if (kpepeBalance >= 100000) bonus = 5;
+          else if (kpepeBalance >= 25000) bonus = 1;
+          stakingBonus = bonus;
+          
+          // Calculate available free tickets
+          const available = freeTicketsEarned - freeTicketsUsed + bonus;
+          
           // Show user status card
           document.getElementById('user-status-card').style.display = 'block';
           document.getElementById('user-holding').textContent = kpepeBalance.toLocaleString();
@@ -910,10 +1001,18 @@ Good luck! 🍀`);
           document.getElementById('user-tier-badge').textContent = tier === 'Gold' ? '🥇 Gold' : tier === 'Silver' ? '🥈 Silver' : tier === 'Bronze' ? '🥉 Bronze' : '💚 Standard';
           document.getElementById('user-tier-badge').className = 'user-tier-badge ' + tierClass;
           document.getElementById('user-ticket-price').textContent = ticketPrice + ' KLV';
+          document.getElementById('user-free-available').textContent = available;
           
-          // Free tickets based on staked (for now, assume 0)
-          const freeTickets = 0;
-          document.getElementById('user-free-tickets').textContent = freeTickets;
+          // Show free ticket info
+          const freeInfo = document.getElementById('free-tickets-info');
+          if (paidTicketsPurchased > 0 || bonus > 0) {
+            freeInfo.style.display = 'block';
+            document.getElementById('free-earned').textContent = freeTicketsEarned;
+            document.getElementById('free-used').textContent = freeTicketsUsed;
+            document.getElementById('staking-bonus').textContent = bonus;
+          } else {
+            freeInfo.style.display = 'none';
+          }
           
         } catch (e) {
           console.log('Failed to fetch user status:', e);
