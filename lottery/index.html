@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🎱 KPEPE Jackpot - Win 500K KPEPE!</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
+    <!-- Klever Web3 SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@klever/web3-sdk@latest/dist/klever-web3.min.js"></script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       :root {
@@ -363,7 +365,7 @@
         <button class="buy-btn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect Wallet</button>
       </div>
       
-      <div class="footer">🎱 KPEPE Jackpot on KleverChain<br><span style="opacity: 0.6;">Testnet Mode</span></div>
+      <div class="footer">🎱 KPEPE Jackpot on KleverChain<br><span style="opacity: 0.6;">Mainnet</span></div>
     </div>
 
     <script>
@@ -534,12 +536,113 @@
         update(); setInterval(update, 1000);
       }
       
-      function connectWallet() { alert('Wallet connection will be implemented with Klever Web3'); }
+      // Klever Web3 Integration
+      let kleverWeb3 = null;
+      let connectedWallet = null;
+
+      async function initializeKleverWeb3() {
+        if (typeof window.klever !== 'undefined') {
+          kleverWeb3 = window.klever;
+          console.log('✅ Klever Web3 SDK loaded');
+        } else {
+          console.warn('⚠️ Klever extension not detected');
+        }
+      }
+
+      async function connectWallet() {
+        try {
+          if (!kleverWeb3) {
+            alert('❌ Klever Extension not found!\n\nPlease install the Klever Web3 extension for your browser.');
+            return;
+          }
+          const accounts = await kleverWeb3.request({ method: 'account' });
+          if (accounts && accounts.length > 0) {
+            connectedWallet = accounts[0];
+            updateWalletUI(true, connectedWallet);
+            console.log('✅ Wallet connected:', connectedWallet);
+          }
+        } catch (error) {
+          console.error('Wallet connection error:', error);
+          alert('❌ Failed to connect wallet: ' + error.message);
+        }
+      }
+
+      function disconnectWallet() {
+        connectedWallet = null;
+        updateWalletUI(false, null);
+        console.log('Wallet disconnected');
+      }
+
+      function updateWalletUI(connected, address) {
+        const statusEl = document.getElementById('wallet-status');
+        const connectBtn = document.querySelector('button[onclick="connectWallet()"]');
+        if (connected && address) {
+          statusEl.classList.remove('disconnected');
+          statusEl.classList.add('connected');
+          const shortAddr = address.substring(0, 8) + '...' + address.substring(address.length - 6);
+          statusEl.innerHTML = `<span>●</span> Connected: ${shortAddr}`;
+          connectBtn.textContent = '🔗 Disconnect Wallet';
+          connectBtn.onclick = disconnectWallet;
+        } else {
+          statusEl.classList.remove('connected');
+          statusEl.classList.add('disconnected');
+          statusEl.innerHTML = '<span>●</span> Not Connected';
+          connectBtn.textContent = '🔗 Connect Wallet';
+          connectBtn.onclick = connectWallet;
+        }
+      }
+
+      function setupWalletListeners() {
+        if (!kleverWeb3) return;
+        kleverWeb3.on('accountsChanged', (accounts) => {
+          if (accounts && accounts.length > 0) {
+            connectedWallet = accounts[0];
+            updateWalletUI(true, connectedWallet);
+          } else {
+            disconnectWallet();
+          }
+        });
+      }
+
+      window.addEventListener('load', () => {
+        initializeKleverWeb3();
+        setupWalletListeners();
+      });
       
       function buyTickets() {
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) { alert('Please select 5 main numbers and 1 Lucky 8Ball!'); return; }
-        alert('🎫 Buying ticket for 100 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball + '\n\nGrand Prize: 500,000 KPEPE!\n\nGood luck! 🍀');
-        clearSelection();
+        if (!connectedWallet) {
+          alert('❌ Please connect your wallet first!');
+          return;
+        }
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) {
+          alert('Please select 5 main numbers and 1 Lucky 8Ball!');
+          return;
+        }
+        const [n1, n2, n3, n4, n5] = selectedMainNumbers;
+        const eb = selectedEightball;
+        const valueMicroKLV = String(TICKET_PRICE * 1_000_000); // 100 KLV in microKLV (6 decimals)
+        const txParams = {
+          chainId: 1, // KleverChain mainnet
+          type: 'call',
+          sender: connectedWallet,
+          contractAddress: CONTRACT_ADDRESS,
+          functionName: 'buy_ticket',
+          args: [n1, n2, n3, n4, n5, eb],
+          amount: valueMicroKLV,
+          gasLimit: 300000,
+        };
+
+        (async () => {
+          try {
+            const res = await kleverWeb3.request({ method: 'contractCall', params: txParams });
+            console.log('Tx submitted:', res);
+            alert('🎫 Ticket submitted!\nTx: ' + (res?.txHash || 'pending') + '\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball + '\n\nGood luck! 🍀');
+            clearSelection();
+          } catch (err) {
+            console.error('Ticket purchase failed:', err);
+            alert('❌ Transaction failed: ' + (err?.message || err));
+          }
+        })();
       }
     </script>
   </body>
