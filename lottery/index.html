@@ -146,10 +146,8 @@
       
       /* Pool 8 Ball */
       .pool-8ball { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #fff; position: relative; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-      .pool-8ball::before { content: ''; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; background: rgba(255,255,255,0.7); border-radius: 50%; }
       
-      .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; position: relative; }
-      .number-btn.eightball::before { content: ''; position: absolute; top: 4px; left: 7px; width: 4px; height: 4px; background: rgba(255,255,255,0.7); border-radius: 50%; }
+      .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; }
       .number-btn.eightball:hover { background: linear-gradient(145deg, #333, #111); box-shadow: 0 0 15px rgba(255,255,255,0.5); transform: scale(1.1); }
       .number-btn.eightball.selected { background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.6); transform: scale(1.1); }
       
@@ -157,8 +155,7 @@
       .ticket-preview { background: rgba(74, 222, 128, 0.08); border: 2px dashed rgba(74, 222, 128, 0.25); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
       .ticket-numbers { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
       .ticket-num { width: 34px; height: 34px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
-      .ticket-num.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; position: relative; }
-      .ticket-num.eightball::before { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 4px; background: rgba(255,255,255,0.7); border-radius: 50%; }
+      .ticket-num.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; }
       .ticket-empty { color: var(--text-muted); font-size: 0.8rem; }
       
       /* Quick Pick */
@@ -186,8 +183,7 @@
       .prize-match { display: flex; align-items: center; gap: 6px; }
       .prize-balls { display: flex; gap: 3px; }
       .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
-      .prize-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; color: #fff; position: relative; }
-      .prize-ball.eightball::before { content: ''; position: absolute; top: 2px; left: 4px; width: 3px; height: 3px; background: rgba(255,255,255,0.7); border-radius: 50%; }
+      .prize-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; color: #fff; }
       .prize-amount { font-weight: 700; color: var(--primary); }
       .prize-row.jackpot { background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
       .prize-row.jackpot .prize-match { color: var(--primary); font-weight: 700; }
@@ -259,6 +255,7 @@
       <div class="jackpot-card">
         <div class="jackpot-content">
           <div class="frog-logo" onclick="showFrogMessage()">🐸</div>
+          <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
           <div class="grand-prize">🌟 <span class="prize-highlight">500,000 KPEPE</span> Grand Prize!</div>
           <div class="jackpot-usd" id="jackpot-usd">Total Prize Pool: ~$0 USD</div>
         </div>
@@ -295,7 +292,7 @@
       <!-- Eight Ball - ALL 20 VISIBLE -->
       <div class="section-card">
         <div class="section-title">
-          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Eight Ball (1-20)</span></div>
+          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Lucky Ball (1-20)</span></div>
           <span class="badge" id="8b-count">0/1</span>
         </div>
         <div class="number-grid" id="eightball-numbers"></div>
@@ -360,7 +357,7 @@
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers'), ebGrid = document.getElementById('eightball-numbers');
         for (let i = 1; i <= MAIN_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn'; btn.textContent = i; btn.onclick = () => toggleMainNumber(i, btn); mainGrid.appendChild(btn); }
-        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn eightball'; btn.textContent = '8'; btn.onclick = () => toggleEightball(i, btn); ebGrid.appendChild(btn); }
+        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn eightball'; btn.textContent = i; btn.onclick = () => toggleEightball(i, btn); ebGrid.appendChild(btn); }
       }
       
       function toggleMainNumber(num, btn) {
@@ -383,7 +380,7 @@
         document.querySelectorAll('.number-btn').forEach(btn => {
           const n = parseInt(btn.textContent);
           if (selectedMainNumbers.includes(n)) btn.classList.add('selected');
-          if (btn.classList.contains('eightball')) { const idx = Array.from(btn.parentNode.children).indexOf(btn) + 1; if (idx === selectedEightball) btn.classList.add('selected'); }
+          if (btn.classList.contains('eightball') && parseInt(btn.textContent) === selectedEightball) btn.classList.add('selected');
         });
         updateUI();
       }
@@ -402,7 +399,7 @@
         } else {
           let html = '';
           selectedMainNumbers.forEach(num => { html += '<div class="ticket-num">' + num + '</div>'; });
-          if (selectedEightball) { html += '<div class="ticket-num eightball">8</div>'; }
+          if (selectedEightball) { html += '<div class="ticket-num eightball">' + selectedEightball + '</div>'; }
           ticketNumbers.innerHTML = html;
         }
         
