@@ -1,13 +1,24 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-interface IKPEPE { function transfer(address r, uint256 a) external returns (bool); }
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract KPEPEJackpot {
-    address public owner;
+interface IKPEPE { 
+    function transfer(address r, uint256 a) external returns (bool); 
+    function balanceOf(address a) external view returns (uint256);
+}
+
+interface IKPEPEStaking {
+    function getStakeAmount(address user) external view returns (uint256 stakedAmount);
+    function getTier(address user) external view returns (uint8 tier);
+}
+
+contract KPEPEJackpot is Ownable, ReentrancyGuard {
     address public projectWallet;
     address public prizePoolWallet;
     address public kpepeToken;
+    address public kpepeStaking;
     
     uint256 public constant TICKET_PRICE = 100 * 1e8;
     uint8 public constant MAIN_COUNT = 5;
@@ -33,6 +44,9 @@ contract KPEPEJackpot {
     bool public roundActive;
     
     mapping(address => uint256) public kpepePrizesPending;
+    mapping(address => uint256) public freeTicketCredits;
+    mapping(address => uint256) public lastFreeTicketClaim;
+    mapping(address => uint8) public playerTiers;
     
     struct Ticket {
         address player;
@@ -41,6 +55,7 @@ contract KPEPEJackpot {
         uint256 purchaseTime;
         bool hasWon;
         bool prizeClaimed;
+        bool isFree;
     }
     Ticket[] public tickets;
     mapping(address => uint256[]) public playerTicketIds;
@@ -59,33 +74,74 @@ contract KPEPEJackpot {
     uint256 public kpepeMatch18BPrize;
     uint256 public kpepeMatch8BOnlyPrize;
     
-    event TicketPurchased(uint256 indexed id, address indexed player, uint8[5] nums, uint8 eb);
+    // Staking Tier Configuration
+    struct TierConfig {
+        uint256 minStake;
+        uint8 freeTicketsPerWeek;
+        string name;
+    }
+    TierConfig[6] public tiers;
+    
+    event TicketPurchased(uint256 indexed id, address indexed player, uint8[5] nums, uint8 eb, bool isFree);
+    event FreeTicketsClaimed(address indexed player, uint256 amount);
     event DrawStarted(uint256 ts);
     event DrawCompleted(uint8[5] nums, uint8 eb, uint256 pool, uint256 winners);
     event PrizeDistributed(address p, uint256 id, uint8 tier, uint256 amt);
     event PrizeClaimed(address p, uint256 amt);
     event WalletUpdated(string walletType, address addr);
     event PoolCapped(uint256 amt);
+    event StakingTierUpdated(uint8 tierId, string name, uint256 minStake, uint8 freeTickets);
     
-    modifier onlyOwner() { require(msg.sender == owner, "!owner"); _; }
     modifier whenActive() { require(roundActive, "!active"); _; }
     modifier whenNoDraw() { require(!drawInProgress, "draw"); _; }
-    modifier nonReentrant() { require(!_inDraw, "reentrancy"); _inDraw = true; _; _inDraw = false; }
     
-    constructor() { owner = msg.sender; roundActive = true; lastDrawTime = block.timestamp; }
-    
-    function setProjectWallet(address w) external onlyOwner { require(w != address(0)); projectWallet = w; emit WalletUpdated("Project", w); }
-    function setPrizePoolWallet(address w) external onlyOwner { require(w != address(0)); prizePoolWallet = w; emit WalletUpdated("Pool", w); }
-    function initializeWallets(address pw, address ppw) external onlyOwner {
-        require(projectWallet == address(0), "set");
-        require(pw != address(0) && ppw != address(0));
-        projectWallet = pw; prizePoolWallet = ppw;
-        emit WalletUpdated("Project", pw); emit WalletUpdated("Pool", ppw);
+    constructor() {
+        roundActive = true;
+        lastDrawTime = block.timestamp;
+        
+        // Initialize staking tiers
+        tiers[0] = TierConfig({minStake: 0, freeTicketsPerWeek: 0, name: "None"});
+        tiers[1] = TierConfig({minStake: 10000 * 1e8, freeTicketsPerWeek: 1, name: "Bronze"});
+        tiers[2] = TierConfig({minStake: 50000 * 1e8, freeTicketsPerWeek: 3, name: "Silver"});
+        tiers[3] = TierConfig({minStake: 200000 * 1e8, freeTicketsPerWeek: 7, name: "Gold"});
+        tiers[4] = TierConfig({minStake: 500000 * 1e8, freeTicketsPerWeek: 15, name: "Platinum"});
+        tiers[5] = TierConfig({minStake: 1000000 * 1e8, freeTicketsPerWeek: 30, name: "Diamond"});
     }
-    function setKPEPEToken(address t) external onlyOwner { require(t != address(0)); kpepeToken = t; }
     
+    // ===== FREE TICKET FUNCTIONS =====
+    
+    /**
+     * @notice Claim weekly free tickets based on staking tier
+     * @dev Can be called once per 7 days
+     */
+    function claimFreeTickets() public whenActive {
+        require(kpepeStaking != address(0), "!staking");
+        require(lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp, "cooldown");
+        
+        uint8 tier = IKPEPEStaking(kpepeStaking).getTier(msg.sender);
+        require(tier > 0, "!tier");
+        
+        uint8 ticketsToClaim = tiers[tier].freeTicketsPerWeek;
+        require(ticketsToClaim > 0, "!tickets");
+        
+        freeTicketCredits[msg.sender] += ticketsToClaim;
+        lastFreeTicketClaim[msg.sender] = block.timestamp;
+        playerTiers[msg.sender] = tier;
+        
+        emit FreeTicketsClaimed(msg.sender, ticketsToClaim);
+    }
+    
+    /**
+     * @notice Get free tickets available for a user
+     */
+    function getFreeTicketsAvailable() public view returns (uint256) {
+        return freeTicketCredits[msg.sender];
+    }
+    
+    /**
+     * @notice Buy ticket using free credits or KLV
+     */
     function buyTicket(uint8[5] memory nums, uint8 eb) public payable whenActive {
-        require(msg.value == TICKET_PRICE, "!100 KLV");
         require(eb >= 1 && eb <= EIGHT_RANGE, "8B 1-20");
         
         for (uint8 i = 0; i < MAIN_COUNT; i++) {
@@ -93,40 +149,98 @@ contract KPEPEJackpot {
             for (uint8 j = i + 1; j < MAIN_COUNT; j++) require(nums[i] != nums[j], "dup");
         }
         
-        uint256 poolAmt = (TICKET_PRICE * 85) / 100;
-        uint256 projAmt = TICKET_PRICE - poolAmt;
+        bool useFree = false;
         
-        if (prizePool + poolAmt > MAX_POOL) {
-            poolAmt = MAX_POOL - prizePool;
-            projAmt = TICKET_PRICE - poolAmt;
-            emit PoolCapped(MAX_POOL);
+        // Check if user has free credits
+        if (freeTicketCredits[msg.sender] > 0 && msg.value == 0) {
+            useFree = true;
+            freeTicketCredits[msg.sender]--;
+        } else {
+            require(msg.value == TICKET_PRICE, "!100 KLV");
         }
         
-        prizePool += poolAmt;
-        if (projAmt > 0 && projectWallet != address(0)) payable(projectWallet).transfer(projAmt);
+        uint256 poolAmt = useFree ? 0 : (TICKET_PRICE * 85) / 100;
+        uint256 projAmt = useFree ? 0 : TICKET_PRICE - poolAmt;
         
-        Ticket memory t = Ticket({player: msg.sender, mainNumbers: nums, eightBall: eb, purchaseTime: block.timestamp, hasWon: false, prizeClaimed: false});
+        if (!useFree) {
+            if (prizePool + poolAmt > MAX_POOL) {
+                poolAmt = MAX_POOL - prizePool;
+                projAmt = TICKET_PRICE - poolAmt;
+                emit PoolCapped(MAX_POOL);
+            }
+            prizePool += poolAmt;
+            if (projAmt > 0 && projectWallet != address(0)) payable(projectWallet).transfer(projAmt);
+        }
+        
+        Ticket memory t = Ticket({
+            player: msg.sender,
+            mainNumbers: nums,
+            eightBall: eb,
+            purchaseTime: block.timestamp,
+            hasWon: false,
+            prizeClaimed: false,
+            isFree: useFree
+        });
+        
         uint256 id = tickets.length;
         tickets.push(t);
         playerTicketIds[msg.sender].push(id);
         totalTicketsSold++;
-        emit TicketPurchased(id, msg.sender, nums, eb);
+        emit TicketPurchased(id, msg.sender, nums, eb, useFree);
     }
     
+    /**
+     * @notice Quick pick with free credits or KLV
+     */
     function quickPick() external payable whenActive {
-        require(msg.value == TICKET_PRICE, "!100 KLV");
-        bytes32 bh = blockhash(block.number - 1);
-        uint8[5] memory nums;
-        bool[51] memory used;
-        for (uint8 i = 0; i < MAIN_COUNT; i++) {
-            uint8 num;
-            do { num = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, i))) % MAIN_RANGE) + 1; } while (used[num]);
-            used[num] = true; nums[i] = num;
+        if (freeTicketCredits[msg.sender] > 0 && msg.value == 0) {
+            // Use free ticket
+            freeTicketCredits[msg.sender]--;
+            bytes32 bh = blockhash(block.number - 1);
+            uint8[5] memory nums;
+            bool[51] memory used;
+            for (uint8 i = 0; i < MAIN_COUNT; i++) {
+                uint8 num;
+                do { num = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, i))) % MAIN_RANGE) + 1; } while (used[num]);
+                used[num] = true; nums[i] = num;
+            }
+            _sort(nums);
+            uint8 eb = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, uint8(100)))) % EIGHT_RANGE) + 1;
+            _createFreeTicket(nums, eb);
+        } else {
+            require(msg.value == TICKET_PRICE, "!100 KLV");
+            bytes32 bh = blockhash(block.number - 1);
+            uint8[5] memory nums;
+            bool[51] memory used;
+            for (uint8 i = 0; i < MAIN_COUNT; i++) {
+                uint8 num;
+                do { num = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, i))) % MAIN_RANGE) + 1; } while (used[num]);
+                used[num] = true; nums[i] = num;
+            }
+            _sort(nums);
+            uint8 eb = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, uint8(100)))) % EIGHT_RANGE) + 1;
+            buyTicket(nums, eb);
         }
-        _sort(nums);
-        uint8 eb = uint8(uint256(keccak256(abi.encodePacked(bh, msg.sender, uint8(100)))) % EIGHT_RANGE) + 1;
-        buyTicket(nums, eb);
     }
+    
+    function _createFreeTicket(uint8[5] memory nums, uint8 eb) internal {
+        Ticket memory t = Ticket({
+            player: msg.sender,
+            mainNumbers: nums,
+            eightBall: eb,
+            purchaseTime: block.timestamp,
+            hasWon: false,
+            prizeClaimed: false,
+            isFree: true
+        });
+        uint256 id = tickets.length;
+        tickets.push(t);
+        playerTicketIds[msg.sender].push(id);
+        totalTicketsSold++;
+        emit TicketPurchased(id, msg.sender, nums, eb, true);
+    }
+    
+    // ===== EXISTING FUNCTIONS =====
     
     function startDraw() external whenNoDraw whenActive { require(tickets.length > 0, "!tickets"); drawInProgress = true; emit DrawStarted(block.timestamp); }
     
@@ -215,7 +329,7 @@ contract KPEPEJackpot {
         return (prizePool * pct) / 10000;
     }
     
-    function claimKPEPEPrize() external {
+    function claimKPEPEPrize() external nonReentrant {
         uint256 p = kpepePrizesPending[msg.sender];
         require(p > 0, "!pending"); require(kpepeToken != address(0), "!token");
         kpepePrizesPending[msg.sender] = 0;
@@ -223,7 +337,7 @@ contract KPEPEJackpot {
         emit PrizeClaimed(msg.sender, p);
     }
     
-    function claimPrize(uint256 id) external {
+    function claimPrize(uint256 id) external nonReentrant {
         require(id < tickets.length, "!id");
         Ticket storage t = tickets[id];
         require(t.player == msg.sender, "!yours");
@@ -242,7 +356,7 @@ contract KPEPEJackpot {
         kpepeMatch18BPrize = m18; kpepeMatch8BOnlyPrize = m8;
     }
     
-    function withdrawPrizePool(uint256 amt) external onlyOwner {
+    function withdrawPrizePool(uint256 amt) external onlyOwner nonReentrant {
         require(amt <= prizePool, "!balance"); require(prizePoolWallet != address(0), "!wallet");
         require(amt <= prizePool / 10, "max 10%");
         prizePool -= amt; payable(prizePoolWallet).transfer(amt);
@@ -250,19 +364,44 @@ contract KPEPEJackpot {
     
     function toggleRound() external onlyOwner { roundActive = !roundActive; }
     
-    function emergencyWithdrawKLV() external onlyOwner {
+    function emergencyWithdrawKLV() external onlyOwner nonReentrant {
         require(prizePool > MAX_POOL, "!cap");
         uint256 excess = prizePool - MAX_POOL;
         prizePool = MAX_POOL;
         if (excess > 0 && prizePoolWallet != address(0)) payable(prizePoolWallet).transfer(excess);
     }
     
+    // ===== ADMIN FUNCTIONS =====
+    
+    function setProjectWallet(address w) external onlyOwner { require(w != address(0)); projectWallet = w; emit WalletUpdated("Project", w); }
+    function setPrizePoolWallet(address w) external onlyOwner { require(w != address(0)); prizePoolWallet = w; emit WalletUpdated("Pool", w); }
+    function initializeWallets(address pw, address ppw) external onlyOwner {
+        require(projectWallet == address(0), "set");
+        require(pw != address(0) && ppw != address(0));
+        projectWallet = pw; prizePoolWallet = ppw;
+        emit WalletUpdated("Project", pw); emit WalletUpdated("Pool", ppw);
+    }
+    function setKPEPEToken(address t) external onlyOwner { require(t != address(0)); kpepeToken = t; }
+    function setKPEPEStaking(address s) external onlyOwner { kpepeStaking = s; }
+    
+    function setTierConfig(uint8 tierId, uint256 minStake, uint8 freeTicketsPerWeek, string calldata name) external onlyOwner {
+        require(tierId < tiers.length, "!id");
+        tiers[tierId] = TierConfig({minStake: minStake, freeTicketsPerWeek: freeTicketsPerWeek, name: name});
+        emit StakingTierUpdated(tierId, name, minStake, freeTicketsPerWeek);
+    }
+    
+    // ===== VIEW FUNCTIONS =====
+    
     function getPendingKPEPE(address a) external view returns (uint256) { return kpepePrizesPending[a]; }
     function getPoolBalance() external view returns (uint256) { return prizePool; }
+    function getTierInfo(uint8 tierId) external view returns (uint256 minStake, uint8 freeTickets, string memory name) {
+        require(tierId < tiers.length, "!id");
+        return (tiers[tierId].minStake, tiers[tierId].freeTicketsPerWeek, tiers[tierId].name);
+    }
     
-    function getTicket(uint256 id) external view returns (address, uint8[5] memory, uint8, uint256, bool, bool) {
+    function getTicket(uint256 id) external view returns (address, uint8[5] memory, uint8, uint256, bool, bool, bool) {
         require(id < tickets.length, "!id"); Ticket storage t = tickets[id];
-        return (t.player, t.mainNumbers, t.eightBall, t.purchaseTime, t.hasWon, t.prizeClaimed);
+        return (t.player, t.mainNumbers, t.eightBall, t.purchaseTime, t.hasWon, t.prizeClaimed, t.isFree);
     }
     
     function checkTicketResult(uint256 id) external view returns (uint8 tier, uint256 prize) {
