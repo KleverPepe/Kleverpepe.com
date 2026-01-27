@@ -370,10 +370,10 @@
       const TICKET_PRICE = 100, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
       const KPEPE_JACKPOT = 500000;
-      // Contract address (update after deployment)
-      const CONTRACT_ADDRESS = "0x..."; // Deployed contract address
-      // KPEPE Token address (KPEPE-1EOD on KleverChain)
-      const KPEPE_TOKEN_ADDRESS = "0x..."; // Replace with actual KPEPE token address
+      // Contract address (update after mainnet deployment)
+      const CONTRACT_ADDRESS = "0xDEPLOY_CONTRACT_ADDRESS"; // e.g., 0x1234...
+      // KPEPE Token address on KleverChain mainnet
+      const KPEPE_TOKEN_ADDRESS = "0xKPEPE_TOKEN_ADDRESS"; // Get from kleverscan.org/token/KPEPE-1EOD
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
       // Prize percentages of pool
@@ -392,7 +392,18 @@
       const KPEPE_PRICE_USD = 0.005371;
       const KLV_PRICE_USD = 0.00152832;
       
-      document.addEventListener('DOMContentLoaded', () => { initNumberPickers(); loadStats(); startCountdown(); });
+      document.addEventListener('DOMContentLoaded', () => {
+        initNumberPickers();
+        // Use live data on mainnet, demo data on testnet
+        if (CONTRACT_ADDRESS !== "0x..." && CONTRACT_ADDRESS !== "0xDEPLOY_CONTRACT_ADDRESS") {
+          fetchPrizePoolFromContract();
+          // Auto-refresh every 30 seconds
+          setInterval(fetchPrizePoolFromContract, 30000);
+        } else {
+          loadStats();
+        }
+        startCountdown();
+      });
       
       function showFrogMessage() {
         const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
