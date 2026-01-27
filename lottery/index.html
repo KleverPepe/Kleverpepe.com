@@ -482,7 +482,7 @@
       let connectionMode = 'manual';
       let currentPool = 0;
       let klvPriceUSD = 0.00154; // Live from CoinGecko
-      let kpepePriceUSD = 0.00001000; // From Bitcoin.me CEX
+      let kpepePriceUSD = 0.005371; // From Bitcoin.me CEX (KPEPE/USDT)
       let kpepeBalance = 0;
       let hasKPEPE = false;
       
@@ -540,18 +540,18 @@
         return 5;                              // Regular price
       }
       
-      // Get KPEPE reward for winning
+      // Get KPEPE reward for winning (adjusted for KPEPE price: $0.005371)
       function getWinnerReward() {
-        if (kpepeBalance >= 1000000) return 100000; // Gold tier
-        if (kpepeBalance >= 100000) return 50000;   // Silver tier
-        return 20000;                                // Standard
+        if (kpepeBalance >= 1000000) return 1000; // Gold tier = $5.37
+        if (kpepeBalance >= 100000) return 500;   // Silver tier = $2.69
+        return 200;                                // Standard = $1.07
       }
       
-      // Get free tickets from staking
+      // Get free tickets from staking (proportional to holdings)
       function getFreeTicketsFromStaking() {
-        if (kpepeBalance >= 500000) return 25;
-        if (kpepeBalance >= 100000) return 5;
-        if (kpepeBalance >= 25000) return 1;
+        if (kpepeBalance >= 500000) return 10;    // 10 free tickets
+        if (kpepeBalance >= 100000) return 5;     // 5 free tickets
+        if (kpepeBalance >= 25000) return 1;      // 1 free ticket
         return 0;
       }
       
