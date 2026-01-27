@@ -406,18 +406,13 @@
       const KLV_PRICE_USD = 0.00152832;
       let prizePoolFetchWarned = false;
       
-      let prizeFetchDisabled = false;
+      // Temporarily disable live prize fetch until a working KleverScan host is provided
+      let prizeFetchDisabled = true;
 
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
         // Use live data on mainnet, demo data on testnet
-        if (CONTRACT_ADDRESS !== "0x..." && CONTRACT_ADDRESS !== "0xDEPLOY_CONTRACT_ADDRESS") {
-          fetchPrizePoolFromContract();
-          // Auto-refresh every 30 seconds unless fetch disabled
-          setInterval(() => { if (!prizeFetchDisabled) fetchPrizePoolFromContract(); }, 30000);
-        } else {
-          loadStats();
-        }
+        loadStats();
         startCountdown();
       });
       
