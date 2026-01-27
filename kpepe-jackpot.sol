@@ -74,14 +74,18 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     uint256 public kpepeMatch18BPrize;
     uint256 public kpepeMatch8BOnlyPrize;
     
-    // Staking Tier Configuration - 4 Tiers, 1 Free Ticket/Day
+    // Single Tier Configuration
+    uint256 public constant MIN_STAKE_FOR_FREE = 50000 * 1e8;
+    uint8 public constant FREE_TICKETS_PER_DAY = 1;
+    
+    // Staking Tier Configuration (legacy - single tier)
     struct TierConfig {
         uint256 minStake;
         uint8 ticketsPerDay;
         uint8 tierId;
         string name;
     }
-    TierConfig[4] public tiers;
+    TierConfig[1] public tiers;
     
     event TicketPurchased(uint256 indexed id, address indexed player, uint8[5] nums, uint8 eb, bool isFree);
     event FreeTicketsClaimed(address indexed player, uint256 amount);
@@ -100,62 +104,41 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         roundActive = true;
         lastDrawTime = block.timestamp;
         
-        // 4 Tiers: Incremental Free Tickets Per Day
-        tiers[0] = TierConfig({minStake: 50000 * 1e8, ticketsPerDay: 1, tierId: 1, name: "Silver"});
-        tiers[1] = TierConfig({minStake: 200000 * 1e8, ticketsPerDay: 3, tierId: 2, name: "Gold"});
-        tiers[2] = TierConfig({minStake: 500000 * 1e8, ticketsPerDay: 7, tierId: 3, name: "Platinum"});
-        tiers[3] = TierConfig({minStake: 1000000 * 1e8, ticketsPerDay: 15, tierId: 4, name: "Diamond"});
+        // Single Tier: 50K+ KPEPE = 1 Free Ticket/Day
+        tiers[0] = TierConfig({minStake: MIN_STAKE_FOR_FREE, ticketsPerDay: FREE_TICKETS_PER_DAY, tierId: 1, name: "Staked"});
     }
     
     // ===== FREE TICKET FUNCTIONS =====
     
     /**
-     * @notice Claim daily free ticket based on staking tier
+     * @notice Claim daily free ticket based on staking
      * @dev Can be called once per 24 hours, unused tickets expire after 7 days
      */
     function claimFreeTickets() public whenActive {
         require(kpepeStaking != address(0), "!staking");
         
-        // Check if eligible for any tier
-        uint8 tierId = 0;
+        // Check if user has minimum stake
         uint256 stakeAmount = IKPEPEStaking(kpepeStaking).getStakeAmount(msg.sender);
-        
-        for (uint8 i = 0; i < tiers.length; i++) {
-            if (stakeAmount >= tiers[i].minStake) {
-                tierId = tiers[i].tierId;
-            }
-        }
-        
-        require(tierId > 0, "!eligible");
+        require(stakeAmount >= MIN_STAKE_FOR_FREE, "!50K stake");
         
         // Check 24-hour cooldown
         require(lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp, "cooldown");
         
-        // Clean up expired tickets (older than 7 days)
-        _cleanExpiredTickets(msg.sender);
+        // Clean up expired tickets
+        if (lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp) {
+            freeTicketCredits[msg.sender] = 0;
+        }
         
-        // Add 1 free ticket for today
+        // Add 1 free ticket
         freeTicketCredits[msg.sender]++;
         lastFreeTicketClaim[msg.sender] = block.timestamp;
-        playerTiers[msg.sender] = tierId;
+        playerTiers[msg.sender] = 1;
         
         emit FreeTicketsClaimed(msg.sender, 1);
     }
     
     /**
-     * @notice Clean up expired free tickets (older than 7 days)
-     */
-    function _cleanExpiredTickets(address user) internal {
-        // Simple approach: clear all credits and let user reclaim for today
-        // More complex: track individual ticket timestamps
-        if (lastFreeTicketClaim[user] + 7 days < block.timestamp) {
-            freeTicketCredits[user] = 0;
-        }
-    }
-    
-    /**
      * @notice Get free tickets available for a user
-     * @dev Shows only valid (non-expired) tickets
      */
     function getFreeTicketsAvailable() public view returns (uint256) {
         if (lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp) {
@@ -411,9 +394,8 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     function setKPEPEStaking(address s) external onlyOwner { kpepeStaking = s; }
     
     function setTierConfig(uint8 tierId, uint256 minStake, uint8 ticketsPerDay, string calldata name) external onlyOwner {
-        require(tierId >= 1 && tierId <= 4, "!id");
-        require(tierId - 1 < tiers.length, "!id");
-        tiers[tierId - 1] = TierConfig({minStake: minStake, ticketsPerDay: ticketsPerDay, tierId: tierId, name: name});
+        require(tierId == 1, "single tier");
+        tiers[0] = TierConfig({minStake: minStake, ticketsPerDay: ticketsPerDay, tierId: tierId, name: name});
         emit StakingTierUpdated(tierId, name, minStake, ticketsPerDay);
     }
     
@@ -422,8 +404,8 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     function getPendingKPEPE(address a) external view returns (uint256) { return kpepePrizesPending[a]; }
     function getPoolBalance() external view returns (uint256) { return prizePool; }
     function getTierInfo(uint8 tierId) external view returns (uint256 minStake, uint8 ticketsPerDay, string memory name) {
-        require(tierId >= 1 && tierId <= 4, "!id");
-        return (tiers[tierId - 1].minStake, tiers[tierId - 1].ticketsPerDay, tiers[tierId - 1].name);
+        require(tierId == 1, "!id");
+        return (tiers[0].minStake, tiers[0].ticketsPerDay, tiers[0].name);
     }
     
     function getTicket(uint256 id) external view returns (address, uint8[5] memory, uint8, uint256, bool, bool, bool) {
