@@ -734,6 +734,7 @@
       
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {
+        console.log('Initializing lottery...');
         checkDailyReset(); // Reset tickets if new day
         initNumberPickers();
         startCountdown();
@@ -768,14 +769,8 @@
       // Fetch token prices
       async function fetchTokenPrices() {
         const CEX_API_KEY = '41eb050d-c384-465c-82ef-0e5e77b0afe5';
-        const CEX_API_SECRET = 'ac75ca47-8b41-4bfb-acfc-f7528cd3aa56';
         
         try {
-          // Generate timestamp and signature for CEX API
-          const timestamp = Date.now().toString();
-          const message = timestamp + CEX_API_KEY;
-          // Using simple hash for demo (CEX may use HMAC-SHA256)
-          
           // Fetch KLV price from CoinGecko
           const klvRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
           const klvData = await klvRes.json();
@@ -783,38 +778,28 @@
           document.getElementById('klv-price').textContent = '$' + klvPriceUSD.toFixed(4);
           
           // Fetch KPEPE price from CEX
-          try {
-            const cexRes = await fetch(`https://cex.bitcoin.me/api/v1/price/KPEPE-USDT`, {
-              headers: {
-                'X-Api-Key': CEX_API_KEY,
-                'X-Api-Secret': CEX_API_SECRET,
-                'X-Timestamp': timestamp
-              }
-            });
-            if (cexRes.ok) {
-              const cexData = await cexRes.json();
-              const kpepePrice = parseFloat(cexData.price || cexData.last || cexData.lastPrice || 0.005371);
-              document.getElementById('kpepe-price').textContent = '$' + kpepePrice.toFixed(4);
-              // Cache the price
-              localStorage.setItem('kpepe_price_usd', kpepePrice.toString());
-              localStorage.setItem('kpepe_price_time', Date.now().toString());
-            } else {
-              throw new Error('CEX API error');
-            }
-          } catch (cexErr) {
-            // Use cached price or fallback
-            const cachedPrice = localStorage.getItem('kpepe_price_usd');
-            const cachedTime = parseInt(localStorage.getItem('kpepe_price_time') || '0');
-            const oneHour = 60 * 60 * 1000;
-            
-            if (cachedPrice && (Date.now() - cachedTime) < oneHour) {
-              document.getElementById('kpepe-price').textContent = '$' + parseFloat(cachedPrice).toFixed(4);
-            } else {
-              // Fallback to known price
-              document.getElementById('kpepe-price').textContent = '$0.0054';
-            }
+          const cexRes = await fetch(`https://cex.bitcoin.me/api/v1/price/KPEPE-USDT`, {
+            headers: { 'X-Api-Key': CEX_API_KEY }
+          });
+          
+          if (cexRes.ok) {
+            const cexData = await cexRes.json();
+            const kpepePrice = parseFloat(cexData.price || cexData.last || 0.005371);
+            document.getElementById('kpepe-price').textContent = '$' + kpepePrice.toFixed(4);
+            localStorage.setItem('kpepe_price_usd', kpepePrice.toString());
+          } else {
+            throw new Error('CEX error');
           }
         } catch (e) {
+          // Fallback to cached or default price
+          const cached = localStorage.getItem('kpepe_price_usd');
+          if (cached) {
+            document.getElementById('kpepe-price').textContent = '$' + parseFloat(cached).toFixed(4);
+          } else {
+            document.getElementById('kpepe-price').textContent = '$0.0054';
+          }
+        }
+      }
           console.log('Price fetch error:', e);
           // Fallback prices
           document.getElementById('klv-price').textContent = '$0.0015';
@@ -831,6 +816,13 @@
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers');
         const pbGrid = document.getElementById('powerball-numbers');
+        
+        if (!mainGrid || !pbGrid) {
+          console.error('Number grid elements not found!');
+          return;
+        }
+        
+        console.log('Creating number pickers...');
         
         // Main numbers 1-50
         for (let i = 1; i <= MAIN_NUMBERS; i++) {
