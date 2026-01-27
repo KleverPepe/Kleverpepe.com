@@ -40,6 +40,7 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     uint256 public prizePool;
     uint256 public totalTicketsSold;
     uint256 public lastDrawTime;
+    uint8 public constant DRAW_HOUR_UTC = 0; // Draw at 00:00 UTC daily
     bool public drawInProgress;
     bool public roundActive;
     
@@ -47,6 +48,8 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     mapping(address => uint256) public freeTicketCredits;
     mapping(address => uint256) public lastFreeTicketClaim;
     mapping(address => uint8) public playerTiers;
+    address[] public freeTicketPlayers;
+    mapping(address => bool) public isFreeTicketPlayer;
     
     struct Ticket {
         address player;
@@ -112,7 +115,7 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     
     /**
      * @notice Claim daily free ticket based on staking
-     * @dev Can be called once per 24 hours, unused tickets expire after 7 days
+     * @dev Tickets expire at next draw (00:00 UTC daily)
      */
     function claimFreeTickets() public whenActive {
         require(kpepeStaking != address(0), "!staking");
@@ -124,9 +127,18 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         // Check 24-hour cooldown
         require(lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp, "cooldown");
         
-        // Clean up expired tickets (expire after 24 hours)
-        if (lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp) {
-            freeTicketCredits[msg.sender] = 0;
+        // Check if a new draw has occurred - expire old tickets if so
+        uint256 currentDrawDay = block.timestamp / 1 days;
+        uint256 lastDrawDay = lastDrawTime / 1 days;
+        if (currentDrawDay > lastDrawDay) {
+            // New draw happened, expire all unused tickets
+            _expireAllFreeTickets();
+        }
+        
+        // Track player for expiry
+        if (!isFreeTicketPlayer[msg.sender]) {
+            isFreeTicketPlayer[msg.sender] = true;
+            freeTicketPlayers.push(msg.sender);
         }
         
         // Add 1 free ticket
@@ -139,12 +151,14 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     
     /**
      * @notice Get free tickets available for a user
-     * @dev Tickets expire same day (24 hours from claim)
+     * @dev Tickets expire at next daily draw (00:00 UTC)
      */
     function getFreeTicketsAvailable() public view returns (uint256) {
-        // Ticket expires after 24 hours if not used
-        if (lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp) {
-            return 0;
+        // Check if a new draw has occurred
+        uint256 currentDrawDay = block.timestamp / 1 days;
+        uint256 lastDrawDay = lastDrawTime / 1 days;
+        if (currentDrawDay > lastDrawDay) {
+            return 0; // Expired at last draw
         }
         return freeTicketCredits[msg.sender];
     }
@@ -269,8 +283,24 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         
         uint256 winners = _distributePrizes();
         prizePool = (prizePool * POOL_RETENTION) / 10000;
+        
+        // EXPIRE all free tickets at draw time
+        _expireAllFreeTickets();
+        
         drawInProgress = false; lastDrawTime = block.timestamp;
         emit DrawCompleted(winningNumbers, winningEightBall, prizePool, winners);
+    }
+    
+    /**
+     * @notice Expire all free tickets (called at each draw)
+     */
+    function _expireAllFreeTickets() internal {
+        for (uint256 i = 0; i < freeTicketPlayers.length; i++) {
+            address player = freeTicketPlayers[i];
+            freeTicketCredits[player] = 0;
+        }
+        // Clear the tracking array
+        delete freeTicketPlayers;
     }
     
     function _distributePrizes() internal returns (uint256) {
@@ -408,6 +438,11 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     function getTierInfo(uint8 tierId) external view returns (uint256 minStake, uint8 ticketsPerDay, string memory name) {
         require(tierId == 1, "!id");
         return (tiers[0].minStake, tiers[0].ticketsPerDay, tiers[0].name);
+    }
+    function getFreeTicketPlayersCount() external view returns (uint256) { return freeTicketPlayers.length; }
+    function getNextDrawTime() external view returns (uint256) {
+        uint256 nextDraw = (lastDrawTime / 1 days + 1) * 1 days;
+        return nextDraw;
     }
     
     function getTicket(uint256 id) external view returns (address, uint8[5] memory, uint8, uint256, bool, bool, bool) {
