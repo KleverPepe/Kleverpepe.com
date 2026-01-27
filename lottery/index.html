@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎰 KPEPE Powerball Lottery</title>
+    <title>🎰 KPEPE Jackpot Lottery</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
@@ -256,9 +256,9 @@
       }
       .number-btn:hover { border-color: var(--purple); background: rgba(155, 89, 182, 0.2); transform: scale(1.1); }
       .number-btn.selected { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); border-color: var(--purple); color: #fff; box-shadow: 0 0 12px rgba(155, 89, 182, 0.6); transform: scale(1.1); }
-      .number-btn.powerball { border-color: var(--red); }
-      .number-btn.powerball:hover { border-color: var(--red); background: rgba(239, 68, 68, 0.2); }
-      .number-btn.powerball.selected { background: linear-gradient(135deg, var(--red), #dc2626); border-color: var(--red); color: #fff; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); transform: scale(1.1); }
+      .number-btn.luckyball { border-color: var(--red); }
+      .number-btn.luckyball:hover { border-color: var(--red); background: rgba(239, 68, 68, 0.2); }
+      .number-btn.luckyball.selected { background: linear-gradient(135deg, var(--red), #dc2626); border-color: var(--red); color: #fff; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); transform: scale(1.1); }
       
       /* Quick Pick Button */
       .quick-pick-btn {
@@ -309,7 +309,7 @@
         font-size: 0.9rem;
         font-weight: 700;
       }
-      .ticket-number.powerball { background: var(--red); }
+      .ticket-number.luckyball { background: var(--red); }
       .ticket-empty { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
       
       /* Quantity Controls */
@@ -396,8 +396,8 @@
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <h1>🎰 KPEPE Powerball</h1>
-        <p>Pick 5 numbers + 1 Powerball!</p>
+        <h1>🎰 KPEPE Jackpot</h1>
+        <p>Pick 5 numbers + 1 Lucky Ball!</p>
         <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
@@ -411,7 +411,7 @@
           </div>
           <div class="step">
             <div class="step-num">2</div>
-            <div class="step-text">Pick Powerball<br>(1-20)</div>
+            <div class="step-text">Pick Lucky Ball<br>(1-20)</div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
@@ -515,23 +515,23 @@
       <div class="lottery-card" id="betting-section">
         <div class="lottery-card-header">
           <span class="lottery-card-title">🎫 Your Numbers</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 5 + Powerball</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 5 + Lucky Ball</span>
         </div>
         
         <!-- Main Numbers (1-50) -->
         <div class="number-section">
           <div class="number-section-title">
-            Main Numbers <span class="badge" id="main-count">0/6 selected</span>
+            Main Numbers <span class="badge" id="main-count">0/5 selected</span>
           </div>
           <div class="number-grid" id="main-numbers"></div>
         </div>
         
-        <!-- Powerball (1-20) -->
+        <!-- Lucky Ball (1-20) -->
         <div class="number-section">
           <div class="number-section-title" style="color: var(--red);">
-            🔴 Powerball <span class="badge" id="pb-count">0/1 selected</span>
+            🔴 Lucky Ball <span class="badge" id="pb-count">0/1 selected</span>
           </div>
-          <div class="number-grid" id="powerball-numbers"></div>
+          <div class="number-grid" id="luckyball-numbers"></div>
         </div>
         
         <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick (Random Numbers)</button>
@@ -586,7 +586,7 @@
                 <div class="prize-ball">5</div>
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Match 5 + Powerball</span>
+              <span>Match 5 + Lucky Ball</span>
             </div>
             <span class="prize-amount">💰 JACKPOT</span>
           </div>
@@ -605,7 +605,7 @@
                 <div class="prize-ball">4</div>
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Match 4 + Powerball</span>
+              <span>Match 4 + Lucky Ball</span>
             </div>
             <span class="prize-amount">25x ticket</span>
           </div>
@@ -624,7 +624,7 @@
                 <div class="prize-ball">3</div>
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Match 3 + Powerball</span>
+              <span>Match 3 + Lucky Ball</span>
             </div>
             <span class="prize-amount">8x ticket</span>
           </div>
@@ -643,7 +643,7 @@
                 <div class="prize-ball">2</div>
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Match 2 + Powerball</span>
+              <span>Match 2 + Lucky Ball</span>
             </div>
             <span class="prize-amount">4x ticket</span>
           </div>
@@ -653,7 +653,7 @@
                 <div class="prize-ball">1</div>
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Match 1 + Powerball</span>
+              <span>Match 1 + Lucky Ball</span>
             </div>
             <span class="prize-amount">3x ticket</span>
           </div>
@@ -662,14 +662,14 @@
               <div class="prize-balls">
                 <div class="prize-ball pb">PB</div>
               </div>
-              <span>Powerball only</span>
+              <span>Lucky Ball only</span>
             </div>
             <span class="prize-amount">2x ticket</span>
           </div>
         </div>
         
         <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
-          💡 650 KLV ticket × multiplier = Prize amount (PB match = higher prize!)
+          💡 650 KLV ticket × multiplier = Prize amount (LB match = higher prize!)
         </div>
         
         <!-- KPEPE Seed Pool Prizes -->
@@ -682,7 +682,7 @@
                   <div class="prize-ball">5</div>
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Match 5 + Powerball</span>
+                <span>Match 5 + Lucky Ball</span>
               </div>
               <span class="prize-amount">500,000</span>
             </div>
@@ -701,7 +701,7 @@
                   <div class="prize-ball">4</div>
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Match 4 + Powerball</span>
+                <span>Match 4 + Lucky Ball</span>
               </div>
               <span class="prize-amount">25,000</span>
             </div>
@@ -720,7 +720,7 @@
                   <div class="prize-ball">3</div>
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Match 3 + Powerball</span>
+                <span>Match 3 + Lucky Ball</span>
               </div>
               <span class="prize-amount">8,000</span>
             </div>
@@ -739,7 +739,7 @@
                   <div class="prize-ball">2</div>
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Match 2 + Powerball</span>
+                <span>Match 2 + Lucky Ball</span>
               </div>
               <span class="prize-amount">4,000</span>
             </div>
@@ -749,7 +749,7 @@
                   <div class="prize-ball">1</div>
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Match 1 + Powerball</span>
+                <span>Match 1 + Lucky Ball</span>
               </div>
               <span class="prize-amount">3,000</span>
             </div>
@@ -758,7 +758,7 @@
                 <div class="prize-balls">
                   <div class="prize-ball pb">PB</div>
                 </div>
-                <span>Powerball only</span>
+                <span>Lucky Ball only</span>
               </div>
               <span class="prize-amount">2,000</span>
             </div>
@@ -799,7 +799,7 @@
       
       <!-- Footer -->
       <div class="footer">
-        <p>🎰 KPEPE Powerball Lottery on KleverChain</p>
+        <p>🎰 KPEPE Jackpot Lottery on KleverChain</p>
         <p style="margin-top: 8px; opacity: 0.6;">Testnet Mode - No real KLV involved</p>
       </div>
     </div>
@@ -810,12 +810,12 @@
       const TICKET_PRICE = 650; // KLV (~$1 USD)
       const MAIN_NUMBERS = 50;
       const POWERBALL_NUMBERS = 20;
-      const MAIN_PICK = 5; // Pick 5 main numbers + 1 Powerball
+      const MAIN_PICK = 5; // Pick 5 main numbers + 1 Lucky Ball
       const POWERBALL_PICK = 1;
       
       let walletAddress = null;
       let selectedMainNumbers = [];
-      let selectedPowerball = null;
+      let selectedLuckyball = null;
       let ticketQuantity = 1;
       let klvPriceUSD = 0.00154;
       
@@ -885,9 +885,9 @@
       // Create number pickers
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers');
-        const pbGrid = document.getElementById('powerball-numbers');
+        const lbGrid = document.getElementById('luckyball-numbers');
         
-        if (!mainGrid || !pbGrid) {
+        if (!mainGrid || !lbGrid) {
           console.error('Number grid elements not found!');
           return;
         }
@@ -903,13 +903,13 @@
           mainGrid.appendChild(btn);
         }
         
-        // Powerball 1-20
+        // Lucky Ball 1-20
         for (let i = 1; i <= POWERBALL_NUMBERS; i++) {
           const btn = document.createElement('button');
-          btn.className = 'number-btn powerball';
+          btn.className = 'number-btn luckyball';
           btn.textContent = i;
-          btn.onclick = () => togglePowerball(i, btn);
-          pbGrid.appendChild(btn);
+          btn.onclick = () => toggleLuckyBall(i, btn);
+          lbGrid.appendChild(btn);
         }
       }
       
@@ -929,14 +929,14 @@
         updateUI();
       }
       
-      // Toggle powerball
-      function togglePowerball(num, btn) {
-        if (selectedPowerball === num) {
-          selectedPowerball = null;
+      // Toggle lucky ball
+      function toggleLuckyBall(num, btn) {
+        if (selectedLuckyball === num) {
+          selectedLuckyball = null;
           btn.classList.remove('selected');
         } else {
-          selectedPowerball = num;
-          document.querySelectorAll('.number-btn.powerball').forEach(b => b.classList.remove('selected'));
+          selectedLuckyball = num;
+          document.querySelectorAll('.number-btn.luckyball').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           btn.classList.add('pulse');
           setTimeout(() => btn.classList.remove('pulse'), 300);
@@ -948,7 +948,7 @@
       function quickPick() {
         // Clear selections
         selectedMainNumbers = [];
-        selectedPowerball = null;
+        selectedLuckyball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         
         // Pick 5 random main numbers
@@ -960,14 +960,14 @@
         }
         selectedMainNumbers.sort((a, b) => a - b);
         
-        // Pick powerball
-        selectedPowerball = Math.floor(Math.random() * POWERBALL_NUMBERS) + 1;
+        // Pick lucky ball
+        selectedLuckyball = Math.floor(Math.random() * POWERBALL_NUMBERS) + 1;
         
         // Update UI
         document.querySelectorAll('.number-btn').forEach(btn => {
           const num = parseInt(btn.textContent);
           if (selectedMainNumbers.includes(num)) btn.classList.add('selected');
-          if (btn.classList.contains('powerball') && num === selectedPowerball) btn.classList.add('selected');
+          if (btn.classList.contains('luckyball') && num === selectedLuckyball) btn.classList.add('selected');
         });
         
         updateUI();
@@ -984,19 +984,19 @@
         const mainBadge = document.getElementById('main-count');
         const pbBadge = document.getElementById('pb-count');
         mainBadge.textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
-        pbBadge.textContent = `${selectedPowerball ? 1 : 0}/${POWERBALL_PICK}`;
+        pbBadge.textContent = `${selectedLuckyball ? 1 : 0}/${POWERBALL_PICK}`;
         
         // Add complete class when full
         if (selectedMainNumbers.length === MAIN_PICK) mainBadge.classList.add('complete');
         else mainBadge.classList.remove('complete');
-        if (selectedPowerball) pbBadge.classList.add('complete');
+        if (selectedLuckyball) pbBadge.classList.add('complete');
         else pbBadge.classList.remove('complete');
         
         // Ticket preview
         const ticketNumbers = document.getElementById('ticket-numbers');
         const ticketId = document.getElementById('ticket-id');
         
-        if (selectedMainNumbers.length === 0 && !selectedPowerball) {
+        if (selectedMainNumbers.length === 0 && !selectedLuckyball) {
           ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or use Quick Pick</span>';
           ticketId.textContent = '#------';
         } else {
@@ -1004,8 +1004,8 @@
           selectedMainNumbers.forEach(num => {
             html += `<div class="ticket-number">${num}</div>`;
           });
-          if (selectedPowerball) {
-            html += `<div class="ticket-number powerball">${selectedPowerball}</div>`;
+          if (selectedLuckyball) {
+            html += `<div class="ticket-number luckyball">${selectedLuckyball}</div>`;
           }
           ticketNumbers.innerHTML = html;
           
@@ -1020,7 +1020,7 @@
         
         // Show/hide free ticket option
         const freeBtn = document.getElementById('free-btn');
-        if (available > 0 && selectedMainNumbers.length === MAIN_PICK && selectedPowerball && ticketQuantity === 1) {
+        if (available > 0 && selectedMainNumbers.length === MAIN_PICK && selectedLuckyball && ticketQuantity === 1) {
           freeBtn.style.display = 'block';
           document.getElementById('free-count').textContent = available;
           document.getElementById('free-badge').style.display = 'inline';
@@ -1035,10 +1035,10 @@
         
         // Enable/disable buy button
         const buyBtn = document.getElementById('buy-btn');
-        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedPowerball;
+        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedLuckyball;
         buyBtn.disabled = !canBuy;
         buyBtn.style.opacity = canBuy ? '1' : '0.5';
-        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 5 + Powerball';
+        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 5 + Lucky Ball';
       }
       
       // Adjust quantity
@@ -1049,8 +1049,8 @@
       
       // Buy tickets
       function buyTickets() {
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 5 main numbers and 1 Powerball!');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
+          alert('Please select 5 main numbers and 1 Lucky Ball!');
           return;
         }
         
@@ -1071,7 +1071,7 @@
 
 Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
-Powerball: ${selectedPowerball}
+Lucky Ball: ${selectedLuckyball}
 
 Send ${totalKLV} KLV to:
 ${CONTRACT_ADDRESS}`;
@@ -1101,7 +1101,7 @@ ${CONTRACT_ADDRESS}`;
         
         // Reset selections
         selectedMainNumbers = [];
-        selectedPowerball = null;
+        selectedLuckyball = null;
         ticketQuantity = 1;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
@@ -1118,8 +1118,8 @@ ${CONTRACT_ADDRESS}`;
           return;
         }
         
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 5 main numbers and 1 Powerball!');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
+          alert('Please select 5 main numbers and 1 Lucky Ball!');
           return;
         }
         
@@ -1137,7 +1137,7 @@ Good luck! 🍀`);
         
         // Reset selections
         selectedMainNumbers = [];
-        selectedPowerball = null;
+        selectedLuckyball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
         
@@ -1153,8 +1153,8 @@ Good luck! 🍀`);
           return;
         }
         
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 5 main numbers and 1 Powerball!');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
+          alert('Please select 5 main numbers and 1 Lucky Ball!');
           return;
         }
         
@@ -1165,7 +1165,7 @@ Good luck! 🍀`);
 
 Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
-Powerball: ${selectedPowerball}
+Lucky Ball: ${selectedLuckyball}
 
 ✅ Free tickets remaining: ${freeTicketsUnlocked}
 
@@ -1175,7 +1175,7 @@ Good luck! 🍀`);
         
         // Reset selections
         selectedMainNumbers = [];
-        selectedPowerball = null;
+        selectedLuckyball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
         
