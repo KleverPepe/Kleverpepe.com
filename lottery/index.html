@@ -547,6 +547,13 @@
       let connectedWallet = null;
       let extensionDetected = false;
 
+      function resolveKleverProvider() {
+        if (window.klever && typeof window.klever.request === 'function') return window.klever;
+        if (window.kleverWeb && typeof window.kleverWeb.request === 'function') return window.kleverWeb;
+        if (window.kleverWeb3 && typeof window.kleverWeb3.request === 'function') return window.kleverWeb3;
+        return null;
+      }
+
       function setNetworkBadge(text) {
         const badge = document.querySelector('.network-badge');
         if (badge) badge.textContent = text;
@@ -572,8 +579,8 @@
       }
 
       async function initializeKleverWeb3() {
-        if (typeof window.klever !== 'undefined') {
-          kleverWeb3 = window.klever;
+        kleverWeb3 = resolveKleverProvider();
+        if (kleverWeb3) {
           extensionDetected = true;
           console.log('✅ Klever Web3 SDK loaded');
           setNetworkBadge('🔗 Mainnet');
@@ -590,24 +597,39 @@
         }
       }
 
+      async function requestAccounts() {
+        if (!kleverWeb3) return [];
+        const methods = [
+          { m: 'account', params: {} },
+          { m: 'klever_requestAccounts', params: {} },
+          { m: 'klv_requestAccounts', params: {} },
+          { m: 'requestAccounts', params: {} },
+          { m: 'wallet_requestAccounts', params: {} }
+        ];
+        for (const { m, params } of methods) {
+          try {
+            const res = await kleverWeb3.request({ method: m, params });
+            if (res && res.length) return res;
+          } catch (e) {
+            console.warn(`Account request failed for ${m}`, e);
+          }
+        }
+        return [];
+      }
+
       async function connectWallet() {
         try {
           if (!kleverWeb3) {
             alert('❌ Klever Extension not found!\n\nPlease install the Klever Web3 extension for your browser.');
             return;
           }
-          let accounts = [];
-          try {
-            accounts = await kleverWeb3.request({ method: 'account' });
-          } catch (e) {
-            console.warn('account method failed, trying klever_requestAccounts', e);
-            accounts = await kleverWeb3.request({ method: 'klever_requestAccounts' });
-          }
+          const accounts = await requestAccounts();
           if (accounts && accounts.length > 0) {
             connectedWallet = accounts[0];
             updateWalletUI(true, connectedWallet);
             console.log('✅ Wallet connected:', connectedWallet);
           }
+            alert('⚠️ No accounts returned. Ensure Klever extension is unlocked and on Mainnet.');
         } catch (error) {
           console.error('Wallet connection error:', error);
           alert('❌ Failed to connect wallet: ' + error.message);
