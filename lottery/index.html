@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎰 KPEPE Lottery - KleverPEPE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      /* Lottery-specific styles */
+      :root {
+        --primary: #4ade80;
+        --primary-dark: #22c55e;
+        --secondary: #f97316;
+        --bg-card: #1a1a2e;
+        --text-primary: #ffffff;
+        --text-secondary: #a0a0b0;
+        --border: rgba(255,255,255,0.1);
+        --success: #4ade80;
+        --purple: #9B59B6;
+        --purple-dark: #431A85;
+      }
+      
+      .lottery-container { max-width: 500px; margin: 0 auto; padding: 16px; }
+      
+      /* Header */
+      .lottery-header { text-align: center; padding: 20px 0; position: relative; }
+      .lottery-logo { font-size: 2.5rem; margin-bottom: 8px; }
+      .lottery-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .lottery-header p { color: var(--text-secondary); font-size: 0.9rem; }
+      
+      /* Hero - Jackpot */
+      .jackpot-card {
+        background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
+        border: 2px solid rgba(74, 222, 128, 0.3);
+        border-radius: 24px;
+        padding: 32px 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+      }
+      .jackpot-card::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(74,222,128,0.1) 0%, transparent 50%);
+        animation: pulse 4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+      }
+      .jackpot-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; position: relative; }
+      .jackpot-amount { font-size: 2.8rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 30px rgba(74, 222, 128, 0.5); position: relative; }
+      .jackpot-currency { font-size: 1.5rem; vertical-align: super; }
+      .jackpot-usd { font-size: 1rem; color: var(--text-secondary); margin-top: 8px; position: relative; }
+      
+      /* Countdown */
+      .countdown-section { margin-top: 20px; position: relative; }
+      .countdown-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
+      .countdown-timer { display: flex; justify-content: center; gap: 12px; }
+      .countdown-unit { 
+        background: var(--bg-card); 
+        border: 1px solid var(--border); 
+        border-radius: 12px; 
+        padding: 12px 16px; 
+        min-width: 60px;
+        position: relative;
+      }
+      .countdown-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+      .countdown-unit-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }
+      
+      /* Cards */
+      .lottery-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+      .lottery-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+      .lottery-card-title { font-size: 1rem; font-weight: 600; }
+      
+      /* Stats Grid */
+      .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .stat-box { 
+        background: rgba(255,255,255,0.03); 
+        border: 1px solid var(--border); 
+        border-radius: 14px; 
+        padding: 16px 12px; 
+        text-align: center; 
+      }
+      .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+      .stat-label { font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; }
+      
+      /* Progress Bar */
+      .progress-section { margin-top: 12px; position: relative; }
+      .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-secondary); }
+      .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+      .progress-fill { 
+        height: 100%; 
+        background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+        border-radius: 4px; 
+        transition: width 0.3s; 
+      }
+      
+      /* Wallet Section */
+      .wallet-status { 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        padding: 10px 20px; 
+        border-radius: 30px; 
+        font-size: 0.9rem; 
+        margin-bottom: 16px; 
+      }
+      .wallet-status.connected { background: rgba(74,222,128,0.15); color: var(--success); }
+      .wallet-status.disconnected { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+      .wallet-address { 
+        font-family: monospace; 
+        font-size: 0.8rem; 
+        background: rgba(0,0,0,0.3); 
+        padding: 12px 16px; 
+        border-radius: 10px; 
+        word-break: break-all; 
+        color: var(--primary); 
+        margin-bottom: 16px; 
+      }
+      
+      /* Buttons */
+      .lottery-btn { 
+        width: 100%; 
+        padding: 16px; 
+        border: none; 
+        border-radius: 14px; 
+        font-size: 1rem; 
+        font-weight: 700; 
+        cursor: pointer; 
+        transition: all 0.2s; 
+      }
+      .lottery-btn-primary { 
+        background: linear-gradient(to right, var(--purple-dark), var(--purple)); 
+        color: #ffffff; 
+        box-shadow: 0 0 8px rgba(155, 89, 182, 0.7);
+      }
+      .lottery-btn-primary:hover { 
+        transform: translateY(-2px); 
+        box-shadow: 0 0 15px rgba(155, 89, 182, 1);
+      }
+      .lottery-btn-secondary { 
+        background: var(--bg-card); 
+        color: var(--text-primary); 
+        border: 1px solid var(--border); 
+        margin-top: 8px;
+      }
+      .lottery-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+      
+      /* Ticket Controls */
+      .ticket-controls { display: flex; gap: 12px; margin-bottom: 20px; }
+      .ticket-btn { 
+        width: 50px; 
+        height: 50px; 
+        border-radius: 12px; 
+        border: 1px solid var(--border); 
+        background: rgba(255,255,255,0.05); 
+        color: var(--text-primary); 
+        font-size: 1.5rem; 
+        cursor: pointer; 
+      }
+      .ticket-btn:hover { border-color: var(--primary); background: rgba(74, 222, 128, 0.1); }
+      .ticket-input { 
+        flex: 1; 
+        text-align: center; 
+        background: rgba(0,0,0,0.3); 
+        border: 2px solid var(--border); 
+        border-radius: 12px; 
+        color: var(--text-primary); 
+        font-size: 1.5rem; 
+        font-weight: 700; 
+        padding: 12px; 
+      }
+      .ticket-input:focus { outline: none; border-color: var(--primary); }
+      
+      /* Cost Display */
+      .cost-display { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 16px; 
+        background: rgba(155, 89, 182, 0.1); 
+        border: 1px solid rgba(155, 89, 182, 0.3); 
+        border-radius: 12px; 
+        margin-bottom: 16px; 
+      }
+      .cost-label { font-size: 0.9rem; color: var(--text-secondary); }
+      .cost-value { font-size: 1.3rem; font-weight: 700; color: var(--purple); }
+      
+      /* My Tickets */
+      .my-tickets-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .ticket-count-badge { 
+        background: linear-gradient(135deg, var(--purple), var(--purple-dark)); 
+        color: #ffffff; 
+        padding: 4px 12px; 
+        border-radius: 20px; 
+        font-size: 0.8rem; 
+        font-weight: 700; 
+      }
+      .ticket-display { display: flex; flex-wrap: wrap; gap: 8px; max-height: 150px; overflow-y: auto; }
+      .ticket-item { 
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(67, 26, 133, 0.3)); 
+        border: 1px solid rgba(155, 89, 182, 0.5); 
+        border-radius: 8px; 
+        padding: 8px 12px; 
+        font-family: monospace; 
+        font-size: 0.8rem; 
+        color: #ffffff; 
+      }
+      .no-tickets { text-align: center; padding: 20px; color: var(--text-secondary); font-size: 0.9rem; }
+      
+      /* Recent Winners */
+      .winner-list { display: flex; flex-direction: column; gap: 12px; }
+      .winner-item { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 14px; 
+        background: rgba(255,255,255,0.03); 
+        border-radius: 12px; 
+      }
+      .winner-info { display: flex; align-items: center; gap: 12px; }
+      .winner-avatar { 
+        width: 40px; 
+        height: 40px; 
+        border-radius: 50%; 
+        background: linear-gradient(135deg, var(--purple), var(--purple-dark)); 
+        display: flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 1.2rem; 
+      }
+      .winner-address { font-family: monospace; font-size: 0.85rem; }
+      .winner-amount { color: var(--primary); font-weight: 600; }
+      
+      /* Tabs */
+      .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+      .tab { 
+        flex: 1; 
+        padding: 12px; 
+        background: rgba(255,255,255,0.03); 
+        border: 1px solid var(--border); 
+        border-radius: 10px; 
+        color: var(--text-secondary); 
+        font-size: 0.85rem; 
+        cursor: pointer; 
+        text-align: center; 
+        transition: all 0.2s; 
+      }
+      .tab.active { 
+        background: rgba(155, 89, 182, 0.2); 
+        border-color: var(--purple); 
+        color: var(--purple); 
+      }
+      
+      /* FAQ */
+      .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
+      .faq-item:last-child { border-bottom: none; }
+      .faq-question { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+      .faq-answer { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+      
+      /* Connection Options */
+      .connection-options { display: flex; flex-direction: column; gap: 12px; }
+      .connection-option { 
+        display: flex; 
+        align-items: center; 
+        gap: 16px; 
+        padding: 16px; 
+        background: rgba(255,255,255,0.03); 
+        border: 1px solid var(--border); 
+        border-radius: 14px; 
+        cursor: pointer; 
+        transition: all 0.2s; 
+      }
+      .connection-option:hover { 
+        background: rgba(155, 89, 182, 0.1); 
+        border-color: rgba(155, 89, 182, 0.3); 
+      }
+      .connection-icon { font-size: 1.5rem; }
+      .connection-info h3 { font-size: 0.95rem; margin-bottom: 4px; }
+      .connection-info p { font-size: 0.8rem; color: var(--text-secondary); }
+      
+      /* Spinner */
+      .spinner { 
+        display: inline-block; 
+        width: 16px; 
+        height: 16px; 
+        border: 2px solid rgba(255,255,255,0.3); 
+        border-top-color: var(--primary); 
+        border-radius: 50%; 
+        animation: spin 1s linear infinite; 
+        margin-right: 8px; 
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      
+      /* Responsive */
+      @media (max-width: 400px) {
+        .jackpot-amount { font-size: 2.2rem; }
+        .countdown-unit { min-width: 50px; padding: 10px 12px; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background -->
+    <div class="background"></div>
+    
+    <div class="lottery-container">
+      <!-- Header -->
+      <div class="lottery-header">
+        <a href="../index.html" style="text-decoration: none;">
+          <div class="lottery-logo">🎰</div>
+          <h1>KPEPE Lottery</h1>
+          <p>Buy tickets, win KLV! 🎉</p>
+        </a>
+      </div>
+      
+      <!-- Jackpot Hero -->
+      <div class="jackpot-card">
+        <div class="jackpot-label">🎯 Current Jackpot</div>
+        <div class="jackpot-amount"><span id="jackpot-klv">0</span> <span class="jackpot-currency">KLV</span></div>
+        <div class="jackpot-usd" id="jackpot-usd">~$0.00 USD</div>
+        
+        <div class="countdown-section">
+          <div class="countdown-label" id="countdown-label">Next draw in</div>
+          <div class="countdown-timer">
+            <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hours</div></div>
+            <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
+            <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats -->
+      <div class="lottery-card">
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-value" id="stat-tickets">0</div><div class="stat-label">Tickets</div></div>
+          <div class="stat-box"><div class="stat-value" id="stat-players">0</div><div class="stat-label">Players</div></div>
+          <div class="stat-box"><div class="stat-value" id="stat-pool">0</div><div class="stat-label">Pool (KLV)</div></div>
+        </div>
+        <div class="progress-section">
+          <div class="progress-header"><span>Tickets sold this round</span><span id="progress-percent">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
+        </div>
+      </div>
+      
+      <!-- Wallet -->
+      <div class="lottery-card"><div id="wallet-section"></div></div>
+      
+      <!-- Actions -->
+      <div id="actions-section" style="display: none;">
+        <div class="lottery-card">
+          <div class="lottery-card-header">
+            <span class="lottery-card-title">🎟️ Buy Tickets</span>
+            <span style="font-size: 0.8rem; color: var(--text-secondary);">5 KLV each</span>
+          </div>
+          <div class="ticket-controls">
+            <button class="ticket-btn" onclick="adjustTickets(-1)">−</button>
+            <input type="number" id="ticket-count-input" value="1" min="1" max="100" class="ticket-input">
+            <button class="ticket-btn" onclick="adjustTickets(1)">+</button>
+          </div>
+          <div class="cost-display">
+            <span class="cost-label">Total Cost</span>
+            <span class="cost-value"><span id="total-cost">5</span> KLV</span>
+          </div>
+          <button id="buy-btn" class="lottery-btn lottery-btn-primary" onclick="buyTickets()">🎟️ Buy Ticket(s)</button>
+        </div>
+        
+        <div class="lottery-card">
+          <div class="my-tickets-header">
+            <span class="lottery-card-title">🎫 My Tickets</span>
+            <span class="ticket-count-badge" id="my-ticket-count">0</span>
+          </div>
+          <div id="my-tickets-display"><div class="no-tickets">No tickets yet. Buy some to participate!</div></div>
+        </div>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('winners')">🏆 Winners</div>
+        <div class="tab" onclick="switchTab('history')">📜 History</div>
+        <div class="tab" onclick="switchTab('faq')">❓ FAQ</div>
+      </div>
+      
+      <!-- Tab Content -->
+      <div id="tab-winners" class="lottery-card">
+        <div class="lottery-card-header"><span class="lottery-card-title">🎉 Recent Winners</span></div>
+        <div class="winner-list">
+          <div class="winner-item">
+            <div class="winner-info"><div class="winner-avatar">🦍</div><div><div class="winner-address">0x1234...5678</div><div style="font-size: 0.75rem; color: var(--text-secondary);">2 hours ago</div></div></div>
+            <div class="winner-amount">1,250 KLV</div>
+          </div>
+          <div class="winner-item">
+            <div class="winner-info"><div class="winner-avatar">🐸</div><div><div class="winner-address">0xabcd...efgh</div><div style="font-size: 0.75rem; color: var(--text-secondary);">5 hours ago</div></div></div>
+            <div class="winner-amount">890 KLV</div>
+          </div>
+          <div class="winner-item">
+            <div class="winner-info"><div class="winner-avatar">🚀</div><div><div class="winner-address">0x9876...5432</div><div style="font-size: 0.75rem; color: var(--text-secondary);">1 day ago</div></div></div>
+            <div class="winner-amount">2,340 KLV</div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="tab-history" class="lottery-card" style="display: none;">
+        <div class="lottery-card-header"><span class="lottery-card-title">📜 Past Rounds</span></div>
+        <div style="text-align: center; padding: 20px; color: var(--text-secondary);">Round history will appear here after mainnet launch</div>
+      </div>
+      
+      <div id="tab-faq" class="lottery-card" style="display: none;">
+        <div class="lottery-card-header"><span class="lottery-card-title">❓ FAQ</span></div>
+        <div class="faq-item"><div class="faq-question">How does the lottery work?</div><div class="faq-answer">Buy tickets with KLV. Each ticket is a unique number. When the timer ends, a random winning ticket is selected. The jackpot goes to the winner!</div></div>
+        <div class="faq-item"><div class="faq-question">How much are tickets?</div><div class="faq-answer">Each ticket costs 5 KLV. You can buy multiple tickets to increase your chances.</div></div>
+        <div class="faq-item"><div class="faq-question">When are draws held?</div><div class="faq-answer">Draws happen automatically when the timer reaches zero.</div></div>
+        <div class="faq-item"><div class="faq-question">Is it fair?</div><div class="faq-answer">Yes! The winning ticket is selected using blockchain randomness.</div></div>
+        <div class="faq-item"><div class="faq-question">How do I claim winnings?</div><div class="faq-answer">Winnings are automatically sent to the winner's wallet immediately.</div></div>
+      </div>
+      
+      <!-- Contract Info -->
+      <div class="lottery-card">
+        <div class="lottery-card-header"><span class="lottery-card-title">📋 Contract Info</span></div>
+        <div class="wallet-address">klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f</div>
+        <button class="lottery-btn lottery-btn-secondary" onclick="copyContract()">📋 Copy Address</button>
+        <div style="margin-top: 12px; text-align: center;">
+          <a href="https://testnet.kleverscan.org/address/klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f" target="_blank" style="color: var(--purple); font-size: 0.85rem;">View on KleverScan ↗</a>
+        </div>
+      </div>
+      
+      <!-- Back to Home -->
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="../index.html" class="cta-button">← Back to KPEPE</a>
+      </div>
+    </div>
+
+    <script>
+      const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
+      const TICKET_PRICE = 5;
+      const KLV_USD_RATE = 0.15;
+      
+      let walletAddress = null;
+      let myTickets = [];
+      let connectionMode = 'manual';
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        animateValue('jackpot-klv', 0, 1250, 2000, true);
+        document.getElementById('jackpot-usd').textContent = '$' + (1250 * KLV_USD_RATE).toFixed(2) + ' USD';
+        startCountdown();
+        loadSavedWallet();
+        updateStats(247, 89, 1235);
+      });
+      
+      function animateValue(id, start, end, duration, showDecimals = false) {
+        const obj = document.getElementById(id);
+        const range = end - start;
+        const startTime = performance.now();
+        
+        function update(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const current = start + (range * easeOut);
+          obj.textContent = showDecimals ? Math.floor(current).toLocaleString() : current.toFixed(2);
+          if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+      }
+      
+      function startCountdown() {
+        const target = new Date().getTime() + (24 * 60 * 60 * 1000);
+        function update() {
+          const now = new Date().getTime();
+          const diff = target - now;
+          if (diff <= 0) { document.getElementById('timer-h').textContent = '00'; document.getElementById('timer-m').textContent = '00'; document.getElementById('timer-s').textContent = '00'; return; }
+          const h = Math.floor(diff / (1000 * 60 * 60));
+          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((diff % (1000 * 60)) / 1000);
+          document.getElementById('timer-h').textContent = String(h).padStart(2, '0');
+          document.getElementById('timer-m').textContent = String(m).padStart(2, '0');
+          document.getElementById('timer-s').textContent = String(s).padStart(2, '0');
+        }
+        update();
+        setInterval(update, 1000);
+      }
+      
+      function updateStats(tickets, players, pool) {
+        document.getElementById('stat-tickets').textContent = tickets.toLocaleString();
+        document.getElementById('stat-players').textContent = players.toLocaleString();
+        document.getElementById('stat-pool').textContent = pool.toLocaleString();
+        const percent = Math.min((tickets / 10000) * 100, 100);
+        document.getElementById('progress-percent').textContent = percent.toFixed(1) + '%';
+        document.getElementById('progress-fill').style.width = percent + '%';
+      }
+      
+      function loadSavedWallet() {
+        const saved = localStorage.getItem('klever_wallet');
+        if (saved) { walletAddress = saved; connectionMode = 'manual'; showConnected(); }
+        else { showConnectOptions(); }
+      }
+      
+      function showConnectOptions() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        document.getElementById('wallet-section').innerHTML = `
+          <div style="text-align: center;">
+            <div class="wallet-status disconnected"><span>●</span> Not Connected</div>
+            <div class="connection-options">
+              <div class="connection-option" onclick="connectMobile()">
+                <div class="connection-icon">📱</div>
+                <div class="connection-info">
+                  <h3>Klever Wallet App</h3>
+                  <p>${isMobile ? 'Open in app browser' : 'Scan QR to connect'}</p>
+                </div>
+              </div>
+              <div class="connection-option" onclick="connectManual()">
+                <div class="connection-icon">💸</div>
+                <div class="connection-info">
+                  <h3>Manual Transfer</h3>
+                  <p>Send KLV directly to contract</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      function connectMobile() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) { window.location.href = 'klever://open?url=' + encodeURIComponent(window.location.href); }
+        else {
+          const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(window.location.href);
+          document.getElementById('wallet-section').innerHTML = `
+            <div style="text-align: center;">
+              <div class="wallet-status disconnected"><span>●</span> Scan to Connect</div>
+              <img src="${qrUrl}" alt="QR" style="max-width: 180px; border-radius: 12px;">
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 12px;">Open in Klever Wallet app</p>
+              <button class="lottery-btn lottery-btn-secondary" onclick="showConnectOptions()" style="margin-top: 16px;">← Back</button>
+            </div>
+          `;
+        }
+      }
+      
+      function connectManual() {
+        connectionMode = 'manual';
+        document.getElementById('wallet-section').innerHTML = `
+          <div style="text-align: center;">
+            <div class="wallet-status disconnected"><span>●</span> Manual Mode</div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Send KLV directly. Tickets auto-register!</p>
+            <div class="wallet-address">${CONTRACT_ADDRESS}</div>
+            <button class="lottery-btn lottery-btn-secondary" onclick="copyContract()">📋 Copy Address</button>
+          </div>
+        `;
+        document.getElementById('actions-section').style.display = 'block';
+      }
+      
+      function showConnected() {
+        const shortAddr = walletAddress.slice(0, 10) + '...' + walletAddress.slice(-6);
+        document.getElementById('wallet-section').innerHTML = `
+          <div style="text-align: center;">
+            <div class="wallet-status connected"><span>✓</span> Connected</div>
+            <div class="wallet-address">${shortAddr}</div>
+            <button class="lottery-btn lottery-btn-secondary" onclick="disconnect()" style="margin-top: 8px;">Disconnect</button>
+          </div>
+        `;
+        document.getElementById('actions-section').style.display = 'block';
+      }
+      
+      function disconnect() {
+        walletAddress = null;
+        localStorage.removeItem('klever_wallet');
+        document.getElementById('actions-section').style.display = 'none';
+        showConnectOptions();
+      }
+      
+      function adjustTickets(delta) {
+        const input = document.getElementById('ticket-count-input');
+        let val = parseInt(input.value) + delta;
+        if (val < 1) val = 1;
+        if (val > 100) val = 100;
+        input.value = val;
+        document.getElementById('total-cost').textContent = (val * TICKET_PRICE).toLocaleString();
+      }
+      
+      function buyTickets() {
+        const count = parseInt(document.getElementById('ticket-count-input').value);
+        const total = count * TICKET_PRICE;
+        alert(`🎫 Buy ${count} Ticket(s) for ${total} KLV\n\nSend ${total} KLV to:\n${CONTRACT_ADDRESS}\n\nThe contract will automatically register your tickets!`);
+        
+        for (let i = 0; i < count; i++) {
+          const ticketNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+          myTickets.push(ticketNum);
+        }
+        updateMyTickets();
+      }
+      
+      function updateMyTickets() {
+        document.getElementById('my-ticket-count').textContent = myTickets.length;
+        const display = document.getElementById('my-tickets-display');
+        if (myTickets.length === 0) {
+          display.innerHTML = '<div class="no-tickets">No tickets yet. Buy some to participate!</div>';
+        } else {
+          display.innerHTML = '<div class="ticket-display">' + myTickets.map(t => `<div class="ticket-item">#${t}</div>`).join('') + '</div>';
+        }
+      }
+      
+      function copyContract() {
+        navigator.clipboard.writeText(CONTRACT_ADDRESS).then(() => alert('Address copied!')).catch(() => prompt('Copy:', CONTRACT_ADDRESS));
+      }
+      
+      function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('tab-winners').style.display = tab === 'winners' ? 'block' : 'none';
+        document.getElementById('tab-history').style.display = tab === 'history' ? 'block' : 'none';
+        document.getElementById('tab-faq').style.display = tab === 'faq' ? 'block' : 'none';
+      }
+    </script>
+  </body>
+</html>
