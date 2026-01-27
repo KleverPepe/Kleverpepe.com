@@ -195,9 +195,12 @@
       .prize-row.jackpot .prize-amount { color: var(--gold); }
       
       /* KPEPE prize section */
-      .kpepe-section { border: 1px solid rgba(168, 85, 247, 0.3); }
+      .kpepe-section { background: linear-gradient(145deg, rgba(168, 85, 247, 0.15), rgba(249, 115, 22, 0.1)); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
       .kpepe-section .prize-header { color: var(--purple); }
-      .kpepe-section .prize-amount { color: var(--purple); }
+      .kpepe-section .prize-amount { color: var(--gold); font-weight: 800; }
+      .kpepe-section .prize-row { border-bottom-color: rgba(168, 85, 247, 0.2); }
+      .kpepe-section .prize-row.jackpot { background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
+      .kpepe-section .prize-row.jackpot .prize-match { color: var(--purple); font-weight: 700; }
       
       /* Wallet */
       .wallet-section { background: var(--bg-card); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
@@ -322,14 +325,14 @@
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
           <span class="prize-amount">WIN ALL</span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">15%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">10%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">6%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">4%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">2%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">1%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">20%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">12%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">8%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">5%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">3%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">1.5%</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">0.5%</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>8B only</span></div><span class="prize-amount">0.25%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky Ball only</span></div><span class="prize-amount">0.25%</span></div>
       </div>
       
       <!-- Wallet -->
