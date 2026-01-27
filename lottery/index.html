@@ -9,7 +9,6 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
       :root {
         --primary: #4ade80;
-        --primary-dark: #22c55e;
         --purple: #a855f7;
         --orange: #f97316;
         --gold: #fbbf24;
@@ -25,7 +24,6 @@
         background: var(--bg-dark);
         color: var(--text);
         min-height: 100vh;
-        overflow-x: hidden;
       }
       
       /* Interactive Background */
@@ -60,23 +58,12 @@
       .particle:nth-child(9) { left: 90%; animation-delay: 3.5s; }
       
       @keyframes float {
-        0%, 100% {
-          transform: translateY(100vh) scale(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100px) scale(1);
-          opacity: 0;
-        }
+        0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-100px) scale(1); opacity: 0; }
       }
       
-      /* Glow orbs */
       .glow-orb {
         position: fixed;
         width: 400px;
@@ -88,581 +75,130 @@
         z-index: 0;
       }
       
-      .glow-orb.purple {
-        top: -200px;
-        left: -200px;
-        background: var(--purple);
-        animation: pulse-purple 8s ease-in-out infinite;
-      }
+      .glow-orb.purple { top: -200px; left: -200px; background: var(--purple); animation: pulse-purple 8s ease-in-out infinite; }
+      .glow-orb.green { bottom: -200px; right: -200px; background: var(--primary); animation: pulse-green 8s ease-in-out infinite 4s; }
+      .glow-orb.orange { top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--orange); animation: pulse-orange 8s ease-in-out infinite 2s; }
       
-      .glow-orb.green {
-        bottom: -200px;
-        right: -200px;
-        background: var(--primary);
-        animation: pulse-green 8s ease-in-out infinite 4s;
-      }
+      @keyframes pulse-purple { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.1); } }
+      @keyframes pulse-green { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.1); } }
+      @keyframes pulse-orange { 0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.2); } }
       
-      .glow-orb.orange {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--orange);
-        animation: pulse-orange 8s ease-in-out infinite 2s;
-      }
-      
-      @keyframes pulse-purple {
-        0%, 100% { opacity: 0.15; transform: scale(1); }
-        50% { opacity: 0.25; transform: scale(1.1); }
-      }
-      
-      @keyframes pulse-green {
-        0%, 100% { opacity: 0.15; transform: scale(1); }
-        50% { opacity: 0.25; transform: scale(1.1); }
-      }
-      
-      @keyframes pulse-orange {
-        0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
-        50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.2); }
-      }
-      
-      .container {
-        position: relative;
-        z-index: 1;
-        max-width: 480px;
-        margin: 0 auto;
-        padding: 16px;
-      }
+      .container { position: relative; z-index: 1; max-width: 500px; margin: 0 auto; padding: 16px; }
       
       /* Header */
       .header { text-align: center; padding: 20px 0 16px; }
-      .header h1 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--primary), var(--gold), var(--orange));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+      .header h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
       .header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
-      .network-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        background: rgba(251, 191, 36, 0.15);
-        color: var(--gold);
-        margin-top: 10px;
-      }
+      .network-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(251, 191, 36, 0.15); color: var(--gold); margin-top: 10px; }
       
       /* Jackpot Card */
-      .jackpot-card {
-        background: linear-gradient(145deg, rgba(168, 85, 247, 0.12), rgba(74, 222, 128, 0.08));
-        border: 2px solid rgba(168, 85, 247, 0.3);
-        border-radius: 20px;
-        padding: 24px;
-        text-align: center;
-        margin-bottom: 16px;
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .jackpot-card::before {
-        content: '';
-        position: absolute;
-        top: -100%;
-        left: -100%;
-        width: 300%;
-        height: 300%;
-        background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-        animation: rotate 20s linear infinite;
-      }
-      
-      @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      
+      .jackpot-card { background: linear-gradient(145deg, rgba(168, 85, 247, 0.12), rgba(74, 222, 128, 0.08)); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 20px; padding: 24px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
+      .jackpot-card::before { content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
+      @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       .jackpot-content { position: relative; z-index: 2; }
       
-      /* Interactive Frog Logo */
-      .frog-logo {
-        font-size: 3rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-block;
-        animation: bounce-frog 3s ease-in-out infinite;
-      }
+      /* Interactive Frog */
+      .frog-logo { font-size: 3rem; cursor: pointer; transition: all 0.3s ease; display: inline-block; animation: bounce-frog 3s ease-in-out infinite; }
+      .frog-logo:hover { transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.8)); }
+      @keyframes bounce-frog { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       
-      .frog-logo:hover {
-        transform: scale(1.2) rotate(10deg);
-        filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.8));
-      }
-      
-      @keyframes bounce-frog {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-      }
-      
-      .frog-tooltip {
-        position: absolute;
-        bottom: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--bg-card);
-        border: 1px solid var(--purple);
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        white-space: nowrap;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s ease;
-      }
-      
-      .frog-logo:hover + .frog-tooltip,
-      .frog-logo:hover ~ .frog-tooltip {
-        opacity: 1;
-        visibility: visible;
-        bottom: -50px;
-      }
-      
-      .jackpot-amount {
-        font-size: 2.5rem;
-        font-weight: 900;
-        background: linear-gradient(135deg, var(--primary), var(--gold));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin: 8px 0;
-      }
-      
+      .jackpot-amount { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
       .jackpot-usd { color: var(--text-muted); font-size: 0.9rem; }
       
-      /* Grand Prize Badge */
-      .grand-prize {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: linear-gradient(135deg, var(--purple), var(--orange));
-        padding: 10px 20px;
-        border-radius: 30px;
-        margin: 16px 0;
-        font-weight: 700;
-        font-size: 0.95rem;
-        animation: glow-prize 2s ease-in-out infinite;
-      }
-      
-      @keyframes glow-prize {
-        0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
-        50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.5); }
-      }
+      .grand-prize { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 10px 20px; border-radius: 30px; margin: 16px 0; font-weight: 700; font-size: 0.95rem; animation: glow-prize 2s ease-in-out infinite; }
+      @keyframes glow-prize { 0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); } 50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.5); } }
       
       /* Countdown */
-      .countdown {
-        background: rgba(251, 191, 36, 0.1);
-        border-radius: 12px;
-        padding: 16px;
-        text-align: center;
-        margin-bottom: 16px;
-      }
+      .countdown { background: rgba(251, 191, 36, 0.1); border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 16px; }
       .countdown-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
-      .countdown-timer {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-      }
-      .countdown-unit {
-        background: rgba(251, 191, 36, 0.2);
-        padding: 10px 16px;
-        border-radius: 10px;
-        min-width: 60px;
-      }
+      .countdown-timer { display: flex; justify-content: center; gap: 12px; }
+      .countdown-unit { background: rgba(251, 191, 36, 0.2); padding: 10px 16px; border-radius: 10px; min-width: 60px; }
       .countdown-value { font-size: 1.6rem; font-weight: 800; color: var(--gold); }
       .countdown-unit-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
       
-      /* Pool 8 Ball Design */
-      .pool-8ball {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: linear-gradient(145deg, #1a1a1a, #000);
-        border: 3px solid #fff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 900;
-        font-size: 1.4rem;
-        color: #fff;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1);
-        position: relative;
-      }
-      
-      .pool-8ball::before {
-        content: '';
-        position: absolute;
-        top: 8px;
-        left: 12px;
-        width: 8px;
-        height: 8px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-      }
-      
       /* Section Card */
-      .section-card {
-        background: var(--bg-card);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 16px;
-        border: 1px solid var(--border);
-      }
-      
-      .section-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 16px;
-        font-weight: 600;
-      }
-      
-      .section-title .badge {
-        background: var(--purple);
-        color: #fff;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-      }
-      
+      .section-card { background: var(--bg-card); border-radius: 16px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border); }
+      .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 600; }
+      .section-title .badge { background: var(--purple); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
       .section-title .badge.complete { background: var(--primary); color: #000; }
       
-      /* Number Grid */
-      .number-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-      }
+      /* Number Grid - Full Display */
+      .number-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
       
-      .number-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        border: 2px solid rgba(255,255,255,0.15);
-        background: transparent;
-        color: var(--text);
-        font-size: 0.95rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
+      .number-btn { width: 38px; height: 38px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); background: transparent; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+      .number-btn:hover { border-color: var(--purple); background: rgba(168, 85, 247, 0.2); transform: scale(1.1); }
+      .number-btn.selected { background: linear-gradient(135deg, var(--purple), #7c3aed); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1.1); }
       
-      .number-btn:hover {
-        border-color: var(--purple);
-        background: rgba(168, 85, 247, 0.2);
-        transform: scale(1.1);
-      }
+      /* Pool 8 Ball */
+      .pool-8ball { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; color: #fff; position: relative; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+      .pool-8ball::before { content: ''; position: absolute; top: 6px; left: 10px; width: 6px; height: 6px; background: rgba(255,255,255,0.6); border-radius: 50%; }
       
-      .number-btn.selected {
-        background: linear-gradient(135deg, var(--purple), #7c3aed);
-        border-color: var(--purple);
-        color: #fff;
-        box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
-        transform: scale(1.1);
-      }
-      
-      /* Pool 8 Ball Button */
-      .number-btn.eightball {
-        background: linear-gradient(145deg, #1a1a1a, #000);
-        border: 3px solid #fff;
-        color: #fff;
-        position: relative;
-      }
-      
-      .number-btn.eightball::before {
-        content: '';
-        position: absolute;
-        top: 6px;
-        left: 10px;
-        width: 6px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-      }
-      
-      .number-btn.eightball:hover {
-        background: linear-gradient(145deg, #333, #111);
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-        transform: scale(1.15);
-      }
-      
-      .number-btn.eightball.selected {
-        background: linear-gradient(145deg, #1a1a1a, #000);
-        border: 3px solid #fff;
-        box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-        transform: scale(1.15);
-      }
+      .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; position: relative; }
+      .number-btn.eightball::before { content: ''; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+      .number-btn.eightball:hover { background: linear-gradient(145deg, #333, #111); box-shadow: 0 0 15px rgba(255,255,255,0.4); transform: scale(1.1); }
+      .number-btn.eightball.selected { background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.5); transform: scale(1.1); }
       
       /* Ticket Preview */
-      .ticket-preview {
-        background: rgba(74, 222, 128, 0.08);
-        border: 2px dashed rgba(74, 222, 128, 0.25);
-        border-radius: 16px;
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 16px;
-      }
-      
-      .ticket-numbers {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-      
-      .ticket-num {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: var(--purple);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 0.9rem;
-      }
-      
-      .ticket-num.eightball {
-        background: linear-gradient(145deg, #1a1a1a, #000);
-        border: 2px solid #fff;
-        position: relative;
-      }
-      
-      .ticket-num.eightball::before {
-        content: '';
-        position: absolute;
-        top: 5px;
-        left: 8px;
-        width: 5px;
-        height: 5px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-      }
-      
-      .ticket-empty { color: var(--text-muted); font-size: 0.85rem; }
+      .ticket-preview { background: rgba(74, 222, 128, 0.08); border: 2px dashed rgba(74, 222, 128, 0.25); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
+      .ticket-numbers { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+      .ticket-num { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+      .ticket-num.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; position: relative; }
+      .ticket-num.eightball::before { content: ''; position: absolute; top: 4px; left: 7px; width: 4px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+      .ticket-empty { color: var(--text-muted); font-size: 0.8rem; }
       
       /* Quick Pick */
-      .quick-pick {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 16px;
-      }
+      .quick-pick { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
+      .quick-btn { padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+      .quick-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(251, 191, 36, 0.1); }
       
-      .quick-btn {
-        padding: 10px 24px;
-        border-radius: 25px;
-        border: 1px solid rgba(255,255,255,0.2);
-        background: transparent;
-        color: var(--text);
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      
-      .quick-btn:hover {
-        border-color: var(--gold);
-        color: var(--gold);
-        background: rgba(251, 191, 36, 0.1);
-      }
-      
-      /* Cost Display */
-      .cost-display {
-        background: var(--bg-card);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 12px;
-      }
-      
-      .cost-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 6px 0;
-        font-size: 0.9rem;
-      }
-      
-      .cost-row.total {
-        border-top: 1px dashed var(--border);
-        margin-top: 8px;
-        padding-top: 12px;
-        font-weight: 700;
-        font-size: 1.1rem;
-      }
-      
+      /* Cost */
+      .cost-display { background: var(--bg-card); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+      .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 0.85rem; }
+      .cost-row.total { border-top: 1px dashed var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 1rem; }
       .cost-row .pool { color: var(--primary); }
       .cost-row .project { color: var(--purple); }
       
       /* Buy Button */
-      .buy-btn {
-        width: 100%;
-        padding: 16px;
-        border: none;
-        border-radius: 14px;
-        background: linear-gradient(135deg, var(--primary), #22c55e);
-        color: #000;
-        font-size: 1.1rem;
-        font-weight: 800;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
+      .buy-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #22c55e); color: #000; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+      .buy-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74, 222, 128, 0.3); }
+      .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
       
-      .buy-btn:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
-      }
-      
-      .buy-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-      
-      /* Prize Table */
-      .prize-table {
-        background: var(--bg-card);
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 16px;
-      }
-      
-      .prize-header {
-        font-weight: 700;
-        font-size: 1rem;
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      
-      .prize-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 0.85rem;
-      }
-      
+      /* Prize Tables */
+      .prize-table { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+      .prize-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+      .prize-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
       .prize-row:last-child { border-bottom: none; }
-      
-      .prize-match {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      
-      .prize-balls {
-        display: flex;
-        gap: 4px;
-      }
-      
-      .prize-ball {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--purple);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.7rem;
-        font-weight: 700;
-      }
-      
-      .prize-ball.eightball {
-        background: linear-gradient(145deg, #1a1a1a, #000);
-        border: 1px solid #fff;
-        color: #fff;
-        position: relative;
-      }
-      
-      .prize-ball.eightball::before {
-        content: '';
-        position: absolute;
-        top: 3px;
-        left: 5px;
-        width: 4px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-      }
-      
+      .prize-match { display: flex; align-items: center; gap: 6px; }
+      .prize-balls { display: flex; gap: 3px; }
+      .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
+      .prize-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; color: #fff; position: relative; }
+      .prize-ball.eightball::before { content: ''; position: absolute; top: 2px; left: 4px; width: 3px; height: 3px; background: rgba(255,255,255,0.6); border-radius: 50%; }
       .prize-amount { font-weight: 700; color: var(--primary); }
-      
-      .prize-row.jackpot {
-        background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent);
-        margin: -10px -20px 10px;
-        padding: 14px 20px;
-        border-radius: 12px;
-        border-bottom: none;
-      }
-      
+      .prize-row.jackpot { background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
       .prize-row.jackpot .prize-match { color: var(--primary); font-weight: 700; }
-      .prize-row.jackpot .prize-amount { color: var(--gold); font-size: 1.1rem; }
+      .prize-row.jackpot .prize-amount { color: var(--gold); }
       
-      /* Wallet Section */
-      .wallet-section {
-        background: var(--bg-card);
-        border-radius: 16px;
-        padding: 20px;
-        text-align: center;
-        margin-bottom: 16px;
-      }
+      /* KPEPE prize section */
+      .kpepe-section { border: 1px solid rgba(168, 85, 247, 0.3); }
+      .kpepe-section .prize-header { color: var(--purple); }
+      .kpepe-section .prize-amount { color: var(--purple); }
       
-      .wallet-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        margin-bottom: 12px;
-      }
+      /* Wallet */
+      .wallet-section { background: var(--bg-card); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
+      .wallet-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 10px; }
+      .wallet-status.disconnected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+      .wallet-status.connected { background: rgba(74, 222, 128, 0.15); color: var(--primary); }
       
-      .wallet-status.disconnected {
-        background: rgba(239, 68, 68, 0.15);
-        color: #ef4444;
-      }
-      
-      .wallet-status.connected {
-        background: rgba(74, 222, 128, 0.15);
-        color: var(--primary);
-      }
-      
-      /* Footer */
-      .footer {
-        text-align: center;
-        padding: 20px;
-        color: var(--text-muted);
-        font-size: 0.8rem;
-      }
+      .footer { text-align: center; padding: 16px; color: var(--text-muted); font-size: 0.75rem; }
     </style>
   </head>
   <body>
     <!-- Interactive Background -->
     <div class="bg-particles">
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     </div>
-    
     <div class="glow-orb purple"></div>
     <div class="glow-orb green"></div>
     <div class="glow-orb orange"></div>
@@ -675,20 +211,13 @@
         <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
-      <!-- Jackpot Card -->
+      <!-- Jackpot -->
       <div class="jackpot-card">
         <div class="jackpot-content">
-          <!-- Interactive Frog Logo -->
           <div class="frog-logo" onclick="showFrogMessage()">🐸</div>
-          <div class="frog-tooltip">Click for luck! 🍀</div>
-          
           <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
           <div class="jackpot-usd" id="jackpot-usd">~$0 USD</div>
-          
-          <div class="grand-prize">
-            <span>🌟</span>
-            <span>500,000 KPEPE Grand Prize!</span>
-          </div>
+          <div class="grand-prize">🌟 500,000 KPEPE Grand Prize!</div>
         </div>
       </div>
       
@@ -696,27 +225,16 @@
       <div class="countdown">
         <div class="countdown-label">Next draw in</div>
         <div class="countdown-timer">
-          <div class="countdown-unit">
-            <div class="countdown-value" id="timer-h">00</div>
-            <div class="countdown-unit-label">Hrs</div>
-          </div>
-          <div class="countdown-unit">
-            <div class="countdown-value" id="timer-m">00</div>
-            <div class="countdown-unit-label">Min</div>
-          </div>
-          <div class="countdown-unit">
-            <div class="countdown-value" id="timer-s">00</div>
-            <div class="countdown-unit-label">Sec</div>
-          </div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hrs</div></div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
         </div>
       </div>
       
       <!-- Ticket Preview -->
       <div class="ticket-preview">
-        <div style="font-size: 0.85rem; color: var(--text-muted);">Your Numbers</div>
-        <div class="ticket-numbers" id="ticket-numbers">
-          <span class="ticket-empty">Pick numbers or use Quick Pick</span>
-        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">Your Numbers</div>
+        <div class="ticket-numbers" id="ticket-numbers"><span class="ticket-empty">Pick numbers or Quick Pick</span></div>
       </div>
       
       <!-- Quick Pick -->
@@ -727,20 +245,14 @@
       
       <!-- Main Numbers -->
       <div class="section-card">
-        <div class="section-title">
-          <span>Main Numbers (1-50)</span>
-          <span class="badge" id="main-count">0/5</span>
-        </div>
+        <div class="section-title"><span>Main Numbers (1-50)</span><span class="badge" id="main-count">0/5</span></div>
         <div class="number-grid" id="main-numbers"></div>
       </div>
       
       <!-- Eight Ball -->
       <div class="section-card">
         <div class="section-title">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div class="pool-8ball">8</div>
-            <span>Eight Ball (1-20)</span>
-          </div>
+          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Eight Ball (1-20)</span></div>
           <span class="badge" id="8b-count">0/1</span>
         </div>
         <div class="number-grid" id="eightball-numbers"></div>
@@ -748,300 +260,120 @@
       
       <!-- Cost & Buy -->
       <div class="cost-display">
-        <div class="cost-row">
-          <span>Pool Contribution (85%)</span>
-          <span class="pool"><span id="pool-contrib">850</span> KLV</span>
-        </div>
-        <div class="cost-row">
-          <span>Project Contribution (15%)</span>
-          <span class="project"><span id="project-contrib">150</span> KLV</span>
-        </div>
-        <div class="cost-row total">
-          <span>Total</span>
-          <span><span id="total-cost">1000</span> KLV</span>
-        </div>
+        <div class="cost-row"><span>Pool (85%)</span><span class="pool"><span id="pool-contrib">850</span> KLV</span></div>
+        <div class="cost-row"><span>Project (15%)</span><span class="project"><span id="project-contrib">150</span> KLV</span></div>
+        <div class="cost-row total"><span>Total</span><span><span id="total-cost">1000</span> KLV</span></div>
       </div>
+      <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (1000 KLV)</button>
       
-      <button class="buy-btn" id="buy-btn" onclick="buyTickets()">
-        🎫 Buy Ticket (1000 KLV)
-      </button>
-      
-      <!-- Prize Table -->
+      <!-- KLV Prize Pool -->
       <div class="prize-table">
-        <div class="prize-header">🏆 Prize Tiers</div>
-        
+        <div class="prize-header">🏆 KLV Prize Pool</div>
         <div class="prize-row jackpot">
-          <div class="prize-match">
-            <div class="prize-balls">
-              <div class="prize-ball">5</div>
-              <div class="prize-ball eightball">8</div>
-            </div>
-            <span>🎰 JACKPOT</span>
-          </div>
+          <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
           <span class="prize-amount">WIN ALL</span>
         </div>
-        
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls"><div class="prize-ball">5</div></div>
-            <span>Match 5</span>
-          </div>
-          <span class="prize-amount">15%</span>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">15%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">10%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">6%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">4%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">2%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">1%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">0.5%</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>8B only</span></div><span class="prize-amount">0.25%</span></div>
+      </div>
+      
+      <!-- KPEPE Prize Pool -->
+      <div class="prize-table kpepe-section">
+        <div class="prize-header">🌟 KPEPE Grand Prize</div>
+        <div class="prize-row jackpot">
+          <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎉 JACKPOT</span></div>
+          <span class="prize-amount">500K KPEPE</span>
         </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls">
-              <div class="prize-ball">4</div>
-              <div class="prize-ball eightball">8</div>
-            </div>
-            <span>Match 4+8B</span>
-          </div>
-          <span class="prize-amount">10%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls"><div class="prize-ball">4</div></div>
-            <span>Match 4</span>
-          </div>
-          <span class="prize-amount">6%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls">
-              <div class="prize-ball">3</div>
-              <div class="prize-ball eightball">8</div>
-            </div>
-            <span>Match 3+8B</span>
-          </div>
-          <span class="prize-amount">4%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls"><div class="prize-ball">3</div></div>
-            <span>Match 3</span>
-          </div>
-          <span class="prize-amount">2%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls">
-              <div class="prize-ball">2</div>
-              <div class="prize-ball eightball">8</div>
-            </div>
-            <span>Match 2+8B</span>
-          </div>
-          <span class="prize-amount">1%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls">
-              <div class="prize-ball">1</div>
-              <div class="prize-ball eightball">8</div>
-            </div>
-            <span>Match 1+8B</span>
-          </div>
-          <span class="prize-amount">0.5%</span>
-        </div>
-        <div class="prize-row">
-          <div class="prize-match">
-            <div class="prize-balls"><div class="prize-ball eightball">8</div></div>
-            <span>8B only</span>
-          </div>
-          <span class="prize-amount">0.25%</span>
-        </div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">50K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">25K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">15K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">8K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">5K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">4K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">3K KPEPE</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>8B only</span></div><span class="prize-amount">2K KPEPE</span></div>
       </div>
       
       <!-- Wallet -->
       <div class="wallet-section">
-        <div class="wallet-status disconnected" id="wallet-status">
-          <span>●</span> Not Connected
-        </div>
-        <button class="buy-btn" style="padding: 12px 24px; font-size: 0.9rem;" onclick="connectWallet()">
-          🔗 Connect Wallet
-        </button>
+        <div class="wallet-status disconnected" id="wallet-status"><span>●</span> Not Connected</div>
+        <button class="buy-btn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect Wallet</button>
       </div>
       
-      <!-- Footer -->
-      <div class="footer">
-        🎱 KPEPE Jackpot on KleverChain<br>
-        <span style="opacity: 0.6;">Testnet Mode - No real KLV</span>
-      </div>
+      <div class="footer">🎱 KPEPE Jackpot on KleverChain<br><span style="opacity: 0.6;">Testnet Mode</span></div>
     </div>
 
     <script>
-      // Configuration
-      const TICKET_PRICE = 1000;
-      const POOL_SHARE = 0.85;
-      const PROJECT_SHARE = 0.15;
-      const MAIN_NUMBERS = 50;
-      const EIGHTBALL_NUMBERS = 20;
-      const MAIN_PICK = 5;
+      const TICKET_PRICE = 1000, POOL_SHARE = 0.85, PROJECT_SHARE = 0.15, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
+      let selectedMainNumbers = [], selectedEightball = null, klvPriceUSD = 0.00154;
       
-      let selectedMainNumbers = [];
-      let selectedEightball = null;
-      let klvPriceUSD = 0.00154;
-      let walletAddress = null;
+      document.addEventListener('DOMContentLoaded', () => { initNumberPickers(); loadStats(); startCountdown(); });
       
-      // Initialize
-      document.addEventListener('DOMContentLoaded', () => {
-        initNumberPickers();
-        loadStats();
-        startCountdown();
-      });
-      
-      // Interactive Frog Message
       function showFrogMessage() {
-        const messages = [
-          '🐸 Good luck coming your way!',
-          '🍀 The frog blesses your ticket!',
-          '🎰 Fortune favors the bold!',
-          '🌟 Jackpot energy activated!'
-        ];
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        
-        // Create popup
+        const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
         const popup = document.createElement('div');
-        popup.style.cssText = `
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: linear-gradient(135deg, var(--purple), var(--orange));
-          padding: 20px 40px;
-          border-radius: 16px;
-          font-weight: 700;
-          font-size: 1.2rem;
-          z-index: 1000;
-          animation: pop-in 0.3s ease-out;
-          box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
-        `;
-        popup.textContent = randomMsg;
+        popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,var(--purple),var(--orange));padding:16px 32px;border-radius:14px;font-weight:700;font-size:1.1rem;z-index:1000;animation:pop-in 0.3s;box-shadow:0 0 30px rgba(168,85,247,0.5);';
+        popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
         document.body.appendChild(popup);
-        
-        setTimeout(() => {
-          popup.style.animation = 'pop-out 0.3s ease-in forwards';
-          setTimeout(() => popup.remove(), 300);
-        }, 2000);
+        setTimeout(() => { popup.style.animation = 'pop-out 0.3s forwards'; setTimeout(() => popup.remove(), 300); }, 1800);
       }
       
-      // Add animations
       const style = document.createElement('style');
-      style.textContent = `
-        @keyframes pop-in {
-          from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-          to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-        @keyframes pop-out {
-          from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-          to { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
-        }
-      `;
+      style.textContent = '@keyframes pop-in{from{transform:translate(-50%,-50%) scale(0);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}@keyframes pop-out{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-50%) scale(1.1);opacity:0}}';
       document.head.appendChild(style);
       
-      // Create number pickers
       function initNumberPickers() {
-        const mainGrid = document.getElementById('main-numbers');
-        const ebGrid = document.getElementById('eightball-numbers');
-        
-        for (let i = 1; i <= MAIN_NUMBERS; i++) {
-          const btn = document.createElement('button');
-          btn.className = 'number-btn';
-          btn.textContent = i;
-          btn.onclick = () => toggleMainNumber(i, btn);
-          mainGrid.appendChild(btn);
-        }
-        
-        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) {
-          const btn = document.createElement('button');
-          btn.className = 'number-btn eightball';
-          btn.textContent = '8';
-          btn.onclick = () => toggleEightball(i, btn);
-          ebGrid.appendChild(btn);
-        }
+        const mainGrid = document.getElementById('main-numbers'), ebGrid = document.getElementById('eightball-numbers');
+        for (let i = 1; i <= MAIN_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn'; btn.textContent = i; btn.onclick = () => toggleMainNumber(i, btn); mainGrid.appendChild(btn); }
+        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn eightball'; btn.textContent = '8'; btn.onclick = () => toggleEightball(i, btn); ebGrid.appendChild(btn); }
       }
       
-      // Toggle main number
       function toggleMainNumber(num, btn) {
-        const index = selectedMainNumbers.indexOf(num);
-        if (index > -1) {
-          selectedMainNumbers.splice(index, 1);
-          btn.classList.remove('selected');
-        } else if (selectedMainNumbers.length < MAIN_PICK) {
-          selectedMainNumbers.push(num);
-          selectedMainNumbers.sort((a, b) => a - b);
-          btn.classList.add('selected');
-        }
+        const idx = selectedMainNumbers.indexOf(num);
+        if (idx > -1) { selectedMainNumbers.splice(idx, 1); btn.classList.remove('selected'); }
+        else if (selectedMainNumbers.length < MAIN_PICK) { selectedMainNumbers.push(num); selectedMainNumbers.sort((a,b) => a-b); btn.classList.add('selected'); }
         updateUI();
       }
       
-      // Toggle eight ball
       function toggleEightball(num, btn) {
-        if (selectedEightball === num) {
-          selectedEightball = null;
-          btn.classList.remove('selected');
-        } else {
-          selectedEightball = num;
-          document.querySelectorAll('.number-btn.eightball').forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-        }
+        if (selectedEightball === num) { selectedEightball = null; btn.classList.remove('selected'); }
+        else { selectedEightball = num; document.querySelectorAll('.number-btn.eightball').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); }
         updateUI();
       }
       
-      // Quick pick
       function quickPick() {
-      // Quick pick
-      function quickPick() {
-        selectedMainNumbers = [];
-        selectedEightball = null;
-        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
-        
-        while (selectedMainNumbers.length < MAIN_PICK) {
-          const num = Math.floor(Math.random() * MAIN_NUMBERS) + 1;
-          if (!selectedMainNumbers.includes(num)) {
-            selectedMainNumbers.push(num);
-          }
-        }
-        selectedMainNumbers.sort((a, b) => a - b);
-        selectedEightball = Math.floor(Math.random() * EIGHTBALL_NUMBERS) + 1;
-        
+        selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        while (selectedMainNumbers.length < MAIN_PICK) { const n = Math.floor(Math.random() * MAIN_NUMBERS) + 1; if (!selectedMainNumbers.includes(n)) selectedMainNumbers.push(n); }
+        selectedMainNumbers.sort((a,b) => a-b); selectedEightball = Math.floor(Math.random() * EIGHTBALL_NUMBERS) + 1;
         document.querySelectorAll('.number-btn').forEach(btn => {
-          const num = parseInt(btn.textContent);
-          if (selectedMainNumbers.includes(num)) btn.classList.add('selected');
-          if (btn.classList.contains('eightball')) {
-            const idx = Array.from(btn.parentNode.children).indexOf(btn) + 1;
-            if (idx === selectedEightball) btn.classList.add('selected');
-          }
+          const n = parseInt(btn.textContent);
+          if (selectedMainNumbers.includes(n)) btn.classList.add('selected');
+          if (btn.classList.contains('eightball')) { const idx = Array.from(btn.parentNode.children).indexOf(btn) + 1; if (idx === selectedEightball) btn.classList.add('selected'); }
         });
-        
         updateUI();
       }
       
-      // Clear selection
-      function clearSelection() {
-        selectedMainNumbers = [];
-        selectedEightball = null;
-        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
-        updateUI();
-      }
+      function clearSelection() { selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected')); updateUI(); }
       
-      // Update UI
       function updateUI() {
-        document.getElementById('main-count').textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
-        document.getElementById('8b-count').textContent = `${selectedEightball ? 1 : 0}/1`;
-        document.getElementById('main-count').classList.toggle('complete', selectedMainNumbers.length === MAIN_PICK);
+        document.getElementById('main-count').textContent = selectedMainNumbers.length + '/' + MAIN_PICK;
+        document.getElementById('8b-count').textContent = (selectedEightball ? 1 : 0) + '/1';
+        document.getElementById('main-count').classList.toggle('complete        , selectedMainNumbers.length === MAIN_PICK);
         document.getElementById('8b-count').classList.toggle('complete', !!selectedEightball);
         
         const ticketNumbers = document.getElementById('ticket-numbers');
         if (selectedMainNumbers.length === 0 && !selectedEightball) {
-          ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or use Quick Pick</span>';
+          ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or Quick Pick</span>';
         } else {
           let html = '';
-          selectedMainNumbers.forEach(num => {
-            html += `<div class="ticket-num">${num}</div>`;
-          });
-          if (selectedEightball) {
-            html += `<div class="ticket-num eightball">8</div>`;
-          }
+          selectedMainNumbers.forEach(num => { html += '<div class="ticket-num">' + num + '</div>'; });
+          if (selectedEightball) { html += '<div class="ticket-num eightball">8</div>'; }
           ticketNumbers.innerHTML = html;
         }
         
@@ -1051,66 +383,33 @@
         buyBtn.style.opacity = canBuy ? '1' : '0.5';
       }
       
-      // Load stats
       function loadStats() {
-        const tickets = 247;
-        const poolAmount = Math.floor(tickets * TICKET_PRICE * POOL_SHARE);
-        const projectAmount = Math.floor(tickets * TICKET_PRICE * PROJECT_SHARE);
-        
+        const tickets = 247, poolAmount = Math.floor(tickets * TICKET_PRICE * POOL_SHARE), projectAmount = Math.floor(tickets * TICKET_PRICE * PROJECT_SHARE);
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
         document.getElementById('jackpot-usd').textContent = '$' + (poolAmount * klvPriceUSD).toFixed(2) + ' USD';
         document.getElementById('pool-contrib').textContent = poolAmount.toLocaleString();
         document.getElementById('project-contrib').textContent = projectAmount.toLocaleString();
       }
       
-      // Start countdown
       function startCountdown() {
         const target = new Date().getTime() + (24 * 60 * 60 * 1000);
-        
         function update() {
-          const now = new Date().getTime();
-          const diff = target - now;
+          const now = new Date().getTime(), diff = target - now;
           if (diff <= 0) return;
-          
-          const h = Math.floor(diff / (1000 * 60 * 60));
-          const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          const s = Math.floor((diff % (1000 * 60)) / 1000);
-          
+          const h = Math.floor(diff / (1000 * 60 * 60)), m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)), s = Math.floor((diff % (1000 * 60)) / 1000);
           document.getElementById('timer-h').textContent = String(h).padStart(2, '0');
           document.getElementById('timer-m').textContent = String(m).padStart(2, '0');
           document.getElementById('timer-s').textContent = String(s).padStart(2, '0');
         }
-        
-        update();
-        setInterval(update, 1000);
+        update(); setInterval(update, 1000);
       }
       
-      // Connect wallet (placeholder)
-      function connectWallet() {
-        alert('Wallet connection will be implemented with Klever Web3');
-      }
+      function connectWallet() { alert('Wallet connection will be implemented with Klever Web3'); }
       
-      // Buy tickets (placeholder)
       function buyTickets() {
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) {
-          alert('Please select 5 main numbers and 1 Eight Ball!');
-          return;
-        }
-        
-        const poolAmount = Math.floor(TICKET_PRICE * POOL_SHARE);
-        const projectAmount = Math.floor(TICKET_PRICE * PROJECT_SHARE);
-        
-        alert(`🎫 Buying ticket for 1000 KLV
-
-Your Numbers:
-Main: ${selectedMainNumbers.join(', ')}
-Eight Ball: ${selectedEightball}
-
-Pool: ${poolAmount} KLV → Prize Pool
-Project: ${projectAmount} KLV → klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
-
-Good luck! 🍀`);
-        
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) { alert('Please select 5 main numbers and 1 Eight Ball!'); return; }
+        const poolAmount = Math.floor(TICKET_PRICE * POOL_SHARE), projectAmount = Math.floor(TICKET_PRICE * PROJECT_SHARE);
+        alert('🎫 Buying ticket for 1000 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nEight Ball: ' + selectedEightball + '\n\nPool: ' + poolAmount + ' KLV → Prize Pool\nProject: ' + projectAmount + ' KLV → klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9\n\nGood luck! 🍀');
         clearSelection();
       }
     </script>
