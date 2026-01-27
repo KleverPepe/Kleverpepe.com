@@ -382,11 +382,9 @@
       const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d";
       // KPEPE Token address on KleverChain mainnet
       const KPEPE_TOKEN_ADDRESS = "KPEPE-1EOD"; // KleverChain token identifier
-      // KleverScan API endpoints (ordered fallback)
-      const KLEVERSCAN_ENDPOINTS = [
-        "https://api.mainnet.klever.finance",
-        "https://api.klever.finance",
-      ];
+      // KleverScan API endpoints (ordered fallback; will be updated at runtime if provider.api exists)
+      const DEFAULT_KLEVERSCAN_API = "https://api.mainnet.klever.org";
+      let KLEVERSCAN_ENDPOINTS = [DEFAULT_KLEVERSCAN_API];
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
       // Prize percentages of pool
@@ -406,13 +404,14 @@
       const KLV_PRICE_USD = 0.00152832;
       let prizePoolFetchWarned = false;
       
-      // Temporarily disable live prize fetch until a working KleverScan host is provided
-      let prizeFetchDisabled = true;
+      // Enable live prize fetch by default; can be disabled on errors
+      let prizeFetchDisabled = false;
 
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
         // Use live data on mainnet, demo data on testnet
-        loadStats();
+        fetchPrizePoolFromContract();
+        setInterval(() => { if (!prizeFetchDisabled) fetchPrizePoolFromContract(); }, 30000);
         startCountdown();
       });
       
@@ -602,6 +601,10 @@
       }
 
       async function initializeKleverWeb3() {
+        const providerApi = (window.kleverWeb && window.kleverWeb.provider && window.kleverWeb.provider.api) ||
+                             (window.klever && window.klever.provider && window.klever.provider.api) ||
+                             DEFAULT_KLEVERSCAN_API;
+        KLEVERSCAN_ENDPOINTS = [providerApi];
         kleverWeb3 = resolveKleverProvider();
         if (kleverWeb3) {
           extensionDetected = true;
@@ -631,6 +634,8 @@
           if (kleverWeb3) {
             extensionDetected = true;
             console.log('✅ Klever provider detected via polling');
+            const providerApi = (window.kleverWeb && window.kleverWeb.provider && window.kleverWeb.provider.api) || DEFAULT_KLEVERSCAN_API;
+            KLEVERSCAN_ENDPOINTS = [providerApi];
             setNetworkBadge('🔗 Mainnet');
             setWalletStatus('<span>●</span> Not Connected', false);
             clearInterval(providerPollTimer); providerPollTimer = null;
