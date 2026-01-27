@@ -100,11 +100,11 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         roundActive = true;
         lastDrawTime = block.timestamp;
         
-        // 4 Tiers: 1 Free Ticket Per Day - Unused tickets expire
+        // 4 Tiers: Incremental Free Tickets Per Day
         tiers[0] = TierConfig({minStake: 50000 * 1e8, ticketsPerDay: 1, tierId: 1, name: "Silver"});
-        tiers[1] = TierConfig({minStake: 200000 * 1e8, ticketsPerDay: 1, tierId: 2, name: "Gold"});
-        tiers[2] = TierConfig({minStake: 500000 * 1e8, ticketsPerDay: 1, tierId: 3, name: "Platinum"});
-        tiers[3] = TierConfig({minStake: 1000000 * 1e8, ticketsPerDay: 1, tierId: 4, name: "Diamond"});
+        tiers[1] = TierConfig({minStake: 200000 * 1e8, ticketsPerDay: 3, tierId: 2, name: "Gold"});
+        tiers[2] = TierConfig({minStake: 500000 * 1e8, ticketsPerDay: 7, tierId: 3, name: "Platinum"});
+        tiers[3] = TierConfig({minStake: 1000000 * 1e8, ticketsPerDay: 15, tierId: 4, name: "Diamond"});
     }
     
     // ===== FREE TICKET FUNCTIONS =====
