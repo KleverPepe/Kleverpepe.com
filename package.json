@@ -4,8 +4,10 @@
   "description": "KPEPE Jackpot Lottery on KleverChain",
   "scripts": {
     "compile": "hardhat compile",
+    "test": "hardhat test",
+    "local:test": "hardhat run local-test.js",
     "testnet:deploy": "hardhat run testnet-deploy.js --network kleverTestnet",
-    "mainnet:deploy": "hardhat run deploy.js --network kleverMainnet",
+    "mainnet:deploy": "hardhat run mainnet-deploy.js --network kleverMainnet",
     "verify:testnet": "hardhat verify --network kleverTestnet",
     "verify:mainnet": "hardhat verify --network kleverMainnet"
   },
