@@ -124,8 +124,8 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         // Check 24-hour cooldown
         require(lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp, "cooldown");
         
-        // Clean up expired tickets
-        if (lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp) {
+        // Clean up expired tickets (expire after 24 hours)
+        if (lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp) {
             freeTicketCredits[msg.sender] = 0;
         }
         
@@ -139,9 +139,11 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     
     /**
      * @notice Get free tickets available for a user
+     * @dev Tickets expire same day (24 hours from claim)
      */
     function getFreeTicketsAvailable() public view returns (uint256) {
-        if (lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp) {
+        // Ticket expires after 24 hours if not used
+        if (lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp) {
             return 0;
         }
         return freeTicketCredits[msg.sender];
