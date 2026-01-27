@@ -452,7 +452,12 @@
         updateUI();
       }
       
-      function clearSelection() { selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b        , b.classList.remove('selected')); updateUI(); }
+      function clearSelection() {
+        selectedMainNumbers = [];
+        selectedEightball = null;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        updateUI();
+      }
       
       function updateUI() {
         document.getElementById('main-count').textContent = selectedMainNumbers.length + '/' + MAIN_PICK;
@@ -584,6 +589,7 @@
         if (kleverWeb3) {
           extensionDetected = true;
           console.log('✅ Klever Web3 SDK loaded');
+          console.log('Provider keys:', Object.keys(kleverWeb3 || {}));
           setNetworkBadge('🔗 Mainnet');
           setWalletStatus('<span>●</span> Not Connected', false);
         } else {
@@ -614,12 +620,19 @@
           } else if (attempts >= 15) { // ~30s at 2s interval
             clearInterval(providerPollTimer); providerPollTimer = null;
             console.warn('Klever provider not detected after polling');
+            const banner = document.getElementById('network-banner');
+            if (banner) banner.style.display = 'block';
           }
         }, 2000);
       }
 
       async function requestAccounts() {
         if (!kleverWeb3) return [];
+        if (typeof kleverWeb3.request !== 'function') {
+          console.warn('Provider detected but no request() API');
+          alert('⚠️ Klever provider detected but request() API missing. Please update/enable the Klever extension and allow site access.');
+          return [];
+        }
         // Some providers expose enable()
         if (typeof kleverWeb3.enable === 'function') {
           try {
@@ -633,6 +646,7 @@
           { m: 'account', params: {} },
           { m: 'klever_requestAccounts', params: {} },
           { m: 'klv_requestAccounts', params: {} },
+          { m: 'klv_accounts', params: {} },
           { m: 'requestAccounts', params: {} },
           { m: 'wallet_requestAccounts', params: {} }
         ];
