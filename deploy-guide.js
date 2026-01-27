@@ -15,15 +15,34 @@ pragma solidity ^0.8.0;
  * 
  * DEPLOYMENT STEPS:
  * 
- * 1. Deploy contract
+ * 1. Deploy contract using Hardhat/Remix
  * 2. Call initializeWallets() with both wallet addresses
- * 3. Start accepting tickets!
+ * 3. Update frontend CONTRACT_ADDRESS
+ * 4. Start accepting tickets!
+ * 
+ * ===========================================
+ * DEPLOY TO:
+ * ===========================================
+ * Network: KleverChain Testnet/Mainnet
+ * 
+ * Using Hardhat:
+ *   npx hardhat run deploy.js --network klever
+ * 
+ * Using Remix:
+ *   - Connect to KleverChain provider
+ *   - Compile and deploy KPEPEJackpot.sol
+ * 
+ * Contract Address Format (KLV):
+ *   klv1yq8z4t3y5x7w9v2u6s8r4q3w2e5r6t7y8u9i0o1p2a3s4d5f6g
+ *   
+ * Convert KLV to Hex for web3:
+ *   Use: Klever Web3 utils or kleverscan.org/address-converter
  */
  * TICKET FLOW:
  * ===========================================
- * Player sends 1000 KLV
- *   ├── 850 KLV (85%) → Prize Pool
- *   └── 150 KLV (15%) → Project Wallet
+ * Player sends 100 KLV
+ *   ├── 85 KLV (85%) → Prize Pool
+ *   └── 15 KLV (15%) → Project Wallet
  * 
  * When draw happens:
  *   - Prize pool distributed to winners
@@ -35,13 +54,13 @@ pragma solidity ^0.8.0;
  * ===========================================
  * Tier 1: 5+8B (JACKPOT)    → 40% of pool
  * Tier 2: 5 numbers         → 15% of pool
- * Tier 3: 4 + 8B            → 10% of pool
- * Tier 4: 4 numbers         → 6% of pool
- * Tier 5: 3 + 8B            → 4% of pool
- * Tier 6: 3 numbers         → 2% of pool
- * Tier 7: 2 + 8B            → 1% of pool
- * Tier 8: 1 + 8B            → 0.5% of pool
- * Tier 9: 8B only           → 0.25% of pool
+ * Tier 3: 4 + 8B            → 8% of pool
+ * Tier 4: 4 numbers         → 5% of pool
+ * Tier 5: 3 + 8B            → 6% of pool
+ * Tier 6: 3 numbers         → 4.5% of pool
+ * Tier 7: 2 + 8B            → 3% of pool
+ * Tier 8: 1 + 8B            → 1.5% of pool
+ * Tier 9: 8B only           → 1.25% of pool
  * 
  * ===========================================
  * OWNER FUNCTIONS:
@@ -139,7 +158,7 @@ async function buyTicket(web3, mainNumbers, eightBall) {
     await contract.methods.buyTicket(numbers, parseInt(eightBall))
         .send({
             from: web3.eth.defaultAccount,
-            value: 1000 * 1e8 // 1000 KLV in smallest units
+            value: 100 * 1e8 // 100 KLV in smallest units
         });
 }
 
@@ -152,7 +171,7 @@ async function quickPick(web3) {
     await contract.methods.quickPick()
         .send({
             from: web3.eth.defaultAccount,
-            value: 1000 * 1e8
+            value: 100 * 1e8 // 100 KLV
         });
 }
 

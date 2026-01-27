@@ -5,9 +5,9 @@ pragma solidity ^0.8.0;
  * KPEPE Jackpot Lottery Smart Contract
  * KleverChain Lottery with Pool-Based Prize Distribution
  * 
- * Ticket: 1000 KLV
- * - 85% to Prize Pool (850 KLV)
- * - 15% to Project Wallet (150 KLV)
+ * Ticket: 100 KLV
+ * - 85% to Prize Pool (85 KLV)
+ * - 15% to Project Wallet (15 KLV)
  * 
  * Prize Distribution (from KLV Pool):
  * - JACKPOT (5+8B): 40% of pool
@@ -72,7 +72,7 @@ contract KPEPEJackpot {
     uint256 public kpepeMatch8BOnlyPrize = 2000 * 1e8;  // 2,000 KPEPE
     
     // Lottery Parameters
-    uint256 public constant TICKET_PRICE = 1000 * 1e8; // 1000 KLV (8 decimals)
+    uint256 public constant TICKET_PRICE = 100 * 1e8; // 100 KLV (8 decimals)
     uint8 public constant MAIN_NUMBERS_COUNT = 5;
     uint8 public constant EIGHT_BALL_COUNT = 1;
     uint8 public constant MAIN_NUMBER_RANGE = 50; // 1-50
