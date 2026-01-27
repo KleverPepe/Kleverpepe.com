@@ -1,0 +1,30 @@
+name: Deploy to KleverChain Mainnet
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm install
+      - name: Compile contracts
+        run: npm run compile
+      - name: Deploy to mainnet
+        run: node deploy-direct.js
+        env:
+          MAINNET_MNEMONIC: ${{ secrets.MAINNET_MNEMONIC }}
+          KPEPE_TOKEN_ADDRESS: ${{ secrets.KPEPE_TOKEN_ADDRESS }}
+          PROJECT_WALLET_HEX: ${{ secrets.PROJECT_WALLET_HEX }}
+          PRIZE_POOL_WALLET_HEX: ${{ secrets.PRIZE_POOL_WALLET_HEX }}
+      - name: Upload deployment info
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-info
+          path: DEPLOYMENT.json
