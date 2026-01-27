@@ -34,11 +34,12 @@
       /* Header */
       .header { text-align: center; padding: 16px 0 20px; }
       .header h1 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, var(--primary), var(--orange));
+        font-size: 2rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #4ade80, #fbbf24, #f97316);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 40px rgba(74, 222, 128, 0.3);
         margin-bottom: 4px;
       }
       .header p { color: var(--text-secondary); font-size: 0.9rem; }
@@ -48,6 +49,12 @@
         gap: 6px;
         padding: 6px 14px;
         border-radius: 20px;
+        background: rgba(251, 191, 36, 0.15);
+        color: var(--gold);
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 8px;
+      }
         font-size: 0.75rem;
         font-weight: 600;
         background: rgba(251, 191, 36, 0.15);
@@ -190,16 +197,73 @@
       
       /* Jackpot Hero */
       .jackpot-card {
-        background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%);
+        background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(251, 191, 36, 0.15) 50%, rgba(249, 115, 22, 0.15) 100%);
         border: 2px solid rgba(74, 222, 128, 0.4);
         border-radius: 24px;
-        padding: 24px 20px;
+        padding: 28px 20px;
         text-align: center;
         margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
       }
-      .jackpot-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
-      .jackpot-amount { font-size: 2.5rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 30px rgba(74, 222, 128, 0.5); }
-      .jackpot-usd { font-size: 1rem; color: var(--text-secondary); margin-top: 4px; }
+      .jackpot-card::before {
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle, rgba(74, 222, 128, 0.08) 0%, transparent 60%);
+        animation: jackpot-glow 4s ease-in-out infinite;
+      }
+      @keyframes jackpot-glow {
+        0%, 100% { transform: translate(0, 0); }
+        25% { transform: translate(10%, 10%); }
+        50% { transform: translate(0, 20%); }
+        75% { transform: translate(-10%, 10%); }
+      }
+      .jackpot-content { position: relative; z-index: 2; }
+      .jackpot-frog { font-size: 3.5rem; margin-bottom: 8px; animation: frog-bounce 2s ease-in-out infinite; }
+      @keyframes frog-bounce {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-12px) rotate(5deg); }
+      }
+      .jackpot-label { 
+        font-size: 0.9rem; 
+        color: var(--gold); 
+        text-transform: uppercase; 
+        letter-spacing: 3px; 
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .jackpot-amount { 
+        font-size: 3rem; 
+        font-weight: 950; 
+        background: linear-gradient(135deg, var(--primary), var(--gold), var(--orange));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 50px rgba(74, 222, 128, 0.6);
+        margin-bottom: 4px;
+      }
+      .jackpot-usd { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 20px; }
+      
+      /* Jackpot Breakdown */
+      .jackpot-breakdown {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        padding: 16px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 16px;
+        margin-top: 16px;
+      }
+      .breakdown-item { text-align: center; }
+      .breakdown-icon { font-size: 1.5rem; margin-bottom: 4px; }
+      .breakdown-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+      .breakdown-value { font-size: 1.1rem; font-weight: 800; }
+      .breakdown-value.pool { color: var(--primary); }
+      .breakdown-value.project { color: var(--purple); }
+      .breakdown-percent { font-size: 0.65rem; color: var(--text-secondary); margin-top: 2px; }
       
       /* Countdown */
       .countdown-section { margin-top: 16px; }
@@ -415,7 +479,7 @@
           </div>
           <div class="step">
             <div class="step-num">3</div>
-            <div class="step-text">Buy Ticket<br>(650 KLV)</div>
+            <div class="step-text">Buy Ticket<br>(1000 KLV)</div>
           </div>
           <div class="step">
             <div class="step-num">4</div>
@@ -444,23 +508,43 @@
       
       <!-- Jackpot -->
       <div class="jackpot-card">
-        <div class="jackpot-label">🎯 Jackpot</div>
-        <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
-        <div class="jackpot-usd" id="jackpot-usd">~$0 USD</div>
-        <div class="countdown-section">
-          <div class="countdown-timer">
-            <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hours</div></div>
-            <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
-            <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
+        <div class="jackpot-content">
+          <div class="jackpot-frog">🐸💰</div>
+          <div class="jackpot-label">🎰 KPEPE Jackpot</div>
+          <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
+          <div class="jackpot-usd" id="jackpot-usd">~$0 USD</div>
+          
+          <div class="jackpot-breakdown">
+            <div class="breakdown-item">
+              <div class="breakdown-icon">🏆</div>
+              <div class="breakdown-value pool"><span id="pool-klv">0</span> KLV</div>
+              <div class="breakdown-label">Pool</div>
+              <div class="breakdown-percent">50% of ticket</div>
+            </div>
+            <div class="breakdown-item">
+              <div class="breakdown-icon">🌱</div>
+              <div class="breakdown-value project"><span id="project-klv">0</span> KLV</div>
+              <div class="breakdown-label">Project</div>
+              <div class="breakdown-percent">50% to growth</div>
+            </div>
+          </div>
+          
+          <div class="countdown-section" style="margin-top: 20px;">
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px;">⏰ Next draw in</div>
+            <div class="countdown-timer">
+              <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hours</div></div>
+              <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
+              <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
+            </div>
           </div>
         </div>
       </div>
       
       <!-- Stats -->
       <div class="stats-grid">
-        <div class="stat-box"><div class="stat-value" id="stat-tickets">0</div><div class="stat-label">Tickets</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-tickets">0</div><div class="stat-label">Tickets Sold</div></div>
         <div class="stat-box"><div class="stat-value" id="stat-players">0</div><div class="stat-label">Players</div></div>
-        <div class="stat-box"><div class="stat-value" id="stat-pool">0</div><div class="stat-label">Pool KLV</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-raised">0</div><div class="stat-label">Raised KLV</div></div>
       </div>
       
       <!-- Wallet -->
@@ -559,10 +643,20 @@
           <button class="qty-btn" onclick="adjustQuantity(1)">+</button>
         </div>
         
-        <!-- Cost -->
-        <div class="cost-display">
-          <span class="cost-label">Total Cost</span>
-          <span class="cost-value"><span id="total-cost">5</span> KLV <span id="free-badge" style="display:none; font-size: 0.7rem; background: var(--purple); padding: 2px 6px; border-radius: 8px; margin-left: 8px;">FREE</span></span>
+        <!-- Cost Breakdown -->
+        <div class="cost-display" style="flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="cost-label">💰 Pool Contribution (50%)</span>
+            <span class="cost-value" style="color: var(--primary);"><span id="pool-contrib">500</span> KLV</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="cost-label">🌱 Project Contribution (50%)</span>
+            <span class="cost-value" style="color: var(--purple);"><span id="project-contrib">500</span> KLV</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px dashed var(--border);">
+            <span class="cost-label">Total Cost</span>
+            <span class="cost-value"><span id="total-cost">1000</span> KLV <span id="free-badge" style="display:none; font-size: 0.7rem; background: var(--purple); padding: 2px 6px; border-radius: 8px; margin-left: 8px;">FREE</span></span>
+          </div>
         </div>
         
         <button class="lottery-btn lottery-btn-primary" id="buy-btn" onclick="buyTickets()">
@@ -809,7 +903,9 @@
     <script>
       // Configuration
       const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
-      const TICKET_PRICE = 650; // KLV (~$1 USD)
+      const TICKET_PRICE = 1000; // KLV - 50% to jackpot pool, 50% to project
+      const POOL_SHARE = 0.5; // 50% of ticket goes to jackpot pool
+      const PROJECT_SHARE = 0.5; // 50% goes to project for liquidity & growth
       const MAIN_NUMBERS = 50;
       const POWERBALL_NUMBERS = 20;
       const MAIN_PICK = 5; // Pick 5 main numbers + 1 Lucky Ball
@@ -1027,10 +1123,18 @@
           document.getElementById('free-count').textContent = available;
           document.getElementById('free-badge').style.display = 'inline';
           document.getElementById('total-cost').textContent = '0';
+          document.getElementById('pool-contrib').textContent = '0';
+          document.getElementById('project-contrib').textContent = '0';
         } else {
           freeBtn.style.display = 'none';
           document.getElementById('free-badge').style.display = 'none';
           document.getElementById('total-cost').textContent = totalCost.toLocaleString();
+          
+          // Update pool and project contributions
+          const poolContrib = Math.floor(totalCost * POOL_SHARE);
+          const projectContrib = Math.floor(totalCost * PROJECT_SHARE);
+          document.getElementById('pool-contrib').textContent = poolContrib.toLocaleString();
+          document.getElementById('project-contrib').textContent = projectContrib.toLocaleString();
         }
         
         document.getElementById('ticket-qty').textContent = ticketQuantity;
@@ -1057,6 +1161,8 @@
         }
         
         const totalKLV = ticketQuantity * TICKET_PRICE;
+        const poolAmount = Math.floor(totalKLV * POOL_SHARE);
+        const projectAmount = Math.floor(totalKLV * PROJECT_SHARE);
         
         // Buying paid tickets unlocks equal amount of free tickets (up to daily limit)
         paidTicketsInSession += ticketQuantity;
@@ -1071,7 +1177,11 @@
         
         let message = `🎫 Buying ${ticketQuantity} PAID ticket(s) for ${totalKLV} KLV
 
-Your numbers:
+📊 Cost Breakdown:
+  🏆 Pool (50%): ${poolAmount} KLV
+  🌱 Project (50%): ${projectAmount} KLV
+
+Your Numbers:
 Main: ${selectedMainNumbers.join(', ')}
 Lucky Ball: ${selectedLuckyball}
 
@@ -1209,12 +1319,22 @@ Good luck! 🍀`);
       
       // Load stats
       function loadStats() {
-        document.getElementById('stat-tickets').textContent = '247';
-        document.getElementById('stat-players').textContent = '89';
-        document.getElementById('stat-pool').textContent = '1,235';
+        const ticketsSold = 247;
+        const players = 89;
+        const totalRaised = ticketsSold * TICKET_PRICE;
+        const poolAmount = Math.floor(totalRaised * POOL_SHARE);
+        const projectAmount = Math.floor(totalRaised * PROJECT_SHARE);
         
-        // Jackpot animation
-        const jackpot = 2000 + 1235;
+        document.getElementById('stat-tickets').textContent = ticketsSold.toLocaleString();
+        document.getElementById('stat-players').textContent = players.toLocaleString();
+        document.getElementById('stat-raised').textContent = totalRaised.toLocaleString();
+        
+        // Pool amount (for jackpot)
+        document.getElementById('pool-klv').textContent = poolAmount.toLocaleString();
+        document.getElementById('project-klv').textContent = projectAmount.toLocaleString();
+        
+        // Jackpot = pool amount (50% of all ticket sales)
+        const jackpot = poolAmount;
         document.getElementById('jackpot-klv').textContent = jackpot.toLocaleString();
         document.getElementById('jackpot-usd').textContent = '$' + (jackpot * klvPriceUSD).toFixed(2) + ' USD';
       }
