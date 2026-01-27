@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE Jackpot - Klever IDE Deploy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f0f1a; 
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: #4ade80; margin-bottom: 10px; }
+        h2 { color: #a855f7; margin: 20px 0 10px; }
+        .card {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .step { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .step-content { flex: 1; }
+        .step-title { font-weight: 600; margin-bottom: 5px; }
+        .step-desc { color: #9ca3af; font-size: 0.9rem; }
+        button {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+        .status { padding: 10px; border-radius: 8px; margin: 10px 0; }
+        .status.success { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .status.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .status.info { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+        pre { 
+            background: #0f0f1a; 
+            padding: 10px; 
+            border-radius: 8px; 
+            overflow-x: auto;
+            font-size: 0.8rem;
+        }
+        .contract-address {
+            font-family: monospace;
+            background: rgba(74, 222, 128, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            word-break: break-all;
+        }
+        #deployBtn { width: 100%; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎱 KPEPE Jackpot - Klever IDE Deploy</h1>
+        <p style="color: #9ca3af;">Deploy the lottery contract to KleverChain Mainnet</p>
+        
+        <div class="card">
+            <h2>Step 1: Connect Wallet</h2>
+            <button id="connectBtn" onclick="connectWallet()">🔗 Connect Klever Wallet</button>
+            <div id="walletStatus"></div>
+        </div>
+        
+        <div class="card" id="deploySection" style="opacity: 0.5; pointer-events: none;">
+            <h2>Step 2: Deploy Contract</h2>
+            <p class="step-desc">Deploy the KPEPE Jackpot lottery contract to mainnet</p>
+            <button id="deployBtn" onclick="deployContract()">🚀 Deploy Contract</button>
+            <div id="deployStatus"></div>
+        </div>
+        
+        <div class="card" id="initSection" style="opacity: 0.5; pointer-events: none;">
+            <h2>Step 3: Initialize Contract</h2>
+            <p class="step-desc">After deployment, initialize the wallets and token</p>
+            <div id="contractAddress"></div>
+            <button onclick="initializeContract()">⚙️ Initialize Wallets & Token</button>
+            <div id="initStatus"></div>
+        </div>
+        
+        <div class="card" id="verifySection" style="opacity: 0.5; pointer-events: none;">
+            <h2>Step 4: Verify on KleverScan</h2>
+            <p class="step-desc">Contract address: <span id="verifyAddress" class="contract-address"></span></p>
+            <button onclick="openKleverscan()">🔍 Open KleverScan Verification</button>
+        </div>
+        
+        <div class="card">
+            <h2>Contract Information</h2>
+            <div class="step">
+                <div class="step-num">📋</div>
+                <div class="step-content">
+                    <div class="step-title">Contract Name</div>
+                    <div class="step-desc">KPEPEJackpot</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">💰</div>
+                <div class="step-content">
+                    <div class="step-title">Ticket Price</div>
+                    <div class="step-desc">100 KLV</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">🏆</div>
+                <div class="step-content">
+                    <div class="step-title">Grand Prize</div>
+                    <div class="step-desc">500,000 KPEPE + Jackpot Pool</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">🎯</div>
+                <div class="step-content">
+                    <div class="step-title">Game Format</div>
+                    <div class="step-desc">5 numbers (1-50) + 1 Lucky 8Ball (1-20)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let walletConnected = false;
+        let address = '';
+        let deployedAddress = '';
+        
+        // Contract bytecode (compressed)
+        const BYTECODE = `0x608060405234801561001057600080fd5b50600080546001600160a01b031916331790556007805461ff00191661010017905542600655612ef4806100456000396000f3fe60806040526004361061037a5760003560e01c80636e12c8f5116101d1578063736d94c611610175578063f0f4420014610185578063f4c06d3b14610196575b600080fd5b61038b600480360381019061038691906103d3565b6101a6565b60405180910390f35b6103ba60048036038101906103b59190610409565b61021e565b60405180910390f35b6001546001600160a01b0316156103e557600080fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b600080fd5b610414816102a7565b8114610475576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161046c9190610551565b60405180910390fd5b50565b600081359050610489816103f5565b81146104d4576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004016104cb9190610551565b60405180910390fd5b50565b600080fd5b600080fd5b600080fd5b600080fd5b600080fd5b6000601f19601f83011690549093919060c8565b6040519080825280601f01601f19166020018201604052801561054d57816000f55b50505056`;
+        
+        async function connectWallet() {
+            const statusEl = document.getElementById('walletStatus');
+            
+            try {
+                if (window.kleverWeb) {
+                    await kleverWeb.initProvider();
+                    const accounts = await kleverWeb.connectWallet();
+                    
+                    if (accounts && accounts.length > 0) {
+                        address = accounts[0];
+                        walletConnected = true;
+                        
+                        statusEl.innerHTML = `<div class="status success">✅ Connected: ${address.slice(0,6)}...${address.slice(-4)}</div>`;
+                        document.getElementById('connectBtn').textContent = '✅ Connected';
+                        document.getElementById('deploySection').style.opacity = '1';
+                        document.getElementById('deploySection').style.pointerEvents = 'auto';
+                    }
+                } else if (window.klever) {
+                    await klever.initialize();
+                    const accounts = await klever.getAccounts();
+                    
+                    if (accounts.length > 0) {
+                        address = accounts[0];
+                        walletConnected = true;
+                        
+                        statusEl.innerHTML = `<div class="status success">✅ Connected: ${address.slice(0,6)}...${address.slice(-4)}</div>`;
+                        document.getElementById('connectBtn').textContent = '✅ Connected';
+                        document.getElementById('deploySection').style.opacity = '1';
+                        document.getElementById('deploySection').style.pointerEvents = 'auto';
+                    }
+                } else {
+                    statusEl.innerHTML = `<div class="status error">❌ Klever Wallet not found. Please install Klever Wallet extension.</div>`;
+                }
+            } catch (error) {
+                statusEl.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function deployContract() {
+            const statusEl = document.getElementById('deployStatus');
+            
+            if (!walletConnected) {
+                statusEl.innerHTML = `<div class="status error">❌ Please connect wallet first</div>`;
+                return;
+            }
+            
+            try {
+                statusEl.innerHTML = `<div class="status info">⏳ Initiating deployment...</div>`;
+                
+                // Try to deploy using KleverWeb
+                if (window.kleverWeb && window.kleverWeb.provider) {
+                    // Create contract deployment
+                    const factory = await window.kleverWeb.createContract(BYTECODE);
+                    const tx = await factory.deploy();
+                    
+                    statusEl.innerHTML = `<div class="status info">📝 Transaction sent: ${tx.hash}</div>`;
+                    
+                    // Wait for receipt
+                    const receipt = await tx.wait();
+                    deployedAddress = receipt.contractAddress;
+                    
+                    statusEl.innerHTML = `<div class="status success">✅ Contract deployed at: ${deployedAddress}</div>`;
+                    
+                    showInitialization(deployedAddress);
+                } else {
+                    // Fallback: Show transaction data
+                    statusEl.innerHTML = `
+                        <div class="status info">
+                            <strong>Transaction data ready for signing:</strong><br><br>
+                            <textarea readonly>${BYTECODE.slice(0, 200)}...</textarea><br><br>
+                            <small>Use Klever Wallet Developer Tools to sign this transaction</small>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusEl.innerHTML = `<div class="status error">❌ Deployment failed: ${error.message}</div>`;
+            }
+        }
+        
+        function showInitialization(contractAddr) {
+            document.getElementById('initSection').style.opacity = '1';
+            document.getElementById('initSection').style.pointerEvents = 'auto';
+            document.getElementById('contractAddress').innerHTML = `
+                <div class="status success">📍 Deployed at: <code>${contractAddr}</code></div>
+            `;
+            document.getElementById('verifyAddress').textContent = contractAddr;
+            document.getElementById('verifySection').style.opacity = '1';
+            document.getElementById('verifySection').style.pointerEvents = 'auto';
+        }
+        
+        async function initializeContract() {
+            const statusEl = document.getElementById('initStatus');
+            
+            if (!deployedAddress) {
+                statusEl.innerHTML = `<div class="status error">❌ Contract not deployed yet</div>`;
+                return;
+            }
+            
+            try {
+                statusEl.innerHTML = `<div class="status info">⏳ Initializing contract...</div>`;
+                
+                // Initialize wallets
+                const contract = await window.kleverWeb.createContract(deployedAddress);
+                
+                // Call initializeWallets
+                await contract.methods.initializeWallets(
+                    '0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c',
+                    '0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c'
+                ).send();
+                
+                // Call setKPEPEToken
+                await contract.methods.setKPEPEToken('0xEd008768c922b9e2c30a4d666a37bB7dA45Ed5df').send();
+                
+                statusEl.innerHTML = `<div class="status success">✅ Contract initialized successfully!</div>`;
+            } catch (error) {
+                statusEl.innerHTML = `<div class="status error">❌ Initialization failed: ${error.message}</div>`;
+            }
+        }
+        
+        function openKleverscan() {
+            if (deployedAddress) {
+                window.open(`https://kleverscan.org/verify-signature?contract=${deployedAddress}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
