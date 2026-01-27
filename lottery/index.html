@@ -404,13 +404,14 @@
       const KLV_PRICE_USD = 0.00152832;
       let prizePoolFetchWarned = false;
       
-      // Enable live prize fetch by default; can be disabled on errors
-      let prizeFetchDisabled = false;
+      // Disable live prize fetch until a working KleverScan host is confirmed
+      let prizeFetchDisabled = true;
 
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
-        // Use live data on mainnet, demo data on testnet
-        fetchPrizePoolFromContract();
+        // Use demo values until a valid KleverScan host is provided
+        loadStats();
+        // Keep interval idle until prizeFetchDisabled is lifted
         setInterval(() => { if (!prizeFetchDisabled) fetchPrizePoolFromContract(); }, 30000);
         startCountdown();
       });
