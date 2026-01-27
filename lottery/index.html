@@ -323,16 +323,16 @@
         <div class="prize-header">🏆 KLV Prize Pool</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
-          <span class="prize-amount">~34x</span>
+          <span class="prize-amount" id="prize-jackpot">~0 KLV</span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">~13x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">~7x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">~4x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">~4x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">~2.5x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">~1.7x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">~1x</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky Ball only</span></div><span class="prize-amount">~1x</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount" id="prize-match5">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount" id="prize-match4_8b">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount" id="prize-match4">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount" id="prize-match3_8b">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
       </div>
       
       <!-- Wallet -->
@@ -348,6 +348,18 @@
       const TICKET_PRICE = 100, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
       const KPEPE_JACKPOT = 500000;
+      // Prize percentages of pool
+      const PRIZE_PERCENTAGES = {
+        jackpot: 0.40,
+        match5: 0.15,
+        match4_8b: 0.08,
+        match4: 0.05,
+        match3_8b: 0.05,
+        match3: 0.03,
+        match2_8b: 0.02,
+        match1_8b: 0.01,
+        luckyball: 0.0125
+      };
       // Fixed prices (update these manually if API fails)
       const KPEPE_PRICE_USD = 0.005371;
       const KLV_PRICE_USD = 0.00152832;
@@ -423,7 +435,33 @@
         const kpepeValueUSD = KPEPE_JACKPOT * KPEPE_PRICE_USD;
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
         const totalUSD = kpepeValueUSD + klvValueUSD;
-        document.getElementById('jackpot-usd').textContent = 'Total Prize Pool: ~$' + totalUSD.toFixed(2) + ' USD';
+        document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
+        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+        updatePrizeAmounts(poolAmount);
+      }
+      
+      function updatePrizeAmounts(poolAmount) {
+        const formatPrize = (amount) => {
+          if (amount >= 1000) return '~' + (amount / 1000).toFixed(1) + 'K KLV';
+          return '~' + amount.toLocaleString() + ' KLV';
+        };
+        
+        const prizes = {
+          'prize-jackpot': poolAmount,
+          'prize-match5': Math.floor(poolAmount * PRIZE_PERCENTAGES.match5),
+          'prize-match4_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4_8b),
+          'prize-match4': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4),
+          'prize-match3_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match3_8b),
+          'prize-match3': Math.floor(poolAmount * PRIZE_PERCENTAGES.match3),
+          'prize-match2_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match2_8b),
+          'prize-match1_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match1_8b),
+          'prize-luckyball': Math.floor(poolAmount * PRIZE_PERCENTAGES.luckyball)
+        };
+        
+        Object.keys(prizes).forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = formatPrize(prizes[id]);
+        });
       }
       
       function startCountdown() {
