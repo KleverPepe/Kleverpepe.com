@@ -15,7 +15,8 @@ module.exports = {
     kleverMainnet: {
       url: "https://mainnet-gateway.klever.finance",
       chainId: 221,
-      gasPrice: 1000000000,
+      gasPrice: 1000000,  // 0.001 Gwei (1 million wei)
+      gas: 3000000,        // 3 million gas limit
       accounts: {
         mnemonic: process.env.MAINNET_MNEMONIC || "",
         path: "m/44'/7278'/0'/0",
