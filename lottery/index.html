@@ -264,6 +264,11 @@
     <div class="glow-orb purple"></div>
     <div class="glow-orb green"></div>
     <div class="glow-orb orange"></div>
+
+    <!-- Network/Extension banner -->
+    <div id="network-banner" style="display:none; position:fixed; top:0; left:0; right:0; padding:10px; background:#f97316; color:#0f0f1a; font-weight:700; text-align:center; z-index:50; box-shadow:0 2px 6px rgba(0,0,0,0.35);">
+      ⚠️ Install & enable Klever Extension, and switch to Mainnet
+    </div>
     
     <!-- Frog Popup -->
     <div id="frog-popup"></div>
@@ -540,6 +545,7 @@
       // Klever Web3 Integration
       let kleverWeb3 = null;
       let connectedWallet = null;
+      let extensionDetected = false;
 
       function setNetworkBadge(text) {
         const badge = document.querySelector('.network-badge');
@@ -550,6 +556,7 @@
         const statusEl = document.getElementById('wallet-status');
         const connectBtn = document.querySelector('button[onclick="connectWallet()"]');
         const warnEl = document.getElementById('wallet-warning');
+        const banner = document.getElementById('network-banner');
         if (isConnected) {
           statusEl.classList.remove('disconnected');
           statusEl.classList.add('connected');
@@ -561,18 +568,24 @@
         connectBtn.textContent = isConnected ? '🔗 Disconnect Wallet' : '🔗 Connect Wallet';
         connectBtn.onclick = isConnected ? disconnectWallet : connectWallet;
         if (warnEl) warnEl.style.display = isConnected ? 'none' : warnEl.style.display;
+        if (banner) banner.style.display = isConnected ? 'none' : banner.style.display;
       }
 
       async function initializeKleverWeb3() {
         if (typeof window.klever !== 'undefined') {
           kleverWeb3 = window.klever;
+          extensionDetected = true;
           console.log('✅ Klever Web3 SDK loaded');
           setNetworkBadge('🔗 Mainnet');
+          setWalletStatus('<span>●</span> Not Connected', false);
         } else {
+          extensionDetected = false;
           console.warn('⚠️ Klever extension not detected');
           setNetworkBadge('🔗 Mainnet');
           const warnEl = document.getElementById('wallet-warning');
           if (warnEl) warnEl.style.display = 'block';
+          const banner = document.getElementById('network-banner');
+          if (banner) banner.style.display = 'block';
           setWalletStatus('<span>●</span> Install Klever Extension (Mainnet)', false);
         }
       }
@@ -583,7 +596,13 @@
             alert('❌ Klever Extension not found!\n\nPlease install the Klever Web3 extension for your browser.');
             return;
           }
-          const accounts = await kleverWeb3.request({ method: 'account' });
+          let accounts = [];
+          try {
+            accounts = await kleverWeb3.request({ method: 'account' });
+          } catch (e) {
+            console.warn('account method failed, trying klever_requestAccounts', e);
+            accounts = await kleverWeb3.request({ method: 'klever_requestAccounts' });
+          }
           if (accounts && accounts.length > 0) {
             connectedWallet = accounts[0];
             updateWalletUI(true, connectedWallet);
@@ -623,6 +642,7 @@
       }
 
       window.addEventListener('load', () => {
+        setNetworkBadge('🔗 Mainnet');
         initializeKleverWeb3();
         setupWalletListeners();
       });
