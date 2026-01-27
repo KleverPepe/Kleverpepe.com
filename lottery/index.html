@@ -382,6 +382,8 @@
       const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d";
       // KPEPE Token address on KleverChain mainnet
       const KPEPE_TOKEN_ADDRESS = "KPEPE-1EOD"; // KleverChain token identifier
+      // KleverScan API base (update if different for mainnet)
+      const KLEVERSCAN_API = "https://api.mainnet.klever.finance";
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
       // Prize percentages of pool
@@ -399,6 +401,7 @@
       // Fixed prices (update these manually if API fails)
       const KPEPE_PRICE_USD = 0.005371;
       const KLV_PRICE_USD = 0.00152832;
+      let prizePoolFetchWarned = false;
       
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
@@ -496,17 +499,27 @@
       
       // Live fetch from KleverChain (for production)
       async function fetchPrizePoolFromContract() {
+        if (!KLEVERSCAN_API) { loadStats(); return; }
         try {
-          // Using KleverScan API (example)
-          const response = await fetch(`https://api.kleverscan.org/v1/contract/${CONTRACT_ADDRESS}/state`);
+          const url = `${KLEVERSCAN_API}/v1/contract/${CONTRACT_ADDRESS}/state`;
+          const response = await fetch(url);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
           const data = await response.json();
-          const prizePool = parseInt(data.prizePool) / 1e8; // Convert from smallest units
-          const ticketsSold = parseInt(data.totalTicketsSold);
-          
+          const prizePoolRaw = Number(data?.prizePool ?? 0);
+          const ticketsSold = Number(data?.totalTicketsSold ?? 0);
+          // KLV has 6 decimals; adjust if API returns different scale
+          const poolAmount = Math.floor(prizePoolRaw / 1e6);
           TOTAL_TICKETS_SOLD = ticketsSold;
-          loadStats();
+          document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
+          const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
+          document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+          updatePrizeAmounts(poolAmount);
         } catch (error) {
-          console.log('Using demo values - contract not yet deployed');
+          if (!prizePoolFetchWarned) {
+            console.warn('Using demo values - KleverScan unreachable or contract state unavailable', error);
+            prizePoolFetchWarned = true;
+          }
+          loadStats();
         }
       }
       
