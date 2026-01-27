@@ -9,7 +9,7 @@ pragma solidity ^0.8.0;
  * - 85% to Prize Pool (850 KLV)
  * - 15% to Project Wallet (150 KLV)
  * 
- * Prize Distribution (from Pool):
+ * Prize Distribution (from KLV Pool):
  * - JACKPOT (5+8B): 40% of pool
  * - Match 5: 15% of pool
  * - Match 4 + 8B: 10% of pool
@@ -19,12 +19,43 @@ pragma solidity ^0.8.0;
  * - Match 2 + 8B: 1% of pool
  * - Match 1 + 8B: 0.5% of pool
  * - Match 8B only: 0.25% of pool
+ * 
+ * KPEPE Grand Prize (separate - from seed pool):
+ * - JACKPOT (5+8B): 500,000 KPEPE
+ * - Match 5: 50,000 KPEPE
+ * - Match 4 + 8B: 25,000 KPEPE
+ * - etc.
+ * 
+ * WALLETS:
+ * - Project Wallet: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
+ * - Prize Pool Wallet: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
  */
+
+// KPEPE Token Interface
+interface IKPEPE {
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
 
 contract KPEPEJackpot {
     // Contract Owner
     address public owner;
     address public projectWallet = 0x19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9;
+    address public prizePoolWallet = 0x1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2;
+    
+    // KPEPE Token
+    address public kpepeToken = 0xYourKPEPETokenAddressHere; // Replace with actual KPEPE token address
+    
+    // KPEPE Prize Amounts (from seed pool - set by owner)
+    uint256 public kpepeJackpotPrize = 500000 * 1e8;    // 500,000 KPEPE
+    uint256 public kpepeMatch5Prize = 50000 * 1e8;      // 50,000 KPEPE
+    uint256 public kpepeMatch48BPrize = 25000 * 1e8;    // 25,000 KPEPE
+    uint256 public kpepeMatch4Prize = 15000 * 1e8;      // 15,000 KPEPE
+    uint256 public kpepeMatch38BPrize = 8000 * 1e8;     // 8,000 KPEPE
+    uint256 public kpepeMatch3Prize = 5000 * 1e8;       // 5,000 KPEPE
+    uint256 public kpepeMatch28BPrize = 4000 * 1e8;     // 4,000 KPEPE
+    uint256 public kpepeMatch18BPrize = 3000 * 1e8;     // 3,000 KPEPE
+    uint256 public kpepeMatch8BOnlyPrize = 2000 * 1e8;  // 2,000 KPEPE
     
     // Lottery Parameters
     uint256 public constant TICKET_PRICE = 1000 * 1e8; // 1000 KLV (8 decimals)
@@ -53,6 +84,9 @@ contract KPEPEJackpot {
     uint256 public totalPlayers;
     uint256 public lastDrawTime;
     uint256 public drawInterval = 24 hours;
+    
+    // KPEPE prize tracking
+    mapping(address => uint256) public kpepePrizesPending;
     
     // Ticket storage
     struct Ticket {
@@ -102,6 +136,31 @@ contract KPEPEJackpot {
         owner = msg.sender;
         roundActive = true;
         lastDrawTime = block.timestamp;
+    }
+    
+    /**
+     * @dev Withdraw accumulated KLV from prize pool for manual distribution
+     * Only owner can call this
+     */
+    function withdrawPrizePool(uint256 amount) 
+        public 
+        onlyOwner 
+    {
+        require(amount <= prizePool, "Insufficient pool balance");
+        prizePool -= amount;
+        payable(prizePoolWallet).transfer(amount);
+        emit ProjectFundsWithdrawn(owner, amount);
+    }
+    
+    /**
+     * @dev Get current pool balance
+     */
+    function getPoolBalance() 
+        public 
+        view 
+        returns (uint256) 
+    {
+        return prizePool;
     }
     
     /**
@@ -233,8 +292,8 @@ contract KPEPEJackpot {
         // Generate winning 8-ball
         winningEightBall = uint8(uint256(keccak256(abi.encodePacked(seed, 100))) % EIGHT_BALL_RANGE) + 1;
         
-        // Distribute prizes
-        _distributePrizes();
+        // Distribute KLV prizes
+        _distributeKLVPrizes();
         
         // Update pool with retention
         uint256 poolAfterDistribution = prizePool;
@@ -247,9 +306,9 @@ contract KPEPEJackpot {
     }
     
     /**
-     * @dev Distribute prizes to all winners
+     * @dev Distribute KLV prizes to all winners
      */
-    function _distributePrizes() 
+    function _distributeKLVPrizes() 
         internal 
     {
         for (uint256 i = 0; i < tickets.length; i++) {
@@ -267,10 +326,90 @@ contract KPEPEJackpot {
                     
                     payable(tickets[i].player).transfer(prize);
                     
+                    // Calculate KPEPE prize
+                    uint256 kpepePrize = _calculateKPEPEPrize(tier);
+                    if (kpepePrize > 0) {
+                        kpepePrizesPending[tickets[i].player] += kpepePrize;
+                    }
+                    
                     emit PrizeDistributed(tickets[i].player, i, tier, prize);
                 }
             }
         }
+    }
+    
+    /**
+     * @dev Calculate KPEPE prize amount based on tier
+     */
+    function _calculateKPEPEPrize(uint8 tier) 
+        internal 
+        view 
+        returns (uint256) 
+    {
+        if (tier == 1) return kpepeJackpotPrize;
+        else if (tier == 2) return kpepeMatch5Prize;
+        else if (tier == 3) return kpepeMatch48BPrize;
+        else if (tier == 4) return kpepeMatch4Prize;
+        else if (tier == 5) return kpepeMatch38BPrize;
+        else if (tier == 6) return kpepeMatch3Prize;
+        else if (tier == 7) return kpepeMatch28BPrize;
+        else if (tier == 8) return kpepeMatch18BPrize;
+        else if (tier == 9) return kpepeMatch8BOnlyPrize;
+        return 0;
+    }
+    
+    /**
+     * @dev Claim pending KPEPE prizes
+     */
+    function claimKPEPEPrize() 
+        public 
+    {
+        uint256 pending = kpepePrizesPending[msg.sender];
+        require(pending > 0, "No KPEPE prizes pending");
+        
+        kpepePrizesPending[msg.sender] = 0;
+        
+        IKPEPE(kpepeToken).transfer(msg.sender, pending);
+        emit PrizeClaimed(msg.sender, pending);
+    }
+    
+    /**
+     * @dev Set KPEPE prize amounts (owner only)
+     */
+    function setKPEPEPrizes(
+        uint256 jackpot,
+        uint256 match5,
+        uint256 match48B,
+        uint256 match4,
+        uint256 match38B,
+        uint256 match3,
+        uint256 match28B,
+        uint256 match18B,
+        uint256 match8BOnly
+    ) 
+        public 
+        onlyOwner 
+    {
+        kpepeJackpotPrize = jackpot;
+        kpepeMatch5Prize = match5;
+        kpepeMatch48BPrize = match48B;
+        kpepeMatch4Prize = match4;
+        kpepeMatch38BPrize = match38B;
+        kpepeMatch3Prize = match3;
+        kpepeMatch28BPrize = match28B;
+        kpepeMatch18BPrize = match18B;
+        kpepeMatch8BOnlyPrize = match8BOnly;
+    }
+    
+    /**
+     * @dev Get pending KPEPE prize for player
+     */
+    function getPendingKPEPE(address player) 
+        public 
+        view 
+        returns (uint256) 
+    {
+        return kpepePrizesPending[player];
     }
     
     /**

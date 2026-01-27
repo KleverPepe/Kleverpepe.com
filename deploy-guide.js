@@ -4,14 +4,21 @@ pragma solidity ^0.8.0;
 /**
  * KPEPE Jackpot Lottery - KleverChain Smart Contract
  * 
- * PROJECT WALLET (HARDCODED):
- * klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
+ * WALLETS (HARDCODED):
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │ Project Wallet (15% of tickets):                                 │
+ * │ klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9 │
+ * │                                                                 │
+ * │ Prize Pool Wallet (for manual distribution):                    │
+ * │ klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2 │
+ * └─────────────────────────────────────────────────────────────────┘
  * 
  * CONTRACT DEPLOYMENT GUIDE
  * 
  * 1. Deploy to KleverChain mainnet/testnet
  * 2. Start accepting tickets
- * 3. 15% of all tickets go to this wallet
+ * 3. 15% of tickets go to project wallet
+ * 4. Prize pool accumulates in contract (owner can withdraw to pool wallet)
  */
  * TICKET FLOW:
  * ===========================================
