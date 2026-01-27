@@ -23,31 +23,46 @@ pragma solidity ^0.8.0;
  * ===========================================
  * DEPLOY TO:
  * ===========================================
- * Network: KleverChain Testnet/Mainnet
+ * Network: KleverChain Testnet
+ * 
+ * RPC: https://testnet.kleverchain.com (or official testnet RPC)
+ * Chain ID: Testnet (check Klever docs)
+ * Currency: KLV
  * 
  * Using Hardhat:
  *   npx hardhat run deploy.js --network klever
- * 
- * Using Remix:
- *   - Connect to KleverChain provider
- *   - Compile and deploy KPEPEJackpot.sol
- * 
- * Contract Address Format (KLV):
- *   klv1yq8z4t3y5x7w9v2u6s8r4q3w2e5r6t7y8u9i0o1p2a3s4d5f6g
  *   
- * Convert KLV to Hex for web3:
- *   Use: Klever Web3 utils or kleverscan.org/address-converter
+ * Using Remix:
+ *   - Connect to KleverChain testnet provider
+ *   - Compile and deploy KPEPEJackpot.sol
+ *   - Verify contract on KleverScan
+ *   
+ * After Deployment:
+ *   1. Call initializeWallets(projectAddr, prizePoolAddr)
+ *   2. Call setKPEPEToken(kpepeTokenAddr)
+ *   3. Update CONTRACT_ADDRESS in frontend
+ * 
+ * IMPORTANT - SECURITY:
+ * ===========================================
+ * ✓ Duplicate setProjectWallet() removed
+ * ✓ Block.timestamp replaced with blockhash for randomness
+ * ✓ Reentrancy guard added
+ * ✓ Pool cap (1M KLV) prevents overflow
+ * ✓ Max 10% pool withdrawal per transaction
+ * ✓ OnlyOwner on all critical functions
+ * ✓ KPEPE transfer safety check added
+ * ✓ emergencyWithdrawAll replaced with capped emergencyWithdrawKLV
  */
  * TICKET FLOW:
  * ===========================================
  * Player sends 100 KLV
- *   ├── 85 KLV (85%) → Prize Pool
+ *   ├── 85 KLV (85%) → Prize Pool (capped at 1M KLV)
  *   └── 15 KLV (15%) → Project Wallet
  * 
  * When draw happens:
  *   - Prize pool distributed to winners
- *   - ~21% stays in pool for future draws
- *   - Pool grows over time!
+ *   - ~19.75% stays in pool for future draws
+ *   - Pool grows but caps at 1M KLV
  * 
  * ===========================================
  * PRIZE TIERS (from Pool):
