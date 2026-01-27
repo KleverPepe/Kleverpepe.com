@@ -302,12 +302,7 @@
       </div>
       
       <!-- Cost & Buy -->
-      <div class="cost-display">
-        <div class="cost-row"><span>Pool (85%)</span><span class="pool"><span id="pool-contrib">850</span> KLV</span></div>
-        <div class="cost-row"><span>Project (15%)</span><span class="project"><span id="project-contrib">150</span> KLV</span></div>
-        <div class="cost-row total"><span>Total</span><span><span id="total-cost">1000</span> KLV</span></div>
-      </div>
-      <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (1000 KLV)</button>
+      <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (100 KLV)</button>
       
       <!-- KLV Prize Pool -->
       <div class="prize-table">
@@ -328,19 +323,11 @@
       
       <!-- KPEPE Prize Pool -->
       <div class="prize-table kpepe-section">
-        <div class="prize-header">🌟 KPEPE Grand Prize</div>
+        <div class="prize-header">🌟 500K KPEPE Grand Prize</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎉 JACKPOT</span></div>
-          <span class="prize-amount">500K KPEPE</span>
+          <span class="prize-amount">500,000 KPEPE</span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount">50K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount">25K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount">15K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount">8K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount">5K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">4K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">3K KPEPE</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>8B only</span></div><span class="prize-amount">2K KPEPE</span></div>
       </div>
       
       <!-- Wallet -->
@@ -353,10 +340,11 @@
     </div>
 
     <script>
-      const TICKET_PRICE = 1000, POOL_SHARE = 0.85, PROJECT_SHARE = 0.15, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
-      let selectedMainNumbers = [], selectedEightball = null, klvPriceUSD = 0.00154;
+      const TICKET_PRICE = 100, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
+      let selectedMainNumbers = [], selectedEightball = null, klvPriceUSD = 0.00154, kpepePriceUSD = 0.001;
+      const KPEPE_JACKPOT = 500000;
       
-      document.addEventListener('DOMContentLoaded', () => { initNumberPickers(); loadStats(); startCountdown(); });
+      document.addEventListener('DOMContentLoaded', () => { initNumberPickers(); fetchPrices(); loadStats(); startCountdown(); });
       
       function showFrogMessage() {
         const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
@@ -421,12 +409,36 @@
         buyBtn.style.opacity = canBuy ? '1' : '0.5';
       }
       
+      // Klever API for KPEPE price
+      const KPEPE_TOKEN_ID = 'KPEPE-1EOD';
+      const KLEVER_API = 'https://api.mainnet.klever.org/v1.0/asset/';
+      
+      async function fetchPrices() {
+        try {
+          // Fetch KPEPE price from Klever API
+          try {
+            const kpepeRes = await fetch(KLEVER_API + KPEPE_TOKEN_ID);
+            const kpepeData = await kpepeRes.json();
+            kpepePriceUSD = parseFloat(kpepeData?.price) || 0.001;
+          } catch (e) {
+            console.log('KPEPE API failed, using fallback');
+            kpepePriceUSD = 0.001;
+          }
+          
+          // Fetch KLV price (hardcoded fallback since no free API for KLV)
+          klvPriceUSD = 0.00154; // Current KLV price
+          
+          console.log('Prices loaded: KPEPE=$' + kpepePriceUSD + ', KLV=$' + klvPriceUSD);
+        } catch (e) {
+          console.log('Price fetch error:', e);
+        }
+      }
+      
       function loadStats() {
-        const tickets = 247, poolAmount = Math.floor(tickets * TICKET_PRICE * POOL_SHARE), projectAmount = Math.floor(tickets * TICKET_PRICE * PROJECT_SHARE);
+        const tickets = 247, poolAmount = Math.floor(tickets * TICKET_PRICE * POOL_SHARE);
+        const kpepeValueUSD = (KPEPE_JACKPOT * kpepePriceUSD).toFixed(2);
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = '$' + (poolAmount * klvPriceUSD).toFixed(2) + ' USD';
-        document.getElementById('pool-contrib').textContent = poolAmount.toLocaleString();
-        document.getElementById('project-contrib').textContent = projectAmount.toLocaleString();
+        document.getElementById('jackpot-usd').textContent = '~$' + (poolAmount * klvPriceUSD).toFixed(2) + ' USD + ' + kpepeValueUSD + ' USD (500K KPEPE)';
       }
       
       function startCountdown() {
@@ -446,8 +458,7 @@
       
       function buyTickets() {
         if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) { alert('Please select 5 main numbers and 1 Eight Ball!'); return; }
-        const poolAmount = Math.floor(TICKET_PRICE * POOL_SHARE), projectAmount = Math.floor(TICKET_PRICE * PROJECT_SHARE);
-        alert('🎫 Buying ticket for 1000 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nEight Ball: ' + selectedEightball + '\n\nPool: ' + poolAmount + ' KLV → Prize Pool\nProject: ' + projectAmount + ' KLV → klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9\n\nGood luck! 🍀');
+        alert('🎫 Buying ticket for 100 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nEight Ball: ' + selectedEightball + '\n\nGrand Prize: 500,000 KPEPE!\n\nGood luck! 🍀');
         clearSelection();
       }
     </script>
