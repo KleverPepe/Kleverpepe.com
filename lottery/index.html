@@ -14,6 +14,7 @@
         --purple-dark: #431A85;
         --orange: #f97316;
         --red: #ef4444;
+        --gold: #fbbf24;
         --bg-dark: #0f0f1a;
         --bg-card: #1a1a2e;
         --text-primary: #ffffff;
@@ -30,13 +31,14 @@
       .container { max-width: 500px; margin: 0 auto; padding: 16px; }
       
       /* Header */
-      .header { text-align: center; padding: 20px 0; }
+      .header { text-align: center; padding: 16px 0 20px; }
       .header h1 {
         font-size: 1.8rem;
         font-weight: 800;
         background: linear-gradient(135deg, var(--primary), var(--orange));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        margin-bottom: 4px;
       }
       .header p { color: var(--text-secondary); font-size: 0.9rem; }
       .network-badge {
@@ -49,8 +51,48 @@
         font-weight: 600;
         background: rgba(251, 191, 36, 0.15);
         color: #fbbf24;
-        margin-top: 12px;
+        margin-top: 10px;
       }
+      
+      /* How to Play Banner */
+      .how-to-play {
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(74, 222, 128, 0.1));
+        border: 1px solid rgba(155, 89, 182, 0.3);
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        font-size: 0.8rem;
+      }
+      .how-to-play-title {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .how-to-play-steps {
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+      }
+      .step {
+        text-align: center;
+        flex: 1;
+      }
+      .step-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--purple);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .step-text { color: var(--text-secondary); font-size: 0.7rem; }
       
       /* Token Prices Bar */
       .token-prices {
@@ -191,25 +233,31 @@
       /* Number Picker */
       .number-section { margin-bottom: 20px; }
       .number-section-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-      .number-section-title .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; background: rgba(155, 89, 182, 0.3); color: var(--purple); }
+      .number-section-title .badge { font-size: 0.7rem; padding: 2px 10px; border-radius: 10px; background: var(--purple); color: #fff; font-weight: 600; }
+      .number-section-title .badge.complete { background: var(--primary); color: #000; }
       
-      .number-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+      .number-grid { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 400px; margin: 0 auto 16px; }
       .number-btn {
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
         border-radius: 50%;
         border: 2px solid var(--border);
-        background: rgba(255,255,255,0.05);
+        background: var(--bg-card);
         color: var(--text-primary);
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      .number-btn:hover { border-color: var(--purple); background: rgba(155, 89, 182, 0.2); }
-      .number-btn.selected { background: var(--purple); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(155, 89, 182, 0.5); }
+      .number-btn:hover { border-color: var(--purple); background: rgba(155, 89, 182, 0.2); transform: scale(1.1); }
+      .number-btn.selected { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); border-color: var(--purple); color: #fff; box-shadow: 0 0 12px rgba(155, 89, 182, 0.6); transform: scale(1.1); }
       .number-btn.powerball { border-color: var(--red); }
-      .number-btn.powerball.selected { background: var(--red); border-color: var(--red); box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
+      .number-btn.powerball:hover { border-color: var(--red); background: rgba(239, 68, 68, 0.2); }
+      .number-btn.powerball.selected { background: linear-gradient(135deg, var(--red), #dc2626); border-color: var(--red); color: #fff; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); transform: scale(1.1); }
       
       /* Quick Pick Button */
       .quick-pick-btn {
@@ -350,6 +398,29 @@
         <h1>🎰 KPEPE Powerball</h1>
         <p>Pick 6 numbers + 1 Powerball!</p>
         <div class="network-badge">🔗 Testnet Mode</div>
+      </div>
+      
+      <!-- How to Play -->
+      <div class="how-to-play">
+        <div class="how-to-play-title">📖 How to Play</div>
+        <div class="how-to-play-steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-text">Pick 6 Numbers<br>(1-50)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-text">Pick Powerball<br>(1-20)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-text">Buy Ticket<br>(5 KLV)</div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-text">Win Prizes<br>🏆</div>
+          </div>
+        </div>
       </div>
       
       <!-- Token Prices -->
@@ -607,6 +678,33 @@
         </div>
       </div>
       
+      <!-- Free Tickets Info -->
+      <div class="lottery-card">
+        <div class="lottery-card-header">
+          <span class="lottery-card-title">🎁 Free Tickets from Staking</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;">
+          Stake KPEPE to earn free tickets daily! Buy paid tickets to unlock them.
+        </div>
+        <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 8px 4px;">🌱 Stake 25K+ KPEPE</td>
+            <td style="padding: 8px 4px; text-align: right; color: var(--primary);">1 free ticket/day</td>
+          </tr>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 8px 4px;">🌿 Stake 100K+ KPEPE</td>
+            <td style="padding: 8px 4px; text-align: right; color: var(--primary);">5 free tickets/day</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 4px;">🌳 Stake 500K+ KPEPE</td>
+            <td style="padding: 8px 4px; text-align: right; color: var(--primary);">10 free tickets/day</td>
+          </tr>
+        </table>
+        <div style="margin-top: 12px; padding: 10px; background: rgba(251, 191, 36, 0.1); border-radius: 8px; font-size: 0.75rem; color: var(--gold);">
+          💡 Buy N paid tickets to unlock N free tickets!
+        </div>
+      </div>
+      
       <!-- Footer -->
       <div class="footer">
         <p>🎰 KPEPE Powerball Lottery on KleverChain</p>
@@ -755,8 +853,16 @@
       // Update UI
       function updateUI() {
         // Count badges
-        document.getElementById('main-count').textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
-        document.getElementById('pb-count').textContent = `${selectedPowerball ? 1 : 0}/${POWERBALL_PICK}`;
+        const mainBadge = document.getElementById('main-count');
+        const pbBadge = document.getElementById('pb-count');
+        mainBadge.textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
+        pbBadge.textContent = `${selectedPowerball ? 1 : 0}/${POWERBALL_PICK}`;
+        
+        // Add complete class when full
+        if (selectedMainNumbers.length === MAIN_PICK) mainBadge.classList.add('complete');
+        else mainBadge.classList.remove('complete');
+        if (selectedPowerball) pbBadge.classList.add('complete');
+        else pbBadge.classList.remove('complete');
         
         // Ticket preview
         const ticketNumbers = document.getElementById('ticket-numbers');
