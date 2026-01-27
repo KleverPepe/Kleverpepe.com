@@ -767,16 +767,59 @@
       
       // Fetch token prices
       async function fetchTokenPrices() {
+        const CEX_API_KEY = '41eb050d-c384-465c-82ef-0e5e77b0afe5';
+        const CEX_API_SECRET = 'ac75ca47-8b41-4bfb-acfc-f7528cd3aa56';
+        
         try {
+          // Generate timestamp and signature for CEX API
+          const timestamp = Date.now().toString();
+          const message = timestamp + CEX_API_KEY;
+          // Using simple hash for demo (CEX may use HMAC-SHA256)
+          
           // Fetch KLV price from CoinGecko
           const klvRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
           const klvData = await klvRes.json();
           klvPriceUSD = klvData.klever?.usd || 0.00154;
           document.getElementById('klv-price').textContent = '$' + klvPriceUSD.toFixed(4);
           
-          // KPEPE price (from memory/update - hardcoded for now)
-          const kpepePrice = 0.005371;
-          document.getElementById('kpepe-price').textContent = '$' + kpepePrice.toFixed(4);
+          // Fetch KPEPE price from CEX
+          try {
+            const cexRes = await fetch(`https://cex.bitcoin.me/api/v1/price/KPEPE-USDT`, {
+              headers: {
+                'X-Api-Key': CEX_API_KEY,
+                'X-Api-Secret': CEX_API_SECRET,
+                'X-Timestamp': timestamp
+              }
+            });
+            if (cexRes.ok) {
+              const cexData = await cexRes.json();
+              const kpepePrice = parseFloat(cexData.price || cexData.last || cexData.lastPrice || 0.005371);
+              document.getElementById('kpepe-price').textContent = '$' + kpepePrice.toFixed(4);
+              // Cache the price
+              localStorage.setItem('kpepe_price_usd', kpepePrice.toString());
+              localStorage.setItem('kpepe_price_time', Date.now().toString());
+            } else {
+              throw new Error('CEX API error');
+            }
+          } catch (cexErr) {
+            // Use cached price or fallback
+            const cachedPrice = localStorage.getItem('kpepe_price_usd');
+            const cachedTime = parseInt(localStorage.getItem('kpepe_price_time') || '0');
+            const oneHour = 60 * 60 * 1000;
+            
+            if (cachedPrice && (Date.now() - cachedTime) < oneHour) {
+              document.getElementById('kpepe-price').textContent = '$' + parseFloat(cachedPrice).toFixed(4);
+            } else {
+              // Fallback to known price
+              document.getElementById('kpepe-price').textContent = '$0.0054';
+            }
+          }
+        } catch (e) {
+          console.log('Price fetch error:', e);
+          // Fallback prices
+          document.getElementById('klv-price').textContent = '$0.0015';
+          document.getElementById('kpepe-price').textContent = '$0.0054';
+        }
         } catch (e) {
           console.log('Price fetch failed, using defaults');
           document.getElementById('klv-price').textContent = '$0.0015';
