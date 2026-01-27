@@ -397,7 +397,7 @@
       <!-- Header -->
       <div class="header">
         <h1>🎰 KPEPE Powerball</h1>
-        <p>Pick 6 numbers + 1 Powerball!</p>
+        <p>Pick 5 numbers + 1 Powerball!</p>
         <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
@@ -407,7 +407,7 @@
         <div class="how-to-play-steps">
           <div class="step">
             <div class="step-num">1</div>
-            <div class="step-text">Pick 6 Numbers<br>(1-50)</div>
+            <div class="step-text">Pick 5 Numbers<br>(1-50)</div>
           </div>
           <div class="step">
             <div class="step-num">2</div>
@@ -515,7 +515,7 @@
       <div class="lottery-card" id="betting-section">
         <div class="lottery-card-header">
           <span class="lottery-card-title">🎫 Your Numbers</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 6 + Powerball</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 5 + Powerball</span>
         </div>
         
         <!-- Main Numbers (1-50) -->
@@ -577,19 +577,9 @@
       <!-- Prize Table -->
       <div class="lottery-card">
         <div class="lottery-card-header">
-          <span class="lottery-card-title">🏆 Prize Tiers</span>
+          <span class="lottery-card-title">🏆 Prize Tiers (KLV)</span>
         </div>
         <div class="prize-table">
-          <div class="prize-row">
-            <div class="prize-match">
-              <div class="prize-balls">
-                <div class="prize-ball">6</div>
-                <div class="prize-ball pb">PB</div>
-              </div>
-              <span>Match all 6 + Powerball</span>
-            </div>
-            <span class="prize-amount">50% Jackpot</span>
-          </div>
           <div class="prize-row">
             <div class="prize-match">
               <div class="prize-balls">
@@ -598,16 +588,16 @@
               </div>
               <span>Match 5 + Powerball</span>
             </div>
-            <span class="prize-amount">20% Pool</span>
+            <span class="prize-amount">💰 JACKPOT</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">5</div>
               </div>
-              <span>Match 5 (no Powerball)</span>
+              <span>Match 5</span>
             </div>
-            <span class="prize-amount">10% Pool</span>
+            <span class="prize-amount">32,500 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -617,7 +607,7 @@
               </div>
               <span>Match 4 + Powerball</span>
             </div>
-            <span class="prize-amount">5% Pool</span>
+            <span class="prize-amount">13,000 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -626,7 +616,7 @@
               </div>
               <span>Match 4</span>
             </div>
-            <span class="prize-amount">2,000 KPEPE</span>
+            <span class="prize-amount">6,500 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -636,7 +626,7 @@
               </div>
               <span>Match 3 + Powerball</span>
             </div>
-            <span class="prize-amount">500 KPEPE</span>
+            <span class="prize-amount">3,900 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -645,7 +635,7 @@
               </div>
               <span>Match 3</span>
             </div>
-            <span class="prize-amount">50 KPEPE</span>
+            <span class="prize-amount">3,250 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -655,7 +645,7 @@
               </div>
               <span>Match 2 + Powerball</span>
             </div>
-            <span class="prize-amount">25 KPEPE</span>
+            <span class="prize-amount">2,600 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -665,7 +655,7 @@
               </div>
               <span>Match 1 + Powerball</span>
             </div>
-            <span class="prize-amount">10 KPEPE</span>
+            <span class="prize-amount">1,950 KLV</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -674,9 +664,20 @@
               </div>
               <span>Powerball only</span>
             </div>
-            <span class="prize-amount">5 KPEPE</span>
+            <span class="prize-amount">1,300 KLV</span>
           </div>
         </div>
+        
+        <!-- KPEPE Bonus Prizes -->
+        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--purple);">🎁 KPEPE Bonus Prizes</div>
+          <div style="font-size: 0.75rem; color: var(--text-secondary);">
+            <div>Match 4+: <span style="color: var(--primary);">25 KPEPE</span></div>
+            <div>Match 5: <span style="color: var(--primary);">100 KPEPE</span></div>
+            <div>Match 5 + PB: <span style="color: var(--primary);">500 KPEPE</span></div>
+          </div>
+        </div>
+      </div>
       </div>
       
       <!-- Free Tickets Info -->
@@ -716,10 +717,10 @@
     <script>
       // Configuration
       const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
-      const TICKET_PRICE = 5; // KLV
+      const TICKET_PRICE = 650; // KLV (~$1 USD)
       const MAIN_NUMBERS = 50;
       const POWERBALL_NUMBERS = 20;
-      const MAIN_PICK = 6;
+      const MAIN_PICK = 5; // Pick 5 main numbers + 1 Powerball
       const POWERBALL_PICK = 1;
       
       let walletAddress = null;
@@ -860,7 +861,7 @@
         selectedPowerball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         
-        // Pick 6 random main numbers
+        // Pick 5 random main numbers
         while (selectedMainNumbers.length < MAIN_PICK) {
           const num = Math.floor(Math.random() * MAIN_NUMBERS) + 1;
           if (!selectedMainNumbers.includes(num)) {
@@ -947,7 +948,7 @@
         const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedPowerball;
         buyBtn.disabled = !canBuy;
         buyBtn.style.opacity = canBuy ? '1' : '0.5';
-        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 6 + Powerball';
+        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 5 + Powerball';
       }
       
       // Adjust quantity
@@ -959,7 +960,7 @@
       // Buy tickets
       function buyTickets() {
         if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 6 main numbers and 1 Powerball!');
+          alert('Please select 5 main numbers and 1 Powerball!');
           return;
         }
         
@@ -1028,7 +1029,7 @@ ${CONTRACT_ADDRESS}`;
         }
         
         if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 6 main numbers and 1 Powerball!');
+          alert('Please select 5 main numbers and 1 Powerball!');
           return;
         }
         
@@ -1063,7 +1064,7 @@ Good luck! 🍀`);
         }
         
         if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
-          alert('Please select 6 main numbers and 1 Powerball!');
+          alert('Please select 5 main numbers and 1 Powerball!');
           return;
         }
         
