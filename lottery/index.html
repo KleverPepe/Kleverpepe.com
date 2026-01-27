@@ -297,10 +297,10 @@
         <div class="number-grid" id="main-numbers"></div>
       </div>
       
-      <!-- Eight Ball - ALL 20 VISIBLE -->
+      <!-- Lucky 8Ball - ALL 20 VISIBLE -->
       <div class="section-card">
         <div class="section-title">
-          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Lucky Ball (1-20)</span></div>
+          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Lucky 8Ball (1-20)</span></div>
           <span class="badge" id="8b-count">0/1</span>
         </div>
         <div class="number-grid" id="eightball-numbers"></div>
@@ -332,7 +332,7 @@
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
       </div>
       
       <!-- Wallet -->
@@ -354,10 +354,10 @@
         match5: 0.15,
         match4_8b: 0.08,
         match4: 0.05,
-        match3_8b: 0.05,
-        match3: 0.03,
-        match2_8b: 0.02,
-        match1_8b: 0.01,
+        match3_8b: 0.06,
+        match3: 0.045,
+        match2_8b: 0.03,
+        match1_8b: 0.015,
         luckyball: 0.0125
       };
       // Fixed prices (update these manually if API fails)
@@ -480,8 +480,8 @@
       function connectWallet() { alert('Wallet connection will be implemented with Klever Web3'); }
       
       function buyTickets() {
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) { alert('Please select 5 main numbers and 1 Eight Ball!'); return; }
-        alert('🎫 Buying ticket for 100 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nEight Ball: ' + selectedEightball + '\n\nGrand Prize: 500,000 KPEPE!\n\nGood luck! 🍀');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) { alert('Please select 5 main numbers and 1 Lucky 8Ball!'); return; }
+        alert('🎫 Buying ticket for 100 KLV\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball + '\n\nGrand Prize: 500,000 KPEPE!\n\nGood luck! 🍀');
         clearSelection();
       }
     </script>
