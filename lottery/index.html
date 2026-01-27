@@ -727,20 +727,43 @@
       let ticketQuantity = 1;
       let klvPriceUSD = 0.00154;
       
-      // Free ticket system (staking only, unlock with paid purchases)
+      // Free ticket system (staking only, unlock with paid purchases, expire daily)
       let stakingBonus = 0; // Free tickets per day from staking
-      let freeTicketsAvailable = 0; // Total free tickets from staking
-      let freeTicketsUnlocked = 0; // Free tickets unlocked by buying
-      let paidTicketsInSession = 0; // Paid tickets bought this session
+      let dailyFreeTickets = 0; // Free tickets earned today from staking
+      let freeTicketsUnlocked = 0; // Free tickets unlocked by buying today
       
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {
+        checkDailyReset(); // Reset tickets if new day
         initNumberPickers();
         startCountdown();
         loadStats();
         checkWallet();
         fetchTokenPrices();
       });
+      
+      // Check and reset daily (tickets expire at midnight)
+      function checkDailyReset() {
+        const today = new Date().toDateString();
+        const savedDate = localStorage.getItem('kpepe_lottery_date');
+        
+        if (savedDate !== today) {
+          // New day - reset daily tickets
+          localStorage.setItem('kpepe_lottery_date', today);
+          localStorage.setItem('kpepe_lottery_unlocked', '0');
+          localStorage.setItem('kpepe_lottery_paid', '0');
+        }
+        
+        // Load saved values
+        freeTicketsUnlocked = parseInt(localStorage.getItem('kpepe_lottery_unlocked') || '0');
+        paidTicketsInSession = parseInt(localStorage.getItem('kpepe_lottery_paid') || '0');
+      }
+      
+      // Save daily progress
+      function saveDailyProgress() {
+        localStorage.setItem('kpepe_lottery_unlocked', freeTicketsUnlocked.toString());
+        localStorage.setItem('kpepe_lottery_paid', paidTicketsInSession.toString());
+      }
       
       // Fetch token prices
       async function fetchTokenPrices() {
@@ -875,7 +898,7 @@
           let html = '';
           selectedMainNumbers.forEach(num => {
             html += `<div class="ticket-number">${num}</div>`;
-          }
+          });
           if (selectedPowerball) {
             html += `<div class="ticket-number powerball">${selectedPowerball}</div>`;
           }
@@ -888,7 +911,7 @@
         
         // Update cost
         const totalCost = ticketQuantity * TICKET_PRICE;
-        const available = freeTicketsUnlocked + stakingBonus;
+        const available = freeTicketsUnlocked;
         
         // Show/hide free ticket option
         const freeBtn = document.getElementById('free-btn');
@@ -928,12 +951,16 @@
         
         const totalKLV = ticketQuantity * TICKET_PRICE;
         
-        // Buying paid tickets unlocks equal amount of free tickets
+        // Buying paid tickets unlocks equal amount of free tickets (up to daily limit)
         paidTicketsInSession += ticketQuantity;
-        const unlockAmount = Math.min(ticketQuantity, stakingBonus - freeTicketsUnlocked);
+        const remainingDaily = stakingBonus - freeTicketsUnlocked;
+        const unlockAmount = Math.min(ticketQuantity, remainingDaily);
         freeTicketsUnlocked += unlockAmount;
         
-        const totalFreeAvailable = freeTicketsUnlocked + stakingBonus;
+        // Save progress
+        saveDailyProgress();
+        
+        const totalFreeAvailable = freeTicketsUnlocked;
         
         let message = `🎫 Buying ${ticketQuantity} PAID ticket(s) for ${totalKLV} KLV
 
@@ -945,12 +972,19 @@ Send ${totalKLV} KLV to:
 ${CONTRACT_ADDRESS}`;
         
         if (stakingBonus > 0) {
-          message += `
+          if (unlockAmount > 0) {
+            message += `
 
 ✅ Unlocked ${unlockAmount} free ticket(s)!
-📊 Free tickets available: ${totalFreeAvailable}
+📊 Free tickets today: ${freeTicketsUnlocked}/${stakingBonus}
 
-💡 Buy paid tickets to unlock your staking free tickets!`;
+💡 Tickets reset at midnight!`;
+          } else {
+            message += `
+
+📊 Already unlocked all ${stakingBonus} free tickets for today!
+💡 Come back tomorrow for more free tickets!`;
+          }
         }
         
         message += '\n\nGood luck! 🍀';
@@ -973,9 +1007,9 @@ ${CONTRACT_ADDRESS}`;
       
       // Use free ticket
       function useFreeTicket() {
-        const available = freeTicketsUnlocked + stakingBonus;
+        const available = freeTicketsUnlocked;
         if (available <= 0) {
-          alert('No free tickets available!\n\n💡 Stake KPEPE to earn free tickets.\nThen buy paid tickets to unlock them.');
+          alert('No free tickets available!\n\n💡 Stake KPEPE to earn free tickets.\nThen buy paid tickets to unlock them.\n\n🎫 Tickets reset at midnight!');
           return;
         }
         
@@ -1005,6 +1039,12 @@ Good luck! 🍀`);
         // Update user status
         if (walletAddress) updateUserStatus();
       }
+      
+      // Use free ticket
+      function useFreeTicket() {
+        const available = freeTicketsUnlocked;
+        if (available <= 0) {
+          alert('No free tickets available!\n\n💡 Stake KPEPE to earn free tickets.\nThen buy paid tickets to unlock them.\n\n🎫 Tickets reset at midnight!');
           return;
         }
         
@@ -1013,8 +1053,8 @@ Good luck! 🍀`);
           return;
         }
         
-        freeTicketsUsed++;
-        const remaining = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        freeTicketsUnlocked--;
+        saveDailyProgress();
         
         alert(`🎫 Using 1 FREE ticket!
 
@@ -1022,7 +1062,9 @@ Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
 Powerball: ${selectedPowerball}
 
-✅ Free tickets remaining: ${remaining}
+✅ Free tickets remaining: ${freeTicketsUnlocked}
+
+💡 Tickets reset at midnight!
 
 Good luck! 🍀`);
         
@@ -1142,9 +1184,6 @@ Good luck! 🍀`);
           else if (kpepeBalance >= 25000) bonus = 1;
           stakingBonus = bonus;
           
-          // Free tickets available = unlocked + staking bonus
-          const totalFree = freeTicketsUnlocked + bonus;
-          
           // Show user status card
           document.getElementById('user-status-card').style.display = 'block';
           document.getElementById('user-holding').textContent = kpepeBalance.toLocaleString();
@@ -1154,7 +1193,7 @@ Good luck! 🍀`);
           document.getElementById('user-tier-badge').textContent = tier === 'Gold' ? '🥇 Gold' : tier === 'Silver' ? '🥈 Silver' : tier === 'Bronze' ? '🥉 Bronze' : '💚 Standard';
           document.getElementById('user-tier-badge').className = 'user-tier-badge ' + tierClass;
           document.getElementById('user-ticket-price').textContent = ticketPrice + ' KLV';
-          document.getElementById('user-free-available').textContent = totalFree;
+          document.getElementById('user-free-available').textContent = freeTicketsUnlocked;
           
           // Show free ticket info
           const freeInfo = document.getElementById('free-tickets-info');
@@ -1165,22 +1204,10 @@ Good luck! 🍀`);
             noFreeInfo.style.display = 'none';
             document.getElementById('staking-bonus').textContent = bonus;
             document.getElementById('free-unlocked').textContent = freeTicketsUnlocked;
-            document.getElementById('free-total').textContent = totalFree;
+            document.getElementById('free-total').textContent = freeTicketsUnlocked;
           } else {
             freeInfo.style.display = 'none';
             noFreeInfo.style.display = 'block';
-          }
-          
-        } catch (e) {
-          console.log('Failed to fetch user status:', e);
-        }
-      }
-            freeInfo.style.display = 'block';
-            document.getElementById('free-earned').textContent = freeTicketsEarned;
-            document.getElementById('free-used').textContent = freeTicketsUsed;
-            document.getElementById('staking-bonus').textContent = bonus;
-          } else {
-            freeInfo.style.display = 'none';
           }
           
         } catch (e) {
