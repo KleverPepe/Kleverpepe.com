@@ -74,13 +74,14 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     uint256 public kpepeMatch18BPrize;
     uint256 public kpepeMatch8BOnlyPrize;
     
-    // Staking Tier Configuration
+    // Staking Tier Configuration - 4 Tiers, 1 Free Ticket/Day
     struct TierConfig {
         uint256 minStake;
-        uint8 freeTicketsPerWeek;
+        uint8 ticketsPerDay;
+        uint8 tierId;
         string name;
     }
-    TierConfig[6] public tiers;
+    TierConfig[4] public tiers;
     
     event TicketPurchased(uint256 indexed id, address indexed player, uint8[5] nums, uint8 eb, bool isFree);
     event FreeTicketsClaimed(address indexed player, uint256 amount);
@@ -99,42 +100,67 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
         roundActive = true;
         lastDrawTime = block.timestamp;
         
-        // Initialize staking tiers
-        tiers[0] = TierConfig({minStake: 0, freeTicketsPerWeek: 0, name: "None"});
-        tiers[1] = TierConfig({minStake: 10000 * 1e8, freeTicketsPerWeek: 1, name: "Bronze"});
-        tiers[2] = TierConfig({minStake: 50000 * 1e8, freeTicketsPerWeek: 3, name: "Silver"});
-        tiers[3] = TierConfig({minStake: 200000 * 1e8, freeTicketsPerWeek: 7, name: "Gold"});
-        tiers[4] = TierConfig({minStake: 500000 * 1e8, freeTicketsPerWeek: 15, name: "Platinum"});
-        tiers[5] = TierConfig({minStake: 1000000 * 1e8, freeTicketsPerWeek: 30, name: "Diamond"});
+        // 4 Tiers: 1 Free Ticket Per Day - Unused tickets expire
+        tiers[0] = TierConfig({minStake: 50000 * 1e8, ticketsPerDay: 1, tierId: 1, name: "Silver"});
+        tiers[1] = TierConfig({minStake: 200000 * 1e8, ticketsPerDay: 1, tierId: 2, name: "Gold"});
+        tiers[2] = TierConfig({minStake: 500000 * 1e8, ticketsPerDay: 1, tierId: 3, name: "Platinum"});
+        tiers[3] = TierConfig({minStake: 1000000 * 1e8, ticketsPerDay: 1, tierId: 4, name: "Diamond"});
     }
     
     // ===== FREE TICKET FUNCTIONS =====
     
     /**
-     * @notice Claim weekly free tickets based on staking tier
-     * @dev Can be called once per 7 days
+     * @notice Claim daily free ticket based on staking tier
+     * @dev Can be called once per 24 hours, unused tickets expire after 7 days
      */
     function claimFreeTickets() public whenActive {
         require(kpepeStaking != address(0), "!staking");
-        require(lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp, "cooldown");
         
-        uint8 tier = IKPEPEStaking(kpepeStaking).getTier(msg.sender);
-        require(tier > 0, "!tier");
+        // Check if eligible for any tier
+        uint8 tierId = 0;
+        uint256 stakeAmount = IKPEPEStaking(kpepeStaking).getStakeAmount(msg.sender);
         
-        uint8 ticketsToClaim = tiers[tier].freeTicketsPerWeek;
-        require(ticketsToClaim > 0, "!tickets");
+        for (uint8 i = 0; i < tiers.length; i++) {
+            if (stakeAmount >= tiers[i].minStake) {
+                tierId = tiers[i].tierId;
+            }
+        }
         
-        freeTicketCredits[msg.sender] += ticketsToClaim;
+        require(tierId > 0, "!eligible");
+        
+        // Check 24-hour cooldown
+        require(lastFreeTicketClaim[msg.sender] + 1 days < block.timestamp, "cooldown");
+        
+        // Clean up expired tickets (older than 7 days)
+        _cleanExpiredTickets(msg.sender);
+        
+        // Add 1 free ticket for today
+        freeTicketCredits[msg.sender]++;
         lastFreeTicketClaim[msg.sender] = block.timestamp;
-        playerTiers[msg.sender] = tier;
+        playerTiers[msg.sender] = tierId;
         
-        emit FreeTicketsClaimed(msg.sender, ticketsToClaim);
+        emit FreeTicketsClaimed(msg.sender, 1);
+    }
+    
+    /**
+     * @notice Clean up expired free tickets (older than 7 days)
+     */
+    function _cleanExpiredTickets(address user) internal {
+        // Simple approach: clear all credits and let user reclaim for today
+        // More complex: track individual ticket timestamps
+        if (lastFreeTicketClaim[user] + 7 days < block.timestamp) {
+            freeTicketCredits[user] = 0;
+        }
     }
     
     /**
      * @notice Get free tickets available for a user
+     * @dev Shows only valid (non-expired) tickets
      */
     function getFreeTicketsAvailable() public view returns (uint256) {
+        if (lastFreeTicketClaim[msg.sender] + 7 days < block.timestamp) {
+            return 0;
+        }
         return freeTicketCredits[msg.sender];
     }
     
@@ -384,19 +410,20 @@ contract KPEPEJackpot is Ownable, ReentrancyGuard {
     function setKPEPEToken(address t) external onlyOwner { require(t != address(0)); kpepeToken = t; }
     function setKPEPEStaking(address s) external onlyOwner { kpepeStaking = s; }
     
-    function setTierConfig(uint8 tierId, uint256 minStake, uint8 freeTicketsPerWeek, string calldata name) external onlyOwner {
-        require(tierId < tiers.length, "!id");
-        tiers[tierId] = TierConfig({minStake: minStake, freeTicketsPerWeek: freeTicketsPerWeek, name: name});
-        emit StakingTierUpdated(tierId, name, minStake, freeTicketsPerWeek);
+    function setTierConfig(uint8 tierId, uint256 minStake, uint8 ticketsPerDay, string calldata name) external onlyOwner {
+        require(tierId >= 1 && tierId <= 4, "!id");
+        require(tierId - 1 < tiers.length, "!id");
+        tiers[tierId - 1] = TierConfig({minStake: minStake, ticketsPerDay: ticketsPerDay, tierId: tierId, name: name});
+        emit StakingTierUpdated(tierId, name, minStake, ticketsPerDay);
     }
     
     // ===== VIEW FUNCTIONS =====
     
     function getPendingKPEPE(address a) external view returns (uint256) { return kpepePrizesPending[a]; }
     function getPoolBalance() external view returns (uint256) { return prizePool; }
-    function getTierInfo(uint8 tierId) external view returns (uint256 minStake, uint8 freeTickets, string memory name) {
-        require(tierId < tiers.length, "!id");
-        return (tiers[tierId].minStake, tiers[tierId].freeTicketsPerWeek, tiers[tierId].name);
+    function getTierInfo(uint8 tierId) external view returns (uint256 minStake, uint8 ticketsPerDay, string memory name) {
+        require(tierId >= 1 && tierId <= 4, "!id");
+        return (tiers[tierId - 1].minStake, tiers[tierId - 1].ticketsPerDay, tiers[tierId - 1].name);
     }
     
     function getTicket(uint256 id) external view returns (address, uint8[5] memory, uint8, uint256, bool, bool, bool) {
