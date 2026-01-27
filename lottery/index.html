@@ -382,8 +382,12 @@
       const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d";
       // KPEPE Token address on KleverChain mainnet
       const KPEPE_TOKEN_ADDRESS = "KPEPE-1EOD"; // KleverChain token identifier
-      // KleverScan API base (update if different for mainnet)
-      const KLEVERSCAN_API = "https://api.mainnet.klever.finance";
+      // KleverScan API endpoints (ordered fallback)
+      const KLEVERSCAN_ENDPOINTS = [
+        "https://api.mainnet.klever.finance",
+        "https://api.klever.finance",
+        "https://api.kleverscan.com",
+      ];
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
       // Prize percentages of pool
@@ -499,28 +503,30 @@
       
       // Live fetch from KleverChain (for production)
       async function fetchPrizePoolFromContract() {
-        if (!KLEVERSCAN_API) { loadStats(); return; }
-        try {
-          const url = `${KLEVERSCAN_API}/v1/contract/${CONTRACT_ADDRESS}/state`;
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const data = await response.json();
-          const prizePoolRaw = Number(data?.prizePool ?? 0);
-          const ticketsSold = Number(data?.totalTicketsSold ?? 0);
-          // KLV has 6 decimals; adjust if API returns different scale
-          const poolAmount = Math.floor(prizePoolRaw / 1e6);
-          TOTAL_TICKETS_SOLD = ticketsSold;
-          document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-          const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-          document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
-          updatePrizeAmounts(poolAmount);
-        } catch (error) {
-          if (!prizePoolFetchWarned) {
-            console.warn('Using demo values - KleverScan unreachable or contract state unavailable', error);
-            prizePoolFetchWarned = true;
+        for (const base of KLEVERSCAN_ENDPOINTS) {
+          try {
+            const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
+            const response = await fetch(url, { mode: 'cors' });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            const prizePoolRaw = Number(data?.prizePool ?? 0);
+            const ticketsSold = Number(data?.totalTicketsSold ?? 0);
+            const poolAmount = Math.floor(prizePoolRaw / 1e6);
+            TOTAL_TICKETS_SOLD = ticketsSold;
+            document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
+            const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
+            document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+            updatePrizeAmounts(poolAmount);
+            return;
+          } catch (err) {
+            console.warn(`KleverScan fetch failed for ${base}`, err);
           }
-          loadStats();
         }
+        if (!prizePoolFetchWarned) {
+          console.warn('Using demo values - all KleverScan endpoints unreachable or contract state unavailable');
+          prizePoolFetchWarned = true;
+        }
+        loadStats();
       }
       
       function updatePrizeAmounts(poolAmount) {
@@ -737,6 +743,13 @@
           }
         });
         setupWalletListeners();
+        // If after 3s no provider, keep banner visible to prompt user
+        setTimeout(() => {
+          if (!resolveKleverProvider()) {
+            const banner = document.getElementById('network-banner');
+            if (banner) banner.style.display = 'block';
+          }
+        }, 3000);
       });
       
       function buyTickets() {
