@@ -195,12 +195,13 @@
       .prize-row.jackpot .prize-amount { color: var(--gold); }
       
       /* KPEPE prize section */
-      .kpepe-section { background: linear-gradient(145deg, rgba(168, 85, 247, 0.15), rgba(249, 115, 22, 0.1)); border: 2px solid rgba(168, 85, 247, 0.4); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-      .kpepe-section .prize-header { color: var(--purple); }
-      .kpepe-section .prize-amount { color: var(--gold); font-weight: 800; }
-      .kpepe-section .prize-row { border-bottom-color: rgba(168, 85, 247, 0.2); }
-      .kpepe-section .prize-row.jackpot { background: linear-gradient(90deg, rgba(168, 85, 247, 0.2), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
-      .kpepe-section .prize-row.jackpot .prize-match { color: var(--purple); font-weight: 700; }
+      .kpepe-section { background: linear-gradient(145deg, rgba(168, 85, 247, 0.2), rgba(249, 115, 22, 0.15)); border: 2px solid rgba(168, 85, 247, 0.5); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+      .kpepe-section .prize-header { color: var(--gold); font-weight: 800; font-size: 1.1rem; }
+      .kpepe-section .prize-amount { color: var(--gold); font-weight: 900; font-size: 1.1rem; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+      .kpepe-section .prize-row { border-bottom-color: rgba(251, 191, 36, 0.3); }
+      .kpepe-section .prize-row.jackpot { background: linear-gradient(90deg, rgba(168, 85, 247, 0.3), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
+      .kpepe-section .prize-row.jackpot .prize-match { color: var(--gold); font-weight: 800; }
+      .kpepe-section .prize-balls .prize-ball.eightball { color: #fff; }
       
       /* Wallet */
       .wallet-section { background: var(--bg-card); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
@@ -313,7 +314,7 @@
       <div class="prize-table kpepe-section">
         <div class="prize-header">🌟 500K KPEPE Grand Prize</div>
         <div class="prize-row jackpot">
-          <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball"></div></div><span>🎉 JACKPOT</span></div>
+          <div class="prize-match"><div class="prize-balls"><div class="prize-ball" style="background: linear-gradient(135deg, var(--purple), var(--orange));">5</div><div class="prize-ball eightball" style="background: linear-gradient(135deg, var(--purple), var(--orange));">8</div></div><span>🎉 JACKPOT</span></div>
           <span class="prize-amount">500,000 KPEPE</span>
         </div>
       </div>
