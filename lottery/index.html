@@ -377,9 +377,10 @@
             <button class="ticket-btn" onclick="adjustTickets(1)">+</button>
           </div>
           <div class="cost-display">
-            <span class="cost-label">Total Cost</span>
+            <span class="cost-label">Total Cost (<span id="tier-badge">Standard</span>)</span>
             <span class="cost-value"><span id="total-cost">5</span> KLV</span>
           </div>
+          <div id="tier-info" style="text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;"></div>
           <button id="buy-btn" class="lottery-btn lottery-btn-primary" onclick="buyTickets()">🎟️ Buy Ticket(s)</button>
         </div>
         
@@ -450,25 +451,32 @@
 
     <script>
       const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
-      const TICKET_PRICE = 5; // KLV per ticket
       
       let walletAddress = null;
       let myTickets = [];
       let connectionMode = 'manual';
       let currentPool = 0;
-      let klvPriceUSD = 0.0015; // Default, updated from API
+      let klvPriceUSD = 0.00154; // Updated from CoinGecko
+      let kpepePriceUSD = 0.00001; // Estimated (not listed yet)
       let kpepeBalance = 0;
       let hasKPEPE = false;
       
-      // Fetch live KLV price from CoinGecko
-      async function fetchKLVPrice() {
+      // Fetch live prices from multiple sources
+      async function fetchPrices() {
+        // Try CoinGecko for KLV
         try {
           const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
           const data = await res.json();
-          klvPriceUSD = data.klever?.usd || 0.0015;
+          klvPriceUSD = data.klever?.usd || 0.00154;
         } catch (e) {
-          console.log('Using default KLV price');
+          console.log('CoinGecko KLV unavailable, using default');
         }
+        
+        // KPEPE not listed on CoinGecko yet, estimate from DEX pairs
+        // 1 KLV ≈ 100K KPEPE (typical Klever DEX ratio)
+        kpepePriceUSD = klvPriceUSD / 100000;
+        
+        return { klv: klvPriceUSD, kpepe: kpepePriceUSD };
       }
       
       // Check KPEPE balance for discounts/rewards
@@ -483,17 +491,46 @@
           hasKPEPE = kpepeBalance > 0;
           return hasKPEPE;
         } catch (e) {
-          return false;
+          // Fallback for demo
+          const savedBalance = localStorage.getItem('kpepe_balance');
+          if (savedBalance) {
+            kpepeBalance = parseFloat(savedBalance);
+            hasKPEPE = kpepeBalance > 0;
+          }
+          return hasKPEPE;
         }
       }
       
-      const INITIAL_JACKPOT = 500; // Starting jackpot in KLV
+      // Get ticket price based on KPEPE holdings
+      function getTicketPrice() {
+        if (kpepeBalance >= 1000000) return 2; // 60% off
+        if (kpepeBalance >= 100000) return 3;  // 40% off
+        if (kpepeBalance >= 10000) return 4;   // 20% off
+        return 5;                              // Regular price
+      }
+      
+      // Get KPEPE reward for winning
+      function getWinnerReward() {
+        if (kpepeBalance >= 1000000) return 100000; // Gold tier
+        if (kpepeBalance >= 100000) return 50000;   // Silver tier
+        return 20000;                                // Standard
+      }
+      
+      // Get free tickets from staking
+      function getFreeTicketsFromStaking() {
+        if (kpepeBalance >= 500000) return 25;
+        if (kpepeBalance >= 100000) return 5;
+        if (kpepeBalance >= 25000) return 1;
+        return 0;
+      }
+      
+      const INITIAL_JACKPOT = 2000; // Starting jackpot in KLV
       
       document.addEventListener('DOMContentLoaded', async () => {
-        await fetchKLVPrice();
+        await fetchPrices();
         
-        // Calculate pool from ticket sales
-        currentPool = 247 * TICKET_PRICE; // 247 tickets sold at 5 KLV each
+        // Calculate pool from ticket sales (247 tickets @ 5 KLV = 1,235 KLV)
+        currentPool = 247 * TICKET_PRICE;
         const jackpotAmount = INITIAL_JACKPOT + currentPool;
         
         animateValue('jackpot-klv', 0, jackpotAmount, 2000, true);
@@ -545,10 +582,16 @@
         document.getElementById('progress-fill').style.width = percent + '%';
       }
       
-      function loadSavedWallet() {
+      async function loadSavedWallet() {
         const saved = localStorage.getItem('klever_wallet');
-        if (saved) { walletAddress = saved; connectionMode = 'manual'; showConnected(); }
-        else { showConnectOptions(); }
+        if (saved) {
+          walletAddress = saved;
+          connectionMode = 'manual';
+          await checkKPEPEBalance(saved);
+          showConnected();
+        } else { 
+          showConnectOptions(); 
+        }
       }
       
       function showConnectOptions() {
@@ -594,26 +637,68 @@
       
       function connectManual() {
         connectionMode = 'manual';
+        
+        let tierInfo = '';
+        if (kpepeBalance >= 1000000) {
+          tierInfo = '<div style="background: linear-gradient(to right, #431A85, #9B59B6); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥇 Gold Tier - 60% off tickets!</div>';
+        } else if (kpepeBalance >= 100000) {
+          tierInfo = '<div style="background: rgba(155, 89, 182, 0.3); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥈 Silver Tier - 40% off tickets!</div>';
+        } else if (kpepeBalance >= 10000) {
+          tierInfo = '<div style="background: rgba(155, 89, 182, 0.2); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥉 Bronze Tier - 20% off tickets!</div>';
+        } else {
+          tierInfo = '<div style="color: var(--text-secondary); margin-bottom: 12px;">Hold KPEPE for ticket discounts!</div>';
+        }
+        
+        const price = getTicketPrice();
+        const reward = getWinnerReward();
+        const freeTickets = getFreeTicketsFromStaking();
+        
         document.getElementById('wallet-section').innerHTML = `
           <div style="text-align: center;">
             <div class="wallet-status disconnected"><span>●</span> Manual Mode</div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Send KLV directly. Tickets auto-register!</p>
+            ${tierInfo}
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">
+              Your ticket price: <strong style="color: var(--purple);">${price} KLV</strong><br>
+              Winner reward: ${reward.toLocaleString()} KPEPE<br>
+              ${freeTickets > 0 ? `Free tickets/day: ${freeTickets}` : ''}
+            </p>
             <div class="wallet-address">${CONTRACT_ADDRESS}</div>
             <button class="lottery-btn lottery-btn-secondary" onclick="copyContract()">📋 Copy Address</button>
           </div>
         `;
         document.getElementById('actions-section').style.display = 'block';
+        
+        // Update tier badge
+        document.getElementById('tier-badge').textContent = kpepeBalance >= 1000000 ? 'Gold' : kpepeBalance >= 100000 ? 'Silver' : kpepeBalance >= 10000 ? 'Bronze' : 'Standard';
+        document.getElementById('tier-info').innerHTML = kpepeBalance >= 10000 ? `🎁 You have ${freeTickets} free tickets/day` : '💚 Hold KPEPE for discounts!';
       }
       
       function showConnected() {
         const shortAddr = walletAddress.slice(0, 10) + '...' + walletAddress.slice(-6);
+        
+        let tierInfo = '';
+        if (kpepeBalance >= 1000000) {
+          tierInfo = '<div style="background: linear-gradient(to right, #431A85, #9B59B6); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥇 Gold Tier - 60% off + 100K KPEPE rewards</div>';
+        } else if (kpepeBalance >= 100000) {
+          tierInfo = '<div style="background: rgba(155, 89, 182, 0.3); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥈 Silver Tier - 40% off + 50K KPEPE rewards</div>';
+        } else if (kpepeBalance >= 10000) {
+          tierInfo = '<div style="background: rgba(155, 89, 182, 0.2); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥉 Bronze Tier - 20% off + 20K KPEPE rewards</div>';
+        }
+        
         document.getElementById('wallet-section').innerHTML = `
           <div style="text-align: center;">
             <div class="wallet-status connected"><span>✓</span> Connected</div>
             <div class="wallet-address">${shortAddr}</div>
+            ${tierInfo}
             <button class="lottery-btn lottery-btn-secondary" onclick="disconnect()" style="margin-top: 8px;">Disconnect</button>
           </div>
         `;
+        
+        // Update tier badge
+        document.getElementById('tier-badge').textContent = kpepeBalance >= 1000000 ? 'Gold' : kpepeBalance >= 100000 ? 'Silver' : kpepeBalance >= 10000 ? 'Bronze' : 'Standard';
+        const freeTickets = getFreeTicketsFromStaking();
+        document.getElementById('tier-info').innerHTML = kpepeBalance >= 10000 ? `🎁 You have ${freeTickets} free tickets/day` : '💚 Hold KPEPE for discounts!';
+        
         document.getElementById('actions-section').style.display = 'block';
       }
       
@@ -630,13 +715,29 @@
         if (val < 1) val = 1;
         if (val > 100) val = 100;
         input.value = val;
-        document.getElementById('total-cost').textContent = (val * TICKET_PRICE).toLocaleString();
+        const price = getTicketPrice();
+        document.getElementById('total-cost').textContent = (val * price).toLocaleString();
       }
       
       function buyTickets() {
         const count = parseInt(document.getElementById('ticket-count-input').value);
-        const total = count * TICKET_PRICE;
-        alert(`🎫 Buy ${count} Ticket(s) for ${total} KLV\n\nSend ${total} KLV to:\n${CONTRACT_ADDRESS}\n\nThe contract will automatically register your tickets!`);
+        const price = getTicketPrice();
+        const total = count * price;
+        
+        const reward = getWinnerReward();
+        const freeTickets = getFreeTicketsFromStaking();
+        
+        let tierInfo = '';
+        if (kpepeBalance >= 1000000) tierInfo = '\n\n🎉 Gold Tier: 60% off + 100K KPEPE reward';
+        else if (kpepeBalance >= 100000) tierInfo = '\n\n🥈 Silver Tier: 40% off + 50K KPEPE reward';
+        else if (kpepeBalance >= 10000) tierInfo = '\n\n🥉 Bronze Tier: 20% off + 20K KPEPE reward';
+        else tierInfo = '\n\n💚 Standard tier - Buy more KPEPE for discounts!';
+        
+        if (freeTickets > 0) {
+          tierInfo += `\n\n🎁 You have ${freeTickets} free tickets/day from staking!`;
+        }
+        
+        alert(`🎫 Buy ${count} Ticket(s) for ${total} KLV${tierInfo}\n\nSend ${total} KLV to:\n${CONTRACT_ADDRESS}\n\nThe contract will automatically register your tickets!`);
         
         // Add tickets and update pool
         for (let i = 0; i < count; i++) {
