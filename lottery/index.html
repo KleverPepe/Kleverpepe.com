@@ -370,9 +370,9 @@
       .prize-match { display: flex; align-items: center; gap: 8px; }
       .prize-balls { display: flex; gap: 4px; }
       .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
-      .prize-ball.pb { background: var(--red); }
-      .prize-ball.pbplus { background: var(--orange); }
-      .prize-amount { font-weight: 600; color: var(--primary); }
+      .prize-ball.lb { background: var(--red); color: #fff; }
+      .prize-ball.lbplus { background: linear-gradient(135deg, var(--red), #ff8c00); color: #fff; box-shadow: 0 0 8px rgba(255, 100, 0, 0.5); }
+      .prize-amount { font-weight: 700; color: var(--primary); font-size: 0.85rem; }
       
       /* Wallet */
       .wallet-status { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; margin-bottom: 16px; }
@@ -415,7 +415,7 @@
           </div>
           <div class="step">
             <div class="step-num">3</div>
-            <div class="step-text">Buy Ticket<br>(5 KLV)</div>
+            <div class="step-text">Buy Ticket<br>(650 KLV)</div>
           </div>
           <div class="step">
             <div class="step-num">4</div>
@@ -580,15 +580,15 @@
           <span class="lottery-card-title">🏆 Prize Tiers (Multipliers)</span>
         </div>
         <div class="prize-table">
-          <div class="prize-row">
+          <div class="prize-row" style="background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent); border-radius: 8px; margin: -8px 0 8px; padding: 12px 8px;">
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">5</div>
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
-              <span>Match 5 + Lucky Ball</span>
+              <span style="font-weight: 700; color: var(--success);">🎉 JACKPOT</span>
             </div>
-            <span class="prize-amount">💰 JACKPOT</span>
+            <span class="prize-amount" style="color: var(--success); font-size: 1rem;">💰 WIN ALL!</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
@@ -603,7 +603,7 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">4</div>
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
               <span>Match 4 + Lucky Ball</span>
             </div>
@@ -622,7 +622,7 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">3</div>
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
               <span>Match 3 + Lucky Ball</span>
             </div>
@@ -641,7 +641,7 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">2</div>
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
               <span>Match 2 + Lucky Ball</span>
             </div>
@@ -651,7 +651,7 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">1</div>
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
               <span>Match 1 + Lucky Ball</span>
             </div>
@@ -660,7 +660,7 @@
           <div class="prize-row">
             <div class="prize-match">
               <div class="prize-balls">
-                <div class="prize-ball pb">PB</div>
+                <div class="prize-ball lb">LB</div>
               </div>
               <span>Lucky Ball only</span>
             </div>
@@ -669,22 +669,24 @@
         </div>
         
         <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
-          💡 650 KLV ticket × multiplier = Prize amount (LB match = higher prize!)
+          💡 650 KLV ticket × multiplier = Prize amount (🎯 LB match = bonus!)
         </div>
         
         <!-- KPEPE Seed Pool Prizes -->
-        <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
-          <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--purple);">🎁 KPEPE Seed Pool</div>
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+          <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--purple); display: flex; align-items: center; gap: 8px;">
+            🌟 KPEPE Seed Pool <span style="font-size: 0.7rem; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 2px 8px; border-radius: 10px; color: #fff;">BONUS</span>
+          </div>
           <div class="prize-table" style="margin-top: 8px;">
-            <div class="prize-row">
+            <div class="prize-row" style="background: linear-gradient(90deg, rgba(168, 85, 247, 0.15), transparent); border-radius: 8px; margin: -8px 0 8px; padding: 12px 8px;">
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">5</div>
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
-                <span>Match 5 + Lucky Ball</span>
+                <span style="font-weight: 700; color: var(--purple);">🎉 JACKPOT</span>
               </div>
-              <span class="prize-amount">500,000</span>
+              <span class="prize-amount" style="color: var(--purple); font-size: 1rem;">500,000</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
@@ -699,7 +701,7 @@
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">4</div>
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
                 <span>Match 4 + Lucky Ball</span>
               </div>
@@ -718,7 +720,7 @@
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">3</div>
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
                 <span>Match 3 + Lucky Ball</span>
               </div>
@@ -737,7 +739,7 @@
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">2</div>
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
                 <span>Match 2 + Lucky Ball</span>
               </div>
@@ -747,7 +749,7 @@
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">1</div>
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
                 <span>Match 1 + Lucky Ball</span>
               </div>
@@ -756,15 +758,15 @@
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
-                  <div class="prize-ball pb">PB</div>
+                  <div class="prize-ball lb">LB</div>
                 </div>
                 <span>Lucky Ball only</span>
               </div>
               <span class="prize-amount">2,000</span>
             </div>
           </div>
-          <div style="margin-top: 8px; font-size: 0.7rem; color: var(--text-secondary); text-align: center;">
-            💰 From team wallet (seeded pool)
+          <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
+            🎁 Bonus pool from team wallet - limited time!
           </div>
         </div>
       </div>
