@@ -419,13 +419,23 @@
           </div>
           <div class="benefit-item">
             <div class="benefit-value" id="user-free-available">0</div>
-            <div class="benefit-label">Free Tickets Available</div>
+            <div class="benefit-label">Free Tickets</div>
           </div>
         </div>
         <div id="free-tickets-info" style="margin-top: 10px; padding: 10px; background: rgba(155, 89, 182, 0.1); border-radius: 8px; font-size: 0.75rem; color: var(--text-secondary); display: none;">
-          <div style="color: var(--purple); font-weight: 600; margin-bottom: 4px;">🎁 Free Tickets Earned</div>
-          <div>Earned: <span id="free-earned" style="color: var(--primary);">0</span> | Used: <span id="free-used" style="color: var(--red);">0</span> | Staking Bonus: <span id="staking-bonus" style="color: var(--orange);">0</span>/day</div>
-          <div style="margin-top: 4px;">💡 Buy 1 paid ticket = 1 free ticket!</div>
+          <div style="color: var(--purple); font-weight: 600; margin-bottom: 6px;">🎁 Free Tickets from Staking</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px;">
+            <div>Staking Bonus: <span id="staking-bonus" style="color: var(--orange); font-weight: 600;">0</span>/day</div>
+            <div>Unlocked: <span id="free-unlocked" style="color: var(--primary); font-weight: 600;">0</span></div>
+          </div>
+          <div style="border-top: 1px solid rgba(155, 89, 182, 0.2); padding-top: 6px;">
+            <div>Total Free: <span id="free-total" style="color: #fff; font-weight: 600;">0</span></div>
+            <div style="margin-top: 4px; color: var(--text-secondary);">💡 Buy paid tickets to unlock free ones!</div>
+          </div>
+        </div>
+        <div id="no-free-info" style="margin-top: 10px; padding: 10px; background: rgba(74, 222, 128, 0.1); border-radius: 8px; font-size: 0.75rem; display: none;">
+          <div style="color: var(--primary); font-weight: 600; margin-bottom: 4px;">🎟️ No Free Tickets Yet</div>
+          <div>Stake 25K+ KPEPE to earn free tickets daily!</div>
         </div>
       </div>
       
@@ -619,11 +629,11 @@
       let ticketQuantity = 1;
       let klvPriceUSD = 0.00154;
       
-      // Ticket tracking (1:1 paid:free system)
-      let paidTicketsPurchased = 0;
-      let freeTicketsEarned = 0;
-      let freeTicketsUsed = 0;
-      let stakingBonus = 0; // Daily bonus from staking
+      // Free ticket system (staking only, unlock with paid purchases)
+      let stakingBonus = 0; // Free tickets per day from staking
+      let freeTicketsAvailable = 0; // Total free tickets from staking
+      let freeTicketsUnlocked = 0; // Free tickets unlocked by buying
+      let paidTicketsInSession = 0; // Paid tickets bought this session
       
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {
@@ -772,7 +782,7 @@
         
         // Update cost
         const totalCost = ticketQuantity * TICKET_PRICE;
-        const available = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        const available = freeTicketsUnlocked + stakingBonus;
         
         // Show/hide free ticket option
         const freeBtn = document.getElementById('free-btn');
@@ -812,26 +822,34 @@
         
         const totalKLV = ticketQuantity * TICKET_PRICE;
         
-        // Calculate free tickets earned (1:1 ratio)
-        const earned = ticketQuantity;
-        paidTicketsPurchased += ticketQuantity;
-        freeTicketsEarned += earned;
+        // Buying paid tickets unlocks equal amount of free tickets
+        paidTicketsInSession += ticketQuantity;
+        const unlockAmount = Math.min(ticketQuantity, stakingBonus - freeTicketsUnlocked);
+        freeTicketsUnlocked += unlockAmount;
         
-        const totalFree = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        const totalFreeAvailable = freeTicketsUnlocked + stakingBonus;
         
-        alert(`🎫 Buying ${ticketQuantity} PAID ticket(s) for ${totalKLV} KLV
+        let message = `🎫 Buying ${ticketQuantity} PAID ticket(s) for ${totalKLV} KLV
 
 Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
 Powerball: ${selectedPowerball}
 
-✅ Earned ${earned} FREE ticket(s)!
-📊 Free tickets available: ${totalFree}
-
 Send ${totalKLV} KLV to:
-${CONTRACT_ADDRESS}
+${CONTRACT_ADDRESS}`;
+        
+        if (stakingBonus > 0) {
+          message += `
 
-Good luck! 🍀`);
+✅ Unlocked ${unlockAmount} free ticket(s)!
+📊 Free tickets available: ${totalFreeAvailable}
+
+💡 Buy paid tickets to unlock your staking free tickets!`;
+        }
+        
+        message += '\n\nGood luck! 🍀';
+        
+        alert(message);
         
         // Update stats
         loadStats();
@@ -849,9 +867,38 @@ Good luck! 🍀`);
       
       // Use free ticket
       function useFreeTicket() {
-        const available = freeTicketsEarned - freeTicketsUsed + stakingBonus;
+        const available = freeTicketsUnlocked + stakingBonus;
         if (available <= 0) {
-          alert('No free tickets available! Buy paid tickets to earn free ones.');
+          alert('No free tickets available!\n\n💡 Stake KPEPE to earn free tickets.\nThen buy paid tickets to unlock them.');
+          return;
+        }
+        
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
+          alert('Please select 6 main numbers and 1 Powerball!');
+          return;
+        }
+        
+        freeTicketsUnlocked--;
+        
+        alert(`🎫 Using 1 FREE ticket!
+
+Your numbers:
+Main: ${selectedMainNumbers.join(', ')}
+Powerball: ${selectedPowerball}
+
+✅ Free tickets remaining: ${freeTicketsUnlocked + stakingBonus}
+
+Good luck! 🍀`);
+        
+        // Reset selections
+        selectedMainNumbers = [];
+        selectedPowerball = null;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        updateUI();
+        
+        // Update user status
+        if (walletAddress) updateUserStatus();
+      }
           return;
         }
         
@@ -989,8 +1036,8 @@ Good luck! 🍀`);
           else if (kpepeBalance >= 25000) bonus = 1;
           stakingBonus = bonus;
           
-          // Calculate available free tickets
-          const available = freeTicketsEarned - freeTicketsUsed + bonus;
+          // Free tickets available = unlocked + staking bonus
+          const totalFree = freeTicketsUnlocked + bonus;
           
           // Show user status card
           document.getElementById('user-status-card').style.display = 'block';
@@ -1001,11 +1048,27 @@ Good luck! 🍀`);
           document.getElementById('user-tier-badge').textContent = tier === 'Gold' ? '🥇 Gold' : tier === 'Silver' ? '🥈 Silver' : tier === 'Bronze' ? '🥉 Bronze' : '💚 Standard';
           document.getElementById('user-tier-badge').className = 'user-tier-badge ' + tierClass;
           document.getElementById('user-ticket-price').textContent = ticketPrice + ' KLV';
-          document.getElementById('user-free-available').textContent = available;
+          document.getElementById('user-free-available').textContent = totalFree;
           
           // Show free ticket info
           const freeInfo = document.getElementById('free-tickets-info');
-          if (paidTicketsPurchased > 0 || bonus > 0) {
+          const noFreeInfo = document.getElementById('no-free-info');
+          
+          if (bonus > 0) {
+            freeInfo.style.display = 'block';
+            noFreeInfo.style.display = 'none';
+            document.getElementById('staking-bonus').textContent = bonus;
+            document.getElementById('free-unlocked').textContent = freeTicketsUnlocked;
+            document.getElementById('free-total').textContent = totalFree;
+          } else {
+            freeInfo.style.display = 'none';
+            noFreeInfo.style.display = 'block';
+          }
+          
+        } catch (e) {
+          console.log('Failed to fetch user status:', e);
+        }
+      }
             freeInfo.style.display = 'block';
             document.getElementById('free-earned').textContent = freeTicketsEarned;
             document.getElementById('free-used').textContent = freeTicketsUsed;
