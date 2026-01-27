@@ -546,6 +546,7 @@
       let kleverWeb3 = null;
       let connectedWallet = null;
       let extensionDetected = false;
+      let providerPollTimer = null;
 
       function resolveKleverProvider() {
         if (window.klever && typeof window.klever.request === 'function') return window.klever;
@@ -597,8 +598,37 @@
         }
       }
 
+      function startProviderPolling() {
+        if (providerPollTimer) return;
+        let attempts = 0;
+        providerPollTimer = setInterval(() => {
+          if (kleverWeb3) { clearInterval(providerPollTimer); providerPollTimer = null; return; }
+          kleverWeb3 = resolveKleverProvider();
+          attempts += 1;
+          if (kleverWeb3) {
+            extensionDetected = true;
+            console.log('✅ Klever provider detected via polling');
+            setNetworkBadge('🔗 Mainnet');
+            setWalletStatus('<span>●</span> Not Connected', false);
+            clearInterval(providerPollTimer); providerPollTimer = null;
+          } else if (attempts >= 15) { // ~30s at 2s interval
+            clearInterval(providerPollTimer); providerPollTimer = null;
+            console.warn('Klever provider not detected after polling');
+          }
+        }, 2000);
+      }
+
       async function requestAccounts() {
         if (!kleverWeb3) return [];
+        // Some providers expose enable()
+        if (typeof kleverWeb3.enable === 'function') {
+          try {
+            const res = await kleverWeb3.enable();
+            if (res && res.length) return res;
+          } catch (e) {
+            console.warn('enable() failed', e);
+          }
+        }
         const methods = [
           { m: 'account', params: {} },
           { m: 'klever_requestAccounts', params: {} },
@@ -613,6 +643,10 @@
           } catch (e) {
             console.warn(`Account request failed for ${m}`, e);
           }
+        }
+        // fallback to accounts property if exposed
+        if (Array.isArray(kleverWeb3.accounts) && kleverWeb3.accounts.length) {
+          return kleverWeb3.accounts;
         }
         return [];
       }
@@ -666,6 +700,15 @@
       window.addEventListener('load', () => {
         setNetworkBadge('🔗 Mainnet');
         initializeKleverWeb3();
+        startProviderPolling();
+        window.addEventListener('klever#initialized', () => {
+          console.log('klever#initialized event received');
+          kleverWeb3 = resolveKleverProvider();
+          if (kleverWeb3) {
+            extensionDetected = true;
+            setWalletStatus('<span>●</span> Not Connected', false);
+          }
+        });
         setupWalletListeners();
       });
       
