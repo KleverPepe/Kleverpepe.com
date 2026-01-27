@@ -1,0 +1,19 @@
+{
+  "name": "klevertepepe-redesign",
+  "version": "1.0.0",
+  "description": "KPEPE Jackpot Lottery on KleverChain",
+  "scripts": {
+    "compile": "hardhat compile",
+    "testnet:deploy": "hardhat run testnet-deploy.js --network kleverTestnet",
+    "mainnet:deploy": "hardhat run deploy.js --network kleverMainnet",
+    "verify:testnet": "hardhat verify --network kleverTestnet",
+    "verify:mainnet": "hardhat verify --network kleverMainnet"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.0"
+  }
+}
