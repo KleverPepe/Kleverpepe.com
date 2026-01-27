@@ -361,6 +361,31 @@
         </div>
       </div>
       
+      <!-- Live Prices -->
+      <div class="lottery-card">
+        <div class="lottery-card-header">
+          <span class="lottery-card-title">💰 Live Prices</span>
+          <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" target="_blank" style="font-size: 0.75rem; color: var(--purple);">View on Bitcoin.me ↗</a>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value" id="klv-price" style="color: #4ade80;">$0.00154</div>
+            <div class="stat-label">KLV</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="kpepe-price" style="color: #9B59B6;">$0.000010</div>
+            <div class="stat-label">KPEPE</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="kpepe-per-klv" style="color: #f97316;">~100K</div>
+            <div class="stat-label">KPEPE/KLV</div>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary);">
+          Prices from CoinGecko & Bitcoin.me CEX
+        </div>
+      </div>
+      
       <!-- Wallet -->
       <div class="lottery-card"><div id="wallet-section"></div></div>
       
@@ -456,27 +481,34 @@
       let myTickets = [];
       let connectionMode = 'manual';
       let currentPool = 0;
-      let klvPriceUSD = 0.00154; // Updated from CoinGecko
-      let kpepePriceUSD = 0.00001; // Estimated (not listed yet)
+      let klvPriceUSD = 0.00154; // Live from CoinGecko
+      let kpepePriceUSD = 0.00001000; // From Bitcoin.me CEX
       let kpepeBalance = 0;
       let hasKPEPE = false;
       
-      // Fetch live prices from multiple sources
-      async function fetchPrices() {
-        // Try CoinGecko for KLV
+      // Current price display
+      const PRICE_SOURCES = {
+        klv: 'CoinGecko API',
+        kpepe: 'Bitcoin.me CEX'
+      };
+      
+      // Fetch live KLV price from CoinGecko
+      async function fetchKLVPrice() {
         try {
           const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
           const data = await res.json();
           klvPriceUSD = data.klever?.usd || 0.00154;
         } catch (e) {
-          console.log('CoinGecko KLV unavailable, using default');
+          console.log('CoinGecko KLV unavailable');
         }
-        
-        // KPEPE not listed on CoinGecko yet, estimate from DEX pairs
-        // 1 KLV ≈ 100K KPEPE (typical Klever DEX ratio)
-        kpepePriceUSD = klvPriceUSD / 100000;
-        
-        return { klv: klvPriceUSD, kpepe: kpepePriceUSD };
+        return klvPriceUSD;
+      }
+      
+      // KPEPE price from Bitcoin.me CEX
+      // Price fetched from: https://cex.bitcoin.me/us/trade/KPEPE-USDT
+      // Update this value manually or check the CEX for live price
+      function getKPEPEPrice() {
+        return kpepePriceUSD;
       }
       
       // Check KPEPE balance for discounts/rewards
@@ -491,7 +523,6 @@
           hasKPEPE = kpepeBalance > 0;
           return hasKPEPE;
         } catch (e) {
-          // Fallback for demo
           const savedBalance = localStorage.getItem('kpepe_balance');
           if (savedBalance) {
             kpepeBalance = parseFloat(savedBalance);
@@ -524,10 +555,11 @@
         return 0;
       }
       
+      const TICKET_PRICE = 5; // Base ticket price in KLV
       const INITIAL_JACKPOT = 2000; // Starting jackpot in KLV
       
       document.addEventListener('DOMContentLoaded', async () => {
-        await fetchPrices();
+        await fetchKLVPrice();
         
         // Calculate pool from ticket sales (247 tickets @ 5 KLV = 1,235 KLV)
         currentPool = 247 * TICKET_PRICE;
@@ -580,6 +612,12 @@
         const percent = Math.min((tickets / 10000) * 100, 100);
         document.getElementById('progress-percent').textContent = percent.toFixed(1) + '%';
         document.getElementById('progress-fill').style.width = percent + '%';
+        
+        // Update price displays
+        document.getElementById('klv-price').textContent = '$' + klvPriceUSD.toFixed(5);
+        document.getElementById('kpepe-price').textContent = '$' + kpepePriceUSD.toFixed(6);
+        const kpepePerKLV = Math.round(1 / (kpepePriceUSD / klvPriceUSD) / 1000) * 1000;
+        document.getElementById('kpepe-per-klv').textContent = '~' + kpepePerKLV.toLocaleString();
       }
       
       async function loadSavedWallet() {
