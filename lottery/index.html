@@ -452,16 +452,23 @@
       const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
       const TICKET_PRICE = 5;
       const KLV_USD_RATE = 0.15;
+      const INITIAL_JACKPOT = 500; // Starting jackpot in KLV
       
       let walletAddress = null;
       let myTickets = [];
       let connectionMode = 'manual';
+      let currentPool = 0;
       
       document.addEventListener('DOMContentLoaded', () => {
-        animateValue('jackpot-klv', 0, 1250, 2000, true);
-        document.getElementById('jackpot-usd').textContent = '$' + (1250 * KLV_USD_RATE).toFixed(2) + ' USD';
+        // Calculate pool from ticket sales
+        currentPool = 247 * TICKET_PRICE; // 247 tickets sold at 5 KLV each
+        const jackpotAmount = INITIAL_JACKPOT + currentPool;
+        
+        animateValue('jackpot-klv', 0, jackpotAmount, 2000, true);
+        document.getElementById('jackpot-usd').textContent = '$' + (jackpotAmount * KLV_USD_RATE).toFixed(2) + ' USD';
         startCountdown();
         loadSavedWallet();
+        updateStats(247, 89, currentPool);
         updateStats(247, 89, 1235);
       });
       
@@ -600,10 +607,19 @@
         const total = count * TICKET_PRICE;
         alert(`🎫 Buy ${count} Ticket(s) for ${total} KLV\n\nSend ${total} KLV to:\n${CONTRACT_ADDRESS}\n\nThe contract will automatically register your tickets!`);
         
+        // Add tickets and update pool
         for (let i = 0; i < count; i++) {
           const ticketNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
           myTickets.push(ticketNum);
         }
+        
+        // Update pool and jackpot
+        currentPool += total;
+        const jackpotAmount = INITIAL_JACKPOT + currentPool;
+        document.getElementById('jackpot-klv').textContent = jackpotAmount.toLocaleString();
+        document.getElementById('jackpot-usd').textContent = '$' + (jackpotAmount * KLV_USD_RATE).toFixed(2) + ' USD';
+        updateStats(247 + myTickets.length, 89 + Math.min(myTickets.length, 1), currentPool);
+        
         updateMyTickets();
       }
       
