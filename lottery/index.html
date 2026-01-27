@@ -91,6 +91,20 @@
       .header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
       .network-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(251, 191, 36, 0.15); color: var(--gold); margin-top: 10px; }
       
+      /* Interactive Header 8-Ball */
+      .header-8ball { font-size: 2.5rem; display: inline-block; animation: float-8ball 4s ease-in-out infinite; cursor: pointer; transition: all 0.3s ease; }
+      .header-8ball:hover { animation: spin-8ball 0.6s ease-out; transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8)); }
+      @keyframes float-8ball { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-10px) rotate(5deg); } }
+      @keyframes spin-8ball { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      
+      /* Header tagline */
+      .header-tagline { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+      .tagline-text { color: var(--text-muted); font-size: 0.85rem; }
+      .tagline-highlight { background: linear-gradient(135deg, var(--purple), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+      .tagline-balls { display: flex; gap: 4px; }
+      .tagline-ball { width: 20px; height: 20px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: #fff; }
+      .tagline-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; }
+      
       /* Jackpot Card */
       .jackpot-card { background: linear-gradient(145deg, rgba(168, 85, 247, 0.12), rgba(74, 222, 128, 0.08)); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 20px; padding: 24px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
       .jackpot-card::before { content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
@@ -255,8 +269,15 @@
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <h1>🎱 KPEPE Jackpot</h1>
-        <p>Pick 5 numbers + 8 Ball to win!</p>
+        <div class="header-8ball" onclick="showFrogMessage()">🎱</div>
+        <h1>KPEPE Jackpot</h1>
+        <div class="header-tagline">
+          <span class="tagline-text">Pick your numbers to win!</span>
+          <div class="tagline-balls">
+            <div class="tagline-ball">5</div>
+            <div class="tagline-ball eightball">8</div>
+          </div>
+        </div>
         <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
