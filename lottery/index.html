@@ -349,6 +349,8 @@
       const TICKET_PRICE = 100, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
       const KPEPE_JACKPOT = 500000;
+      // Contract address (update after deployment)
+      const CONTRACT_ADDRESS = "0x...";
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 618;
       // Prize percentages of pool
@@ -433,6 +435,9 @@
       }
       
       function loadStats() {
+        // In production, fetch from contract:
+        // fetchPrizePoolFromContract().then(pool => { ... })
+        
         const poolAmount = Math.floor(TOTAL_TICKETS_SOLD * TICKET_PRICE * POOL_SHARE);
         const kpepeValueUSD = KPEPE_JACKPOT * KPEPE_PRICE_USD;
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
@@ -440,6 +445,22 @@
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
         document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
         updatePrizeAmounts(poolAmount);
+      }
+      
+      // Live fetch from KleverChain (for production)
+      async function fetchPrizePoolFromContract() {
+        try {
+          // Using KleverScan API (example)
+          const response = await fetch(`https://api.kleverscan.org/v1/contract/${CONTRACT_ADDRESS}/state`);
+          const data = await response.json();
+          const prizePool = parseInt(data.prizePool) / 1e8; // Convert from smallest units
+          const ticketsSold = parseInt(data.totalTicketsSold);
+          
+          TOTAL_TICKETS_SOLD = ticketsSold;
+          loadStats();
+        } catch (error) {
+          console.log('Using demo values - contract not yet deployed');
+        }
       }
       
       function updatePrizeAmounts(poolAmount) {
