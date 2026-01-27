@@ -386,7 +386,6 @@
       const KLEVERSCAN_ENDPOINTS = [
         "https://api.mainnet.klever.finance",
         "https://api.klever.finance",
-        "https://api.kleverscan.com",
       ];
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
@@ -407,13 +406,15 @@
       const KLV_PRICE_USD = 0.00152832;
       let prizePoolFetchWarned = false;
       
+      let prizeFetchDisabled = false;
+
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
         // Use live data on mainnet, demo data on testnet
         if (CONTRACT_ADDRESS !== "0x..." && CONTRACT_ADDRESS !== "0xDEPLOY_CONTRACT_ADDRESS") {
           fetchPrizePoolFromContract();
-          // Auto-refresh every 30 seconds
-          setInterval(fetchPrizePoolFromContract, 30000);
+          // Auto-refresh every 30 seconds unless fetch disabled
+          setInterval(() => { if (!prizeFetchDisabled) fetchPrizePoolFromContract(); }, 30000);
         } else {
           loadStats();
         }
@@ -503,6 +504,7 @@
       
       // Live fetch from KleverChain (for production)
       async function fetchPrizePoolFromContract() {
+        if (prizeFetchDisabled) return;
         for (const base of KLEVERSCAN_ENDPOINTS) {
           try {
             const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
@@ -525,6 +527,7 @@
         if (!prizePoolFetchWarned) {
           console.warn('Using demo values - all KleverScan endpoints unreachable or contract state unavailable');
           prizePoolFetchWarned = true;
+          prizeFetchDisabled = true;
         }
         loadStats();
       }
