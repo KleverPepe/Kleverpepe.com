@@ -3,80 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎰 KPEPE Lottery - KleverPEPE</title>
-    <link rel="stylesheet" href="../styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>🎰 KPEPE Powerball Lottery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-      /* Lottery-specific styles */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
       :root {
         --primary: #4ade80;
         --primary-dark: #22c55e;
-        --secondary: #f97316;
+        --purple: #9B59B6;
+        --purple-dark: #431A85;
+        --orange: #f97316;
+        --red: #ef4444;
+        --bg-dark: #0f0f1a;
         --bg-card: #1a1a2e;
         --text-primary: #ffffff;
         --text-secondary: #a0a0b0;
         --border: rgba(255,255,255,0.1);
-        --success: #4ade80;
-        --purple: #9B59B6;
-        --purple-dark: #431A85;
       }
-      
-      .lottery-container { max-width: 500px; margin: 0 auto; padding: 16px; }
+      body {
+        font-family: 'Segoe UI', -apple-system, sans-serif;
+        background: var(--bg-dark);
+        color: var(--text-primary);
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+      .container { max-width: 500px; margin: 0 auto; padding: 16px; }
       
       /* Header */
-      .lottery-header { text-align: center; padding: 20px 0; position: relative; }
-      .lottery-logo { font-size: 2.5rem; margin-bottom: 8px; }
-      .lottery-header h1 {
+      .header { text-align: center; padding: 20px 0; }
+      .header h1 {
         font-size: 1.8rem;
         font-weight: 800;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        background: linear-gradient(135deg, var(--primary), var(--orange));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        background-clip: text;
       }
-      .lottery-header p { color: var(--text-secondary); font-size: 0.9rem; }
+      .header p { color: var(--text-secondary); font-size: 0.9rem; }
+      .network-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(251, 191, 36, 0.15);
+        color: #fbbf24;
+        margin-top: 12px;
+      }
       
-      /* Hero - Jackpot */
+      /* Jackpot Hero */
       .jackpot-card {
-        background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(249, 115, 22, 0.1) 100%);
-        border: 2px solid rgba(74, 222, 128, 0.3);
+        background: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%);
+        border: 2px solid rgba(74, 222, 128, 0.4);
         border-radius: 24px;
-        padding: 32px 20px;
+        padding: 24px 20px;
         text-align: center;
         margin-bottom: 20px;
-        position: relative;
-        overflow: hidden;
       }
-      .jackpot-card::before {
-        content: '';
-        position: absolute;
-        top: -50%; left: -50%; width: 200%; height: 200%;
-        background: radial-gradient(circle, rgba(74,222,128,0.1) 0%, transparent 50%);
-        animation: pulse 4s ease-in-out infinite;
-      }
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.5; }
-        50% { transform: scale(1.1); opacity: 0.8; }
-      }
-      .jackpot-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; position: relative; }
-      .jackpot-amount { font-size: 2.8rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 30px rgba(74, 222, 128, 0.5); position: relative; }
-      .jackpot-currency { font-size: 1.5rem; vertical-align: super; }
-      .jackpot-usd { font-size: 1rem; color: var(--text-secondary); margin-top: 8px; position: relative; }
+      .jackpot-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; }
+      .jackpot-amount { font-size: 2.5rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 30px rgba(74, 222, 128, 0.5); }
+      .jackpot-usd { font-size: 1rem; color: var(--text-secondary); margin-top: 4px; }
       
       /* Countdown */
-      .countdown-section { margin-top: 20px; position: relative; }
-      .countdown-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
-      .countdown-timer { display: flex; justify-content: center; gap: 12px; }
-      .countdown-unit { 
-        background: var(--bg-card); 
-        border: 1px solid var(--border); 
-        border-radius: 12px; 
-        padding: 12px 16px; 
-        min-width: 60px;
-        position: relative;
+      .countdown-section { margin-top: 16px; }
+      .countdown-timer { display: flex; justify-content: center; gap: 10px; }
+      .countdown-unit {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 14px;
+        min-width: 55px;
       }
-      .countdown-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-      .countdown-unit-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }
+      .countdown-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+      .countdown-unit-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+      
+      /* Stats */
+      .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+      .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 10px; text-align: center; }
+      .stat-value { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+      .stat-label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; margin-top: 4px; }
       
       /* Cards */
       .lottery-card {
@@ -85,261 +91,180 @@
         border-radius: 20px;
         padding: 20px;
         margin-bottom: 16px;
-        position: relative;
       }
       .lottery-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
       .lottery-card-title { font-size: 1rem; font-weight: 600; }
       
-      /* Stats Grid */
-      .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-      .stat-box { 
-        background: rgba(255,255,255,0.03); 
-        border: 1px solid var(--border); 
-        border-radius: 14px; 
-        padding: 16px 12px; 
-        text-align: center; 
-      }
-      .stat-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
-      .stat-label { font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px; text-transform: uppercase; }
+      /* Number Picker */
+      .number-section { margin-bottom: 20px; }
+      .number-section-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+      .number-section-title .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; background: rgba(155, 89, 182, 0.3); color: var(--purple); }
       
-      /* Progress Bar */
-      .progress-section { margin-top: 12px; position: relative; }
-      .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; color: var(--text-secondary); }
-      .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-      .progress-fill { 
-        height: 100%; 
-        background: linear-gradient(90deg, var(--primary), var(--secondary)); 
-        border-radius: 4px; 
-        transition: width 0.3s; 
+      .number-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+      .number-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        background: rgba(255,255,255,0.05);
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
       }
+      .number-btn:hover { border-color: var(--purple); background: rgba(155, 89, 182, 0.2); }
+      .number-btn.selected { background: var(--purple); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(155, 89, 182, 0.5); }
+      .number-btn.powerball { border-color: var(--red); }
+      .number-btn.powerball.selected { background: var(--red); border-color: var(--red); box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
       
-      /* Wallet Section */
-      .wallet-status { 
-        display: inline-flex; 
-        align-items: center; 
-        gap: 8px; 
-        padding: 10px 20px; 
-        border-radius: 30px; 
-        font-size: 0.9rem; 
-        margin-bottom: 16px; 
+      /* Quick Pick Button */
+      .quick-pick-btn {
+        width: 100%;
+        padding: 14px;
+        border-radius: 12px;
+        border: 2px dashed var(--purple);
+        background: rgba(155, 89, 182, 0.1);
+        color: var(--purple);
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 16px;
+        transition: all 0.2s;
       }
-      .wallet-status.connected { background: rgba(74,222,128,0.15); color: var(--success); }
-      .wallet-status.disconnected { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
-      .wallet-address { 
-        font-family: monospace; 
-        font-size: 0.8rem; 
-        background: rgba(0,0,0,0.3); 
-        padding: 12px 16px; 
-        border-radius: 10px; 
-        word-break: break-all; 
-        color: var(--primary); 
-        margin-bottom: 16px; 
-      }
+      .quick-pick-btn:hover { background: rgba(155, 89, 182, 0.2); border-style: solid; }
       
-      /* Buttons */
-      .lottery-btn { 
-        width: 100%; 
-        padding: 16px; 
-        border: none; 
-        border-radius: 14px; 
-        font-size: 1rem; 
-        font-weight: 700; 
-        cursor: pointer; 
-        transition: all 0.2s; 
+      /* Ticket Preview */
+      .ticket-preview {
+        background: linear-gradient(135deg, var(--purple-dark), var(--purple));
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
       }
-      .lottery-btn-primary { 
-        background: linear-gradient(to right, var(--purple-dark), var(--purple)); 
-        color: #ffffff; 
-        box-shadow: 0 0 8px rgba(155, 89, 182, 0.7);
+      .ticket-preview::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+        animation: shimmer 3s ease-in-out infinite;
       }
-      .lottery-btn-primary:hover { 
-        transform: translateY(-2px); 
-        box-shadow: 0 0 15px rgba(155, 89, 182, 1);
+      @keyframes shimmer { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+      .ticket-preview-content { position: relative; z-index: 1; }
+      .ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .ticket-title { font-size: 0.85rem; font-weight: 700; }
+      .ticket-id { font-size: 0.7rem; opacity: 0.8; }
+      .ticket-numbers { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .ticket-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        font-weight: 700;
       }
-      .lottery-btn-secondary { 
-        background: var(--bg-card); 
-        color: var(--text-primary); 
-        border: 1px solid var(--border); 
-        margin-top: 8px;
-      }
-      .lottery-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+      .ticket-number.powerball { background: var(--red); }
+      .ticket-empty { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
       
-      /* Ticket Controls */
-      .ticket-controls { display: flex; gap: 12px; margin-bottom: 20px; }
-      .ticket-btn { 
-        width: 50px; 
-        height: 50px; 
-        border-radius: 12px; 
-        border: 1px solid var(--border); 
-        background: rgba(255,255,255,0.05); 
-        color: var(--text-primary); 
-        font-size: 1.5rem; 
-        cursor: pointer; 
+      /* Quantity Controls */
+      .quantity-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px; }
+      .qty-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: 2px solid var(--border);
+        background: transparent;
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      .ticket-btn:hover { border-color: var(--primary); background: rgba(74, 222, 128, 0.1); }
-      .ticket-input { 
-        flex: 1; 
-        text-align: center; 
-        background: rgba(0,0,0,0.3); 
-        border: 2px solid var(--border); 
-        border-radius: 12px; 
-        color: var(--text-primary); 
-        font-size: 1.5rem; 
-        font-weight: 700; 
-        padding: 12px; 
-      }
-      .ticket-input:focus { outline: none; border-color: var(--primary); }
+      .qty-btn:hover { border-color: var(--primary); color: var(--primary); }
+      .qty-display { text-align: center; }
+      .qty-value { font-size: 2rem; font-weight: 800; color: var(--primary); }
+      .qty-label { font-size: 0.75rem; color: var(--text-secondary); }
       
       /* Cost Display */
-      .cost-display { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        padding: 16px; 
-        background: rgba(155, 89, 182, 0.1); 
-        border: 1px solid rgba(155, 89, 182, 0.3); 
-        border-radius: 12px; 
-        margin-bottom: 16px; 
+      .cost-display {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        background: rgba(74, 222, 128, 0.1);
+        border: 1px solid rgba(74, 222, 128, 0.3);
+        border-radius: 12px;
+        margin-bottom: 16px;
       }
       .cost-label { font-size: 0.9rem; color: var(--text-secondary); }
-      .cost-value { font-size: 1.3rem; font-weight: 700; color: var(--purple); }
+      .cost-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
       
-      /* My Tickets */
-      .my-tickets-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-      .ticket-count-badge { 
-        background: linear-gradient(135deg, var(--purple), var(--purple-dark)); 
-        color: #ffffff; 
-        padding: 4px 12px; 
-        border-radius: 20px; 
-        font-size: 0.8rem; 
-        font-weight: 700; 
+      /* Buttons */
+      .lottery-btn {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      .ticket-display { display: flex; flex-wrap: wrap; gap: 8px; max-height: 150px; overflow-y: auto; }
-      .ticket-item { 
-        background: linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(67, 26, 133, 0.3)); 
-        border: 1px solid rgba(155, 89, 182, 0.5); 
-        border-radius: 8px; 
-        padding: 8px 12px; 
-        font-family: monospace; 
-        font-size: 0.8rem; 
-        color: #ffffff; 
+      .lottery-btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #000;
       }
-      .no-tickets { text-align: center; padding: 20px; color: var(--text-secondary); font-size: 0.9rem; }
+      .lottery-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3); }
+      .lottery-btn-secondary { background: rgba(255,255,255,0.1); color: var(--text-primary); border: 1px solid var(--border); }
+      .lottery-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
       
-      /* Recent Winners */
-      .winner-list { display: flex; flex-direction: column; gap: 12px; }
-      .winner-item { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center; 
-        padding: 14px; 
-        background: rgba(255,255,255,0.03); 
-        border-radius: 12px; 
-      }
-      .winner-info { display: flex; align-items: center; gap: 12px; }
-      .winner-avatar { 
-        width: 40px; 
-        height: 40px; 
-        border-radius: 50%; 
-        background: linear-gradient(135deg, var(--purple), var(--purple-dark)); 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        font-size: 1.2rem; 
-      }
-      .winner-address { font-family: monospace; font-size: 0.85rem; }
-      .winner-amount { color: var(--primary); font-weight: 600; }
+      /* Prize Table */
+      .prize-table { font-size: 0.8rem; }
+      .prize-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+      .prize-row:last-child { border-bottom: none; }
+      .prize-match { display: flex; align-items: center; gap: 8px; }
+      .prize-balls { display: flex; gap: 4px; }
+      .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
+      .prize-ball.pb { background: var(--red); }
+      .prize-ball.pbplus { background: var(--orange); }
+      .prize-amount { font-weight: 600; color: var(--primary); }
       
-      /* Tabs */
-      .tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-      .tab { 
-        flex: 1; 
-        padding: 12px; 
-        background: rgba(255,255,255,0.03); 
-        border: 1px solid var(--border); 
-        border-radius: 10px; 
-        color: var(--text-secondary); 
-        font-size: 0.85rem; 
-        cursor: pointer; 
-        text-align: center; 
-        transition: all 0.2s; 
-      }
-      .tab.active { 
-        background: rgba(155, 89, 182, 0.2); 
-        border-color: var(--purple); 
-        color: var(--purple); 
-      }
+      /* Wallet */
+      .wallet-status { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 30px; font-size: 0.9rem; margin-bottom: 16px; }
+      .wallet-status.connected { background: rgba(74, 222, 128, 0.15); color: var(--success); }
+      .wallet-status.disconnected { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
+      .wallet-address { font-family: monospace; font-size: 0.8rem; background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; word-break: break-all; color: var(--primary); margin-bottom: 12px; }
       
-      /* FAQ */
-      .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
-      .faq-item:last-child { border-bottom: none; }
-      .faq-question { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
-      .faq-answer { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+      /* Footer */
+      .footer { text-align: center; padding: 30px 20px; color: var(--text-secondary); font-size: 0.8rem; }
+      .footer a { color: var(--primary); text-decoration: none; }
       
-      /* Connection Options */
-      .connection-options { display: flex; flex-direction: column; gap: 12px; }
-      .connection-option { 
-        display: flex; 
-        align-items: center; 
-        gap: 16px; 
-        padding: 16px; 
-        background: rgba(255,255,255,0.03); 
-        border: 1px solid var(--border); 
-        border-radius: 14px; 
-        cursor: pointer; 
-        transition: all 0.2s; 
-      }
-      .connection-option:hover { 
-        background: rgba(155, 89, 182, 0.1); 
-        border-color: rgba(155, 89, 182, 0.3); 
-      }
-      .connection-icon { font-size: 1.5rem; }
-      .connection-info h3 { font-size: 0.95rem; margin-bottom: 4px; }
-      .connection-info p { font-size: 0.8rem; color: var(--text-secondary); }
+      /* Animations */
+      @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+      .pulse { animation: pulse 0.3s ease; }
       
-      /* Spinner */
-      .spinner { 
-        display: inline-block; 
-        width: 16px; 
-        height: 16px; 
-        border: 2px solid rgba(255,255,255,0.3); 
-        border-top-color: var(--primary); 
-        border-radius: 50%; 
-        animation: spin 1s linear infinite; 
-        margin-right: 8px; 
-      }
+      .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 8px; }
       @keyframes spin { to { transform: rotate(360deg); } }
-      
-      /* Responsive */
-      @media (max-width: 400px) {
-        .jackpot-amount { font-size: 2.2rem; }
-        .countdown-unit { min-width: 50px; padding: 10px 12px; }
-        .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      }
     </style>
   </head>
   <body>
-    <!-- Background -->
-    <div class="background"></div>
-    
-    <div class="lottery-container">
+    <div class="container">
       <!-- Header -->
-      <div class="lottery-header">
-        <a href="../index.html" style="text-decoration: none;">
-          <div class="lottery-logo">🎰</div>
-          <h1>KPEPE Lottery</h1>
-          <p>Buy tickets, win KLV! 🎉</p>
-        </a>
+      <div class="header">
+        <h1>🎰 KPEPE Powerball</h1>
+        <p>Pick 6 numbers + 1 Powerball!</p>
+        <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
-      <!-- Jackpot Hero -->
+      <!-- Jackpot -->
       <div class="jackpot-card">
-        <div class="jackpot-label">🎯 Current Jackpot</div>
-        <div class="jackpot-amount"><span id="jackpot-klv">0</span> <span class="jackpot-currency">KLV</span></div>
-        <div class="jackpot-usd" id="jackpot-usd">~$0.00 USD</div>
-        
+        <div class="jackpot-label">🎯 Jackpot</div>
+        <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
+        <div class="jackpot-usd" id="jackpot-usd">~$0 USD</div>
         <div class="countdown-section">
-          <div class="countdown-label" id="countdown-label">Next draw in</div>
           <div class="countdown-timer">
             <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hours</div></div>
             <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
@@ -349,630 +274,457 @@
       </div>
       
       <!-- Stats -->
-      <div class="lottery-card">
-        <div class="stats-grid">
-          <div class="stat-box"><div class="stat-value" id="stat-tickets">0</div><div class="stat-label">Tickets</div></div>
-          <div class="stat-box"><div class="stat-value" id="stat-players">0</div><div class="stat-label">Players</div></div>
-          <div class="stat-box"><div class="stat-value" id="stat-pool">0</div><div class="stat-label">Pool (KLV)</div></div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header"><span>Tickets sold this round</span><span id="progress-percent">0%</span></div>
-          <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%"></div></div>
-        </div>
-      </div>
-      
-      <!-- Live Prices -->
-      <div class="lottery-card">
-        <div class="lottery-card-header">
-          <span class="lottery-card-title">💰 Live Prices</span>
-          <a href="https://cex.bitcoin.me/us/trade/KPEPE-USDT" target="_blank" style="font-size: 0.75rem; color: var(--purple);">View on Bitcoin.me ↗</a>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-box">
-            <div class="stat-value" id="klv-price" style="color: #4ade80;">$0.00154</div>
-            <div class="stat-label">KLV</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value" id="kpepe-price" style="color: #9B59B6;">$0.000010</div>
-            <div class="stat-label">KPEPE</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-value" id="kpepe-per-klv" style="color: #f97316;">~100K</div>
-            <div class="stat-label">KPEPE/KLV</div>
-          </div>
-        </div>
-        <div style="text-align: center; margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary);">
-          Prices from CoinGecko & Bitcoin.me CEX
-        </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-value" id="stat-tickets">0</div><div class="stat-label">Tickets</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-players">0</div><div class="stat-label">Players</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-pool">0</div><div class="stat-label">Pool KLV</div></div>
       </div>
       
       <!-- Wallet -->
       <div class="lottery-card"><div id="wallet-section"></div></div>
       
-      <!-- Actions -->
-      <div id="actions-section" style="display: none;">
-        <div class="lottery-card">
-          <div class="lottery-card-header">
-            <span class="lottery-card-title">🎟️ Buy Tickets</span>
-            <span style="font-size: 0.8rem; color: var(--text-secondary);">5 KLV each</span>
-          </div>
-          <div class="ticket-controls">
-            <button class="ticket-btn" onclick="adjustTickets(-1)">−</button>
-            <input type="number" id="ticket-count-input" value="1" min="1" max="100" class="ticket-input">
-            <button class="ticket-btn" onclick="adjustTickets(1)">+</button>
-          </div>
-          <div class="cost-display">
-            <span class="cost-label">Total Cost (<span id="tier-badge">Standard</span>)</span>
-            <span class="cost-value"><span id="total-cost">5</span> KLV</span>
-          </div>
-          <div id="tier-info" style="text-align: center; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px;"></div>
-          <button id="buy-btn" class="lottery-btn lottery-btn-primary" onclick="buyTickets()">🎟️ Buy Ticket(s)</button>
+      <!-- Number Selection -->
+      <div class="lottery-card" id="betting-section">
+        <div class="lottery-card-header">
+          <span class="lottery-card-title">🎫 Your Numbers</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 6 + Powerball</span>
         </div>
         
-        <div class="lottery-card">
-          <div class="my-tickets-header">
-            <span class="lottery-card-title">🎫 My Tickets</span>
-            <span class="ticket-count-badge" id="my-ticket-count">0</span>
+        <!-- Main Numbers (1-50) -->
+        <div class="number-section">
+          <div class="number-section-title">
+            Main Numbers <span class="badge" id="main-count">0/6 selected</span>
           </div>
-          <div id="my-tickets-display"><div class="no-tickets">No tickets yet. Buy some to participate!</div></div>
+          <div class="number-grid" id="main-numbers"></div>
         </div>
         
-        <!-- User Status Card -->
-        <div class="lottery-card" id="user-status-card" style="display: none;">
-          <div class="lottery-card-header">
-            <span class="lottery-card-title">👤 Your KPEPE Status</span>
+        <!-- Powerball (1-20) -->
+        <div class="number-section">
+          <div class="number-section-title" style="color: var(--red);">
+            🔴 Powerball <span class="badge" id="pb-count">0/1 selected</span>
           </div>
-          <div id="user-status-content"></div>
+          <div class="number-grid" id="powerball-numbers"></div>
         </div>
         
-      </div>
-      
-      <!-- Tabs -->
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('winners')">🏆 Winners</div>
-        <div class="tab" onclick="switchTab('history')">📜 History</div>
-        <div class="tab" onclick="switchTab('faq')">❓ FAQ</div>
-      </div>
-      
-      <!-- Tab Content -->
-      <div id="tab-winners" class="lottery-card">
-        <div class="lottery-card-header"><span class="lottery-card-title">🎉 Recent Winners</span></div>
-        <div class="winner-list">
-          <div class="winner-item">
-            <div class="winner-info"><div class="winner-avatar">🦍</div><div><div class="winner-address">0x1234...5678</div><div style="font-size: 0.75rem; color: var(--text-secondary);">2 hours ago</div></div></div>
-            <div class="winner-amount">1,250 KLV</div>
-          </div>
-          <div class="winner-item">
-            <div class="winner-info"><div class="winner-avatar">🐸</div><div><div class="winner-address">0xabcd...efgh</div><div style="font-size: 0.75rem; color: var(--text-secondary);">5 hours ago</div></div></div>
-            <div class="winner-amount">890 KLV</div>
-          </div>
-          <div class="winner-item">
-            <div class="winner-info"><div class="winner-avatar">🚀</div><div><div class="winner-address">0x9876...5432</div><div style="font-size: 0.75rem; color: var(--text-secondary);">1 day ago</div></div></div>
-            <div class="winner-amount">2,340 KLV</div>
+        <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick (Random Numbers)</button>
+        
+        <!-- Ticket Preview -->
+        <div class="ticket-preview" id="ticket-preview">
+          <div class="ticket-preview-content">
+            <div class="ticket-header">
+              <span class="ticket-title">🎰 Your Ticket</span>
+              <span class="ticket-id" id="ticket-id">#------</span>
+            </div>
+            <div class="ticket-numbers" id="ticket-numbers">
+              <span class="ticket-empty">Pick numbers or use Quick Pick</span>
+            </div>
           </div>
         </div>
+        
+        <!-- Quantity -->
+        <div class="quantity-controls">
+          <button class="qty-btn" onclick="adjustQuantity(-1)">−</button>
+          <div class="qty-display">
+            <div class="qty-value" id="ticket-qty">1</div>
+            <div class="qty-label">ticket(s)</div>
+          </div>
+          <button class="qty-btn" onclick="adjustQuantity(1)">+</button>
+        </div>
+        
+        <!-- Cost -->
+        <div class="cost-display">
+          <span class="cost-label">Total Cost</span>
+          <span class="cost-value"><span id="total-cost">5</span> KLV</span>
+        </div>
+        
+        <button class="lottery-btn lottery-btn-primary" id="buy-btn" onclick="buyTickets()">
+          🎟️ Buy Ticket(s)
+        </button>
       </div>
       
-      <div id="tab-history" class="lottery-card" style="display: none;">
-        <div class="lottery-card-header"><span class="lottery-card-title">📜 Past Rounds</span></div>
-        <div style="text-align: center; padding: 20px; color: var(--text-secondary);">Round history will appear here after mainnet launch</div>
-      </div>
-      
-      <!-- Tiers & Rewards Info -->
+      <!-- Prize Table -->
       <div class="lottery-card">
-        <div class="lottery-card-header"><span class="lottery-card-title">🎁 Tiers & Rewards</span></div>
-        
-        <!-- Ticket Discounts -->
-        <div style="margin-bottom: 20px;">
-          <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #4ade80;">💚 Ticket Discounts (Based on KPEPE Holdings)</div>
-          <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">🥉 Bronze</td>
-              <td style="padding: 8px 4px;">10K+ KPEPE</td>
-              <td style="padding: 8px 4px; text-align: right; color: #4ade80;">20% off (4 KLV)</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">🥈 Silver</td>
-              <td style="padding: 8px 4px;">100K+ KPEPE</td>
-              <td style="padding: 8px 4px; text-align: right; color: #4ade80;">40% off (3 KLV)</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 4px;">🥇 Gold</td>
-              <td style="padding: 8px 4px;">1M+ KPEPE</td>
-              <td style="padding: 8px 4px; text-align: right; color: #4ade80;">60% off (2 KLV)</td>
-            </tr>
-          </table>
+        <div class="lottery-card-header">
+          <span class="lottery-card-title">🏆 Prize Tiers</span>
         </div>
-        
-        <!-- Winner Rewards -->
-        <div style="margin-bottom: 20px;">
-          <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #f97316;">🏆 Winner Rewards (KPEPE Tokens)</div>
-          <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">Standard</td>
-              <td style="padding: 8px 4px; text-align: right;">200 KPEPE</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">Silver/Gold</td>
-              <td style="padding: 8px 4px; text-align: right;">500-1,000 KPEPE</td>
-            </tr>
-          </table>
-        </div>
-        
-        <!-- Free Tickets from Staking -->
-        <div>
-          <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; color: #9B59B6;">🎟️ Free Tickets (Stake KPEPE)</div>
-          <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">Stake 25K+</td>
-              <td style="padding: 8px 4px; text-align: right;">1 ticket/day</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 8px 4px;">Stake 100K+</td>
-              <td style="padding: 8px 4px; text-align: right;">5 tickets/day</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 4px;">Stake 500K+</td>
-              <td style="padding: 8px 4px; text-align: right;">10 tickets/day</td>
-            </tr>
-          </table>
-          <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 8px;">
-            💡 Staked = KPEPE frozen/delegated to validators (check in Klever Wallet)
+        <div class="prize-table">
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">6</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match all 6 + Powerball</span>
+            </div>
+            <span class="prize-amount">50% Jackpot</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">5</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match 5 + Powerball</span>
+            </div>
+            <span class="prize-amount">20% Pool</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">5</div>
+              </div>
+              <span>Match 5 (no Powerball)</span>
+            </div>
+            <span class="prize-amount">10% Pool</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">4</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match 4 + Powerball</span>
+            </div>
+            <span class="prize-amount">5% Pool</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">4</div>
+              </div>
+              <span>Match 4</span>
+            </div>
+            <span class="prize-amount">2,000 KPEPE</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">3</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match 3 + Powerball</span>
+            </div>
+            <span class="prize-amount">500 KPEPE</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">3</div>
+              </div>
+              <span>Match 3</span>
+            </div>
+            <span class="prize-amount">50 KPEPE</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">2</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match 2 + Powerball</span>
+            </div>
+            <span class="prize-amount">25 KPEPE</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball">1</div>
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Match 1 + Powerball</span>
+            </div>
+            <span class="prize-amount">10 KPEPE</span>
+          </div>
+          <div class="prize-row">
+            <div class="prize-match">
+              <div class="prize-balls">
+                <div class="prize-ball pb">PB</div>
+              </div>
+              <span>Powerball only</span>
+            </div>
+            <span class="prize-amount">5 KPEPE</span>
           </div>
         </div>
       </div>
       
-      <div id="tab-faq" class="lottery-card" style="display: none;">
-        <div class="lottery-card-header"><span class="lottery-card-title">❓ FAQ</span></div>
-        <div class="faq-item"><div class="faq-question">How does the lottery work?</div><div class="faq-answer">Buy tickets with KLV. Each ticket is a unique number. When the timer ends, a random winning ticket is selected. The jackpot goes to the winner!</div></div>
-        <div class="faq-item"><div class="faq-question">How much are tickets?</div><div class="faq-answer">Each ticket costs 5 KLV. You can buy multiple tickets to increase your chances.</div></div>
-        <div class="faq-item"><div class="faq-question">When are draws held?</div><div class="faq-answer">Draws happen automatically when the timer reaches zero.</div></div>
-        <div class="faq-item"><div class="faq-question">Is it fair?</div><div class="faq-answer">Yes! The winning ticket is selected using blockchain randomness.</div></div>
-        <div class="faq-item"><div class="faq-question">How do I claim winnings?</div><div class="faq-answer">Winnings are automatically sent to the winner's wallet immediately.</div></div>
-      </div>
-      
-      <!-- Contract Info -->
-      <div class="lottery-card">
-        <div class="lottery-card-header"><span class="lottery-card-title">📋 Contract Info</span></div>
-        <div class="wallet-address">klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f</div>
-        <button class="lottery-btn lottery-btn-secondary" onclick="copyContract()">📋 Copy Address</button>
-        <div style="margin-top: 12px; text-align: center;">
-          <a href="https://testnet.kleverscan.org/address/klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f" target="_blank" style="color: var(--purple); font-size: 0.85rem;">View on KleverScan ↗</a>
-        </div>
-      </div>
-      
-      <!-- Back to Home -->
-      <div style="text-align: center; margin-top: 20px; margin-bottom: 40px;">
-        <a href="https://www.kleverpepe.com" class="cta-button" style="background: linear-gradient(to right, #431A85, #9B59B6); color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600;">← Back to KPEPE</a>
+      <!-- Footer -->
+      <div class="footer">
+        <p>🎰 KPEPE Powerball Lottery on KleverChain</p>
+        <p style="margin-top: 8px; opacity: 0.6;">Testnet Mode - No real KLV involved</p>
       </div>
     </div>
 
     <script>
+      // Configuration
       const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqsjckgsgeyykgukjx2nn75nr33nsa2ucdvlmsx84e2f';
+      const TICKET_PRICE = 5; // KLV
+      const MAIN_NUMBERS = 50;
+      const POWERBALL_NUMBERS = 20;
+      const MAIN_PICK = 6;
+      const POWERBALL_PICK = 1;
       
       let walletAddress = null;
-      let myTickets = [];
-      let connectionMode = 'manual';
-      let currentPool = 0;
-      let klvPriceUSD = 0.00154; // Live from CoinGecko
-      let kpepePriceUSD = 0.005371; // From Bitcoin.me CEX (KPEPE/USDT)
-      let kpepeBalance = 0;
-      let hasKPEPE = false;
+      let selectedMainNumbers = [];
+      let selectedPowerball = null;
+      let ticketQuantity = 1;
+      let klvPriceUSD = 0.00154;
       
-      // Current price display
-      const PRICE_SOURCES = {
-        klv: 'CoinGecko API',
-        kpepe: 'Bitcoin.me CEX'
-      };
-      
-      // Fetch live KLV price from CoinGecko
-      async function fetchKLVPrice() {
-        try {
-          const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
-          const data = await res.json();
-          klvPriceUSD = data.klever?.usd || 0.00154;
-        } catch (e) {
-          console.log('CoinGecko KLV unavailable');
-        }
-        return klvPriceUSD;
-      }
-      
-      // KPEPE price from Bitcoin.me CEX
-      // Price fetched from: https://cex.bitcoin.me/us/trade/KPEPE-USDT
-      // Update this value manually or check the CEX for live price
-      function getKPEPEPrice() {
-        return kpepePriceUSD;
-      }
-      
-      // Check KPEPE balance for discounts/rewards
-      async function checkKPEPEBalance(address) {
-        if (!address) return false;
-        try {
-          const res = await fetch(`https://api.mainnet.klever.org/address/${address}`);
-          const data = await res.json();
-          const assets = data?.data?.account?.assets || {};
-          const kpepeAmount = assets['KPEPE-1EOD']?.balance || 0;
-          kpepeBalance = kpepeAmount / 1000000;
-          hasKPEPE = kpepeBalance > 0;
-          return hasKPEPE;
-        } catch (e) {
-          const savedBalance = localStorage.getItem('kpepe_balance');
-          if (savedBalance) {
-            kpepeBalance = parseFloat(savedBalance);
-            hasKPEPE = kpepeBalance > 0;
-          }
-          return hasKPEPE;
-        }
-      }
-      
-      // Get ticket price based on KPEPE holdings
-      function getTicketPrice() {
-        if (kpepeBalance >= 1000000) return 2; // 60% off
-        if (kpepeBalance >= 100000) return 3;  // 40% off
-        if (kpepeBalance >= 10000) return 4;   // 20% off
-        return 5;                              // Regular price
-      }
-      
-      // Get KPEPE reward for winning (adjusted for KPEPE price: $0.005371)
-      function getWinnerReward() {
-        if (kpepeBalance >= 1000000) return 1000; // Gold tier = $5.37
-        if (kpepeBalance >= 100000) return 500;   // Silver tier = $2.69
-        return 200;                                // Standard = $1.07
-      }
-      
-      // Check STAKED KPEPE balance (frozen/delegated for free tickets)
-      async function checkKPEPEStaked(address) {
-        if (!address) return { staked: 0, freeTickets: 0 };
-        try {
-          const res = await fetch(`https://api.mainnet.klever.org/address/${address}`);
-          const data = await res.json();
-          
-          // Get frozen/delegated amount (KPEPE staked for validators)
-          const frozenAmount = data?.data?.account?.frozen?.['KPEPE-1EOD'] || 0;
-          const stakedBalance = frozenAmount / 1000000;
-          
-          // Calculate free tickets from staking
-          let freeTickets = 0;
-          if (stakedBalance >= 500000) freeTickets = 10;
-          else if (stakedBalance >= 100000) freeTickets = 5;
-          else if (stakedBalance >= 25000) freeTickets = 1;
-          
-          return { staked: stakedBalance, freeTickets };
-        } catch (e) {
-          return { staked: 0, freeTickets: 0 };
-        }
-      }
-      
-      // Get free tickets from HOLDING (discount tier)
-      function getDiscountTier() {
-        if (kpepeBalance >= 1000000) return { tier: 'Gold', discount: 60, price: 2 };
-        if (kpepeBalance >= 100000) return { tier: 'Silver', discount: 40, price: 3 };
-        if (kpepeBalance >= 10000) return { tier: 'Bronze', discount: 20, price: 4 };
-        return { tier: 'Standard', discount: 0, price: 5 };
-      }
-      
-      const TICKET_PRICE = 5; // Base ticket price in KLV
-      const INITIAL_JACKPOT = 2000; // Starting jackpot in KLV
-      
-      document.addEventListener('DOMContentLoaded', async () => {
-        await fetchKLVPrice();
-        
-        // Calculate pool from ticket sales (247 tickets @ 5 KLV = 1,235 KLV)
-        currentPool = 247 * TICKET_PRICE;
-        const jackpotAmount = INITIAL_JACKPOT + currentPool;
-        
-        animateValue('jackpot-klv', 0, jackpotAmount, 2000, true);
-        document.getElementById('jackpot-usd').textContent = '$' + (jackpotAmount * klvPriceUSD).toFixed(4) + ' USD';
+      // Initialize
+      document.addEventListener('DOMContentLoaded', () => {
+        initNumberPickers();
         startCountdown();
-        loadSavedWallet();
-        updateStats(247, 89, currentPool);
+        loadStats();
+        checkWallet();
       });
       
-      function animateValue(id, start, end, duration, showDecimals = false) {
-        const obj = document.getElementById(id);
-        const range = end - start;
-        const startTime = performance.now();
+      // Create number pickers
+      function initNumberPickers() {
+        const mainGrid = document.getElementById('main-numbers');
+        const pbGrid = document.getElementById('powerball-numbers');
         
-        function update(currentTime) {
-          const elapsed = currentTime - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easeOut = 1 - Math.pow(1 - progress, 3);
-          const current = start + (range * easeOut);
-          obj.textContent = showDecimals ? Math.floor(current).toLocaleString() : current.toFixed(2);
-          if (progress < 1) requestAnimationFrame(update);
+        // Main numbers 1-50
+        for (let i = 1; i <= MAIN_NUMBERS; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'number-btn';
+          btn.textContent = i;
+          btn.onclick = () => toggleMainNumber(i, btn);
+          mainGrid.appendChild(btn);
         }
-        requestAnimationFrame(update);
+        
+        // Powerball 1-20
+        for (let i = 1; i <= POWERBALL_NUMBERS; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'number-btn powerball';
+          btn.textContent = i;
+          btn.onclick = () => togglePowerball(i, btn);
+          pbGrid.appendChild(btn);
+        }
       }
       
+      // Toggle main number
+      function toggleMainNumber(num, btn) {
+        const index = selectedMainNumbers.indexOf(num);
+        if (index > -1) {
+          selectedMainNumbers.splice(index, 1);
+          btn.classList.remove('selected');
+        } else if (selectedMainNumbers.length < MAIN_PICK) {
+          selectedMainNumbers.push(num);
+          selectedMainNumbers.sort((a, b) => a - b);
+          btn.classList.add('selected');
+          btn.classList.add('pulse');
+          setTimeout(() => btn.classList.remove('pulse'), 300);
+        }
+        updateUI();
+      }
+      
+      // Toggle powerball
+      function togglePowerball(num, btn) {
+        if (selectedPowerball === num) {
+          selectedPowerball = null;
+          btn.classList.remove('selected');
+        } else {
+          selectedPowerball = num;
+          document.querySelectorAll('.number-btn.powerball').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          btn.classList.add('pulse');
+          setTimeout(() => btn.classList.remove('pulse'), 300);
+        }
+        updateUI();
+      }
+      
+      // Quick pick random numbers
+      function quickPick() {
+        // Clear selections
+        selectedMainNumbers = [];
+        selectedPowerball = null;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        
+        // Pick 6 random main numbers
+        while (selectedMainNumbers.length < MAIN_PICK) {
+          const num = Math.floor(Math.random() * MAIN_NUMBERS) + 1;
+          if (!selectedMainNumbers.includes(num)) {
+            selectedMainNumbers.push(num);
+          }
+        }
+        selectedMainNumbers.sort((a, b) => a - b);
+        
+        // Pick powerball
+        selectedPowerball = Math.floor(Math.random() * POWERBALL_NUMBERS) + 1;
+        
+        // Update UI
+        document.querySelectorAll('.number-btn').forEach(btn => {
+          const num = parseInt(btn.textContent);
+          if (selectedMainNumbers.includes(num)) btn.classList.add('selected');
+          if (btn.classList.contains('powerball') && num === selectedPowerball) btn.classList.add('selected');
+        });
+        
+        updateUI();
+        
+        // Animate ticket preview
+        const ticket = document.getElementById('ticket-preview');
+        ticket.classList.add('pulse');
+        setTimeout(() => ticket.classList.remove('pulse'), 300);
+      }
+      
+      // Update UI
+      function updateUI() {
+        // Count badges
+        document.getElementById('main-count').textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
+        document.getElementById('pb-count').textContent = `${selectedPowerball ? 1 : 0}/${POWERBALL_PICK}`;
+        
+        // Ticket preview
+        const ticketNumbers = document.getElementById('ticket-numbers');
+        const ticketId = document.getElementById('ticket-id');
+        
+        if (selectedMainNumbers.length === 0 && !selectedPowerball) {
+          ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or use Quick Pick</span>';
+          ticketId.textContent = '#------';
+        } else {
+          let html = '';
+          selectedMainNumbers.forEach(num => {
+            html += `<div class="ticket-number">${num}</div>`;
+          });
+          if (selectedPowerball) {
+            html += `<div class="ticket-number powerball">${selectedPowerball}</div>`;
+          }
+          ticketNumbers.innerHTML = html;
+          
+          // Generate ticket ID
+          const id = Math.random().toString(36).substr(2, 6).toUpperCase();
+          ticketId.textContent = `#${id}`;
+        }
+        
+        // Update cost
+        const totalCost = ticketQuantity * TICKET_PRICE;
+        document.getElementById('total-cost').textContent = totalCost.toLocaleString();
+        document.getElementById('ticket-qty').textContent = ticketQuantity;
+        
+        // Enable/disable buy button
+        const buyBtn = document.getElementById('buy-btn');
+        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedPowerball;
+        buyBtn.disabled = !canBuy;
+        buyBtn.style.opacity = canBuy ? '1' : '0.5';
+        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 6 + Powerball';
+      }
+      
+      // Adjust quantity
+      function adjustQuantity(delta) {
+        ticketQuantity = Math.max(1, Math.min(100, ticketQuantity + delta));
+        updateUI();
+      }
+      
+      // Buy tickets
+      function buyTickets() {
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedPowerball) {
+          alert('Please select 6 main numbers and 1 Powerball!');
+          return;
+        }
+        
+        const totalKLV = ticketQuantity * TICKET_PRICE;
+        
+        alert(`🎫 Buying ${ticketQuantity} ticket(s) for ${totalKLV} KLV
+
+Your numbers:
+Main: ${selectedMainNumbers.join(', ')}
+Powerball: ${selectedPowerball}
+
+Send ${totalKLV} KLV to:
+${CONTRACT_ADDRESS}
+
+Good luck! 🍀`);
+        
+        // Reset after purchase
+        selectedMainNumbers = [];
+        selectedPowerball = null;
+        ticketQuantity = 1;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        updateUI();
+      }
+      
+      // Countdown timer
       function startCountdown() {
         const target = new Date().getTime() + (24 * 60 * 60 * 1000);
+        
         function update() {
           const now = new Date().getTime();
           const diff = target - now;
-          if (diff <= 0) { document.getElementById('timer-h').textContent = '00'; document.getElementById('timer-m').textContent = '00'; document.getElementById('timer-s').textContent = '00'; return; }
+          if (diff <= 0) return;
+          
           const h = Math.floor(diff / (1000 * 60 * 60));
           const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
           const s = Math.floor((diff % (1000 * 60)) / 1000);
+          
           document.getElementById('timer-h').textContent = String(h).padStart(2, '0');
           document.getElementById('timer-m').textContent = String(m).padStart(2, '0');
           document.getElementById('timer-s').textContent = String(s).padStart(2, '0');
         }
+        
         update();
         setInterval(update, 1000);
       }
       
-      function updateStats(tickets, players, pool) {
-        document.getElementById('stat-tickets').textContent = tickets.toLocaleString();
-        document.getElementById('stat-players').textContent = players.toLocaleString();
-        document.getElementById('stat-pool').textContent = pool.toLocaleString();
-        const percent = Math.min((tickets / 10000) * 100, 100);
-        document.getElementById('progress-percent').textContent = percent.toFixed(1) + '%';
-        document.getElementById('progress-fill').style.width = percent + '%';
+      // Load stats
+      function loadStats() {
+        document.getElementById('stat-tickets').textContent = '247';
+        document.getElementById('stat-players').textContent = '89';
+        document.getElementById('stat-pool').textContent = '1,235';
         
-        // Update price displays
-        document.getElementById('klv-price').textContent = '$' + klvPriceUSD.toFixed(5);
-        document.getElementById('kpepe-price').textContent = '$' + kpepePriceUSD.toFixed(6);
-        const kpepePerKLV = Math.round(1 / (kpepePriceUSD / klvPriceUSD) / 1000) * 1000;
-        document.getElementById('kpepe-per-klv').textContent = '~' + kpepePerKLV.toLocaleString();
+        // Jackpot animation
+        const jackpot = 2000 + 1235;
+        document.getElementById('jackpot-klv').textContent = jackpot.toLocaleString();
+        document.getElementById('jackpot-usd').textContent = '$' + (jackpot * klvPriceUSD).toFixed(2) + ' USD';
       }
       
-      async function loadSavedWallet() {
+      // Check wallet
+      function checkWallet() {
         const saved = localStorage.getItem('klever_wallet');
         if (saved) {
           walletAddress = saved;
-          connectionMode = 'manual';
-          await checkKPEPEBalance(saved);
           showConnected();
-        } else { 
-          showConnectOptions(); 
+        } else {
+          showConnectOptions();
         }
       }
       
       function showConnectOptions() {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         document.getElementById('wallet-section').innerHTML = `
           <div style="text-align: center;">
             <div class="wallet-status disconnected"><span>●</span> Not Connected</div>
-            <div class="connection-options">
-              <div class="connection-option" onclick="connectMobile()">
-                <div class="connection-icon">📱</div>
-                <div class="connection-info">
-                  <h3>Klever Wallet App</h3>
-                  <p>${isMobile ? 'Open in app browser' : 'Scan QR to connect'}</p>
-                </div>
-              </div>
-              <div class="connection-option" onclick="connectManual()">
-                <div class="connection-icon">💸</div>
-                <div class="connection-info">
-                  <h3>Manual Transfer</h3>
-                  <p>Send KLV directly to contract</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-      
-      function connectMobile() {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        if (isMobile) { window.location.href = 'klever://open?url=' + encodeURIComponent(window.location.href); }
-        else {
-          const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(window.location.href);
-          document.getElementById('wallet-section').innerHTML = `
-            <div style="text-align: center;">
-              <div class="wallet-status disconnected"><span>●</span> Scan to Connect</div>
-              <img src="${qrUrl}" alt="QR" style="max-width: 180px; border-radius: 12px;">
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 12px;">Open in Klever Wallet app</p>
-              <button class="lottery-btn lottery-btn-secondary" onclick="showConnectOptions()" style="margin-top: 16px;">← Back</button>
-            </div>
-          `;
-        }
-      }
-      
-      async function connectManual() {
-        connectionMode = 'manual';
-        
-        const tier = getDiscountTier();
-        let tierInfo = '';
-        if (tier.tier === 'Gold') {
-          tierInfo = '<div style="background: linear-gradient(to right, #431A85, #9B59B6); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥇 Gold Tier</div>';
-        } else if (tier.tier === 'Silver') {
-          tierInfo = '<div style="background: rgba(155, 89, 182, 0.3); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥈 Silver Tier</div>';
-        } else if (tier.tier === 'Bronze') {
-          tierInfo = '<div style="background: rgba(155, 89, 182, 0.2); padding: 8px 16px; border-radius: 20px; display: inline-block; margin-bottom: 12px;">🥉 Bronze Tier</div>';
-        } else {
-          tierInfo = '<div style="color: var(--text-secondary); margin-bottom: 12px;">Hold KPEPE for discounts!</div>';
-        }
-        
-        document.getElementById('wallet-section').innerHTML = `
-          <div style="text-align: center;">
-            <div class="wallet-status disconnected"><span>●</span> Manual Mode</div>
-            ${tierInfo}
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">
-              Your ticket price: <strong style="color: var(--purple);">${tier.price} KLV</strong> (${tier.discount}% off)
+              Connect wallet to track your tickets and rewards
             </p>
-            <div class="wallet-address">${CONTRACT_ADDRESS}</div>
-            <button class="lottery-btn lottery-btn-secondary" onclick="copyContract()">📋 Copy Address</button>
+            <button class="lottery-btn lottery-btn-secondary" onclick="connectWallet()">🔗 Connect Wallet</button>
           </div>
-        `;
-        document.getElementById('actions-section').style.display = 'block';
-        
-        // Update tier badge and render user status
-        document.getElementById('tier-badge').textContent = tier.tier;
-        renderUserStatus();
-      }
-      
-      // Render user status card showing holdings vs staking
-      async function renderUserStatus() {
-        const tier = getDiscountTier();
-        const reward = getWinnerReward();
-        const { staked, freeTickets } = await checkKPEPEStaked(walletAddress);
-        
-        // KPEPE value in USD
-        const holdingUSD = (kpepeBalance * kpepePriceUSD).toFixed(2);
-        const stakedUSD = (staked * kpepePriceUSD).toFixed(2);
-        
-        // Tier badge color
-        let tierColor = 'var(--text-secondary)';
-        if (tier.tier === 'Gold') tierColor = 'linear-gradient(to right, #431A85, #9B59B6)';
-        else if (tier.tier === 'Silver') tierColor = 'rgba(155, 89, 182, 0.5)';
-        else if (tier.tier === 'Bronze') tierColor = 'rgba(155, 89, 182, 0.3)';
-        
-        document.getElementById('user-status-card').style.display = 'block';
-        document.getElementById('user-status-content').innerHTML = `
-          <!-- Tier Badge -->
-          <div style="text-align: center; margin-bottom: 16px;">
-            <div style="background: ${tierColor}; padding: 8px 20px; border-radius: 20px; display: inline-block;">
-              <span style="font-size: 1.2rem;">${tier.tier === 'Gold' ? '🥇' : tier.tier === 'Silver' ? '🥈' : tier.tier === 'Bronze' ? '🥉' : '💚'}</span>
-              <span style="font-weight: 700; margin-left: 8px;">${tier.tier} Tier</span>
-            </div>
-          </div>
-          
-          <!-- Holdings vs Staked -->
-          <div class="stats-grid" style="margin-bottom: 16px;">
-            <div class="stat-box">
-              <div class="stat-value" style="font-size: 1rem; color: #4ade80;">${kpepeBalance.toLocaleString()}</div>
-              <div class="stat-label">KPEPE Holding</div>
-              <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px;">$${holdingUSD}</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" style="font-size: 1rem; color: #f97316;">${staked.toLocaleString()}</div>
-              <div class="stat-label">KPEPE Staked</div>
-              <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px;">$${stakedUSD}</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" style="font-size: 1rem; color: #9B59B6;">${tier.price} KLV</div>
-              <div class="stat-label">Your Ticket Price</div>
-              <div style="font-size: 0.7rem; color: var(--text-secondary); margin-top: 4px;">${tier.discount}% off</div>
-            </div>
-          </div>
-          
-          <!-- Benefits Row -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 1.5rem; margin-bottom: 4px;">🎁</div>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Winner Reward</div>
-              <div style="font-size: 1.1rem; font-weight: 700; color: #4ade80;">${reward.toLocaleString()} KPEPE</div>
-            </div>
-            <div style="background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); border-radius: 12px; padding: 12px; text-align: center;">
-              <div style="font-size: 1.5rem; margin-bottom: 4px;">🎟️</div>
-              <div style="font-size: 0.8rem; color: var(--text-secondary);">Free Tickets/Day</div>
-              <div style="font-size: 1.1rem; font-weight: 700; color: #f97316;">${freeTickets} tickets</div>
-            </div>
-          </div>
-          
-          ${staked < 25000 ? `
-          <div style="margin-top: 12px; padding: 12px; background: rgba(155, 89, 182, 0.1); border-radius: 8px; text-align: center;">
-            <div style="font-size: 0.8rem; color: var(--text-secondary);">
-              💡 Stake 25K+ KPEPE for <strong style="color: #f97316;">free tickets</strong>!
-            </div>
-          </div>
-          ` : ''}
         `;
       }
       
       function showConnected() {
         const shortAddr = walletAddress.slice(0, 10) + '...' + walletAddress.slice(-6);
-        
-        let tierInfo = '';
-        if (kpepeBalance >= 1000000) {
-          tierInfo = '<div style="background: linear-gradient(to right, #431A85, #9B59B6); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥇 Gold Tier</div>';
-        } else if (kpepeBalance >= 100000) {
-          tierInfo = '<div style="background: rgba(155, 89, 182, 0.3); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥈 Silver Tier</div>';
-        } else if (kpepeBalance >= 10000) {
-          tierInfo = '<div style="background: rgba(155, 89, 182, 0.2); padding: 8px 16px; border-radius: 20px; display: inline-block; margin: 8px 0;">🥉 Bronze Tier</div>';
-        }
-        
         document.getElementById('wallet-section').innerHTML = `
           <div style="text-align: center;">
             <div class="wallet-status connected"><span>✓</span> Connected</div>
             <div class="wallet-address">${shortAddr}</div>
-            ${tierInfo}
             <button class="lottery-btn lottery-btn-secondary" onclick="disconnect()" style="margin-top: 8px;">Disconnect</button>
           </div>
         `;
-        
-        // Update tier badge and render user status
-        document.getElementById('tier-badge').textContent = kpepeBalance >= 1000000 ? 'Gold' : kpepeBalance >= 100000 ? 'Silver' : kpepeBalance >= 10000 ? 'Bronze' : 'Standard';
-        renderUserStatus();
-        
-        document.getElementById('actions-section').style.display = 'block';
+      }
+      
+      async function connectWallet() {
+        // For now, just use manual input
+        const address = prompt('Enter your Klever wallet address (or use direct transfer):');
+        if (address && address.startsWith('klv1')) {
+          walletAddress = address;
+          localStorage.setItem('klever_wallet', address);
+          showConnected();
+        } else {
+          alert('Invalid address. Try direct transfer instead.');
+        }
       }
       
       function disconnect() {
         walletAddress = null;
         localStorage.removeItem('klever_wallet');
-        document.getElementById('actions-section').style.display = 'none';
         showConnectOptions();
-      }
-      
-      function adjustTickets(delta) {
-        const input = document.getElementById('ticket-count-input');
-        let val = parseInt(input.value) + delta;
-        if (val < 1) val = 1;
-        if (val > 100) val = 100;
-        input.value = val;
-        const price = getTicketPrice();
-        document.getElementById('total-cost').textContent = (val * price).toLocaleString();
-      }
-      
-      async function buyTickets() {
-        const count = parseInt(document.getElementById('ticket-count-input').value);
-        const price = getTicketPrice();
-        const total = count * price;
-        
-        const tier = getDiscountTier();
-        const reward = getWinnerReward();
-        const { freeTickets } = await checkKPEPEStaked(walletAddress);
-        
-        let tierInfo = '';
-        if (tier.tier === 'Gold') tierInfo = `\n\n🎉 Gold Tier: ${tier.discount}% off + ${reward.toLocaleString()} KPEPE reward`;
-        else if (tier.tier === 'Silver') tierInfo = `\n\n🥈 Silver Tier: ${tier.discount}% off + ${reward.toLocaleString()} KPEPE reward`;
-        else if (tier.tier === 'Bronze') tierInfo = `\n\n🥉 Bronze Tier: ${tier.discount}% off + ${reward.toLocaleString()} KPEPE reward`;
-        else tierInfo = `\n\n💚 Standard tier - Buy more KPEPE for discounts!`;
-        
-        if (freeTickets > 0) {
-          tierInfo += `\n\n🎁 You have ${freeTickets} free tickets/day from staking!`;
-        }
-        
-        alert(`🎫 Buy ${count} Ticket(s) for ${total} KLV${tierInfo}\n\nSend ${total} KLV to:\n${CONTRACT_ADDRESS}\n\nThe contract will automatically register your tickets!`);
-        
-        // Add tickets and update pool
-        for (let i = 0; i < count; i++) {
-          const ticketNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-          myTickets.push(ticketNum);
-        }
-        
-        // Update pool and jackpot
-        currentPool += total;
-        const jackpotAmount = INITIAL_JACKPOT + currentPool;
-        document.getElementById('jackpot-klv').textContent = jackpotAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = '$' + (jackpotAmount * klvPriceUSD).toFixed(4) + ' USD';
-        updateStats(247 + myTickets.length, 89 + Math.min(myTickets.length, 1), currentPool);
-        
-        updateMyTickets();
-      }
-      
-      function updateMyTickets() {
-        document.getElementById('my-ticket-count').textContent = myTickets.length;
-        const display = document.getElementById('my-tickets-display');
-        if (myTickets.length === 0) {
-          display.innerHTML = '<div class="no-tickets">No tickets yet. Buy some to participate!</div>';
-        } else {
-          display.innerHTML = '<div class="ticket-display">' + myTickets.map(t => `<div class="ticket-item">#${t}</div>`).join('') + '</div>';
-        }
-      }
-      
-      function copyContract() {
-        navigator.clipboard.writeText(CONTRACT_ADDRESS).then(() => alert('Address copied!')).catch(() => prompt('Copy:', CONTRACT_ADDRESS));
-      }
-      
-      function switchTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        document.getElementById('tab-winners').style.display = tab === 'winners' ? 'block' : 'none';
-        document.getElementById('tab-history').style.display = tab === 'history' ? 'block' : 'none';
-        document.getElementById('tab-faq').style.display = tab === 'faq' ? 'block' : 'none';
       }
     </script>
   </body>
