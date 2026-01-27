@@ -540,12 +540,28 @@
       let kleverWeb3 = null;
       let connectedWallet = null;
 
+      function setWalletStatus(text, isConnected) {
+        const statusEl = document.getElementById('wallet-status');
+        const connectBtn = document.querySelector('button[onclick="connectWallet()"]');
+        if (isConnected) {
+          statusEl.classList.remove('disconnected');
+          statusEl.classList.add('connected');
+        } else {
+          statusEl.classList.remove('connected');
+          statusEl.classList.add('disconnected');
+        }
+        statusEl.innerHTML = text;
+        connectBtn.textContent = isConnected ? '🔗 Disconnect Wallet' : '🔗 Connect Wallet';
+        connectBtn.onclick = isConnected ? disconnectWallet : connectWallet;
+      }
+
       async function initializeKleverWeb3() {
         if (typeof window.klever !== 'undefined') {
           kleverWeb3 = window.klever;
           console.log('✅ Klever Web3 SDK loaded');
         } else {
           console.warn('⚠️ Klever extension not detected');
+          setWalletStatus('<span>●</span> Install Klever Extension (Mainnet)', false);
         }
       }
 
@@ -574,21 +590,11 @@
       }
 
       function updateWalletUI(connected, address) {
-        const statusEl = document.getElementById('wallet-status');
-        const connectBtn = document.querySelector('button[onclick="connectWallet()"]');
         if (connected && address) {
-          statusEl.classList.remove('disconnected');
-          statusEl.classList.add('connected');
           const shortAddr = address.substring(0, 8) + '...' + address.substring(address.length - 6);
-          statusEl.innerHTML = `<span>●</span> Connected: ${shortAddr}`;
-          connectBtn.textContent = '🔗 Disconnect Wallet';
-          connectBtn.onclick = disconnectWallet;
+          setWalletStatus(`<span>●</span> Connected: ${shortAddr}`, true);
         } else {
-          statusEl.classList.remove('connected');
-          statusEl.classList.add('disconnected');
-          statusEl.innerHTML = '<span>●</span> Not Connected';
-          connectBtn.textContent = '🔗 Connect Wallet';
-          connectBtn.onclick = connectWallet;
+          setWalletStatus('<span>●</span> Not Connected', false);
         }
       }
 
