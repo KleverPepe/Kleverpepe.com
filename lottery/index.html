@@ -122,28 +122,42 @@
       .section-title .badge { background: var(--purple); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
       .section-title .badge.complete { background: var(--primary); color: #000; }
       
-      /* Number Grid - Full Display */
-      .number-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+      /* Number Grid - ALL VISIBLE */
+      .number-grid { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 100%; }
       
-      .number-btn { width: 38px; height: 38px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); background: transparent; color: var(--text); font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-      .number-btn:hover { border-color: var(--purple); background: rgba(168, 85, 247, 0.2); transform: scale(1.1); }
-      .number-btn.selected { background: linear-gradient(135deg, var(--purple), #7c3aed); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); transform: scale(1.1); }
+      .number-btn { 
+        width: 36px; 
+        height: 36px; 
+        border-radius: 50%; 
+        border: 2px solid rgba(255,255,255,0.3); 
+        background: #2a2a3e; 
+        color: #ffffff; 
+        font-size: 0.85rem; 
+        font-weight: 700; 
+        cursor: pointer; 
+        transition: all 0.2s; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .number-btn:hover { border-color: var(--purple); background: rgba(168, 85, 247, 0.3); transform: scale(1.1); }
+      .number-btn.selected { background: linear-gradient(135deg, var(--purple), #7c3aed); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(168, 85, 247, 0.6); transform: scale(1.1); }
       
       /* Pool 8 Ball */
-      .pool-8ball { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; color: #fff; position: relative; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-      .pool-8ball::before { content: ''; position: absolute; top: 6px; left: 10px; width: 6px; height: 6px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+      .pool-8ball { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #fff; position: relative; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+      .pool-8ball::before { content: ''; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; background: rgba(255,255,255,0.7); border-radius: 50%; }
       
       .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; position: relative; }
-      .number-btn.eightball::before { content: ''; position: absolute; top: 5px; left: 8px; width: 5px; height: 5px; background: rgba(255,255,255,0.6); border-radius: 50%; }
-      .number-btn.eightball:hover { background: linear-gradient(145deg, #333, #111); box-shadow: 0 0 15px rgba(255,255,255,0.4); transform: scale(1.1); }
-      .number-btn.eightball.selected { background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.5); transform: scale(1.1); }
+      .number-btn.eightball::before { content: ''; position: absolute; top: 4px; left: 7px; width: 4px; height: 4px; background: rgba(255,255,255,0.7); border-radius: 50%; }
+      .number-btn.eightball:hover { background: linear-gradient(145deg, #333, #111); box-shadow: 0 0 15px rgba(255,255,255,0.5); transform: scale(1.1); }
+      .number-btn.eightball.selected { background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.6); transform: scale(1.1); }
       
       /* Ticket Preview */
       .ticket-preview { background: rgba(74, 222, 128, 0.08); border: 2px dashed rgba(74, 222, 128, 0.25); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
       .ticket-numbers { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-      .ticket-num { width: 36px; height: 36px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+      .ticket-num { width: 34px; height: 34px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
       .ticket-num.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; position: relative; }
-      .ticket-num.eightball::before { content: ''; position: absolute; top: 4px; left: 7px; width: 4px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+      .ticket-num.eightball::before { content: ''; position: absolute; top: 3px; left: 6px; width: 4px; height: 4px; background: rgba(255,255,255,0.7); border-radius: 50%; }
       .ticket-empty { color: var(--text-muted); font-size: 0.8rem; }
       
       /* Quick Pick */
@@ -172,7 +186,7 @@
       .prize-balls { display: flex; gap: 3px; }
       .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
       .prize-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; color: #fff; position: relative; }
-      .prize-ball.eightball::before { content: ''; position: absolute; top: 2px; left: 4px; width: 3px; height: 3px; background: rgba(255,255,255,0.6); border-radius: 50%; }
+      .prize-ball.eightball::before { content: ''; position: absolute; top: 2px; left: 4px; width: 3px; height: 3px; background: rgba(255,255,255,0.7); border-radius: 50%; }
       .prize-amount { font-weight: 700; color: var(--primary); }
       .prize-row.jackpot { background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
       .prize-row.jackpot .prize-match { color: var(--primary); font-weight: 700; }
@@ -190,6 +204,32 @@
       .wallet-status.connected { background: rgba(74, 222, 128, 0.15); color: var(--primary); }
       
       .footer { text-align: center; padding: 16px; color: var(--text-muted); font-size: 0.75rem; }
+      
+      /* Frog Popup */
+      #frog-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, var(--purple), var(--orange));
+        padding: 20px 40px;
+        border-radius: 16px;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #fff;
+        z-index: 9999;
+        animation: popup-bounce 0.5s ease-out;
+        box-shadow: 0 0 50px rgba(168, 85, 247, 0.8);
+        text-align: center;
+        min-width: 200px;
+        display: none;
+      }
+      
+      @keyframes popup-bounce {
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      }
     </style>
   </head>
   <body>
@@ -202,6 +242,9 @@
     <div class="glow-orb purple"></div>
     <div class="glow-orb green"></div>
     <div class="glow-orb orange"></div>
+    
+    <!-- Frog Popup -->
+    <div id="frog-popup"></div>
     
     <div class="container">
       <!-- Header -->
@@ -243,13 +286,13 @@
         <button class="quick-btn" onclick="clearSelection()">🗑️ Clear</button>
       </div>
       
-      <!-- Main Numbers -->
+      <!-- Main Numbers - ALL 50 VISIBLE -->
       <div class="section-card">
         <div class="section-title"><span>Main Numbers (1-50)</span><span class="badge" id="main-count">0/5</span></div>
         <div class="number-grid" id="main-numbers"></div>
       </div>
       
-      <!-- Eight Ball -->
+      <!-- Eight Ball - ALL 20 VISIBLE -->
       <div class="section-card">
         <div class="section-title">
           <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Eight Ball (1-20)</span></div>
@@ -317,16 +360,11 @@
       
       function showFrogMessage() {
         const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
-        const popup = document.createElement('div');
-        popup.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,var(--purple),var(--orange));padding:16px 32px;border-radius:14px;font-weight:700;font-size:1.1rem;z-index:1000;animation:pop-in 0.3s;box-shadow:0 0 30px rgba(168,85,247,0.5);';
+        const popup = document.getElementById('frog-popup');
         popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-        document.body.appendChild(popup);
-        setTimeout(() => { popup.style.animation = 'pop-out 0.3s forwards'; setTimeout(() => popup.remove(), 300); }, 1800);
+        popup.style.display = 'block';
+        setTimeout(() => { popup.style.display = 'none'; }, 2000);
       }
-      
-      const style = document.createElement('style');
-      style.textContent = '@keyframes pop-in{from{transform:translate(-50%,-50%) scale(0);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}@keyframes pop-out{from{transform:translate(-50%,-50%) scale(1);opacity:1}to{transform:translate(-50%,-50%) scale(1.1);opacity:0}}';
-      document.head.appendChild(style);
       
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers'), ebGrid = document.getElementById('eightball-numbers');
@@ -359,12 +397,12 @@
         updateUI();
       }
       
-      function clearSelection() { selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected')); updateUI(); }
+      function clearSelection() { selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b        , b.classList.remove('selected')); updateUI(); }
       
       function updateUI() {
         document.getElementById('main-count').textContent = selectedMainNumbers.length + '/' + MAIN_PICK;
         document.getElementById('8b-count').textContent = (selectedEightball ? 1 : 0) + '/1';
-        document.getElementById('main-count').classList.toggle('complete        , selectedMainNumbers.length === MAIN_PICK);
+        document.getElementById('main-count').classList.toggle('complete', selectedMainNumbers.length === MAIN_PICK);
         document.getElementById('8b-count').classList.toggle('complete', !!selectedEightball);
         
         const ticketNumbers = document.getElementById('ticket-numbers');
