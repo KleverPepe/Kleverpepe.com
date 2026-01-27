@@ -320,9 +320,33 @@
       }
       .number-btn:hover { border-color: var(--purple); background: rgba(155, 89, 182, 0.2); transform: scale(1.1); }
       .number-btn.selected { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); border-color: var(--purple); color: #fff; box-shadow: 0 0 12px rgba(155, 89, 182, 0.6); transform: scale(1.1); }
-      .number-btn.luckyball { border-color: var(--red); }
-      .number-btn.luckyball:hover { border-color: var(--red); background: rgba(239, 68, 68, 0.2); }
-      .number-btn.luckyball.selected { background: linear-gradient(135deg, var(--red), #dc2626); border-color: var(--red); color: #fff; box-shadow: 0 0 12px rgba(239, 68, 68, 0.6); transform: scale(1.1); }
+      .number-btn.eightball { 
+        background: linear-gradient(135deg, #1a1a1a, #000); 
+        border: 2px solid #fff;
+        color: #fff;
+        position: relative;
+      }
+      .number-btn.eightball::after {
+        content: '8';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.85rem;
+        font-weight: 900;
+      }
+      .number-btn.eightball:hover { 
+        border-color: #fff; 
+        background: linear-gradient(135deg, #333, #111); 
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+      }
+      .number-btn.eightball.selected { 
+        background: linear-gradient(135deg, #1a1a1a, #000); 
+        border: 3px solid #fff;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        transform: scale(1.15);
+      }
       
       /* Quick Pick Button */
       .quick-pick-btn {
@@ -373,7 +397,21 @@
         font-size: 0.9rem;
         font-weight: 700;
       }
-      .ticket-number.luckyball { background: var(--red); }
+      .ticket-number.eightball { 
+        background: linear-gradient(135deg, #1a1a1a, #000); 
+        border: 2px solid #fff;
+        position: relative;
+      }
+      .ticket-number.eightball::after {
+        content: '8';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 900;
+      }
       .ticket-empty { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
       
       /* Quantity Controls */
@@ -434,8 +472,19 @@
       .prize-match { display: flex; align-items: center; gap: 8px; }
       .prize-balls { display: flex; gap: 4px; }
       .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
-      .prize-ball.lb { background: var(--red); color: #fff; }
-      .prize-ball.lbplus { background: linear-gradient(135deg, var(--red), #ff8c00); color: #fff; box-shadow: 0 0 8px rgba(255, 100, 0, 0.5); }
+      .prize-ball.eightball { 
+        background: linear-gradient(135deg, #1a1a1a, #000); 
+        border: 1px solid #fff;
+        color: #fff;
+        font-size: 0.6rem;
+      }
+      .prize-ball.eightballplus { 
+        background: linear-gradient(135deg, #1a1a1a, #000); 
+        border: 2px solid #fff;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        font-size: 0.7rem;
+      }
       .prize-amount { font-weight: 700; color: var(--primary); font-size: 0.85rem; }
       
       /* Wallet */
@@ -460,8 +509,8 @@
     <div class="container">
       <!-- Header -->
       <div class="header">
-        <h1>🎰 KPEPE Jackpot</h1>
-        <p>Pick 5 numbers + 1 Lucky Ball!</p>
+        <h1>🎱 KPEPE Jackpot</h1>
+        <p>Pick 5 numbers + 1 Eight Ball!</p>
         <div class="network-badge">🔗 Testnet Mode</div>
       </div>
       
@@ -475,7 +524,7 @@
           </div>
           <div class="step">
             <div class="step-num">2</div>
-            <div class="step-text">Pick Lucky Ball<br>(1-20)</div>
+            <div class="step-text">Pick Eight Ball<br>(1-20)</div>
           </div>
           <div class="step">
             <div class="step-num">3</div>
@@ -513,6 +562,12 @@
           <div class="jackpot-label">🎰 KPEPE Jackpot</div>
           <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
           <div class="jackpot-usd" id="jackpot-usd">~$0 USD</div>
+          
+          <div style="margin: 12px 0; padding: 10px; background: linear-gradient(135deg, rgba(155, 89, 182, 0.2), rgba(249, 115, 22, 0.2)); border-radius: 12px; border: 1px solid var(--purple);">
+            <div style="font-size: 0.75rem; color: var(--purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">🌟 Grand Prize</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: var(--purple);">500,000 KPEPE</div>
+            <div style="font-size: 0.7rem; color: var(--text-secondary);">+ KLV Pool Winnings</div>
+          </div>
           
           <div class="jackpot-breakdown">
             <div class="breakdown-item">
@@ -599,7 +654,7 @@
       <div class="lottery-card" id="betting-section">
         <div class="lottery-card-header">
           <span class="lottery-card-title">🎫 Your Numbers</span>
-          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 5 + Lucky Ball</span>
+          <span style="font-size: 0.75rem; color: var(--text-secondary);">Pick 5 + Eight Ball</span>
         </div>
         
         <!-- Main Numbers (1-50) -->
@@ -610,12 +665,12 @@
           <div class="number-grid" id="main-numbers"></div>
         </div>
         
-        <!-- Lucky Ball (1-20) -->
+        <!-- Eight Ball (1-20) -->
         <div class="number-section">
-          <div class="number-section-title" style="color: var(--red);">
-            🔴 Lucky Ball <span class="badge" id="pb-count">0/1 selected</span>
+          <div class="number-section-title" style="color: #fff;">
+            🎱 Eight Ball <span class="badge" id="pb-count">0/1 selected</span>
           </div>
-          <div class="number-grid" id="luckyball-numbers"></div>
+          <div class="number-grid" id="eightball-numbers"></div>
         </div>
         
         <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick (Random Numbers)</button>
@@ -678,7 +733,7 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">5</div>
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
               <span style="font-weight: 700; color: var(--success);">🎉 JACKPOT</span>
             </div>
@@ -697,9 +752,9 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">4</div>
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
-              <span>Match 4 + Lucky Ball</span>
+              <span>Match 4 + 8 Ball</span>
             </div>
             <span class="prize-amount">25x ticket</span>
           </div>
@@ -716,9 +771,9 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">3</div>
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
-              <span>Match 3 + Lucky Ball</span>
+              <span>Match 3 + 8 Ball</span>
             </div>
             <span class="prize-amount">8x ticket</span>
           </div>
@@ -735,9 +790,9 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">2</div>
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
-              <span>Match 2 + Lucky Ball</span>
+              <span>Match 2 + 8 Ball</span>
             </div>
             <span class="prize-amount">4x ticket</span>
           </div>
@@ -745,25 +800,25 @@
             <div class="prize-match">
               <div class="prize-balls">
                 <div class="prize-ball">1</div>
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
-              <span>Match 1 + Lucky Ball</span>
+              <span>Match 1 + 8 Ball</span>
             </div>
             <span class="prize-amount">3x ticket</span>
           </div>
           <div class="prize-row">
             <div class="prize-match">
               <div class="prize-balls">
-                <div class="prize-ball lb">LB</div>
+                <div class="prize-ball eightball">8B</div>
               </div>
-              <span>Lucky Ball only</span>
+              <span>Eight Ball only</span>
             </div>
             <span class="prize-amount">2x ticket</span>
           </div>
         </div>
         
         <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
-          💡 650 KLV ticket × multiplier = Prize amount (🎯 LB match = bonus!)
+          💡 1000 KLV ticket × multiplier = Prize amount (🎱 8B match = bonus!)
         </div>
         
         <!-- KPEPE Seed Pool Prizes -->
@@ -776,11 +831,11 @@
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">5</div>
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span style="font-weight: 700; color: var(--purple);">🎉 JACKPOT</span>
+                <span style="font-weight: 700; color: var(--purple);">🎉 KPEPE JACKPOT</span>
               </div>
-              <span class="prize-amount" style="color: var(--purple); font-size: 1rem;">500,000</span>
+              <span class="prize-amount" style="color: var(--purple); font-size: 1rem;">500,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
@@ -789,17 +844,17 @@
                 </div>
                 <span>Match 5</span>
               </div>
-              <span class="prize-amount">50,000</span>
+              <span class="prize-amount">50,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">4</div>
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span>Match 4 + Lucky Ball</span>
+                <span>Match 4 + 8 Ball</span>
               </div>
-              <span class="prize-amount">25,000</span>
+              <span class="prize-amount">25,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
@@ -808,17 +863,17 @@
                 </div>
                 <span>Match 4</span>
               </div>
-              <span class="prize-amount">15,000</span>
+              <span class="prize-amount">15,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">3</div>
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span>Match 3 + Lucky Ball</span>
+                <span>Match 3 + 8 Ball</span>
               </div>
-              <span class="prize-amount">8,000</span>
+              <span class="prize-amount">8,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
@@ -827,40 +882,40 @@
                 </div>
                 <span>Match 3</span>
               </div>
-              <span class="prize-amount">5,000</span>
+              <span class="prize-amount">5,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">2</div>
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span>Match 2 + Lucky Ball</span>
+                <span>Match 2 + 8 Ball</span>
               </div>
-              <span class="prize-amount">4,000</span>
+              <span class="prize-amount">4,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
                   <div class="prize-ball">1</div>
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span>Match 1 + Lucky Ball</span>
+                <span>Match 1 + 8 Ball</span>
               </div>
-              <span class="prize-amount">3,000</span>
+              <span class="prize-amount">3,000 KPEPE</span>
             </div>
             <div class="prize-row">
               <div class="prize-match">
                 <div class="prize-balls">
-                  <div class="prize-ball lb">LB</div>
+                  <div class="prize-ball eightball">8B</div>
                 </div>
-                <span>Lucky Ball only</span>
+                <span>Eight Ball only</span>
               </div>
-              <span class="prize-amount">2,000</span>
+              <span class="prize-amount">2,000 KPEPE</span>
             </div>
           </div>
           <div style="margin-top: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
-            🎁 Bonus pool from team wallet - limited time!
+            🎁 Bonus KPEPE from team wallet - win up to 500K KPEPE!
           </div>
         </div>
       </div>
@@ -908,14 +963,15 @@
       const PROJECT_SHARE = 0.5; // 50% goes to project for liquidity & growth
       const MAIN_NUMBERS = 50;
       const POWERBALL_NUMBERS = 20;
-      const MAIN_PICK = 5; // Pick 5 main numbers + 1 Lucky Ball
+      const MAIN_PICK = 5; // Pick 5 main numbers + 1 Eight Ball
       const POWERBALL_PICK = 1;
       
       let walletAddress = null;
       let selectedMainNumbers = [];
-      let selectedLuckyball = null;
+      let selectedEightball = null;
       let ticketQuantity = 1;
       let klvPriceUSD = 0.00154;
+      let kpepePriceUSD = 0.0054;
       
       // Free ticket system (staking only, unlock with paid purchases, expire daily)
       let stakingBonus = 0; // Free tickets per day from staking
@@ -983,9 +1039,9 @@
       // Create number pickers
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers');
-        const lbGrid = document.getElementById('luckyball-numbers');
+        const ebGrid = document.getElementById('eightball-numbers');
         
-        if (!mainGrid || !lbGrid) {
+        if (!mainGrid || !ebGrid) {
           console.error('Number grid elements not found!');
           return;
         }
@@ -1001,13 +1057,13 @@
           mainGrid.appendChild(btn);
         }
         
-        // Lucky Ball 1-20
+        // Eight Ball 1-20
         for (let i = 1; i <= POWERBALL_NUMBERS; i++) {
           const btn = document.createElement('button');
-          btn.className = 'number-btn luckyball';
+          btn.className = 'number-btn eightball';
           btn.textContent = i;
-          btn.onclick = () => toggleLuckyBall(i, btn);
-          lbGrid.appendChild(btn);
+          btn.onclick = () => toggleEightball(i, btn);
+          ebGrid.appendChild(btn);
         }
       }
       
@@ -1027,14 +1083,14 @@
         updateUI();
       }
       
-      // Toggle lucky ball
-      function toggleLuckyBall(num, btn) {
-        if (selectedLuckyball === num) {
-          selectedLuckyball = null;
+      // Toggle eight ball
+      function toggleEightball(num, btn) {
+        if (selectedEightball === num) {
+          selectedEightball = null;
           btn.classList.remove('selected');
         } else {
-          selectedLuckyball = num;
-          document.querySelectorAll('.number-btn.luckyball').forEach(b => b.classList.remove('selected'));
+          selectedEightball = num;
+          document.querySelectorAll('.number-btn.eightball').forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
           btn.classList.add('pulse');
           setTimeout(() => btn.classList.remove('pulse'), 300);
@@ -1046,7 +1102,7 @@
       function quickPick() {
         // Clear selections
         selectedMainNumbers = [];
-        selectedLuckyball = null;
+        selectedEightball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         
         // Pick 5 random main numbers
@@ -1058,14 +1114,14 @@
         }
         selectedMainNumbers.sort((a, b) => a - b);
         
-        // Pick lucky ball
-        selectedLuckyball = Math.floor(Math.random() * POWERBALL_NUMBERS) + 1;
+        // Pick eight ball
+        selectedEightball = Math.floor(Math.random() * POWERBALL_NUMBERS) + 1;
         
         // Update UI
         document.querySelectorAll('.number-btn').forEach(btn => {
           const num = parseInt(btn.textContent);
           if (selectedMainNumbers.includes(num)) btn.classList.add('selected');
-          if (btn.classList.contains('luckyball') && num === selectedLuckyball) btn.classList.add('selected');
+          if (btn.classList.contains('eightball') && num === selectedEightball) btn.classList.add('selected');
         });
         
         updateUI();
@@ -1082,19 +1138,19 @@
         const mainBadge = document.getElementById('main-count');
         const pbBadge = document.getElementById('pb-count');
         mainBadge.textContent = `${selectedMainNumbers.length}/${MAIN_PICK}`;
-        pbBadge.textContent = `${selectedLuckyball ? 1 : 0}/${POWERBALL_PICK}`;
+        pbBadge.textContent = `${selectedEightball ? 1 : 0}/${POWERBALL_PICK}`;
         
         // Add complete class when full
         if (selectedMainNumbers.length === MAIN_PICK) mainBadge.classList.add('complete');
         else mainBadge.classList.remove('complete');
-        if (selectedLuckyball) pbBadge.classList.add('complete');
+        if (selectedEightball) pbBadge.classList.add('complete');
         else pbBadge.classList.remove('complete');
         
         // Ticket preview
         const ticketNumbers = document.getElementById('ticket-numbers');
         const ticketId = document.getElementById('ticket-id');
         
-        if (selectedMainNumbers.length === 0 && !selectedLuckyball) {
+        if (selectedMainNumbers.length === 0 && !selectedEightball) {
           ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or use Quick Pick</span>';
           ticketId.textContent = '#------';
         } else {
@@ -1102,8 +1158,8 @@
           selectedMainNumbers.forEach(num => {
             html += `<div class="ticket-number">${num}</div>`;
           });
-          if (selectedLuckyball) {
-            html += `<div class="ticket-number luckyball">${selectedLuckyball}</div>`;
+          if (selectedEightball) {
+            html += `<div class="ticket-number eightball">${selectedEightball}</div>`;
           }
           ticketNumbers.innerHTML = html;
           
@@ -1118,7 +1174,7 @@
         
         // Show/hide free ticket option
         const freeBtn = document.getElementById('free-btn');
-        if (available > 0 && selectedMainNumbers.length === MAIN_PICK && selectedLuckyball && ticketQuantity === 1) {
+        if (available > 0 && selectedMainNumbers.length === MAIN_PICK && selectedEightball && ticketQuantity === 1) {
           freeBtn.style.display = 'block';
           document.getElementById('free-count').textContent = available;
           document.getElementById('free-badge').style.display = 'inline';
@@ -1141,10 +1197,10 @@
         
         // Enable/disable buy button
         const buyBtn = document.getElementById('buy-btn');
-        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedLuckyball;
+        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedEightball;
         buyBtn.disabled = !canBuy;
         buyBtn.style.opacity = canBuy ? '1' : '0.5';
-        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 5 + Lucky Ball';
+        buyBtn.textContent = canBuy ? `🎟️ Buy ${ticketQuantity} Ticket(s)` : 'Pick 5 + 8 Ball';
       }
       
       // Adjust quantity
@@ -1155,8 +1211,8 @@
       
       // Buy tickets
       function buyTickets() {
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
-          alert('Please select 5 main numbers and 1 Lucky Ball!');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) {
+          alert('Please select 5 main numbers and 1 Eight Ball!');
           return;
         }
         
@@ -1183,7 +1239,7 @@
 
 Your Numbers:
 Main: ${selectedMainNumbers.join(', ')}
-Lucky Ball: ${selectedLuckyball}
+Eight Ball: ${selectedEightball}
 
 Send ${totalKLV} KLV to:
 ${CONTRACT_ADDRESS}`;
@@ -1202,8 +1258,6 @@ ${CONTRACT_ADDRESS}`;
 📊 Already unlocked all ${stakingBonus} free tickets for today!
 💡 Come back tomorrow for more free tickets!`;
           }
-        }
-        
         message += '\n\nGood luck! 🍀';
         
         alert(message);
@@ -1213,7 +1267,7 @@ ${CONTRACT_ADDRESS}`;
         
         // Reset selections
         selectedMainNumbers = [];
-        selectedLuckyball = null;
+        selectedEightball = null;
         ticketQuantity = 1;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
@@ -1230,43 +1284,8 @@ ${CONTRACT_ADDRESS}`;
           return;
         }
         
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
-          alert('Please select 5 main numbers and 1 Lucky Ball!');
-          return;
-        }
-        
-        freeTicketsUnlocked--;
-        
-        alert(`🎫 Using 1 FREE ticket!
-
-Your numbers:
-Main: ${selectedMainNumbers.join(', ')}
-Powerball: ${selectedPowerball}
-
-✅ Free tickets remaining: ${freeTicketsUnlocked + stakingBonus}
-
-Good luck! 🍀`);
-        
-        // Reset selections
-        selectedMainNumbers = [];
-        selectedLuckyball = null;
-        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
-        updateUI();
-        
-        // Update user status
-        if (walletAddress) updateUserStatus();
-      }
-      
-      // Use free ticket
-      function useFreeTicket() {
-        const available = freeTicketsUnlocked;
-        if (available <= 0) {
-          alert('No free tickets available!\n\n💡 Stake KPEPE to earn free tickets.\nThen buy paid tickets to unlock them.\n\n🎫 Tickets reset at midnight!');
-          return;
-        }
-        
-        if (selectedMainNumbers.length !== MAIN_PICK || !selectedLuckyball) {
-          alert('Please select 5 main numbers and 1 Lucky Ball!');
+        if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) {
+          alert('Please select 5 main numbers and 1 Eight Ball!');
           return;
         }
         
@@ -1277,7 +1296,7 @@ Good luck! 🍀`);
 
 Your numbers:
 Main: ${selectedMainNumbers.join(', ')}
-Lucky Ball: ${selectedLuckyball}
+Eight Ball: ${selectedEightball}
 
 ✅ Free tickets remaining: ${freeTicketsUnlocked}
 
@@ -1287,7 +1306,7 @@ Good luck! 🍀`);
         
         // Reset selections
         selectedMainNumbers = [];
-        selectedLuckyball = null;
+        selectedEightball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
         updateUI();
         
