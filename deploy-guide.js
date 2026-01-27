@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 /**
  * KPEPE Jackpot Lottery - KleverChain Smart Contract
  * 
- * WALLETS (HARDCODED):
+ * WALLETS (KLV Format - Set After Deployment):
  * ┌─────────────────────────────────────────────────────────────────┐
  * │ Project Wallet (15% of tickets):                                 │
  * │ klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9 │
@@ -13,12 +13,11 @@ pragma solidity ^0.8.0;
  * │ klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2 │
  * └─────────────────────────────────────────────────────────────────┘
  * 
- * CONTRACT DEPLOYMENT GUIDE
+ * DEPLOYMENT STEPS:
  * 
- * 1. Deploy to KleverChain mainnet/testnet
- * 2. Start accepting tickets
- * 3. 15% of tickets go to project wallet
- * 4. Prize pool accumulates in contract (owner can withdraw to pool wallet)
+ * 1. Deploy contract
+ * 2. Call initializeWallets() with both wallet addresses
+ * 3. Start accepting tickets!
  */
  * TICKET FLOW:
  * ===========================================
@@ -72,19 +71,25 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     
     console.log("Deploying KPEPE Jackpot with account:", deployer.address);
+    console.log("");
+    console.log("WALLETS TO SET AFTER DEPLOYMENT:");
+    console.log("- Project Wallet:     klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9");
+    console.log("- Prize Pool Wallet:  klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2");
+    console.log("");
     
-    // Project wallet address - HARDCODED IN CONTRACT
-    const projectWallet = "0x19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9"; // klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
-    
-    // Deploy contract (no parameters needed - wallet is hardcoded)
+    // Deploy contract (no constructor params)
     const KPEPEJackpot = await ethers.getContractFactory("KPEPEJackpot");
     const lottery = await KPEPEJackpot.deploy();
     
     console.log("KPEPE Jackpot deployed to:", lottery.address);
-    console.log("Project wallet: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9");
+    console.log("");
+    console.log("After deployment, set wallets using:");
+    console.log(`  await lottery.setProjectWallet("0x_HEX_ADDRESS_FROM_KLV")`);
+    console.log(`  await lottery.setPrizePoolWallet("0x_HEX_ADDRESS_FROM_KLV")`);
     
     // Verify on KleverScan
-    console.log("\nTo verify on KleverScan:");
+    console.log("");
+    console.log("To verify on KleverScan:");
     console.log(`npx hardhat verify --network klever ${lottery.address}`);
 }
 
@@ -107,6 +112,13 @@ const CONTRACT_ABI = [
     "function buyTicket(uint8[5] memory _mainNumbers, uint8 _eightBall) payable",
     "function quickPick() payable",
     "function claimPrize(uint256 ticketId)",
+    "function claimKPEPEPrize()",
+    "function setProjectWallet(address newWallet)",
+    "function setPrizePoolWallet(address newWallet)",
+    "function initializeWallets(address _projectWallet, address _prizePoolWallet)",
+    "function withdrawPrizePool(uint256 amount)",
+    "function getPoolBalance() view returns (uint256)",
+    "function getPendingKPEPE(address player) view returns (uint256)",
     "function getTicket(uint256 ticketId) view returns (address, uint8[5], uint8, uint256, bool, bool)",
     "function checkTicketResult(uint256 ticketId) view returns (uint8 tier, uint256 prize)",
     "function prizePool() view returns (uint256)",

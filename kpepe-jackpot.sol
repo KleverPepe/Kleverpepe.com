@@ -26,9 +26,18 @@ pragma solidity ^0.8.0;
  * - Match 4 + 8B: 25,000 KPEPE
  * - etc.
  * 
- * WALLETS:
- * - Project Wallet: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
- * - Prize Pool Wallet: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+ * WALLETS (KLV Format):
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │ Project Wallet (15% of tickets):                                 │
+ * │ klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9 │
+ * │                                                                 │
+ * │ Prize Pool Wallet (for manual distribution):                    │
+ * │ klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2 │
+ * └─────────────────────────────────────────────────────────────────┘
+ *
+ * NOTE: On KleverChain, addresses are displayed as "klv1..." but are
+ * stored as hex addresses in the contract. Set addresses using
+ * setProjectWallet() and setPrizePoolWallet() after deployment.
  */
 
 // KPEPE Token Interface
@@ -40,8 +49,13 @@ interface IKPEPE {
 contract KPEPEJackpot {
     // Contract Owner
     address public owner;
-    address public projectWallet = 0x19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9;
-    address public prizePoolWallet = 0x1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2;
+    
+    // Wallets (set after deployment using setter functions)
+    // KLV Format: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
+    address public projectWallet;
+    
+    // KLV Format: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+    address public prizePoolWallet;
     
     // KPEPE Token
     address public kpepeToken = 0xYourKPEPETokenAddressHere; // Replace with actual KPEPE token address
@@ -139,28 +153,37 @@ contract KPEPEJackpot {
     }
     
     /**
-     * @dev Withdraw accumulated KLV from prize pool for manual distribution
-     * Only owner can call this
+     * @dev Set project wallet (KLV: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9)
      */
-    function withdrawPrizePool(uint256 amount) 
+    function setProjectWallet(address newWallet) 
         public 
         onlyOwner 
     {
-        require(amount <= prizePool, "Insufficient pool balance");
-        prizePool -= amount;
-        payable(prizePoolWallet).transfer(amount);
-        emit ProjectFundsWithdrawn(owner, amount);
+        require(newWallet != address(0), "Invalid address");
+        projectWallet = newWallet;
     }
     
     /**
-     * @dev Get current pool balance
+     * @dev Set prize pool wallet (KLV: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2)
      */
-    function getPoolBalance() 
+    function setPrizePoolWallet(address newWallet) 
         public 
-        view 
-        returns (uint256) 
+        onlyOwner 
     {
-        return prizePool;
+        require(newWallet != address(0), "Invalid address");
+        prizePoolWallet = newWallet;
+    }
+    
+    /**
+     * @dev Initialize wallets (convenience function)
+     */
+    function initializeWallets(address _projectWallet, address _prizePoolWallet) 
+        public 
+        onlyOwner 
+    {
+        require(projectWallet == address(0), "Wallets already set");
+        projectWallet = _projectWallet;
+        prizePoolWallet = _prizePoolWallet;
     }
     
     /**
@@ -585,6 +608,32 @@ contract KPEPEJackpot {
         require(balance > 0, "No funds available");
         payable(owner).transfer(balance);
         emit ProjectFundsWithdrawn(owner, balance);
+    }
+    
+    /**
+     * @dev Withdraw KLV from prize pool to prize pool wallet (manual distribution)
+     * KLV Address: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+     */
+    function withdrawPrizePool(uint256 amount) 
+        public 
+        onlyOwner 
+    {
+        require(amount <= prizePool, "Insufficient pool balance");
+        require(prizePoolWallet != address(0), "Prize pool wallet not set");
+        prizePool -= amount;
+        payable(prizePoolWallet).transfer(amount);
+        emit ProjectFundsWithdrawn(owner, amount);
+    }
+    
+    /**
+     * @dev Get current pool balance
+     */
+    function getPoolBalance() 
+        public 
+        view 
+        returns (uint256) 
+    {
+        return prizePool;
     }
     
     /**
