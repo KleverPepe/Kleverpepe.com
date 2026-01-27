@@ -107,7 +107,12 @@
       .grand-prize { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 10px 20px; border-radius: 30px; margin: 16px 0; font-weight: 700; font-size: 0.95rem; animation: glow-prize 2s ease-in-out infinite; }
       @keyframes glow-prize { 0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); } 50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.5); } }
       
-      .prize-highlight { background: linear-gradient(135deg, var(--purple), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+      /* Grand Prize Highlight */
+      .grand-prize { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 12px 24px; border-radius: 30px; margin: 12px 0; font-weight: 700; font-size: 1.1rem; animation: glow-prize 2s ease-in-out infinite; }
+      .grand-prize .prize-highlight { background: linear-gradient(135deg, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+      @keyframes glow-prize { 0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); } 50% { box-shadow: 0 0 35px rgba(249, 115, 22, 0.6); } }
+      
+      .pool-amount { font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, var(--primary), #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
       
       /* Countdown */
       .countdown { background: rgba(251, 191, 36, 0.1); border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 16px; }
@@ -255,9 +260,9 @@
       <div class="jackpot-card">
         <div class="jackpot-content">
           <div class="frog-logo" onclick="showFrogMessage()">🐸</div>
-          <div class="jackpot-amount"><span id="jackpot-klv">0</span> KLV</div>
           <div class="grand-prize">🌟 <span class="prize-highlight">500,000 KPEPE</span> Grand Prize!</div>
-          <div class="jackpot-usd" id="jackpot-usd">Total Prize Pool: ~$0 USD</div>
+          <div class="pool-amount"><span id="jackpot-klv">0</span> KLV</div>
+          <div class="jackpot-usd" id="jackpot-usd">Total: ~$0 USD</div>
         </div>
       </div>
       
@@ -301,6 +306,15 @@
       <!-- Cost & Buy -->
       <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (100 KLV)</button>
       
+      <!-- KPEPE Prize Pool -->
+      <div class="prize-table kpepe-section">
+        <div class="prize-header">🌟 500K KPEPE Grand Prize</div>
+        <div class="prize-row jackpot">
+          <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎉 JACKPOT</span></div>
+          <span class="prize-amount">500,000 KPEPE</span>
+        </div>
+      </div>
+      
       <!-- KLV Prize Pool -->
       <div class="prize-table">
         <div class="prize-header">🏆 KLV Prize Pool</div>
@@ -316,15 +330,6 @@
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount">1%</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount">0.5%</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>8B only</span></div><span class="prize-amount">0.25%</span></div>
-      </div>
-      
-      <!-- KPEPE Prize Pool -->
-      <div class="prize-table kpepe-section">
-        <div class="prize-header">🌟 500K KPEPE Grand Prize</div>
-        <div class="prize-row jackpot">
-          <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎉 JACKPOT</span></div>
-          <span class="prize-amount">500,000 KPEPE</span>
-        </div>
       </div>
       
       <!-- Wallet -->
