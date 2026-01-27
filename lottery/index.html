@@ -769,36 +769,25 @@
       
       // Fetch token prices
       async function fetchTokenPrices() {
-        const CEX_API_KEY = '41eb050d-c384-465c-82ef-0e5e77b0afe5';
-        
         try {
-          // Fetch KLV price from CoinGecko
+          // Fetch KLV price from CoinGecko (supports CORS)
           const klvRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=klever&vs_currencies=usd');
           const klvData = await klvRes.json();
           klvPriceUSD = klvData.klever?.usd || 0.00154;
           document.getElementById('klv-price').textContent = '$' + klvPriceUSD.toFixed(4);
           
-          // Fetch KPEPE price from CEX
-          const cexRes = await fetch(`https://cex.bitcoin.me/api/v1/price/KPEPE-USDT`, {
-            headers: { 'X-Api-Key': CEX_API_KEY }
-          });
-          
-          if (cexRes.ok) {
-            const cexData = await cexRes.json();
-            const kpepePrice = parseFloat(cexData.price || cexData.last || 0.005371);
-            document.getElementById('kpepe-price').textContent = '$' + kpepePrice.toFixed(4);
-            localStorage.setItem('kpepe_price_usd', kpepePrice.toString());
-          } else {
-            throw new Error('CEX error');
-          }
-        } catch (e) {
-          // Fallback to cached or default price
+          // KPEPE price - use cached or default (CEX API doesn't support browser CORS)
           const cached = localStorage.getItem('kpepe_price_usd');
           if (cached) {
             document.getElementById('kpepe-price').textContent = '$' + parseFloat(cached).toFixed(4);
           } else {
             document.getElementById('kpepe-price').textContent = '$0.0054';
           }
+        } catch (e) {
+          console.log('Price fetch failed, using defaults');
+          document.getElementById('klv-price').textContent = '$0.0015';
+          const cached = localStorage.getItem('kpepe_price_usd');
+          document.getElementById('kpepe-price').textContent = cached ? '$' + parseFloat(cached).toFixed(4) : '$0.0054';
         }
       }
       

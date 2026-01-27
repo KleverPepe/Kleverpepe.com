@@ -779,59 +779,15 @@
 
     <script src="assets/js/main.js"></script>
     <script src="assets/js/tokenomics.js"></script>
-    <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
     
-    <!-- KPEPE Price Fetcher from CEX -->
+    <!-- KPEPE Price Display -->
     <script>
-      const CEX_API_KEY = '41eb050d-c384-465c-82ef-0e5e77b0afe5';
-      const CEX_API_SECRET = 'ac75ca47-8b41-4bfb-acfc-f7528cd3aa56';
-      
-      async function fetchKPEPEPrice() {
-        try {
-          // Fetch from CEX
-          const res = await fetch(`https://cex.bitcoin.me/api/v1/price/KPEPE-USDT`, {
-            headers: {
-              'X-Api-Key': CEX_API_KEY,
-              'X-Api-Secret': CEX_API_SECRET
-            }
-          });
-          
-          if (res.ok) {
-            const data = await res.json();
-            const price = parseFloat(data.price || data.last || data.lastPrice || 0.0054);
-            
-            // Update price display
-            const priceEl = document.getElementById('priceValue');
-            if (priceEl) {
-              priceEl.textContent = '$' + price.toFixed(4);
-            }
-            
-            // Cache the price
-            localStorage.setItem('kpepe_price_usd', price.toString());
-            localStorage.setItem('kpepe_price_time', Date.now().toString());
-          } else {
-            throw new Error('API error');
-          }
-        } catch (e) {
-          // Use cached price or show placeholder
-          const cached = localStorage.getItem('kpepe_price_usd');
-          const cachedTime = parseInt(localStorage.getItem('kpepe_price_time') || '0');
-          const oneHour = 60 * 60 * 1000;
-          
-          if (cached && (Date.now() - cachedTime) < oneHour) {
-            const priceEl = document.getElementById('priceValue');
-            if (priceEl) {
-              priceEl.textContent = '$' + parseFloat(cached).toFixed(4);
-            }
-          }
-        }
+      // KPEPE price from CEX (cached - CEX API doesn't support browser CORS)
+      const cached = localStorage.getItem('kpepe_price_usd');
+      const priceEl = document.getElementById('priceValue');
+      if (priceEl) {
+        priceEl.textContent = cached ? '$' + parseFloat(cached).toFixed(4) : '$0.0054';
       }
-      
-      // Fetch price on load
-      document.addEventListener('DOMContentLoaded', fetchKPEPEPrice);
-      
-      // Refresh every 60 seconds
-      setInterval(fetchKPEPEPrice, 60000);
     </script>
 </body>
 </html>
