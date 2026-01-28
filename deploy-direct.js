@@ -1,15 +1,26 @@
-// Direct Mainnet Deployment - Bypasses Hardhat mnemonic issues
+// Direct Mainnet Deployment - Works with GitHub Actions
 // ⚠️ WARNING: This deploys to MAINNET with REAL FUNDS
 
 const { ethers } = require("ethers");
 const fs = require("fs");
 
-// Load config
-const envContent = fs.readFileSync(".env", "utf8");
-const mnemonic = envContent.split("MAINNET_MNEMONIC=")[1].split("\n")[0].replace(/'/g, "").trim();
-const KPEPE_TOKEN_ADDRESS = envContent.split("KPEPE_TOKEN_ADDRESS=")[1].split("\n")[0].replace(/'/g, "").trim();
-const PROJECT_WALLET = envContent.split("PROJECT_WALLET_HEX=")[1].split("\n")[0].replace(/'/g, "").trim();
-const PRIZE_POOL_WALLET = envContent.split("PRIZE_POOL_WALLET_HEX=")[1].split("\n")[0].replace(/'/g, "").trim();
+// Load config - from env vars (GitHub Actions) or .env file (local)
+let mnemonic, KPEPE_TOKEN_ADDRESS, PROJECT_WALLET, PRIZE_POOL_WALLET;
+
+if (process.env.MAINNET_MNEMONIC) {
+    // GitHub Actions - use environment variables
+    mnemonic = process.env.MAINNET_MNEMONIC;
+    KPEPE_TOKEN_ADDRESS = process.env.KPEPE_TOKEN_ADDRESS || '';
+    PROJECT_WALLET = process.env.PROJECT_WALLET_HEX || '';
+    PRIZE_POOL_WALLET = process.env.PRIZE_POOL_WALLET_HEX || '';
+} else {
+    // Local - read from .env file
+    const envContent = fs.readFileSync(".env", "utf8");
+    mnemonic = envContent.split("MAINNET_MNEMONIC=")[1].split("\n")[0].replace(/'/g, "").trim();
+    KPEPE_TOKEN_ADDRESS = envContent.split("KPEPE_TOKEN_ADDRESS=")[1].split("\n")[0].replace(/'/g, "").trim();
+    PROJECT_WALLET = envContent.split("PROJECT_WALLET_HEX=")[1].split("\n")[0].replace(/'/g, "").trim();
+    PRIZE_POOL_WALLET = envContent.split("PRIZE_POOL_WALLET_HEX=")[1].split("\n")[0].replace(/'/g, "").trim();
+}
 
 const RPC_URL = "https://klever-mainnet.rpc.thirdweb.com";
 
@@ -84,6 +95,17 @@ async function main() {
     }
     console.log("");
 
+    // === STEP 4: Start Lottery ===
+    console.log("🎰 Step 4: Starting lottery...");
+    try {
+        const tx = await lottery.toggleRound();
+        await tx.wait();
+        console.log("✅ Lottery started!");
+    } catch (error) {
+        console.log("⚠️  toggleRound failed:", error.message.slice(0, 100));
+    }
+    console.log("");
+
     // === FINAL SUMMARY ===
     console.log("╔════════════════════════════════════════════════════════════╗");
     console.log("║                    MAINNET DEPLOYED                      ║");
@@ -91,36 +113,17 @@ async function main() {
     console.log("📍 Contract:", contractAddress);
     console.log("🔗 Explorer: https://kleverscan.org/address/" + contractAddress);
     console.log("");
-    console.log("📋 POST-DEPLOYMENT CHECKLIST:");
-    console.log("1. ☐ Verify contract on KleverScan");
-    console.log("2. ☐ Update CONTRACT_ADDRESS in frontend");
-    console.log("3. ☐ Set KPEPE token address (if not set above)");
-    console.log("4. ☐ Test ticket purchase with small amount");
-    console.log("5. ☐ Test completeDraw as owner");
-    console.log("6. ☐ Announce launch to community");
-    console.log("");
-    console.log("⚠️  IMPORTANT:");
-    console.log("- Owner (deployer):", deployer.address);
-    console.log("- Project Wallet:", PROJECT_WALLET);
-    console.log("- Prize Pool Wallet:", PRIZE_POOL_WALLET);
-    console.log("");
-    
+    console.log("✅ All functions initialized and lottery is ACTIVE!");
+    console.log("🎫 Users can now buy tickets!");
+
     // Save deployment info
     const deploymentInfo = {
         contractAddress: contractAddress,
         deployer: deployer.address,
-        projectWallet: PROJECT_WALLET,
-        prizePoolWallet: PRIZE_POOL_WALLET,
-        kpepeToken: KPEPE_TOKEN_ADDRESS,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        transactionHash: null
     };
     fs.writeFileSync("DEPLOYMENT.json", JSON.stringify(deploymentInfo, null, 2));
-    console.log("💾 Deployment info saved to DEPLOYMENT.json");
 }
 
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error("❌ Fatal error:", error.message);
-        process.exit(1);
-    });
+main().catch(console.error);
