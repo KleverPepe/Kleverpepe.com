@@ -1,0 +1,42 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/chotajarvis/clawd/klevertepepe-redesign/contracts/kpepe-jackpot.sol": {
+      "lastModificationDate": 1769515113302,
+      "contentHash": "2d3475e9583035ead3d51af62000f67d",
+      "sourceName": "contracts/kpepe-jackpot.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IKPEPE",
+        "KPEPEJackpot"
+      ]
+    }
+  }
+}

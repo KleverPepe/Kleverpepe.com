@@ -591,12 +591,12 @@
       }
       
       function showCalculatedPool() {
-        // Based on confirmed test transactions:
-        // 5+ tickets purchased at 100 KLV each
+        // Based on confirmed transactions:
+        // 2 tickets purchased at 100 KLV each
         // 85% goes to pool = 85 KLV per ticket
-        const confirmedTickets = 5;
+        const confirmedTickets = 2;
         const poolPerTicket = 85; // 85 KLV per ticket to pool (85% of 100 KLV)
-        const poolAmount = confirmedTickets * poolPerTicket; // 425 KLV minimum
+        const poolAmount = confirmedTickets * poolPerTicket; // 170 KLV
         
         document.getElementById('jackpot-klv').textContent = poolAmount.toFixed(2) + ' KLV';
         const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);

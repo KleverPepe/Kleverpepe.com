@@ -5,9 +5,9 @@
 const { ethers } = require("hardhat");
 
 // Configuration - REPLACE THESE BEFORE RUNNING
-const KPEPE_TOKEN_ADDRESS = "0x..."; // KPEPE token on KleverChain mainnet
-const PROJECT_WALLET = "0x..."; // Hex address of klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
-const PRIZE_POOL_WALLET = "0x..."; // Hex address of klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+const KPEPE_TOKEN_ADDRESS = "kpepe-1eod"; // KPEPE token on KleverChain mainnet
+const PROJECT_WALLET = "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9";
+const PRIZE_POOL_WALLET = "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9";
 
 async function main() {
     console.log("╔════════════════════════════════════════════════════════════╗");
@@ -56,8 +56,18 @@ async function main() {
     }
     console.log("");
 
-    // === STEP 4: Verify on KleverScan ===
-    console.log("📝 Step 4: Contract verified on KleverScan");
+    // === STEP 4: Start the Lottery ===
+    console.log("🎰 Step 4: Starting the lottery...");
+    try {
+        await lottery.toggleRound();
+        console.log("✅ Lottery started!");
+    } catch (error) {
+        console.log("⚠️  Failed to start lottery:", error.message);
+    }
+    console.log("");
+
+    // === STEP 5: Verify on KleverScan ===
+    console.log("📝 Step 5: Contract verified on KleverScan");
     console.log("   Run: npx hardhat verify --network kleverMainnet " + contractAddress);
     console.log("");
 

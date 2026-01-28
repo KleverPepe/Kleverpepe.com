@@ -1,0 +1,15 @@
+{
+  "projectWallet": "0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c",
+  "prizePoolWallet": "0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c",
+  "kpepeToken": "0xEd008768c922b9e2c30a4d666a37bB7dA45Ed5df",
+  "kpepeStaking": "",
+  "kpepeJackpotPrize": 1000000000000,
+  "kpepeMatch5Prize": 500000000000,
+  "kpepeMatch48BPrize": 100000000000,
+  "kpepeMatch4Prize": 50000000000,
+  "kpepeMatch38BPrize": 25000000000,
+  "kpepeMatch3Prize": 10000000000,
+  "kpepeMatch28BPrize": 5000000000,
+  "kpepeMatch18BPrize": 2000000000,
+  "kpepeMatch8BOnlyPrize": 1000000000
+}

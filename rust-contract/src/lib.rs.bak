@@ -1,0 +1,1224 @@
+#![no_std]
+
+use klever_sc::prelude::*;
+
+// Constants
+const TICKET_PRICE: u64 = 10000000000; // 100 KLV (8 decimals)
+const MAIN_COUNT: usize = 5;
+const EIGHT_RANGE: u8 = 20;
+const MAIN_RANGE: u8 = 50;
+
+// Prize percentages (basis points)
+const PRIZE_JACKPOT: u64 = 4000;
+const PRIZE_MATCH5: u64 = 1500;
+const PRIZE_4_8B: u64 = 800;
+const PRIZE_4: u64 = 500;
+const PRIZE_3_8B: u64 = 600;
+const PRIZE_3: u64 = 450;
+const PRIZE_2_8B: u64 = 300;
+const PRIZE_1_8B: u64 = 150;
+const PRIZE_8B_ONLY: u64 = 125;
+const POOL_RETENTION: u64 = 1975;
+const MAX_POOL: u64 = 100000000000000; // 1M KLV
+
+// Ticket struct
+#[derive(TopEncode, TopDecode, Clone)]
+pub struct Ticket<M: ManagedTypeApi> {
+    pub player: ManagedAddress<M>,
+    pub main_numbers: ManagedVec<M, u8>,
+    pub eight_ball: u8,
+    pub purchase_time: u64,
+    pub has_won: bool,
+    pub prize_claimed: bool,
+    pub is_free: bool,
+}
+
+// Commit info for ticket purchases
+#[deriv#![no_std]
+
+use klever_sc::prelude::*;
+
+// Constants
+const TICKET_PRICE: u64 = 10000000000; an
+use klevss<
+// Constants
+const TICKEu64const TICKEevconst MAIN_COUNT: usize = 5;
+const EIGHT_RANGE: u8 = 20;
+cons econst EIGHT_RANGE: u8 = 20;scconst MAIN_RANGE: u8 = 50;EJ
+// Prize percentages    fn const PRIZE_JACKPOT: u64 = 4000;
+cctconst PRIZE_MATCH5: u64 = 1500;asconst PRIZE_4_8B: u64 = 800;
+caiconst PRIZE_4: u64 = 500;
+c
+ const PRIZE_3_8B: u64 = ()const PRIZE_3: u64 = 450;
+ctaconst PRIZE_2_8B: u64 = 4)const PRIZE_1_8B: u64 = 150.sconst PRIZE_8B_ONLY: u64 = 
+    // ===== STORAGE =====
+    
+ const MAX_POOL: u64 = 1000000000 #
+// Ticket struct
+#[derive(TopEncode, TopDecodect_#[derive(TopEnc> pub struct Ticket<M: ManagedTypeApi>       pub player: ManagedAddress<M>,
+  orage_mapper("prize_pool_wallet")]
+    fn prize_pool_wallet(&self) -> SingleVa    pub purchase_time:ss    pub has_won: bool,
+   en    pub prize_claimeder    pub is_free: bool,
+}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]
+
+use klever_sc::ie
+use klever_sc::g)]
+// Constants
+const TICKEepeconst TICKE
+ use klevss<
+// Constants
+const TICKEu64ceM// Constangeconst TICKE
+ const EIGHT_RANGE: u8 = 20;
+cons econst EIGHT_RANGE: uoocons econst EIGHT_RANGE: ulf// Prize percentages    fn const PRIZE_JACKPOT: u64 = 4000;
+ccldcctconst PRIZE_MATCH5: u64 = 1500;asconst PRIZE_4_8B: u64 l_caiconst PRIZE_4: u64 = 500;
+c
+ const PRIZE_3_8B: u64 = ()constasc
+ const PRIZE_3_8B: u64 = appectaconst PRIZE_2_8B: u64 = 4)const PRIZE_1_8B: u64 >     // ===== STORAGE =====
+    
+ const MAX_POOL: u64 = 1000000000 #
+// Ticket structog    
+ const MAX_POOL: u64eM coer// Ticket struct
+#[derive(TopEncod)]#[derive(TopEncma  orage_mapper("prize_pool_wallet")]
+    fn prize_pool_wallet(&self) -> SingleVa    pub purchase_time:ss    pub has_won:      winning_numbers(&self) -> SingleVa   en    pub prize_claimeder    pub is_free: bool,
+}
+
+/pe}
+
+// Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_sc::ie
+use klever_sc::g)]
+/couuse klever_sc::gke// Constanelf) -> Sconst TICKEap use klevss<
+// Constant_m// Co("kpepe_const TICKEze const EIGHT_RANGE: u8 = 20;
+cons econs> cons econst EIGHT_RANGE: uo
+
+ccldcctconst PRIZE_MATCH5: u64 = 1500;asconst PRIZE_4_8B: u64 l_caiconst PRIZE_4: u64 = 500;
+c
+ const PRIZE_3_8B: [sc
+ const PRIZE_3_8B: u64 = ()constasc
+ const PRIZE_3_8B: u64 = appectaconst PRIZE_2_8B: u64per< const PRIZE_3_8B: u64 = appectacope    
+ const MAX_POOL: u64 = 1000000000 #
+// Ticket structog    
+ const MAX_POOL: u64eM coer// Ticket structpe coma// Ticket structog    
+ const MAX_38 const MAX_POOL: u64egl#[derive(TopEncod)]#[derive(TopEncma  orager    fn prize_pool_wallet(&self) -> SingleVa    pub purchase_time:ss   eMa}
+
+/pe}
+
+// Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_sc::ie
+use klever_sc::g)]
+/couuse klever_sc::gke// Constanelf)]
+  
+//n k
+/pe}
+
+// Commit info forleValSin
+//Val//ick
+use klever_sc::ie
+use klever_sc::g)]
+/epe_matcuse klever_sc::g]
+/couuse klever_sch8// Constant_m// Co("kpepe_const TICKEze const EIGHT_RANGE: u8 = 2_mcons econs> cons econst EIGHT_RANGE: uo
+
+ccldcctconst PRIZE_MATCH5pe
+ccldcctconst PRIZE_MATCH5: u64 = 1500apper("kpepe_prizes_pending")]
+    fn kpepe_prizes_pending(&self, address: &ManagedAddress) -> Sin const PRIZE_3_8B: u6t> const PRIZE_3_8B: u64 = appectacket const MAX_POOL: u64 = 1000000000 #
+// Ticket structog    
+ const MAX_POOL: u64eM coer// Ticket >;// Ticket structog    
+ const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_POOL: u64egl#[derive(TopEncod)]#[derive(TopEncmdV
+/pe}
+
+// Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_sc::ie
+use klever_sc::g)]
+/couuse klever_sc:ICK
+//PUR
+/pe}
+
+// Commit info forleValaya
+//("*//ick
+use klever_sc::ie
+use klever_sc::g)]
+/ nums: Muse klever_sc::gb:/couuse klever_sct   
+//n k
+/pe}
+
+// Commit info forleVr(/;
+/pe}  
+//et //Val//ick
+use klever_sc:()use kleveue();
+        
+     /epe_matcuse klevro/couuse klever_sch8// Cond 
+ccldcctconst PRIZE_MATCH5pe
+ccldcctconst PRIZE_MATCH5: u64 = 1500apper("kpepe_prizes_pendinuire!(nums.len() == MAIN_COUNT, "Neccldcctconst PRIZE_MATCH5:      fn kpepe_prizes_pending(&self, address: &ManagedAddress) -> Si  // Ticket structog    
+ const MAX_POOL: u64eM coer// Ticket >;// Ticket structog    
+ const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_POOL: u64egl#[dms const MAX_POOL: u64eum const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_el/pe}
+
+// Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_ts
+//all
+/pe}
+
+// Commit info forleVal   
+//   //ick
+use klever_sc::ie
+use klever_sc::g)]
+/ruuse   use klever_sc::g  /couuse klever_scay//PUR
+/pe}
+
+// Commiom/pe}KE
+//RIC//("*//ick
+use klever_sc;
+ use kleve  use klever_sc::g
+
+/ n     if !use_fre//n k
+/pe}
+
+// Commit info forleVr(/;
+/pe}  
+//IC/pe}PR
+// * /pe}  
+//et //Val//ick
+ule//et j_use klever_sc::f        
+     /epe_matcuse klIC     /e /ccldcctconst PRIZE_MATCH5pe
+ccldcctconst PRIZE_MATpoccldcctconst PRIZE_MATCH5:t  const MAX_POOL: u64eM coer// Ticket >;// Ticket structog    
+ const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_POOL: u64egl#[dms const MAX_POOL: u64eum const MAX_ke const MAX_POOL: u64er_ const MAX_38 coniz const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_ a
+// Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_ts
+//all
+/pe}
+
+// Commit info forleVal   
+//   //ick
+use kleve::z
+/pe}
+
+// Commit info forleVallf.
+//d()//ick
+use klever_ts
+//all
+/pe}
+
+// Commit in  use   //all
+/pe}
+
+  /pe} }
+//se //   //ick
+use klever_sc:izuse kleveseuse kleve_pool + p/ruuse   use klev  /pe}
+
+// Commiom/pe}KE
+//RIC//("*//ick
+use kt();
+   
+//   //RIC//("*//ickt use klever_sc;es use kleve  u  
+/ n     if !use_fre//n k
+/).d/pe}
+
+// Commit info fooj
+//t);/pe}  
+//IC/pe}PR
+// * /  //IC/}
+// * /pe}
+
+//et //V// Cule//et j_use        /epe_matcuse klIC     /e /cc  ccldcctconst PRIZE_MATpoccldcctconst PRIZE_MATCH5:t  conss. const MAX_ke const MAX_POOL: u64er_ const MAX_38 const MAX_POOL: u64egl#[dms const MAX_POOL: u64eum const MAX_k  // Commit info forleVal#[derig}
+
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_ts
+//all
+/pe}
+
+// Commit info forleVal   
+//   //ick
+use kleve::z
+/pe}
+
+// Commit info forleVallf.
+//d()//ick
+use ti
+/pe}
+
+// Commit info forleVal se
+//pla//ick
+use klever_ts
+//all
+/pe}
+
+// Commit     use  i//all
+/pe}
+
+et/pe};
+
+/    //   //ick
+use kleve::z
+/_tuse kleveld/pe}
+
+ate(|co
+//| {//d(         *count += 1;
+ use kle});
+//all
+/  self./pe}).
+//t_e/pe}
+
+  /pe} }
+//se //    
+  cke//se //seuse klever      
+// Commiom/pe}KE
+//RIC//("*//ick
+use kt();
+   
+//   //RIC//("*//ic #[//RIC//("*//ick  use kt();
+   
+     
+//  k_//ck/ n     if !use_fre//n k
+/).d/pe}
+
+// Commit inf.get_c/).d/pe}
+
+//     let paym
+// Comelf//t);/pe}  
+//IC/p_v//IC/pe}PR  // * requir// * /pe}
+
+//_a
+//et //get
+/pe}
+
+// Commit info forleVal#[deriv#![no_std]iew(g
+//ick
+use klever_ts
+//all
+/pe}
+
+// Commit info forleVal   
+//   //ick
+use kleve::z
+/pe}
+
+// Commit info forleVallf.
+//d()//ick
+use ti
+/pe}
+
+// Commit info forleVal se
+//pla//ick
+use klever_ts
+//all
+/pe}
+
+// Commit
+        //ick
+use klever_ts
+//all
+/pe}
+
+// Commcket(nums, eb//
+        } else {
+
+//   //   //ick
+use klement >= &use klevefr/pe}
+
+// CoRI
+//, "//d()//ick
+use ti
+/p
+      use ti
+/pf./pe}
+ic
+//(nu//pla//ick
+use klever_ts
+
+ use kledpoi//all
+/pe}
+
+om/pe}ti
+//t(&/pe}
+
+et/pe};
+
+/    //   {
+et   
+/     cause kleve::z
+/oc/_tuse klevt_
+ate(|co
+//| {//d re//| {/(s use kle});
+//all
+/  se), "Roun//all
+/  sve/  s
+ //t_e/pe}
+
+ omm
+  /pe} mit//se //    cke//se pl// Commiom/pe}Kone(),
+         //RIC/mit_time: suse kt();
+   
+().get_block_tim   
+     
+//  k_//ck/ n     if !use_fre//n k
+/)    nu//  No/).d/pe}
+
+// Commit inf.get_c/).d }
+// C     
+//     let paym
+// Comelfit_// Comelf//t);it//IC/p_v//IC/pe}PR ()
+//_a
+//et //get
+/pe}
+
+// Commit info ftCo//ett/pe}
+
+//   
+//   //ick
+use klever_ts
+//all
+/pe}
+
+// Commit in  use nd//all
+/pe}
+
+n /pe}al
+//cke//   //ick
+use kleve::z
+/<uuse kleve8,/pe}
+
+// Coge
+//ffe//d()//ick
+use ti
+/pe}
+
+/ suse ti
+/pch/pe}
+.g
+//cal//pla//ick
+use klever_ts
+eluse und_act//all
+/et(), "/pe}d 
+// ac   e");
+  us    require!//all
+/pe}
+
+eb/pe}EI
+//_RA        } else {
+
+// ")
+//   //   //iire!use klement >= M
+// CoRI
+//, "//d()//ick
+use tber//, "/  use ti
+/p
+    at/p
+  be s
+/pf./pe}
+ic iic
+//..MA/N_use klever_ts
+  
+ use kledpo(nu/pe}
+
+om/pe}ti
+/& 
+oms.g//t(&/p= 
+et/pe};GE,
+/    erset   
+/     /     /oc/_tuse klevt_
+at..ate(|co
+//| {//  //| {/  //all
+/  se), "Roun//all
+/  sum/  st(/  sve/  s
+ //t_umb //t_e/pe  
+ omm
+  /
+    /           //RIC/mit_time: suse kt();
+   
+().get_blocs,   
+().get_block_tim   
+     
+//  t ()se     
+//  k_//ck/ &c//  t_/)    nu//  No/).d/pe}
+
+// Commitmm
+// Commit inf.get_c/"No// C     
+//     let pay r//     l!c// Comelfit_/d, //_a
+//et //get
+/pe}
+
+// Commit info ftCo//ett/p  //elf/pe}
+
+// in
+//get
+//   
+//   //ick
+use klevet.c//  t_use kleve00//all
+/pe}
+
+  /pe}ve
+//too/pe}
+
+n /pe}al
+//cke//    
+n mmi//revealeuse kleve::z
+/  /<uuse kleums
+// Coge
+//ffe//de()//ffe/  use ti
+/pe}
+
+/ S/pe}eb)
+/    /pch/pe}.ticket_com/ituse klever_ts
+).eluse und_ac
+
+/et(), "/pe}d 
+/().// ac   e");
+na  us    req  /pe}
+
+eb/pe}EI
+//_RA,
+
+eb   //_RA (&c
+// ")
+//   //   //i   //   )// CoRI
+//, "//d()//ick
+use tbercl//, "/eeuse tber//, "/) /p
+    at/p
+  be s
+/p=  el  be s
+ch/pf./.gic iic
+er//..M    
+ use kledpo(nu/pe}und_a
+om/pe}ti
+/& 
+o"Roun/& 
+omsctome"et/pe};GE,
+/ qu/    erse.k/     /     ()at..ate(|co
+//| {//  //| {/er//| {//  /in/  se), "Roun//all
+/ 
+
+/  sum/  st(/  sv_t //t_umb //t_e/pe  
+ ). omm
+  /
+    /    
+   /         
+().get_blocs,   
+().get_block_tim   
+f.env(().get_block_tina     
+//  t ()se  Fr//  ck//  k_//ck/ &c  
+// Commit&caller, &1u64),
+        );
+    }
+// Commit ==//     let pay r//     l!c// Cond//et //get
+/pe}
+
+// Commit info ftCo//ett/p  ui/pe}
+
+// .d
+//_in
+// in
+//get
+//   
+//   //ick
+use klpro//ges"//    //   ruse kleveel/pe}
+
+  /pe}ve
+//too/pe}
+
+n /pe}aic
+  s t//too/p);
+n /pe}a re//cke//sen mmi//revct/  /<uuse kleums
+// Coge
+ct// Coge
+//ffe// s//ffe/aw/pe}
+
+/ S/pe}eb)
+/    /p;
+
+/    /    /pchv().eluse und_ac
+
+/et(), "/pe}d 
+/().// aSt
+/et(), "/pe}   /().// ac   eckna  us    req  ck
+eb/pe}EI
+//_RA,
+
+   //_RA,
+ }
+eb   #[// ")
+//   //  //  nd//, "//d()//ick
+use tbercl//&suse tbercl//,  r    at/p
+  be s
+/p=  el  be s
+ch/pf()  be s
+ra/p=  prch/pf./.gic   er//..M    
+ uel use kledpouom/pe}ti
+/& 
+o"Roun/&ick/& 
+o"R
+ o"  omsctomene/ qu/    erse.k/  rs//| {//  //| {/er//| {//  /in/  se), "R_s/ 
+
+/  sum/  st(/  sv_t //t_umb //t_e/pe  
+ )..s
+t(n ). omm
+  /
+    /    
+   /         
+(gh  /
+  ()  et   /      ().get_blocsri().get_block_ti  f.env(().get_blockel//  t ()se  Fr//  ck//  k_/  // Commit&caller, &1u64),
+        )nt        );
+    }
+// Comm).    }
+//   // Cle/pe}
+
+// Commit info ftCo//ett/p  ui/pe}
+
+// .d
+//_in
+et
+//ndr
+// .d
+//_in
+// in
+//get
+//   
+//64)//_i  // ile//gew_//   =//  rruse klpro* 
+  /pe}ve
+//too/pe}
+
+n /pe}aic
+  s t//toof.p//too/pol
+n /pe}new_  s t//tnen /pe}a       s// Coge
+ct// Coge
+//ffe// s//ffe/aw/pe}
+
+/ S/pf.ct// Cra//ffe// .s
+/ S/pe}eb)
+/    /p;.ge/    /p;
+im
+/    /));
+/et(), "/pe}d 
+/().// aSt
+/ent_/().// aSt
+/e  /et(), "/aweb/pe}EI
+//_RA,
+
+   //_RA,
+ }
+eb   #[// ")
+// , //_RA,
+s)
+   /    }
+eb    }e
+ //   //  // Puse tbercl//&suse tbercl//,  oi  be s
+/p=  el  be s
+ch/pf()  be s
+raid/p=  ) ch/pf()  be t ra/p=  prch/f. uel use kledpouom/pe}ti
+/& 
+o"Ro  /& 
+o"Roun/&ick/& 
+o"R
+tio"eto"R
+ o"  omscge o);
+/  sum/  st(/  sv_t //t_umb //t_e/pe  
+ )..s
+t(n ). omm
+  /
+    /    
+   /  re! )..s
+t(n ). omm
+  /
+    /    
+   /  );t(n     /
+    /e!  ticket.prize(gh  /
+  () ri  () re        )nt        );
+    }
+// Comm).    }
+//   // Cle/pe}
+
+// Commit info ftCo//ett/p  ui/pe}
+
+// .d
+//_in
+et
+//ndr
+// .dre    }
+// Comm).    int::zero//   // Cle/p")
+// Commit infUpd
+// .d
+//_in
+et
+//ndr
+// .d
+//_inlai//_i= et
+/;
+/  // . s//_iti// is(//geet//  .s//64ic  /pe}ve
+//too/pe}
+
+n /pe}aic
+  s t//toof.p//iz//too/p).
+n /pe}apoo  s t//t  n /pe}new_  s t//tnen.cct// Coge
+//ffe// s//ffe/aw/pe}
+
+/ S/pf.cdi//ffe// d(
+/ S/pf.ct// Cra//ff   / S/pe}eb)
+/    /p;.ge/ _m/    /p;.  im
+/    /));
+/et()imed"/et(), "  /().// aSt
+/e &/ent_/()   /e  /et(), "/a
+ //_RA,
+
+   //_RA,
+ }
+ecl
+   /pep }
+eb   &self// ,        ls)
+   /   =  eleb    }eha //   /t_/p=  el  be s
+ch/pf()  be s
+raid/p=  ) ch/pf()  bepech/pf()  be r)raid/p=  ) c  /& 
+o"Ro  /& 
+o"Roun/&ick/& 
+o"R
+tio"eto"R
+ o"  omscge o);
+
+    o"  o"Roun/&peo"R
+tio"eto"Rngtica o"  omst(/  sum/  stro()) )..s
+t(n ). omm
+  /
+    /    
+   /  get(n     /
+     "K  PE   /  reimt(n ). omm
+      /
+    /r,  pe   /  );      /e!  ticket
+    () ri  () re        )nt  =    }
+// Comm).    }
+//   // Cle/poi// C  //   // Cle/pze
+// Commit inf, p
+// .d
+//_in
+et
+//ndr
+// .dre    ize//_il_et
+/et/ M// .ed// Comm). 
+  // Commit infUpd
+// .d
+//_in
+et
+//ndje// .d
+//_in
+et
+()//_iMaet
+/dA/dr// .:z//_i),/;
+/  // . s//_lr/ad//too/pe}
+
+n /pe}aic
+  s t//toof.p//iz//too/p)  
+n /pe}apro  s t//tlen /pe}apoo  s t//t  n /pe()//ffe// s//ffe/aw/pe}
+
+/ S/pf.cdi//ffe// d(
+/ S/pf.  
+/ S/pf.cdi//ffe// dlet/ S/pf.    );
+
+      /    /p;.ge/ _m/    /p;.  im
+/ je/    /));
+/et()imed"/et(),  s/et()imze_/e &/ent_/()   /e  /et(), "/awa //_RA,
+
+   //_RA,
+ }
+ecl
+  .e
+   //mit }
+ecl
+ anege  
+ eb   &se     /   =  eleb    }eha /  ch/pf()  be s
+raid/p=  ) ch/pf()  bepech/pfetraid/p=  ) c;
+o"Ro  /& 
+o"Roun/&ick/& 
+o"R
+tio"eto"R
+ o"  omscge o);epo"Roun/&&so"R
+tio"eto"Rantied o"  oms {
+    o"  o"Ro.kpetio"eto"Rngtica o"  );t(n ). omm
+  /
+    /    
+   /  get(n     /
+   f  /
+    /pe  ta   /  gelf     "K  PE   / ed      /
+    /r,  peself.kpepe_st    /().    () ri  () re        )nt  =    }er// Comm).    }
+//   // Cle/poi// Cun//   // Cle/p  // Commit inf, p
+// .d
+//_in
+et
+//niv// .d
+//_in
+et
+  //_iivet
+/!*/ct//e;
+ /et/ M// .ed// Comm). #  // Commit i    #[endp// .d
+//_in
+et
+//kp//_ipret
+/(
+/  //_in
+et
+(,
+et
+(  ( j/dA/dr// ,
+/  // . s//_lr/ad//,
+
+n /pe}aic
+  s t//toof.p/     s t//tgUn /pe}apro  s t//tlen /pe}
+ 
+/ S/pf.cdi//ffe// d(
+/ S/pf.  
+/ S/pf.cdi//ffe// dlet/ S/pf.    );   / S/pf.  
+/ S/pf.cd) / S/pf.c  
+      /    /p;.ge/ _m/    /p;.  i
+  / je/    /));
+/et()imed"/et(),  set/et()imed"/e  
+   //_RA,
+ }
+ecl
+  .e
+   //mit }
+ecl
+ anege  
+ eb   &se     /   =ize }
+ecl
+ 4)e
+        seecl
+ anegma ah3 eb   &e(raid/p=  ) ch/pf()  bepech/pfetraid/p=  ) c;
+o"Ro(mo"Ro  /& 
+o"Roun/&ick/& 
+o"R
+tio"eto"R
+.set(mo"Roun/&  o"R
+tio"eto"R_mtich o"  omse(tio"eto"Rantied o"  oms {
+   e_    o"  o"Ro.kpetio"eto"(m  /
+    /    
+   /  get(n     /
+   f  /
+    /pe     w   /  gepr   f  /
+    /pe am    / Bi    /r,  peself.kpepe_st    /().    () ri  ()e_//   // Cle/poi// Cun//   // Cle/p  // Commit inf, p
+// .d
+//_in
+et
+//niv// .d
+//_  // .d
+//_in
+et
+//niv// .d
+//_in
+et
+  //_iivet
+/!*/c, //_i 1et
+/;
+/  //_in
+et
+ wet
+ t   s/!*/ct//e_p /et/ M//t(//_in
+et
+//kp//_ipret
+/(
+/  //_in
+et
+(,
+et
+(  ( j/d:zet
+/),/"P/(
+/  //_in n/t et
+(,
+e
+ (  e  (se/  // . s//_lr/.s
+n /pe}aic
+  s t//tmou  s t//e() 
+/ S/pf.cdi//ffe// d(
+/ S/pf.  
+/ S/pf.cdi//ffe// d;
+
+ / S/pf.  
+/ S/pf..emi/ S/pf.cma/ S/pf.cd) / S/pf.c  
+      /    /p;.ge/ _m/          /    /p;.ge/ _    / j  }
+
+    // ===== VIEW FUNCTI/et()imed"/et( #   //_RA,
+ }
+ecl
+  .e
+   //mit }
+epo }
+ecl
+ cee&s  f)    Becl
+ aneg   a   eb   &prize_pool().get()
+    }
+
+  4 #   ew anegma ah3 Tio"Ro(mo"Ro  /& 
+o"Roun/&ick/& 
+o"R
+tio"eto"R
+.set(mo"Roun/&  o"_do"Roun/&ick/& t_o"R
+tio"eto"Retti;
+.set(mo"((tio"eto"R_mtich o" +   e_    o"  o"Ro.kpetio"eto"(m  /
+    /    
+   /ge    /    
+   /  get(n     /
+   f t<   /  gei>   f  /
+    /pe ti    /pid    /pe am    / Bi    /r,  peNT// .d
+//_in
+et
+//niv// .d
+//_  // .d
+//_in
+et
+//niv// .d
+//_in
+et
+  //_iivet
+/!*/c, //_i 1et
+/;
+/  //_in
+et
+ wet
+ t ck//_in(et
+/t_/lo//_  // .am//_in
+et
+  et
+/t /al//_in
+et
+f.et
+ kc ai/!*/c, //al/;
+/  //_in
+et l/t et
+ wetd   t t stet
+//kp//_ipret
+/(
+/  //_in
+et
+(dd/es/(
+/      for/byet
+(,
+eal(ereas(by/),/"P/(
+/   /  //_ise(,
+e
+ (  e  (spieg_mun /pe}aic
+  s t//tmou  s ts   s t//t  / S/pf.cdi//ffe// d(
+t / S/pf.  
+/ S/pf.cdne/ S/pf.c  
+ / S/pf.  
+/ S/pf.fal/ S/pf..e
+       /    /p;.ge/ _m/          /          
+    // ===== VIEW FUNCTI/et()imed"/et( #   //_RA,
+ }
+eed  }
+ecl
+  .e
+   //mit }
+epo }
+ecl
+ cee&s  f)    B42e3)         epo }
+eclnuecl
+(( ced aneg   a   eb   u6    }
+
+  4 #   ew anegma ah3 Tio"Rous
+  4um o"Roun/&ick/& 
+o"R
+tio"eto"R
+.set(mo"R
+ o"R
+tio"eto"R  ti  .set(mo"  tio"eto"Retti;
+.set(mo"((tio"eto"R_mtie;.set(mo"((tionu    /    
+   /ge    /    
+   /  get(n     /
+   f t<   /  gei>  25   /ge  ng   /  get(n   3)   f t<   /  gei =    /pe ti    /pid    /s //_in
+et
+//niv// .d
+//_  // .d
+//_in
+et
+//niv// .d
+//shet
+/mi/(&//_  // .s://_in
+et
+Veet
+/>,/eb//_in
+et
+t:et
+ na ed/!*/c, //> /;
+/  //_in
+et let et
+ weta   M t ge/t_/lo//_new()et
+  et
+/t /al//_in
+or  um/t  net
+f.et
+ k {f   kc  /  //_in
+et l/t etytet l/t .t wetd   es//kp//_ipret
+/(  /(
+/  //_inap/enet
+(dd/(&(b./      yt(,
+eal(ereas(b deta/   /  //_ise(,
+e
+   e
+ (  e  (spieo().  s t//tmou  s ts   s t/  t / S/pf.  
+/ S/pf.cdne/ S/pf.c  
+ / S/pf.  
+/ ::/ S/pf.cdn8  / S/pf.  
+/ S/pf.fag / S/pf.fann       /    /p;.ge);    // ===== VIEW FUNCTI/et()imed"/et( #   t_ }
+eed  }
+ecl
+  .e
+   //mit }
+epo }
+ecl
+ cee&s    e  ecl
+ r   in   .Mepo }
+ecl {ecl
+   c  eclnuecl
+(( ced aneg   a   eb   u  (( ced   
+  4 #   ew anegma ah3 rs.get(i)  4um o"Roun/&ick/& 
+o"R
+tio"  o"R
+tio"eto"R
+.set(= ti
+ .set(      o"R
+tio btiok;.set(mo"((tio"eto"R_mtie;.set(mo"((tio     /ge    /    
+   /  get(n     /
+   f t<   /  gwi   /  get(n        f t<   /  ge= 5et
+//niv// .d
+//_  // .d
+//_in
+et
+//niv// .d
+//shet
+/mi/(&//_  // .s://_in
+et
+Veet
+/>,/eb//_inmatch//_  // .& //_in
+et {
+et
+/  /  //shet
+/m  /mi/(lset
+Veet
+/>,/eb//_in
+e  V  />,  et
+t:et
+ n }tel naif/  //_in
+et let etb_et let 
+  weta       et
+/t /al//_in
+or  um/t  ne==/t {
+or  um/t    f.et
+ k {f  el k ifet l/t etytet l/t ._m/(  /(
+/  //_inap/enet
+(dd/(&(b./      yttc/  //= (dd/(&(b./    {
+eal(ereas(b deta/    e
+   e
+ (  e  (spieo().  s t//     (   / S/pf.cdne/ S/pf.c  
+ / S/pf.  
+/  }
+    }
+
+    fn ca / S/pf.  
+/ ::/ S/p t/ ::/ S) ->/ S/pf.fag / S/pf.fann   oleed  }
+ecl
+  .e
+   //mit }
+epo }
+ecl
+ cee&s    e  ecl
+ r   in   .Mepo }
+ecl {ecl
+   c  eOTecl
+          2 epo }
+eclMAecl
+,
+ c   r   in   .MepoIZecl {ecl
+   c  e     c > PR(( ced aneg      4 #   ew anegma ah3 rs.get(i)  4 =o"R
+tio"  o"R
+tio"eto"R
+.set(= ti
+ .set(      o"R
+  ti=>tio"eto"_8.set(= t   .set9 => tio btiok;.sY,
+    /  get(n     /
+   f t<   /  gwi   /  get(n        f t<   /  gl    f t<   /  gwipc//niv// .d
+//_  // .d
+//_in
+et
+//niv// .d
+//shet
+/mte//_  // .el//_in
+et
+u8et
+/ B/gU//shet
+/m  /mi/atcet
+Veet
+/>,/eb//_inma1 V> />,f.et {
+et
+/  /  //shet
+/m  /mi/(l  et
+  /  /m  /mi/(lspeVeet
+/>,/eb/iz/>,.ge  V  />,   t:et
+ n }telel n peet let etb_et let 
+.g  weta       et
+/ 4/t /al//_in
+or_mor  um/t ze(or  um/t    f.et
+   k {f  el k ifepe/  //_inap/enet
+(dd/(&(b./      yttc/  /> (dd/(&(b./    cheal(ereas(b deta/    e
+   e
+ (  e  (spieoep   e
+ (  e  (spieo().t( (    / S/pf.  
+/  }
+    }
+
+    fn ca / S/pf.  
+/ ::/ S/p  /  }
+     =   el
+   epe/ ::/ S/p t/ ::/ Se(ecl
+  .e
+   //mit }
+epo }
+ecl
+ cee&s    e  ecl
+ r   in    
+
+    fepo }
+eclutecl
+iz c(& r   in   .Mepo  ecl {ecl
+   c  e_c   c  ese          2oueclMAecl
+,
+ c     ,
+ c   ut w   c  e     c > PR(( ced aner tio"  o"R
+tio"eto"R
+.set(= ti
+ .set(      o"R
+  ti=>tio"eto"_8.set(= t 
+ tio"eto"  .set(= tke .set(  .i  ti=>tio"eto"      /  get(n     /
+   f t<   /  gwi   /  get(n   
+
+   f t<   /  gwi f //_  // .d
+//_in
+et
+//niv// .d
+//shet
+/mte//_  // .el//_in
+et
+u8et
+/ B/gU//  //_        et
+/ti/r //shet
+/mlc/mte/_tet
+u8et
+/ B/gU//she  u  / B  /m  /mi/atc0 Veet
+/>,/     />,  et
+/  /  //shet
+/m  /mi/(lat/_p/m  /mi/(l 
+   /  /m  /mi/  />,/eb/iz/>,.ge  V  /t: n }telel n peet let etb_et l  .g  weta       et
+/ 4/t /al//_ie_/ 4/t /al//_in
+o  or_mor  um/t      k {f  el k ifepe/  //_inap/e
+ (dd/(&(b./      yttc/  /> (dd/(&(.h   e
+ (  e  (spieoep   e
+ (  e  (spieo().t( (    / S/pf.  
+/  } = ( ue (  e  (spieo().t(  /  }
+    }
+
+    fn ca / S/pf.  
+ck   cl
+   ));/ ::/ S/p  /  }
+         =   el
+  .p   epe/ ::).  .e
+urrent_pool - prize.clone());
+epo }
+ecl  ecl
+   c   r   in    
+
+  +=
+    fepo    eclutecl
+  iz c(&      c  e_c   c  ese          2ot.,
+ c     ,
+ c   ut w   c  e     c > PR     c   utCatio"eto"R
+.set(= ti
+ .set(      o"R
+  ti=>tio"e l.set(= tse .set(  la  ti=>tio"eto";
+ tio"eto"  .set(= tke .s     f t<   /  gwi   /  get(n   
+
+   f t<   /  gwi f //_  // .d
+//.k
+   f t<   /  gwi f //_  // .lay//_in
+et
+//niv// .d
+//shet
+/  et
+/  /  //shet
+/m  /mte/  et
+u8et
+/ B/gU//  /  u  / B  /ti/r //shet
+/mlc/mte/);/mlc/mte/_t  u8et
+/ B/gU/  / B
+
+/>,/     />,  et
+/  /  //shet
+/m  /mi)./  /  //shet
+/mge/m  /mi/(la     /  /m  /mi/  />,/eb/iziz/ 4/t /al//_ie_/ 4/t /al//_in
+o  or_mor  um/t      k {f  el k ifepe/  //_inap/e
+ (dd/(  o  or_mor  um/t      k {f  e   (dd/(&(b./      yttc/  /> (dd/(&(.h   e
+ (  e     (  e  (spieoep   e
+ (  e  (spieo().t(    (  e  (spieo().t(
+
+/  } = ( ue (  e  (spieo().t(  / n    }
+
+    fn ca / S/pf.  
+ck   cl  
+   et ck   cl
+   ));/ ::kc   ));.g         =   el
+  .p l  .p   epe/ :: surrent_pool - prizegeepo }
+ecl  ecl
+   c   r   inicecl {
+   c     
+  +=
+    fepo  r.c   e(  iz c(&      c  e__n c     ,
+ c   ut w   c  e     c > PR     c l: c   ut  .set(= ti
+ .set(      o"R
+  ti=>tio"e l.set(= tsck .set(  mp  ti=>tio"e l.   tio"eto"  .set(= tke .s     f t<   /  gwi   / e,
+   f t<   /  gwi f //_  // .d
+//.k
+   f t<   /  gwi f cke//.k
+   f t<   /  gwi f //_ ;
+     et
+//niv// .d
+//shet
+/  et
+/  /  //et);
+//shet
+/   /  et s/  /pl/m  /mte/  _iu8et
+/ B/gU/up/ Be(/mlc/mte/);/mlc/mte/_t  u8et
+/ Bke/ B/gU/  / B
+
+/>,;
+
+        s
+/>,/     /ick/  /  //shet
+/mte/m  /mi)./   /mge/m  /mi/(la   = 1;o  or_mor  um/t      k {f  el k ifepe/  //_inap/e
+ (dd/(  o  or_mor  um/Pu (dd/(  o  or_mor  um/t      k {f  e   (dd/(&(b.s, (  e     (),
+        );
+    }
+}
