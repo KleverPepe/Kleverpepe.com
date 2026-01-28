@@ -83,6 +83,8 @@ class KPEPEJackpot {
             kpepeToken: initParams.kpepeToken || '',
             kpepeStaking: initParams.kpepeStaking || '',
             prizePool: 0,
+            nextDrawRollover: 0,
+            withdrawnFromPool: 0,
             totalPaidTickets: 0,  // Only paid tickets (contributes to pool)
             totalFreeTickets: 0,  // Free tickets (does NOT contribute to pool)
             totalTicketsIncludingFree: 0,  // All tickets (paid + free)
@@ -538,8 +540,17 @@ class KPEPEJackpot {
             // Distribute prizes
             const winners = this.distributePrizes();
             
-            // Update pool
-            this.storage.prizePool = Math.floor(this.storage.prizePool * this.POOL_RETENTION / 10000);
+            // 20% rollover: Keep 20% of remaining pool for next draw
+            const remainingPool = this.storage.prizePool;
+            const rolloverAmount = Math.floor(remainingPool * 0.20); // 20% stays
+            const withdrawnAmount = remainingPool - rolloverAmount;   // 80% withdrawn
+            
+            // Track for transparency
+            this.storage.withdrawnFromPool = withdrawnAmount;
+            this.storage.nextDrawRollover = rolloverAmount;
+            
+            // Reset pool with rollover for next draw
+            this.storage.prizePool = rolloverAmount;
             
             // Expire free tickets
             this.expireAllFreeTickets();
@@ -901,9 +912,4 @@ class KPEPEJackpot {
     deposit() {
         // Contract can receive KLV
     }
-}
-
-// Export for testing and deployment
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = KPEPEJackpot;
 }

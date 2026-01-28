@@ -102,6 +102,13 @@ pub trait KPEPEJackpot: ContractBase {
 
     #[only_owner]
     #[endpoint]
+    fn claim_project_share(&self, amount: BigUint) {
+        let caller = self.blockchain().get_caller();
+        self.send().direct_klv(&caller, &amount);
+    }
+
+    #[only_owner]
+    #[endpoint]
     fn toggle_round(&self) {
         let current = self.round_active().get();
         self.round_active().set(!current);
