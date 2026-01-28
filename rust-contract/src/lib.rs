@@ -30,6 +30,8 @@ pub trait KPEPEJackpot: ContractBase {
         // Just deploy and it's ready to go
         
         self.prize_pool().set(&BigUint::zero());
+        self.next_draw_rollover().set(&BigUint::zero());
+        self.withdrawn_from_pool().set(&BigUint::zero());
         self.draw_interval().set(DRAW_INTERVAL);
         self.last_draw_time().set(self.blockchain().get_block_timestamp());
         self.round_active().set(true);
@@ -56,6 +58,12 @@ pub trait KPEPEJackpot: ContractBase {
 
     #[storage_mapper("prize_pool")]
     fn prize_pool(&self) -> SingleValueMapper<BigUint>;
+
+    #[storage_mapper("next_draw_rollover")]
+    fn next_draw_rollover(&self) -> SingleValueMapper<BigUint>;
+
+    #[storage_mapper("withdrawn_from_pool")]
+    fn withdrawn_from_pool(&self) -> SingleValueMapper<BigUint>;
 
     #[storage_mapper("winning_numbers")]
     fn winning_numbers(&self) -> SingleValueMapper<ManagedVec<u8>>;
@@ -244,6 +252,16 @@ pub trait KPEPEJackpot: ContractBase {
     }
 
     #[view]
+    fn get_next_draw_rollover(&self) -> BigUint {
+        self.next_draw_rollover().get()
+    }
+
+    #[view]
+    fn get_withdrawn_from_pool(&self) -> BigUint {
+        self.withdrawn_from_pool().get()
+    }
+
+    #[view]
     fn get_total(&self) -> u64 {
         self.total_tickets().get()
     }
@@ -269,6 +287,7 @@ pub trait KPEPEJackpot: ContractBase {
         let total_tickets = self.total_tickets().get();
         let end_ticket = core::cmp::min(last_ticket + batch_size, total_tickets);
         let pool = self.prize_pool().get();
+        let mut total_distributed = BigUint::zero();
         
         for ticket_id in last_ticket..end_ticket {
             if self.ticket_claimed(ticket_id).get() {
@@ -313,9 +332,27 @@ pub trait KPEPEJackpot: ContractBase {
             if prize > BigUint::zero() {
                 self.ticket_claimed(ticket_id).set(true);
                 self.send().direct_klv(&owner, &prize);
+                total_distributed += &prize;
             }
         }
         
         self.last_distributed_ticket().set(end_ticket);
+        
+        // If this batch completes all ticket payouts, process the 20% rollover
+        if end_ticket == total_tickets {
+            let remaining_pool = &pool - &total_distributed;
+            
+            // 20% rolls over to next draw
+            let rollover_amount = &remaining_pool * 20u64 / 100u64;
+            self.next_draw_rollover().set(&rollover_amount);
+            
+            // 80% is withdrawn (tracked for accounting)
+            let withdrawn_amount = &remaining_pool - &rollover_amount;
+            self.withdrawn_from_pool().set(&withdrawn_amount);
+            
+            // Reset pool for next draw with rollover
+            self.prize_pool().set(&rollover_amount);
+            self.last_distributed_ticket().set(0u64);
+        }
     }
 }
