@@ -5,6 +5,9 @@ klever_sc::imports!();
 // Draw interval (24 hours in seconds)
 const DRAW_INTERVAL: u64 = 86400;
 
+// Project wallet address (hardcoded)
+const PROJECT_WALLET: &str = "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9";
+
 /**
  * FUND FLOW MODEL (Path B - Contract Manager)
  * 
@@ -26,19 +29,22 @@ const DRAW_INTERVAL: u64 = 86400;
 pub trait KPEPEJackpot: ContractBase {
     #[init]
     fn init(&self) {
-        // Everything is hardcoded - no parameters needed!
-        // Just deploy and it's ready to go
-        
+        // Empty init - all initialization done via initialize_contract() call after deployment
+    }
+
+    #[only_owner]
+    #[endpoint]
+    fn initialize_contract(&self) {
+        // Call this function immediately after deployment to initialize all storage
         self.prize_pool().set(&BigUint::zero());
         self.next_draw_rollover().set(&BigUint::zero());
         self.withdrawn_from_pool().set(&BigUint::zero());
         self.draw_interval().set(DRAW_INTERVAL);
-        self.last_draw_time().set(self.blockchain().get_block_timestamp());
         self.round_active().set(true);
         self.total_tickets().set(0u64);
         self.last_distributed_ticket().set(0u64);
         
-        // Set project wallet to owner (pre-configured address)
+        // Set project wallet to owner
         let owner = self.blockchain().get_owner_address();
         self.project_wallet().set(&owner);
     }
@@ -192,17 +198,17 @@ pub trait KPEPEJackpot: ContractBase {
         self.ticket_eight_ball(ticket_id).set(eb);
         self.ticket_claimed(ticket_id).set(false);
         
-        let pool_share = BigUint::from(85_000_000u64);
+        // Split payment: 15% to owner, 85% to prize pool
         let project_share = BigUint::from(15_000_000u64);
+        let pool_share = BigUint::from(85_000_000u64);
         
+        // Transfer 15% to owner automatically
+        let owner = self.blockchain().get_owner_address();
+        self.send().direct_klv(&owner, &project_share);
+        
+        // Add 85% to prize pool
         let current = self.prize_pool().get();
         self.prize_pool().set(&(current + pool_share));
-        
-        // Transfer 15% to owner (deployment wallet) - guaranteed to exist
-        let owner = self.blockchain().get_owner_address();
-        if !owner.is_zero() {
-            self.send().direct_klv(&owner, &project_share);
-        }
         
         self.total_tickets().set(ticket_id + 1);
     }
