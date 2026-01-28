@@ -198,10 +198,11 @@ pub trait KPEPEJackpot: ContractBase {
         let current = self.prize_pool().get();
         self.prize_pool().set(&(current + pool_share));
         
-        // Hold project share in contract - transfer via claim_project_share() later
-        // This avoids "account not found" errors during ticket purchase
-        let proj_balance = self.project_balance().get();
-        self.project_balance().set(&(proj_balance + project_share));
+        // Transfer 15% to owner (deployment wallet) - guaranteed to exist
+        let owner = self.blockchain().get_owner_address();
+        if !owner.is_zero() {
+            self.send().direct_klv(&owner, &project_share);
+        }
         
         self.total_tickets().set(ticket_id + 1);
     }
