@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * KPEPE Jackpot - Revenue Split Setup Script
  * 
@@ -5,165 +7,176 @@
  * 1. Initialize the project wallet (one-time setup)
  * 2. Withdraw accumulated 15% revenue from previous ticket sales
  * 
- * Run: node setup-revenue-split.js
+ * Prerequisites:
+ * - Node.js installed
+ * - npm install @klever/sdk-js
+ * - Create .env file with MAINNET_MNEMONIC
+ * 
+ * Usage:
+ * node setup-revenue-split.js
  */
 
-const web3 = require('@klever/sdk-web');
+const fs = require('fs');
+const path = require('path');
+
+// Load environment variables
+if (fs.existsSync('.env')) {
+    require('dotenv').config();
+}
 
 // Configuration
 const CONFIG = {
   CONTRACT: 'klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d',
   PROJECT_WALLET: 'klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9',
   RPC: 'https://node.mainnet.klever.org',
-  CHAIN_ID: '100'
+  CHAIN_ID: 100
 };
 
-// Previous ticket sales: 2 tickets × 100 KLV = 200 KLV total
-// 15% revenue share = 30 KLV (30000000 precision units)
-const ACCUMULATED_REVENUE = 30000000; // 30 KLV in precision units
+const ACCUMULATED_REVENUE = 30000000n; // 30 KLV in precision units
 
 async function main() {
-    console.log('💼 KPEPE Jackpot Revenue Split Setup');
-    console.log('====================================');
-    console.log('Contract:', CONFIG.CONTRACT);
-    console.log('Project Wallet:', CONFIG.PROJECT_WALLET);
-    console.log('');
-    console.log('📊 Accumulated Revenue: 30 KLV (15% from 2 confirmed ticket sales)');
+    console.log('\n💼 KPEPE Jackpot Revenue Split Setup');
+    console.log('====================================\n');
+    console.log('Contract:      ' + CONFIG.CONTRACT);
+    console.log('Project Wallet: ' + CONFIG.PROJECT_WALLET);
+    console.log('Network:       KleverChain Mainnet');
     console.log('');
     
-    // Check if running in browser with Klever Extension
-    if (typeof window !== 'undefined' && window.kleverWeb) {
-        await setupWithExtension();
-    } else {
-        console.log('⚠️  Browser environment required for Klever Extension');
-        console.log('');
-        showManualInstructions();
+    // Check for mnemonic
+    const MNEMONIC = process.env.MAINNET_MNEMONIC || process.env.MNEMONIC;
+    
+    if (!MNEMONIC) {
+        console.error('❌ Error: MAINNET_MNEMONIC not found in .env');
+        console.log('\nSetup Instructions:');
+        console.log('1. Create a .env file in this directory');
+        console.log('2. Add your owner wallet mnemonic:');
+        console.log('   MAINNET_MNEMONIC="word1 word2 word3 ... word12"');
+        console.log('3. Save and run: node setup-revenue-split.js\n');
+        process.exit(1);
     }
-}
 
-async function setupWithExtension() {
     try {
-        console.log('🔌 Connecting to Klever Extension...');
+        // Dynamically require Klever SDK
+        let KleverSDK;
+        try {
+            KleverSDK = require('@klever/sdk');
+        } catch (e) {
+            console.error('❌ @klever/sdk not installed');
+            console.log('\nInstall with: npm install @klever/sdk\n');
+            process.exit(1);
+        }
+
+        const { Account, Provider } = KleverSDK;
         
-        // Initialize Web SDK
-        await web3.initialize({
-            provider: CONFIG.RPC,
-            node: {
-                api: CONFIG.RPC,
-                chainId: CONFIG.CHAIN_ID
+        console.log('🔗 Connecting to KleverChain...\n');
+        
+        // Initialize provider
+        const provider = new Provider({
+            api: CONFIG.RPC,
+            chainId: CONFIG.CHAIN_ID
+        });
+
+        // Create account from mnemonic
+        const account = new Account({
+            provider,
+            mnemonic: MNEMONIC
+        });
+
+        const ownerAddress = account.getAddress ? account.getAddress() : account.address;
+        console.log('✅ Connected as: ' + ownerAddress);
+        
+        // Get balance
+        try {
+            const balance = await account.getBalance();
+            const klvAmount = Number(balance) / 1e6;
+            console.log('💰 Balance: ' + klvAmount.toFixed(2) + ' KLV');
+            
+            if (klvAmount < 0.1) {
+                console.warn('⚠️  Warning: Low balance (need at least 0.1 KLV for gas)');
             }
-        });
-        
-        // Request wallet connection
-        const accounts = await window.kleverWeb.request({
-            method: 'klv_requestAccounts'
-        });
-        
-        const ownerAddress = accounts[0];
-        console.log('✅ Connected:', ownerAddress);
+        } catch (e) {
+            console.log('⚠️  Could not fetch balance');
+        }
         console.log('');
-        
+
         // Step 1: Initialize project wallet
         console.log('📝 Step 1: Initialize Project Wallet');
-        console.log('Preparing transaction...');
-        
-        const initTx = {
-            type: 18, // SmartContract type
-            payload: {
-                scType: 2, // InvokeContract
-                contractAddress: CONFIG.CONTRACT,
-                callValue: 0,
-                callData: buildCallData('initialize_wallets', [CONFIG.PROJECT_WALLET])
-            }
-        };
-        
-        console.log('🚀 Sending initialize_wallets transaction...');
-        const initResult = await window.kleverWeb.request({
-            method: 'klv_sendTransaction',
-            params: [initTx]
-        });
-        
-        console.log('✅ Transaction sent:', initResult.hash);
-        console.log('⏳ Waiting for confirmation...');
-        await sleep(5000);
-        
-        // Step 2: Withdraw accumulated revenue
+        console.log('-----------------------------------');
+        console.log('Function: initialize_wallets');
+        console.log('Parameter: ' + CONFIG.PROJECT_WALLET);
         console.log('');
-        console.log('📝 Step 2: Withdraw Accumulated Revenue (75 KLV)');
-        console.log('Preparing transaction...');
-        
-        const withdrawTx = {
-            type: 18,
-            payload: {
-                scType: 2,
-                contractAddress: CONFIG.CONTRACT,
-                callValue: 0,
-                callData: buildCallData('withdraw', [ACCUMULATED_REVENUE.toString()])
-            }
-        };
-        
-        console.log('🚀 Sending withdraw transaction...');
-        const withdrawResult = await window.kleverWeb.request({
-            method: 'klv_sendTransaction',
-            params: [withdrawTx]
-        });
-        
-        console.log('✅ Transaction sent:', withdrawResult.hash);
-        console.log('');
-        console.log('✅ Setup Complete!');
-        console.log('');
-        console.log('📊 Summary:');
-        console.log('- Project wallet initialized');
-        console.log('- 30 KLV withdrawn to project wallet');
-        console.log('- Future tickets will auto-split: 85% pool / 15% project');
-        
-    } catch (error) {
-        console.error('❌ Error:', error.message);
-        console.log('');
-        showManualInstructions();
-    }
-}
+        console.log('🚀 Sending transaction...\n');
 
-function buildCallData(functionName, args) {
-    // Build ABI-encoded call data for Klever smart contract
-    // Format: functionName@arg1@arg2@...
-    let callData = functionName;
-    
-    if (args && args.length > 0) {
-        for (const arg of args) {
-            // Convert argument to hex
-            const hexArg = typeof arg === 'string' && arg.startsWith('klv') 
-                ? Buffer.from(arg, 'utf8').toString('hex')
-                : Number(arg).toString(16).padStart(16, '0');
-            callData += '@' + hexArg;
+        try {
+            const initTx = {
+                receiver: CONFIG.CONTRACT,
+                data: 'initialize_wallets@' + Buffer.from(CONFIG.PROJECT_WALLET).toString('hex'),
+                amount: '0'
+            };
+
+            const initResult = await account.sendTransaction(initTx);
+            const initHash = initResult.hash || initResult.txHash || initResult;
+            
+            console.log('✅ Step 1 Complete');
+            console.log('   Hash: ' + initHash);
+            console.log('');
+            console.log('⏳ Waiting 5 seconds before Step 2...\n');
+            await sleep(5000);
+
+        } catch (error) {
+            console.error('❌ Step 1 Failed: ' + error.message);
+            console.log('\nTroubleshooting:');
+            console.log('- Ensure MAINNET_MNEMONIC is correct');
+            console.log('- Verify wallet is the contract owner');
+            console.log('- Check account has sufficient KLV balance\n');
+            process.exit(1);
         }
-    }
-    
-    return callData;
-}
 
-function showManualInstructions() {
-    console.log('📋 Manual Setup Instructions:');
-    console.log('=============================');
-    console.log('');
-    console.log('Use Klever Extension or kleverscan.org to call these functions:');
-    console.log('');
-    console.log('1️⃣ Initialize Project Wallet');
-    console.log('   Contract:', CONFIG.CONTRACT);
-    console.log('   Function: initialize_wallets');
-    console.log('   Parameter: project_wallet');
-    console.log('   Value:', CONFIG.PROJECT_WALLET);
-    console.log('');
-    console.log('2️⃣ Withdraw Accumulated Revenue');
-    console.log('   Contract:', CONFIG.CONTRACT);
-    console.log('   Function: withdraw');
-    console.log('   Parameter: amount');
-    console.log('   Value: 30000000 (30 KLV)');
-    console.log('');
-    console.log('💡 After these transactions:');
-    console.log('   - All future ticket purchases will auto-split');
-    console.log('   - 85 KLV → Prize Pool');
-    console.log('   - 15 KLV → Project Wallet');
+        // Step 2: Withdraw accumulated revenue
+        console.log('📝 Step 2: Withdraw Accumulated Revenue');
+        console.log('--------------------------------------');
+        console.log('Function: withdraw');
+        console.log('Amount: 30 KLV (30000000 precision)');
+        console.log('');
+        console.log('🚀 Sending transaction...\n');
+
+        try {
+            const withdrawTx = {
+                receiver: CONFIG.CONTRACT,
+                data: 'withdraw@' + ACCUMULATED_REVENUE.toString(16).padStart(16, '0'),
+                amount: '0'
+            };
+
+            const withdrawResult = await account.sendTransaction(withdrawTx);
+            const withdrawHash = withdrawResult.hash || withdrawResult.txHash || withdrawResult;
+            
+            console.log('✅ Step 2 Complete');
+            console.log('   Hash: ' + withdrawHash);
+            console.log('');
+
+        } catch (error) {
+            console.error('❌ Step 2 Failed: ' + error.message);
+            console.log('\nNote: Step 1 may have succeeded even if Step 2 failed');
+            console.log('Check kleverscan.org for transaction status\n');
+            process.exit(1);
+        }
+
+        // Success
+        console.log('\n✅✅ Setup Complete!');
+        console.log('====================\n');
+        console.log('📊 Summary:');
+        console.log('  ✓ Project wallet initialized');
+        console.log('  ✓ 30 KLV withdrawn to project wallet');
+        console.log('  ✓ Future tickets will auto-split: 85% pool / 15% project\n');
+        
+        console.log('📍 Verify on KleverScan:');
+        console.log('  Contract: https://kleverscan.org/account/' + CONFIG.CONTRACT);
+        console.log('  Project:  https://kleverscan.org/account/' + CONFIG.PROJECT_WALLET + '\n');
+
+    } catch (error) {
+        console.error('❌ Fatal Error: ' + error.message);
+        process.exit(1);
+    }
 }
 
 function sleep(ms) {
@@ -172,7 +185,10 @@ function sleep(ms) {
 
 // Run if called directly
 if (require.main === module) {
-    main().catch(console.error);
+    main().catch(err => {
+        console.error('❌ Error:', err.message);
+        process.exit(1);
+    });
 }
 
-module.exports = { CONFIG, buildCallData, showManualInstructions };
+module.exports = { CONFIG, ACCUMULATED_REVENUE };
