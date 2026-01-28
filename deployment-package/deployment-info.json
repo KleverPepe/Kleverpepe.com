@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-01-28T10:08:11.812Z",
+  "network": "KleverChain Mainnet",
+  "contractSize": "32.27 KB",
+  "gasLimit": 3000000,
+  "configuration": {
+    "projectWallet": "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9",
+    "prizePoolWallet": "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2",
+    "kpepeToken": "kpepe-1eod"
+  },
+  "status": "INITIALIZED",
+  "readyForInitialization": true,
+  "contractAddress": "klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq"
+}

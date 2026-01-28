@@ -288,11 +288,21 @@
         <div class="network-badge">🔗 Mainnet</div>
       </div>
       
+      <!-- Wallet (TOP PRIORITY) -->
+      <div class="wallet-section">
+        <div id="wallet-warning" style="display:none; color:#f97316; font-size:0.85rem; margin-bottom:6px;">
+          ⚠️ No wallet detected. Install <a href="https://klever.io/wallet" target="_blank" style="color:#f97316; text-decoration:underline;">Klever Extension</a> or <a href="https://metamask.io" target="_blank" style="color:#f97316; text-decoration:underline;">MetaMask</a>
+        </div>
+        <div class="wallet-status disconnected" id="wallet-status"><span>●</span> Not Connected</div>
+        <button class="buy-btn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect Wallet</button>
+      </div>
+      
       <!-- Jackpot -->
       <div class="jackpot-card">
         <div class="jackpot-content">
           <div class="frog-logo" onclick="showFrogMessage()">🐸</div>
-          <div class="grand-prize">🌟 <span class="prize-highlight">500,000 KPEPE</span> Grand Prize!</div>
+          <div class="grand-prize">🌟 <span class="prize-highlight">650,000 KPEPE</span> Launch Bonus!</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: -4px; margin-bottom: 8px;">500K Jackpot + 150K Prize Tiers (One-Time)</div>
           <div class="pool-amount"><span id="jackpot-klv">0</span> KLV</div>
           <div class="jackpot-usd" id="jackpot-usd">Total: ~$0 USD</div>
           <div style="margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
@@ -304,6 +314,96 @@
         </div>
       </div>
       
+      <!-- How to Play -->
+      <div class="section-card">
+        <div class="section-title">🎮 How to Play</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #22c55e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem;">1</div>
+            <div>
+              <div style="font-weight: 700; color: var(--primary); margin-bottom: 4px;">Pick Your Numbers</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Select 5 numbers (1-50) and 1 Lucky 8Ball (1-20). Use Quick Pick for random numbers.</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), #c084fc); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem;">2</div>
+            <div>
+              <div style="font-weight: 700; color: var(--purple); margin-bottom: 4px;">Buy Your Ticket</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Connect your wallet and purchase for 100 KLV. Get 1 free ticket daily if you stake 50K+ KPEPE.</div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: start;">
+            <div style="min-width: 32px; height: 32px; background: linear-gradient(135deg, var(--gold), #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1rem;">3</div>
+            <div>
+              <div style="font-weight: 700; color: var(--gold); margin-bottom: 4px;">Win Prizes!</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">Match numbers to win KLV prizes. Match all 5+8Ball for the JACKPOT + 500K KPEPE bonus!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Last Winning Numbers -->
+      <div class="section-card" id="last-draw-section" style="display: none;">
+        <div class="section-title">🎲 Last Draw Results</div>
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" id="last-draw-date">Draw #1 - Jan 27, 2026</div>
+          <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 8px;">
+              <div class="prize-ball" id="last-num-1">5</div>
+              <div class="prize-ball" id="last-num-2">12</div>
+              <div class="prize-ball" id="last-num-3">23</div>
+              <div class="prize-ball" id="last-num-4">34</div>
+              <div class="prize-ball" id="last-num-5">47</div>
+            </div>
+            <div style="font-size: 1.5rem; color: var(--text-muted);">+</div>
+            <div class="prize-ball eightball" id="last-8ball">8</div>
+          </div>
+          <div style="margin-top: 16px;">
+            <button onclick="checkMyTickets()" style="padding: 8px 20px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.3); background: rgba(74,222,128,0.1); color: #4ade80; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(74,222,128,0.2)'" onmouseout="this.style.background='rgba(74,222,128,0.1)'">
+              ✓ Check My Tickets
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lottery Stats -->
+      <div class="section-card">
+        <div class="section-title">📈 Lottery Stats</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="padding: 12px; background: rgba(74,222,128,0.1); border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Paid Tickets</div>
+            <div style="font-size: 1.5rem; font-weight: 900; color: #4ade80;" id="stat-paid-tickets">0</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">Contributes to pool</div>
+          </div>
+          <div style="padding: 12px; background: rgba(132,204,22,0.1); border-radius: 8px;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Free Tickets</div>
+            <div style="font-size: 1.5rem; font-weight: 900; color: #84cc16;" id="stat-free-tickets">0</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">50K KPEPE stakers only</div>
+          </div>
+          <div style="padding: 12px; background: rgba(249,115,22,0.1); border-radius: 8px; grid-column: 1 / -1;">
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Current KLV Pool</div>
+            <div style="font-size: 1.5rem; font-weight: 900; color: #f97316;" id="stat-pool-amount">0 KLV</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">85% from tickets (20% rolls over each draw)</div>
+          </div>
+          <div style="padding: 12px; background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(234,88,12,0.15)); border-radius: 8px; grid-column: 1 / -1; border: 1px solid rgba(249,115,22,0.3);">
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">🎁 KPEPE Launch Bonus</div>
+            <div style="font-size: 1.2rem; font-weight: 900; color: #f97316; margin-bottom: 8px;" id="stat-kpepe-total">650K KPEPE</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">
+              One-time seed fund: 500K Jackpot + 50K/40K/35K/25K for Tiers 2-5<br>
+              <span style="color: #f97316; font-weight: 600;">Depletes as prizes are won!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Previous Winners -->
+      <div class="section-card" id="winners-section" style="display: none;">
+        <div class="section-title">🏆 Recent Winners</div>
+        <div id="winners-list" style="max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px;">
+          <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center;">No winners yet</div>
+        </div>
+      </div>
+      
       <!-- Countdown -->
       <div class="countdown">
         <div class="countdown-label">Next draw in</div>
@@ -311,6 +411,49 @@
           <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hrs</div></div>
           <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
           <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; text-align: center;" id="next-draw-date">Daily at 12:00 AM UTC</div>
+      </div>
+      
+      <!-- Free Ticket Claim -->
+      <div class="section-card" id="free-ticket-section" style="display: none;">
+        <div class="section-title">
+          <span>🎁 Free Daily Ticket</span>
+          <div class="badge">50K KPEPE Stakers</div>
+        </div>
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+            You're eligible for 1 free ticket per day!
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center; justify-content: center; margin-bottom: 16px;">
+            <div style="padding: 8px 16px; background: rgba(132,204,22,0.1); border-radius: 8px; border: 1px solid rgba(132,204,22,0.3);">
+              <div style="font-size: 0.7rem; color: var(--text-muted);">Your KPEPE Stake</div>
+              <div style="font-size: 1.2rem; font-weight: 900; color: #84cc16;" id="user-kpepe-stake">50,000+</div>
+            </div>
+            <div style="padding: 8px 16px; background: rgba(74,222,128,0.1); border-radius: 8px; border: 1px solid rgba(74,222,128,0.3);">
+              <div style="font-size: 0.7rem; color: var(--text-muted);">Next Claim</div>
+              <div style="font-size: 1.2rem; font-weight: 900; color: #4ade80;" id="next-free-claim">Available Now</div>
+            </div>
+          </div>
+          <button class="buy-btn" onclick="claimFreeTicket()" id="claim-free-btn" style="background: linear-gradient(135deg, #84cc16, #65a30d);">
+            🎟️ Claim Free Ticket
+          </button>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 12px;">
+            Ticket expires before daily draw. Use Quick Pick to select numbers automatically.
+          </div>
+        </div>
+      </div>
+      
+      <!-- My Tickets -->
+      <div class="section-card" id="my-tickets-section" style="display: none;">
+        <div class="section-title">
+          <span>🎫 My Tickets</span>
+          <div class="badge" id="my-tickets-count">0</div>
+        </div>
+        <div id="my-tickets-list" style="max-height: 400px; overflow-y: auto;">
+          <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 40px 20px;">
+            Connect your wallet and buy tickets to see them here.
+          </div>
         </div>
       </div>
       
@@ -341,26 +484,7 @@
         <div class="number-grid" id="eightball-numbers"></div>
       </div>
       
-      <!-- Cost & Buy -->
-      <div class="cost-display">
-        <div style="font-weight: 700; margin-bottom: 8px; color: var(--primary);">💰 Revenue Split Per Ticket</div>
-        <div class="cost-row">
-          <span>🏆 To Prize Pool</span>
-          <span class="pool">85 KLV (85%)</span>
-        </div>
-        <div class="cost-row">
-          <span>💼 To Project Wallet</span>
-          <span class="project">15 KLV (15%)</span>
-        </div>
-        <div class="cost-row total">
-          <span>Total Ticket Price</span>
-          <span>100 KLV</span>
-        </div>
-        <div style="margin-top: 8px; padding: 8px; background: rgba(74,222,128,0.1); border-radius: 8px; font-size: 0.75rem; color: var(--text-muted);">
-          ✅ Split happens automatically on every purchase
-        </div>
-      </div>
-      
+      <!-- Buy Button -->
       <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (100 KLV)</button>
       
       <!-- KPEPE Prize Pool -->
@@ -377,65 +501,117 @@
         <div class="prize-header">🏆 KLV Prize Pool</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
-          <span class="prize-amount" id="prize-jackpot">~0 KLV</span>
+          <span class="prize-amount" id="prize-jackpot">~0 KLV <span style="color: #f97316; font-size: 0.8rem;">+ 500K KPEPE</span> <span class="badge" style="background: linear-gradient(135deg, #f97316, #ea580c); font-size: 0.65rem; margin-left: 4px;">LAUNCH BONUS</span></span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount" id="prize-match5">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount" id="prize-match4_8b">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount" id="prize-match4">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount" id="prize-match3_8b">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">~0 KLV</div><div id="kpepe-bonus-tier2" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 50K KPEPE 🎁</div></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">~0 KLV</div><div id="kpepe-bonus-tier3" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 40K KPEPE 🎁</div></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">~0 KLV</div><div id="kpepe-bonus-tier4" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 35K KPEPE 🎁</div></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">~0 KLV</div><div id="kpepe-bonus-tier5" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 25K KPEPE 🎁</div></span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
       </div>
       
-      <!-- Wallet -->
-      <div class="wallet-section">
-        <div id="wallet-warning" style="display:none; color:#f97316; font-size:0.85rem; margin-bottom:6px;">
-          ⚠️ No wallet detected. Install <a href="https://klever.io/wallet" target="_blank" style="color:#f97316; text-decoration:underline;">Klever Extension</a> or <a href="https://metamask.io" target="_blank" style="color:#f97316; text-decoration:underline;">MetaMask</a>
+      <!-- Odds of Winning -->
+      <div class="section-card">
+        <div class="section-title">📊 Odds of Winning</div>
+        <div style="display: grid; gap: 8px; font-size: 0.85rem;">
+          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span>🎰 Jackpot (5+8B)</span>
+            <span style="color: var(--primary);">1 in 31,625,100</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px;">
+            <span>5️⃣ Match 5</span>
+            <span style="color: var(--text-muted);">1 in 1,581,255</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span>4️⃣+8️⃣ Match 4+8B</span>
+            <span style="color: var(--text-muted);">1 in 145,716</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px;">
+            <span>4️⃣ Match 4</span>
+            <span style="color: var(--text-muted);">1 in 7,286</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span>3️⃣+8️⃣ Match 3+8B</span>
+            <span style="color: var(--text-muted);">1 in 7,815</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px;">
+            <span>3️⃣ Match 3</span>
+            <span style="color: var(--text-muted);">1 in 391</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span>2️⃣+8️⃣ Match 2+8B</span>
+            <span style="color: var(--text-muted);">1 in 701</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px;">
+            <span>1️⃣+8️⃣ Match 1+8B</span>
+            <span style="color: var(--text-muted);">1 in 175</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+            <span>8️⃣ Lucky 8Ball Only</span>
+            <span style="color: var(--primary);">1 in 20</span>
+          </div>
+          <div style="margin-top: 8px; padding: 12px; background: rgba(74,222,128,0.1); border-radius: 8px; text-align: center; font-size: 0.75rem; color: var(--text-muted);">
+            Overall odds of winning any prize: <span style="color: var(--primary); font-weight: 700;">1 in 18</span>
+          </div>
         </div>
-        <div class="wallet-status disconnected" id="wallet-status"><span>●</span> Not Connected</div>
-        <button class="buy-btn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect Wallet</button>
       </div>
 
-      <!-- Claim Prize Section -->
+      <!-- Automatic Prize Distribution Notice -->
       <div class="section-card">
         <div class="section-title">
-          <span>🎁 Claim Your Prize</span>
-          <div class="badge">After Draw</div>
+          <span>✨ Automatic Prize Distribution</span>
+          <div class="badge">Instant</div>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">
-          After the draw is completed and winning numbers are announced, enter your ticket ID to claim your prize!
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">
+          ✅ Your prizes are sent <strong>automatically</strong> when you win! No claiming needed.
         </p>
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-          <input 
-            type="number" 
-            id="claim-ticket-id" 
-            placeholder="Enter Ticket ID (0-9999)" 
-            min="0" 
-            style="flex: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-dark); color: var(--text); font-size: 1rem;"
-          />
+        <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; padding: 12px; border-radius: 6px; font-size: 0.9rem; color: var(--text);">
+          <strong>How it works:</strong><br/>
+          1️⃣ Buy tickets and wait for the draw<br/>
+          2️⃣ Draw completes and winners are determined<br/>
+          3️⃣ <strong>KLV and KPEPE prizes sent directly to your wallet</strong><br/>
+          4️⃣ Check your balance - you're done! 🎉
         </div>
-        <button class="buy-btn" onclick="claimPrize()" style="background: linear-gradient(135deg, #f97316, #ea580c);">
-          🎁 Claim Prize
-        </button>
-        <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 12px; text-align: center;">
-          Your ticket ID is shown when you purchase a ticket.<br/>
-          Winners are determined by number matches and Eight Ball.
-        </p>
       </div>
       
       <div class="footer">🎱 KPEPE Jackpot on KleverChain<br><span style="opacity: 0.6;">Mainnet</span></div>
     </div>
 
     <script>
+    <script>
+      // Validate configuration
+      function validateConfig() {
+        const issues = [];
+        
+        // Check contract address
+        if (!CONTRACT_ADDRESS || CONTRACT_ADDRESS === "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d") {
+          issues.push("⚠️  CONTRACT_ADDRESS appears to be using default/placeholder value. Update in .env after deploying contract.");
+        }
+        
+        if (!KPEPE_TOKEN_ADDRESS || KPEPE_TOKEN_ADDRESS === "unknown") {
+          issues.push("⚠️  KPEPE_TOKEN_ADDRESS not set. Update in .env.example.");
+        }
+        
+        if (issues.length > 0) {
+          console.warn("Configuration Warnings:");
+          issues.forEach(issue => console.warn(issue));
+        }
+      }
+
       const TICKET_PRICE = 1, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
-      const KPEPE_JACKPOT = 500000;
+      const KPEPE_JACKPOT = 650000;  // 650K total: 500K jackpot + 150K tier bonuses
+      
       // Contract address (deployed on KleverChain mainnet)
+      // UPDATE THIS after deploying contract - also update in .env
       const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d";
+      
       // KPEPE Token address on KleverChain mainnet
-      const KPEPE_TOKEN_ADDRESS = "kpepe-1eod"; // KleverChain token identifier
+      const KPEPE_TOKEN_ADDRESS = "kpepe-1eod"; // KleverChain token identifier - verify on mainnet
+      
       // KleverScan API endpoints (ordered fallback; will be updated at runtime if provider.api exists)
       const DEFAULT_KLEVERSCAN_API = "https://api.mainnet.klever.org";
       
@@ -452,6 +628,11 @@
         blockExplorerUrls: ['https://kleverscan.org']
       };
       let KLEVERSCAN_ENDPOINTS = [DEFAULT_KLEVERSCAN_API];
+      const API_TIMEOUT = 30000; // 30 seconds
+      
+      // Validate configuration on page load
+      validateConfig();
+      
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
       // Prize percentages of pool
@@ -482,6 +663,11 @@
         // Try to refresh every 30 seconds
         setInterval(() => { showCalculatedPool(); }, 30000);
         startCountdown();
+        updateNextDrawDate();
+        
+        // Initialize new features
+        checkFreeTicketEligibility();
+        loadMyTickets();
       });
       
       function showFrogMessage() {
@@ -557,20 +743,28 @@
         // fetchPrizePoolFromContract().then(pool => { ... })
         
         const poolAmount = Math.floor(TOTAL_TICKETS_SOLD * TICKET_PRICE * POOL_SHARE);
-        const kpepeValueUSD = KPEPE_JACKPOT * KPEPE_PRICE_USD;
+        const kpepeValueUSD = KPEPE_JACKPOT * KPEPE_PRICE_USD;  // 650K KPEPE launch bonus
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
         const totalUSD = kpepeValueUSD + klvValueUSD;
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
         updatePrizeAmounts(poolAmount);
+        
+        // Fetch KPEPE seed fund data from contract
+        fetchKPEPESeedFund();
       }
       
       // Live fetch from KleverChain (for production)
+      // Fetch Prize Pool from Contract with timeout
       async function fetchPrizePoolFromContract() {
         for (const base of KLEVERSCAN_ENDPOINTS) {
           try {
             const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
-            const response = await fetch(url, { mode: 'cors' });
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
+            const response = await fetch(url, { mode: 'cors', signal: controller.signal });
+            clearTimeout(timeoutId);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
             const prizePoolRaw = Number(data?.prizePool ?? 0);
@@ -578,16 +772,57 @@
             const poolAmount = Math.floor(prizePoolRaw / 1e6);
             TOTAL_TICKETS_SOLD = ticketsSold;
             document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-            const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-            document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+            const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);  // 650K KPEPE
+            document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
             updatePrizeAmounts(poolAmount);
             return;
           } catch (err) {
-            console.warn(`KleverScan fetch failed for ${base}`, err);
+            console.warn(`KleverScan fetch failed for ${base}`, err.message);
           }
         }
         // Fallback to calculated pool
         showCalculatedPool();
+      }
+      
+      // Fetch KPEPE seed fund data from contract with timeout
+      async function fetchKPEPESeedFund() {
+        for (const base of KLEVERSCAN_ENDPOINTS) {
+          try {
+            const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
+            const response = await fetch(url, { mode: 'cors', signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            
+            // Extract KPEPE seed fund amounts (in base units, convert by dividing by 1e12)
+            const kpepeSeedFund = {
+              jackpot: Math.floor((data?.storage?.kpepeJackpotPrize ?? 0) / 1e12),
+              match5: Math.floor((data?.storage?.kpepeMatch5Prize ?? 0) / 1e12),
+              match48B: Math.floor((data?.storage?.kpepeMatch48BPrize ?? 0) / 1e12),
+              match4: Math.floor((data?.storage?.kpepeMatch4Prize ?? 0) / 1e12),
+              match38B: Math.floor((data?.storage?.kpepeMatch38BPrize ?? 0) / 1e12),
+              total: 0
+            };
+            
+            // Calculate total
+            kpepeSeedFund.total = kpepeSeedFund.jackpot + kpepeSeedFund.match5 + 
+                                 kpepeSeedFund.match48B + kpepeSeedFund.match4 + 
+                                 kpepeSeedFund.match38B;
+            
+            console.log('📦 KPEPE Seed Fund Loaded:', kpepeSeedFund);
+            updateKPEPESeedDisplay(kpepeSeedFund);
+            return kpepeSeedFund;
+          } catch (err) {
+            console.warn(`KleverScan fetch failed for ${base}`, err.message);
+          }
+        }
+        
+        // Fallback: show warning but continue
+        console.warn('⚠️ Could not fetch KPEPE seed fund - using display values');
+        return null;
       }
       
       function showCalculatedPool() {
@@ -600,12 +835,65 @@
         
         document.getElementById('jackpot-klv').textContent = poolAmount.toFixed(2) + ' KLV';
         const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD';
+        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
         updatePrizeAmounts(poolAmount);
+        updateLotteryStats(confirmedTickets, 0, poolAmount, []);  // 0 free tickets, no winners yet
         
         if (!calculatedPoolShown) {
           console.log(`📊 Prize pool calculated from ${confirmedTickets} confirmed tickets: ${poolAmount} KLV`);
           calculatedPoolShown = true;
+        }
+      }
+      
+      // Update lottery stats display
+      function updateLotteryStats(paidTickets, freeTickets, poolAmount, previousWinners) {
+        // Update ticket counts
+        document.getElementById('stat-paid-tickets').textContent = paidTickets;
+        document.getElementById('stat-free-tickets').textContent = freeTickets;
+        
+        // Update pool amount
+        const formatPool = (amount) => {
+          if (amount >= 1000) return (amount / 1000).toFixed(1) + 'K KLV';
+          return amount.toLocaleString() + ' KLV';
+        };
+        document.getElementById('stat-pool-amount').textContent = formatPool(poolAmount);
+        
+        // Update winners list if there are any
+        const winnersSection = document.getElementById('winners-section');
+        const winnersList = document.getElementById('winners-list');
+        
+        if (previousWinners && previousWinners.length > 0) {
+          winnersSection.style.display = 'block';
+          
+          let winnersHTML = '';
+          previousWinners.forEach(winner => {
+            const tierName = {
+              1: '🎰 JACKPOT',
+              2: '5️⃣ Match 5',
+              3: '4️⃣+8️⃣ Match 4+8B',
+              4: '4️⃣ Match 4',
+              5: '3️⃣+8️⃣ Match 3+8B',
+              6: '3️⃣ Match 3',
+              7: '2️⃣+8️⃣ Match 2+8B',
+              8: '1️⃣+8️⃣ Match 1+8B',
+              9: '8️⃣ Lucky 8Ball'
+            }[winner.tier] || 'Prize';
+            
+            const shortAddr = winner.player ? winner.player.substring(0, 8) + '...' + winner.player.substring(winner.player.length - 6) : 'Unknown';
+            const kpepeText = winner.prizeKPEPE ? ` + ${(winner.prizeKPEPE / 1000000).toLocaleString()}M KPEPE` : '';
+            
+            winnersHTML += `
+              <div style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <span style="color: var(--primary);">${tierName}</span>
+                  <span style="color: #4ade80;">${(winner.prizeKLV / 1e6).toLocaleString()} KLV${kpepeText}</span>
+                </div>
+                <div style="color: var(--text-muted); font-size: 0.75rem;">${shortAddr}</div>
+              </div>
+            `;
+          });
+          
+          winnersList.innerHTML = winnersHTML;
         }
       }
       
@@ -978,8 +1266,18 @@
         if (connected && address) {
           const shortAddr = address.substring(0, 8) + '...' + address.substring(address.length - 6);
           setWalletStatus(`<span>●</span> Connected: ${shortAddr}`, true);
+          
+          // Load user-specific features when wallet connects
+          checkFreeTicketEligibility();
+          loadMyTickets();
         } else {
           setWalletStatus('<span>●</span> Not Connected', false);
+          
+          // Hide user-specific sections when disconnected
+          const freeTicketSection = document.getElementById('free-ticket-section');
+          const myTicketsSection = document.getElementById('my-tickets-section');
+          if (freeTicketSection) freeTicketSection.style.display = 'none';
+          if (myTicketsSection) myTicketsSection.style.display = 'none';
         }
       }
 
@@ -1030,6 +1328,14 @@
             if (banner) banner.style.display = 'block';
           }
         }, 3000);
+        
+        // Poll KPEPE seed fund every 30 seconds to detect depletion
+        console.log('📡 Starting KPEPE seed fund polling (30s interval)...');
+        setInterval(() => {
+          fetchKPEPESeedFund().catch(err => {
+            console.warn('⚠️ KPEPE poll failed:', err.message);
+          });
+        }, 30000);  // 30 seconds
       });
       
       async function buyTickets() {
@@ -1062,60 +1368,90 @@
           const functionName = 'buy_ticket'; // Rust endpoint name (snake_case)
           const functionArgs = [n1, n2, n3, n4, n5, eb]; // Numbers as raw integers
           
-          // For WASM contracts on KleverChain, use Transfer (type 0) with data field
-          // The contract address is the receiver, and data contains the function call
-          const payload = {
-            receiver: CONTRACT_ADDRESS,
-            amount: TICKET_PRICE * 100000000, // 1 KLV in smallest units (payable)
-            kda: '', // Empty = KLV
-            data: [functionName, ...functionArgs.map(String)] // Function name + args as strings
-          };
-          
+          // Use Type 15 (SmartContractType) with method and args fields
           const txParams = {
-            type: 0, // Transfer type (used for contract calls with payment)
-            payload
+            type: 15,
+            payload: {
+              receiver: CONTRACT_ADDRESS,
+              amount: TICKET_PRICE * 100000000, // 1 KLV in smallest units
+              kda: '', // Empty for native KLV
+              method: functionName,
+              args: functionArgs.map(arg => String(arg))
+            }
           };
           
           console.log('📤 Building transaction with params:', txParams);
           
           try {
-            // Step 1: Build transaction - pass as array
-            console.log('🔄 Step 1: Building transaction...');
-            const builtTx = await window.kleverWeb.buildTransaction([txParams]);
-            console.log('✅ Transaction built:', builtTx);
+            // Use Klever wallet to send transaction
+            console.log('🔄 Sending transaction via Klever Wallet...');
             
-            // Step 2: Sign transaction
-            console.log('🔄 Step 2: Signing transaction...');
-            const signedTx = await window.kleverWeb.signTransaction(builtTx);
-            console.log('✅ Transaction signed:', signedTx);
+            if (!window.kleverWeb) {
+              throw new Error('Klever Wallet not available');
+            }
             
-            // Step 3: Broadcast transaction
-            console.log('🔄 Step 3: Broadcasting transaction...');
-            const result = await window.kleverWeb.broadcastTransactions([signedTx]);
-            console.log('✅ Transaction broadcast result:', result);
+          // Build data field: array of base64-encoded elements
+            const dataArray = ['buy_ticket', n1.toString(), n2.toString(), n3.toString(), n4.toString(), n5.toString(), eb.toString()];
+            const dataBase64 = dataArray.map(item => btoa(item));
             
-            if (result && result.data && result.data.txsHashes && result.data.txsHashes.length > 0) {
-              const txHash = result.data.txsHashes[0];
+            // Type 0 = Transfer (works for contract calls with data field)
+            const tx = {
+              type: 0,
+              receiver: CONTRACT_ADDRESS,
+              amount: TICKET_PRICE * 100000000,
+              data: dataBase64
+            };
+            
+            console.log('📤 Transaction to send:', tx);
+            console.log('🔄 Sending to signing server...');
+            
+            // Send to signing server to get it signed and broadcast
+            const signingServerUrl = 'http://localhost:3001/sign-transaction';
+            
+            const response = await fetch(signingServerUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(tx)
+            });
+            
+            const result = await response.json();
+            console.log('✅ Server Response:', result);
+            
+            if (!response.ok) {
+              console.error('❌ Signing Error:', result);
+              throw new Error('Signing Error: ' + (result.error || result.message || response.statusText));
+            }
+            
+            if (result && result.hash) {
+              const txHash = result.hash;
               console.log('✅ Transaction hash:', txHash);
               alert('🎫 Ticket purchased on KleverChain!\n\nTransaction: ' + txHash + '\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball + '\n\nGood luck! 🍀');
               clearSelection();
-            } else {
-              console.warn('Transaction result:', result);
-              alert('✅ Transaction submitted!\n\nPlease check your Klever wallet for confirmation.\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball);
-              clearSelection();
+              return;
             }
             
-          } catch (buildError) {
-            console.error('❌ Transaction failed:', buildError);
+            // If we got here without a hash, something went wrong
+            throw new Error('No transaction hash received: ' + JSON.stringify(result));
+            
+          } catch (err) {
+            console.error('❌ Transaction failed:', err);
             console.error('Error details:', {
-              message: buildError?.message,
-              code: buildError?.code,
-              data: buildError?.data
+              message: err?.message,
+              code: err?.code,
+              data: err?.data
             });
             
-            throw buildError; // Re-throw to be caught by outer catch
+            let errorMsg = err?.message || String(err);
+            
+            // Check for specific errors
+            if (errorMsg.includes('invalid contract')) {
+              alert('❌ Contract Not Deployed!\n\nThe KPEPE contract hasn\'t been deployed yet.\n\nTo deploy:\n1. Open kleider-deploy/index.html\n2. Click "Deploy Contract"\n3. Initialize the contract\n4. Update CONTRACT_ADDRESS in lottery code');
+            } else if (errorMsg.includes('Cannot read properties of undefined')) {
+              alert('❌ Wallet Connection Error!\n\nMake sure:\n1. Klever Wallet extension is installed\n2. You are on KleverChain Mainnet\n3. Wallet is unlocked');
+            } else {
+              alert('❌ Transaction failed!\n\nError: ' + errorMsg + '\n\nPlease check:\n1. You have enough KLV (' + TICKET_PRICE + ' + gas)\n2. Your wallet is unlocked\n3. The contract is deployed');
+            }
           }
-          
         } catch (err) {
           console.error('❌ Ticket purchase failed:', err);
           console.error('Error details:', {
@@ -1129,59 +1465,154 @@
       }
 
       // Prize Claim Function
+      // DEPRECATED: Prizes are now sent automatically during draws
+      // No claiming needed - this function is here for compatibility only
       async function claimPrize() {
+        alert('✨ Prizes are sent automatically!\n\nWhen you win, your KLV and KPEPE prizes are sent directly to your wallet during the draw.\n\nNo claiming needed! 🎉');
+        return;
+      }
+
+      // Free Ticket Claim Function
+      async function claimFreeTicket() {
         if (!connectedWallet) {
           alert('❌ Please connect your Klever wallet first!');
           return;
         }
         
-        const ticketIdInput = document.getElementById('claim-ticket-id');
-        const ticketId = ticketIdInput?.value;
-        
-        if (!ticketId || isNaN(ticketId) || ticketId < 0) {
-          alert('❌ Please enter a valid ticket ID');
+        try {
+          console.log('🎟️ Claiming free ticket for:', connectedWallet);
+          alert('🎟️ Free ticket claim initiated!\n\nThis requires:\n1. Verification of 50K+ KPEPE staking\n2. Contract call to claimFreeTicket()\n\nYour numbers will be auto-selected via Quick Pick.');
+          
+          // Auto-trigger quick pick after claim
+          quickPick();
+          
+        } catch (err) {
+          console.error('❌ Free ticket claim failed:', err);
+          alert('❌ Error: ' + (err?.message || err));
+        }
+      }
+
+      // Check My Tickets Function
+      function checkMyTickets() {
+        if (!connectedWallet) {
+          alert('❌ Please connect your wallet to view your tickets!');
           return;
         }
         
+        const myTicketsSection = document.getElementById('my-tickets-section');
+        myTicketsSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // This will be populated from contract data
+        alert('📋 Checking your tickets...\n\nThis feature will display all tickets purchased with your wallet address once contract integration is complete.');
+      }
+
+      // Update next draw date/time
+      function updateNextDrawDate() {
+        const nextDrawEl = document.getElementById('next-draw-date');
+        if (nextDrawEl) {
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          tomorrow.setUTCHours(0, 0, 0, 0);
+          
+          const options = { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'UTC',
+            timeZoneName: 'short'
+          };
+          
+          nextDrawEl.textContent = tomorrow.toLocaleString('en-US', options);
+        }
+      }
+
+      // Update KPEPE seed fund display dynamically - Hide bonuses when depleted
+      function updateKPEPESeedDisplay(kpepeSeedFund) {
+        if (!kpepeSeedFund) {
+          // If no data provided, assume all tiers still have bonuses
+          document.getElementById('kpepe-bonus-tier2').style.display = 'block';
+          document.getElementById('kpepe-bonus-tier3').style.display = 'block';
+          document.getElementById('kpepe-bonus-tier4').style.display = 'block';
+          document.getElementById('kpepe-bonus-tier5').style.display = 'block';
+          return;
+        }
+        
+        // Hide KPEPE bonus line if that tier's seed fund is depleted (0)
+        const tiers = {
+          'kpepe-bonus-tier2': kpepeSeedFund.match5,      // Tier 2: 50K
+          'kpepe-bonus-tier3': kpepeSeedFund.match48B,    // Tier 3: 40K
+          'kpepe-bonus-tier4': kpepeSeedFund.match4,      // Tier 4: 35K
+          'kpepe-bonus-tier5': kpepeSeedFund.match38B     // Tier 5: 25K
+        };
+        
+        Object.keys(tiers).forEach(elementId => {
+          const amount = tiers[elementId];
+          const element = document.getElementById(elementId);
+          if (element) {
+            // Show if amount > 0, hide if amount = 0 or undefined
+            element.style.display = (amount && amount > 0) ? 'block' : 'none';
+          }
+        });
+        
+        // Update KPEPE Launch Bonus total in stats
+        if (kpepeSeedFund.total !== undefined) {
+          const totalEl = document.getElementById('stat-kpepe-total');
+          if (totalEl) {
+            // kpepeSeedFund.total is already in thousands (after dividing by 1e12)
+            // e.g., 650000 = 650K KPEPE
+            const totalK = kpepeSeedFund.total / 1000;
+            totalEl.textContent = Math.floor(totalK).toLocaleString() + 'K KPEPE';
+            // Add warning if less than 50% remaining
+            if (kpepeSeedFund.total < 325000) { // < 325K
+              totalEl.style.color = '#f97316';  // Orange warning
+            } else {
+              totalEl.style.color = '#10b981';  // Green - normal color
+            }
+          }
+        }
+      }
+
+      // Check if user is eligible for free tickets
+      async function checkFreeTicketEligibility() {
+        if (!connectedWallet) return;
+        
         try {
-          if (!window.kleverWeb) {
-            alert('❌ Klever Wallet not available');
-            return;
-          }
-          
-          console.log('🎁 Claiming prize for ticket:', ticketId);
-          
-          // Build claim_prize transaction
-          const payload = {
-            receiver: CONTRACT_ADDRESS,
-            amount: 0, // No payment required for claiming
-            kda: '',
-            data: ['claim_prize', ticketId.toString()]
-          };
-          
-          const txParams = {
-            type: 0,
-            payload
-          };
-          
-          console.log('📤 Building claim prize transaction:', txParams);
-          
-          const builtTx = await window.kleverWeb.buildTransaction([txParams]);
-          const signedTx = await window.kleverWeb.signTransaction(builtTx);
-          const result = await window.kleverWeb.broadcastTransactions([signedTx]);
-          
-          if (result && result.data && result.data.txsHashes && result.data.txsHashes.length > 0) {
-            const txHash = result.data.txsHashes[0];
-            alert('🎁 Prize claim submitted!\n\nTransaction: ' + txHash + '\n\nCheck KleverScan for confirmation. Your prize will be transferred if you won!');
-            ticketIdInput.value = '';
-          } else {
-            alert('✅ Claim transaction submitted!\n\nCheck your wallet for confirmation.');
-            ticketIdInput.value = '';
-          }
+          // This would check KPEPE staking contract
+          // For now, just hide the section until wallet connects
+          const freeTicketSection = document.getElementById('free-ticket-section');
+          // Show section when wallet connects - will verify staking later
+          // freeTicketSection.style.display = 'block';
           
         } catch (err) {
-          console.error('❌ Claim prize failed:', err);
-          alert('❌ Error: ' + (err?.message || err));
+          console.error('Error checking free ticket eligibility:', err);
+        }
+      }
+
+      // Load user's tickets
+      async function loadMyTickets() {
+        if (!connectedWallet) return;
+        
+        const myTicketsSection = document.getElementById('my-tickets-section');
+        const myTicketsList = document.getElementById('my-tickets-list');
+        const myTicketsCount = document.getElementById('my-tickets-count');
+        
+        try {
+          // This will query contract for user's tickets
+          // For now, show placeholder
+          myTicketsSection.style.display = 'block';
+          myTicketsCount.textContent = '0';
+          
+          myTicketsList.innerHTML = `
+            <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 40px 20px;">
+              No tickets found for this wallet.<br>
+              <span style="font-size: 0.8rem;">Buy tickets to see them here!</span>
+            </div>
+          `;
+          
+        } catch (err) {
+          console.error('Error loading tickets:', err);
         }
       }
     </script>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE - Initialize Wallets NOW</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .alert {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: #721c24;
+        }
+        .alert h1 {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            color: #dc3545;
+        }
+        h2 {
+            color: #333;
+            margin: 25px 0 15px 0;
+            font-size: 18px;
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .step-num {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .step-title {
+            font-weight: 600;
+            color: #333;
+            display: inline-block;
+        }
+        .step-content {
+            margin-top: 12px;
+            color: #666;
+            line-height: 1.6;
+        }
+        .code {
+            background: #f1f3f5;
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .copy-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .copy-btn:hover { background: #c82333; }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #155724;
+        }
+        button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover { background: #c82333; }
+        .contract-addr {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert">
+            <h1>⚠️ URGENT: Wallets Not Initialized</h1>
+            <p>KLV is being sent to the contract but NOT split to the wallets because initialization hasn't been called yet.</p>
+        </div>
+        
+        <p style="color: #666; margin-bottom: 20px;">
+            <strong>Issue:</strong> Your new ticket KLV went to the contract's `prizePool`, but the 15% project wallet transfer didn't happen. This is because the contract requires `initializeWallets()` to be called first.
+        </p>
+        
+        <h2>🚀 Fix (Choose ONE method):</h2>
+        
+        <div class="step">
+            <div>
+                <span class="step-num">A</span>
+                <span class="step-title">KleverScan Method (Try First)</span>
+            </div>
+            <div class="step-content">
+                1. Open: <a href="https://kleverscan.org/address/klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d" target="_blank" style="color: #dc3545; font-weight: 600;">https://kleverscan.org/address/klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</a>
+                <br>2. Click "Write Contract" tab
+                <br>3. Connect wallet
+                <br>4. Find "initializeWallets" function
+                <br>5. Enter BOTH parameters:
+                <div class="code">
+                    <span>pw: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9</span>
+                    <button class="copy-btn" onclick="copyText('klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9')">Copy</button>
+                </div>
+                <div class="code">
+                    <span>ppw: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2</span>
+                    <button class="copy-btn" onclick="copyText('klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2')">Copy</button>
+                </div>
+                6. Click "Write" → Sign in mobile app
+                <br>7. Wait 30-60 seconds for confirmation
+            </div>
+        </div>
+        
+        <div class="step">
+            <div>
+                <span class="step-num">B</span>
+                <span class="step-title">Manual WASM Transaction (If A fails)</span>
+            </div>
+            <div class="step-content">
+                Copy this raw transaction:
+                <div class="code" style="flex-direction: column; align-items: flex-start;">
+                    <code style="font-size: 11px; color: #666; margin-bottom: 5px;">{
+  "type": 0,
+  "payload": {
+    "receiver": "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d",
+    "amount": 0,
+    "kda": "",
+    "data": ["initializeWallets", "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9", "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2"]
+  }
+}</code>
+                    <button class="copy-btn" onclick="copyText('{\"type\": 0, \"payload\": {\"receiver\": \"klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d\", \"amount\": 0, \"kda\": \"\", \"data\": [\"initializeWallets\", \"klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9\", \"klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2\"]}}')" style="margin-top: 10px;">Copy Transaction</button>
+                </div>
+                Then use Klever Wallet Developer Tools to sign and broadcast
+            </div>
+        </div>
+        
+        <div class="warning-box">
+            <strong>⚠️ Important:</strong> The function can only be called ONCE. After this, the wallets are permanently set. Make sure you use the correct addresses.
+        </div>
+        
+        <div class="success-box">
+            <strong>✅ After Initialization Succeeds:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                <li>New tickets: 85% → Prize Pool, 15% → Project Wallet (automatic)</li>
+                <li>Your previous 15 KLV will need manual transfer or recalculation</li>
+                <li>All future transactions split correctly</li>
+                <li>Revenue split is now ACTIVE</li>
+            </ul>
+        </div>
+        
+        <div class="contract-addr">
+            <strong>Contract:</strong> klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d<br>
+            <strong>Network:</strong> KleverChain Mainnet<br>
+            <strong>Fee:</strong> ~3 KLV
+        </div>
+    </div>
+    
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    btn.textContent = original;
+                }, 2000);
+            }).catch(() => {
+                alert('Copy failed');
+            });
+        }
+    </script>
+</body>
+</html>

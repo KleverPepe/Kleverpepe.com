@@ -1,0 +1,29 @@
+{
+  "timestamp": "2026-01-28T10:08:15.442Z",
+  "status": "INFRASTRUCTURE_READY",
+  "deployment": {
+    "network": "KleverChain Mainnet",
+    "contractAddress": "klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq",
+    "projectWallet": "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9",
+    "prizePoolWallet": "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2",
+    "kpepeToken": "kpepe-1eod"
+  },
+  "servers": {
+    "signingServer": {
+      "status": "RUNNING",
+      "port": 3001,
+      "healthCheckUrl": "http://localhost:3001/health"
+    },
+    "website": {
+      "url": "https://kleverpepe.com",
+      "status": "LIVE"
+    }
+  },
+  "nextSteps": [
+    "Deploy contract on KleverScan if not yet done",
+    "Initialize contract functions",
+    "Monitor signing server",
+    "Test lottery functionality",
+    "Launch announcement"
+  ]
+}

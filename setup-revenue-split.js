@@ -56,7 +56,7 @@ async function main() {
     }
 
     try {
-        // Dynamically require Klever SDK
+        // Load Klever SDK
         let KleverSDK;
         try {
             KleverSDK = require('@klever/sdk');
@@ -66,23 +66,19 @@ async function main() {
             process.exit(1);
         }
 
-        const { Account, Provider } = KleverSDK;
+        const { Account } = KleverSDK;
         
         console.log('🔗 Connecting to KleverChain...\n');
         
-        // Initialize provider
-        const provider = new Provider({
-            api: CONFIG.RPC,
-            chainId: CONFIG.CHAIN_ID
-        });
-
         // Create account from mnemonic
         const account = new Account({
-            provider,
             mnemonic: MNEMONIC
         });
 
-        const ownerAddress = account.getAddress ? account.getAddress() : account.address;
+        // Set provider
+        account.provider.setProvider(CONFIG.RPC);
+
+        const ownerAddress = account.address;
         console.log('✅ Connected as: ' + ownerAddress);
         
         // Get balance

@@ -8,8 +8,8 @@ const crypto = require('crypto');
 
 // Configuration
 const CONFIG = {
-  // Your 24-word mnemonic
-  MNEMONIC: 'crack spider unhappy junior escape blossom brisk swear arrive side pistol sugar vocal concert code teach scissors lawn table switch awful kiwi verb diagram',
+  // ⚠️ SECURITY: Load mnemonic from environment variable, not hardcoded
+  MNEMONIC: process.env.MAINNET_MNEMONIC || process.env.TEST_MNEMONIC,
   
   // Network
   NETWORK: 'mainnet',

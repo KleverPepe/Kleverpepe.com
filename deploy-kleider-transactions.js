@@ -4,9 +4,15 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
+// Load environment variables
+if (fs.existsSync('.env')) {
+  require('dotenv').config();
+}
+
 // Configuration
 const CONFIG = {
-  MNEMONIC: 'crack spider unhappy junior escape blossom brisk swear arrive side pistol sugar vocal concert code teach scissors lawn table switch awful kiwi verb diagram',
+  // ⚠️ SECURITY: Load mnemonic from environment variable, not hardcoded
+  MNEMONIC: process.env.MAINNET_MNEMONIC || process.env.TEST_MNEMONIC,
   KPEPE_TOKEN: '0xEd008768c922b9e2c30a4d666a37bB7dA45Ed5df',
   PROJECT_WALLET: '0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c',
   PRIZE_POOL_WALLET: '0x20Ca27aCD025b72a72b1Db0a4268EDF9B900582c',

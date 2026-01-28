@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-01-28T10:08:11.812Z",
+  "contractAddress": "klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq",
+  "projectWallet": "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9",
+  "prizePoolWallet": "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2",
+  "kpepeToken": "kpepe-1eod",
+  "functions": {
+    "initializeWallets": {
+      "status": "pending",
+      "params": [
+        "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9",
+        "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2"
+      ]
+    },
+    "setKPEPEToken": {
+      "status": "pending",
+      "params": [
+        "kpepe-1eod"
+      ]
+    },
+    "toggleRound": {
+      "status": "pending",
+      "params": []
+    }
+  }
+}

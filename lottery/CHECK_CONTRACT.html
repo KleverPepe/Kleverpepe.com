@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE Contract Reader</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .value {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            color: #666;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .status.initialized {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .status.not-initialized {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+        }
+        button:hover { background: #5568d3; }
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 8px;
+            width: auto;
+        }
+        .copy-btn:hover { background: #5568d3; }
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 KPEPE Contract Status</h1>
+        <p style="color: #999; margin-bottom: 20px;">View wallet addresses and contract state</p>
+        
+        <button onclick="checkContract()">🔍 Check Contract State</button>
+        
+        <div id="result" style="margin-top: 30px;"></div>
+    </div>
+    
+    <script>
+        async function checkContract() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<div class="loading">⏳ Loading contract data...</div>';
+            
+            try {
+                // Contract address and ABI
+                const CONTRACT = 'klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d';
+                const RPC_URL = 'https://node.mainnet.klever.org';
+                
+                // Since we can't directly call the contract from browser, show the manual method
+                result.innerHTML = `
+                    <div class="status not-initialized">
+                        ⚠️ Cannot read directly from browser due to RPC limitations
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Contract Address</h3>
+                        <div class="value">${CONTRACT}</div>
+                        <button class="copy-btn" onclick="copyText('${CONTRACT}')">Copy</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>How to Check Wallet Status:</h3>
+                        <ol style="line-height: 2; color: #666; margin-left: 20px;">
+                            <li>Go to <a href="https://kleverscan.org/address/${CONTRACT}" target="_blank" style="color: #667eea; font-weight: 600;">KleverScan</a></li>
+                            <li>Click the <strong>"Read Contract"</strong> tab</li>
+                            <li>Look for these fields:
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><code>projectWallet</code> - Project wallet address (should NOT be 0x0)</li>
+                                    <li><code>prizePoolWallet</code> - Prize pool wallet address (should NOT be 0x0)</li>
+                                    <li><code>prizePool</code> - Current KLV in pool</li>
+                                    <li><code>totalTicketsSold</code> - Total tickets sold</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>What to Look For:</h3>
+                        <ul style="line-height: 2; color: #666; margin-left: 20px;">
+                            <li><strong style="color: #28a745;">✅ Initialized:</strong> If wallets show real addresses (starting with klv1...)</li>
+                            <li><strong style="color: #dc3545;">❌ Not Initialized:</strong> If wallets show 0x0000000000000000000000000000000000000000</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="window.open('https://kleverscan.org/address/${CONTRACT}', '_blank')" style="background: #667eea;">Open on KleverScan</button>
+                `;
+                
+            } catch (error) {
+                result.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            });
+        }
+        
+        // Auto-check on load
+        window.addEventListener('load', () => {
+            setTimeout(checkContract, 500);
+        });
+    </script>
+</body>
+</html>

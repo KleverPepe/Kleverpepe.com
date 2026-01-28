@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Wallet Transaction - KPEPE Lottery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+            color: #333;
+        }
+        
+        .code-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            border: 1px solid #444;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 8px 5px 8px 0;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        
+        .copy-btn:hover {
+            background: #764ba2;
+        }
+        
+        .copy-btn.copied {
+            background: #28a745;
+        }
+        
+        .action-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin: 15px 0;
+            transition: background 0.3s;
+        }
+        
+        .action-btn:hover {
+            background: #218838;
+        }
+        
+        .action-btn.secondary {
+            background: #6c757d;
+            width: auto;
+            margin: 8px 5px;
+        }
+        
+        .action-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #1565c0;
+        }
+        
+        .warning-box {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #721c24;
+        }
+        
+        .method-label {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin: 10px 0;
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .tx-preview {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin: 15px 0;
+        }
+        
+        .field-label {
+            font-weight: bold;
+            color: #333;
+            margin-top: 10px;
+        }
+        
+        .field-value {
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+        }
+        
+        .contract-info {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Direct Wallet Initialization</h1>
+        <p style="color: #666; margin-bottom: 20px;">Send transaction directly using Klever Wallet</p>
+        
+        <div class="alert">
+            <strong>✓ Since KleverScan doesn't show the Write interface yet,</strong> we'll use a direct method to send the transaction through your Klever Wallet.
+        </div>
+        
+        <!-- Transaction Generator -->
+        <div class="section">
+            <h2>Step 1: Generate Your Transaction</h2>
+            <p style="margin: 15px 0; color: #666;">
+                The transaction is pre-filled below. Just copy it:
+            </p>
+            
+            <div class="code-box" id="transactionData">{"type":"WasmContractCall","payload":{"contractAddress":"klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d","function":"initializeWallets","arguments":["klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9","klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2"],"kdaAmount":"0"}}</div>
+            <button class="copy-btn" onclick="copyTransaction()">📋 Copy Transaction</button>
+            
+            <div class="tx-preview">
+                <div class="field-label">📍 Contract:</div>
+                <div class="field-value">klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</div>
+                
+                <div class="field-label">⚙️ Function:</div>
+                <div class="field-value">initializeWallets</div>
+                
+                <div class="field-label">💰 Project Wallet (15% receiver):</div>
+                <div class="field-value">klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9</div>
+                
+                <div class="field-label">🎁 Prize Pool Wallet (85% receiver):</div>
+                <div class="field-value">klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2</div>
+            </div>
+        </div>
+        
+        <!-- Method A: Klever Mobile App -->
+        <div class="section">
+            <div class="method-label">✅ RECOMMENDED - MOBILE APP</div>
+            <h2>Option A: Use Klever Mobile App</h2>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">1</span>Open Klever App</div>
+                <p style="margin: 10px 0; color: #666;">Open your Klever Wallet mobile app</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">2</span>Create Transaction</div>
+                <p style="margin: 10px 0; color: #666;">Tap "Send" or "Transaction" → Choose "Advanced" or "Smart Contract"</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">3</span>Fill in Details</div>
+                <ul style="margin: 10px 0; padding-left: 20px; color: #666;">
+                    <li><strong>To:</strong> klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</li>
+                    <li><strong>Amount:</strong> 0 KLV</li>
+                    <li><strong>Function:</strong> initializeWallets</li>
+                    <li><strong>Argument 1:</strong> klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9</li>
+                    <li><strong>Argument 2:</strong> klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">4</span>Send & Sign</div>
+                <p style="margin: 10px 0; color: #666;">Review and tap "Confirm" to send the transaction</p>
+            </div>
+        </div>
+        
+        <!-- Method B: Browser Extension -->
+        <div class="section">
+            <div class="method-label">ALTERNATIVE - BROWSER EXTENSION</div>
+            <h2>Option B: Use Klever Browser Extension</h2>
+            
+            <div class="warning-box">
+                <strong>Note:</strong> This method requires the Klever Browser Extension to support JSON-RPC or similar advanced transaction input. If not available, use Option A (Mobile App) instead.
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">1</span>Open Extension</div>
+                <p style="margin: 10px 0; color: #666;">Click the Klever extension in your browser toolbar</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">2</span>Create New Transaction</div>
+                <p style="margin: 10px 0; color: #666;">Look for "Send Transaction" or "Smart Contract Call" option</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">3</span>Advanced Mode</div>
+                <p style="margin: 10px 0; color: #666;">If available, switch to "Advanced" or "Raw" mode</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">4</span>Paste JSON (If Supported)</div>
+                <p style="margin: 10px 0; color: #666;">Paste the transaction JSON from Step 1 above</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title"><span class="step-number">5</span>Send</div>
+                <p style="margin: 10px 0; color: #666;">Sign and send the transaction</p>
+            </div>
+        </div>
+        
+        <!-- What's Happening -->
+        <div class="section">
+            <h2>📊 What This Transaction Does</h2>
+            <div class="info-box">
+                <strong>Function:</strong> initializeWallets(pw, ppw)<br><br>
+                This single transaction sets BOTH wallet addresses at once:
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>pw</strong> = Project wallet (receives 15% of all future ticket sales)</li>
+                    <li><strong>ppw</strong> = Prize pool wallet (receives 85% of all future ticket sales)</li>
+                </ul>
+                <br>
+                <strong>⚠️ Important:</strong> This can only be called ONCE. After this, the wallets are locked in.
+            </div>
+        </div>
+        
+        <!-- Verify After -->
+        <div class="section">
+            <h2>✓ Verify It Worked</h2>
+            <p style="margin: 15px 0; color: #666;">
+                After the transaction is confirmed, wait 30 seconds and check KleverScan:
+            </p>
+            <button class="action-btn secondary" onclick="window.open('https://kleverscan.org/address/klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d', '_blank')">
+                ➜ View on KleverScan
+            </button>
+            <p style="margin: 15px 0; color: #666; font-size: 14px;">
+                You should see your transaction in the history.
+            </p>
+        </div>
+        
+        <!-- Copy All Fields -->
+        <div class="section">
+            <h2>📋 Quick Reference - Copy Individual Fields</h2>
+            
+            <div class="step">
+                <strong>Contract Address</strong>
+                <button class="copy-btn" onclick="copy('klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d')">Copy</button>
+                <div style="font-family: monospace; font-size: 12px; margin-top: 5px; word-break: break-all; color: #666;">
+                    klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Project Wallet Address</strong>
+                <button class="copy-btn" onclick="copy('klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9')">Copy</button>
+                <div style="font-family: monospace; font-size: 12px; margin-top: 5px; word-break: break-all; color: #666;">
+                    klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Prize Pool Wallet Address</strong>
+                <button class="copy-btn" onclick="copy('klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2')">Copy</button>
+                <div style="font-family: monospace; font-size: 12px; margin-top: 5px; word-break: break-all; color: #666;">
+                    klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+                </div>
+            </div>
+        </div>
+        
+        <!-- Troubleshooting -->
+        <div class="section">
+            <h2>❓ Need Help?</h2>
+            
+            <div class="step">
+                <strong>Error: "Invalid arguments"</strong>
+                <p style="margin: 10px 0; color: #666;">
+                    Make sure both wallet addresses are exactly correct and in the right order.
+                </p>
+            </div>
+            
+            <div class="step">
+                <strong>Transaction won't send</strong>
+                <p style="margin: 10px 0; color: #666;">
+                    Ensure you have at least 3 KLV in your wallet for gas fees.
+                </p>
+            </div>
+            
+            <div class="step">
+                <strong>How long does it take?</strong>
+                <p style="margin: 10px 0; color: #666;">
+                    Usually 30-60 seconds. You can check the transaction hash on KleverScan.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copy(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Copied to clipboard!');
+            });
+        }
+        
+        function copyTransaction() {
+            const txData = document.getElementById('transactionData').textContent;
+            navigator.clipboard.writeText(txData).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

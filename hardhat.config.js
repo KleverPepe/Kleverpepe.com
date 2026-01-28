@@ -14,8 +14,8 @@ module.exports = {
   },
   networks: {
     kleverMainnet: {
-      url: "https://mainnet-gateway.klever.finance",
-      chainId: 221,
+      url: "https://node.mainnet.klever.org",
+      chainId: 100,
       gasPrice: 1000000,  // 0.001 Gwei (1 million wei)
       gas: 3000000,        // 3 million gas limit
       accounts: {

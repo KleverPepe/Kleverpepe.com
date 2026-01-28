@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE - Wallet Status Check</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #999;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .status-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .status-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .status-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        .status-error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        .status-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        .code {
+            background: #f1f3f5;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 15px 0;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        .button-group {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        button:hover { background: #5568d3; }
+        button.secondary {
+            background: #6c757d;
+        }
+        button.secondary:hover { background: #5a6268; }
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+        .contract-info {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 KPEPE Wallet Status</h1>
+        <p class="subtitle">Check and initialize wallets on the KleverChain contract</p>
+        
+        <div class="section">
+            <h2>📊 Current Status</h2>
+            <div class="status-info">
+                ℹ️ Contract is DEPLOYED and OPERATIONAL with 170 KLV in the prize pool
+            </div>
+            <div class="contract-info">
+                <strong>Contract Address:</strong><br>
+                klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d<br>
+                <strong>Network:</strong> KleverChain Mainnet<br>
+                <strong>Type:</strong> WASM Contract (Rust-based)
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🔍 Possible Wallet Status</h2>
+            
+            <h3 style="margin-top: 15px;">Case 1: Wallets Already Initialized ✅</h3>
+            <div class="status-success">
+                If you see error "set" when trying to initialize, wallets are ALREADY initialized.
+                <br><br>
+                <strong>✅ Revenue split is ACTIVE</strong> (85% to prize pool, 15% to project)
+                <br><br>
+                Go to KleverScan to verify:
+                <br><button onclick="window.open('https://kleverscan.org/address/klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d', '_blank')" style="width: auto;">View on KleverScan</button>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Case 2: Wallets NOT Yet Initialized ⚠️</h3>
+            <div class="status-warning">
+                Wallets haven't been initialized yet.
+                <br><br>
+                <strong>Action Required:</strong> Initialize immediately
+                <br><br>
+                <button onclick="showInitOptions()">Show Initialization Options</button>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Case 3: KleverScan Showing "Function Not Found" ⚠️</h3>
+            <div class="status-warning">
+                KleverScan hasn't indexed the WASM contract's ABI yet.
+                <br><br>
+                <strong>Solutions:</strong>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Wait 10-15 minutes and try again - KleverScan will auto-index</li>
+                    <li>Use the manual initialization method below</li>
+                    <li>Contact KleverScan support with contract address</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="section" id="initOptions" style="display: none;">
+            <h2>🚀 Initialization Options</h2>
+            
+            <h3 style="margin-top: 15px;">Option 1: Via KleverScan (Recommended)</h3>
+            <div style="background: #f5f5f5; padding: 15px; border-radius: 6px; margin: 10px 0;">
+                <ol style="line-height: 2;">
+                    <li>Go to <a href="https://kleverscan.org" target="_blank">KleverScan.org</a></li>
+                    <li>Search for: <code>klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</code></li>
+                    <li>Click "Write Contract" tab</li>
+                    <li>Connect wallet and find "initializeWallets" function</li>
+                    <li>Enter parameters:
+                        <div class="code" style="margin-top: 8px;">
+pw: klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9<br>ppw: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+                        </div>
+                    </li>
+                    <li>Click "Write" and approve in Klever Wallet mobile app</li>
+                </ol>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Option 2: Manual WASM Transaction</h3>
+            <p style="margin-bottom: 10px; color: #666;">If KleverScan fails, use this raw transaction format:</p>
+            <div class="code">
+{
+  "type": 0,
+  "payload": {
+    "receiver": "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d",
+    "amount": 0,
+    "kda": "",
+    "data": ["initializeWallets", "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9", "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2"]
+  }
+}
+            </div>
+            <p style="color: #666; font-size: 12px;">Copy this and use Klever Wallet Developer Tools to sign and broadcast</p>
+            
+            <h3 style="margin-top: 20px;">Option 3: Via Hardhat Script (Developer Only)</h3>
+            <div style="background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                <code>npx hardhat run initialize-wallets.js --network kleverMainnet</code>
+                <p style="color: #666; font-size: 12px; margin-top: 8px;">Requires local setup with hardhat and private key access</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💡 Important Notes</h2>
+            <ul style="margin-left: 20px; line-height: 2; color: #666;">
+                <li>Wallets can only be initialized ONCE - verify before calling</li>
+                <li>Function requires BOTH parameters (project wallet + prize pool wallet)</li>
+                <li>Gas fee: ~3 KLV</li>
+                <li>Changes take effect immediately after block confirmation</li>
+                <li>WASM contracts use type 0 transactions with data field</li>
+                <li>KleverScan may take 10-15 minutes to index new contracts</li>
+            </ul>
+        </div>
+        
+        <div class="section" style="border-left-color: #28a745;">
+            <h2>✅ After Initialization</h2>
+            <div class="status-success">
+                <strong>Revenue Split Activated:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>✅ Each ticket purchase: 85% → Prize Pool, 15% → Project Wallet</li>
+                    <li>✅ Accumulated 30 KLV automatically transfers to project wallet</li>
+                    <li>✅ All future transactions split automatically</li>
+                    <li>✅ Ready for mainnet operations</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showInitOptions() {
+            document.getElementById('initOptions').style.display = 'block';
+            document.getElementById('initOptions').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE Initialize Wallets - Direct Method</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 { color: #667eea; margin-bottom: 30px; }
+        .method {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .method h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .code-block {
+            background: #f1f3f5;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            word-break: break-all;
+            line-height: 1.4;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .copy-btn:hover { background: #5568d3; }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .label { font-weight: 600; color: #333; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 KPEPE - Initialize Wallets (Direct Method)</h1>
+        
+        <div class="warning">
+            <strong>⚠️ KleverScan may not have the contract verified.</strong><br>
+            Use this direct method to create the transaction manually.
+        </div>
+        
+        <!-- Method 1: Generate Raw Transaction -->
+        <div class="method">
+            <h2>Method 1: Copy Transaction Data</h2>
+            <p style="color: #666; margin-bottom: 15px;">Generate the raw transaction data to submit via KleverScan</p>
+            
+            <div class="step">
+                <div class="label">Transaction Type: 0 (Call Contract)</div>
+                <div class="code-block">
+                    <span>0</span>
+                    <button class="copy-btn" onclick="copyText('0')">Copy</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="label">Contract Address</div>
+                <div class="code-block">
+                    <span>klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</span>
+                    <button class="copy-btn" onclick="copyText('klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d')">Copy</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="label">Method Name</div>
+                <div class="code-block">
+                    <span>initializeWallets</span>
+                    <button class="copy-btn" onclick="copyText('initializeWallets')">Copy</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="label">Parameter 1: Project Wallet (pw)</div>
+                <div class="code-block">
+                    <span>klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9</span>
+                    <button class="copy-btn" onclick="copyText('klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9')">Copy</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="label">Parameter 2: Prize Pool Wallet (ppw)</div>
+                <div class="code-block">
+                    <span>klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2</span>
+                    <button class="copy-btn" onclick="copyText('klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2')">Copy</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Method 2: KleverScan Alternative -->
+        <div class="method">
+            <h2>Method 2: Try Different Contract Address Format</h2>
+            <p style="color: #666; margin-bottom: 15px;">Sometimes KleverScan needs the contract in a different format</p>
+            
+            <div class="step">
+                <div class="label">Try searching for contract with validator ID:</div>
+                <div class="code-block">
+                    <span>Search: "kpepe" or "KPEPEJackpot" on KleverScan</span>
+                    <button class="copy-btn" onclick="window.open('https://kleverscan.org/search?q=kpepe', '_blank')">Search KleverScan</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Method 3: Klever CLI -->
+        <div class="method">
+            <h2>Method 3: Using Klever CLI (If Installed)</h2>
+            <p style="color: #666; margin-bottom: 15px;">For developers with Klever CLI installed locally</p>
+            
+            <div class="step">
+                <div class="label">Install Klever CLI:</div>
+                <div class="code-block">
+                    <span>npm install -g @klever/cli</span>
+                    <button class="copy-btn" onclick="copyText('npm install -g @klever/cli')">Copy</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="label">Then run transaction:</div>
+                <div class="code-block">
+                    <span style="flex: 1;">klever transaction send-contract --contract klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d --method initializeWallets --arguments klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9 klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2</span>
+                    <button class="copy-btn" onclick="copyText('klever transaction send-contract --contract klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d --method initializeWallets --arguments klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9 klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2')">Copy</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="success">
+            <h3>✅ Next Steps</h3>
+            <p style="margin: 10px 0;">
+                1. Try the <strong>search method</strong> first - search "kpepe" on KleverScan<br>
+                2. If that doesn't work, go back to KleverScan contract page and look for a <strong>"Verify Contract"</strong> option<br>
+                3. Contact KleverScan support if the contract isn't showing<br>
+                4. As a last resort, use the Klever CLI method above
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => { btn.textContent = original; }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

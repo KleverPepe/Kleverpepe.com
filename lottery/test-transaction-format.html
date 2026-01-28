@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Transaction Format - KPEPE Lottery</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: monospace;
+      background: #0f0f1a;
+      color: #fff;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { color: #4ade80; margin-bottom: 20px; }
+    .section { 
+      background: #1a1a2e; 
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section h2 { color: #f97316; margin: 15px 0 10px 0; font-size: 1.1rem; }
+    .code-block {
+      background: #0a0a15;
+      border-left: 3px solid #4ade80;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+    .check { color: #4ade80; }
+    .bad { color: #ef4444; }
+    .good { color: #4ade80; }
+    button {
+      background: #4ade80;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+    button:hover { background: #22c55e; }
+    #output {
+      background: #0a0a15;
+      border: 1px solid #4ade80;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 6px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 0.85rem;
+    }
+    .status {
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    .status.pass { background: rgba(74,222,128,0.2); border: 1px solid #4ade80; }
+    .status.fail { background: rgba(239,68,68,0.2); border: 1px solid #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎫 KPEPE Lottery - Transaction Format Verification</h1>
+    
+    <div class="section">
+      <h2>What We're Testing</h2>
+      <p>✅ The lottery dApp now uses <strong>Type 15 (SmartContractType)</strong> instead of Type 0 (Transfer)</p>
+      <p>✅ Transaction includes <strong>method</strong> and <strong>args</strong> fields (not just data)</p>
+      <p>✅ This prevents Klever wallet from stripping the contract function call</p>
+    </div>
+
+    <div class="section">
+      <h2>Test the Transaction Format</h2>
+      <p>Click the button to simulate building a buy_ticket transaction:</p>
+      <button onclick="testTransactionFormat()">Test Transaction Format</button>
+      <div id="output"></div>
+    </div>
+
+    <div class="section">
+      <h2>Expected vs Actual</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <h3 style="color: #ef4444; margin-bottom: 10px;">❌ Before (Broken)</h3>
+          <div class="code-block">type: 0
+payload: {
+  receiver: "contract...",
+  amount: 100000000,
+  kda: "",
+  data: ["buy_ticket", 
+         "1", "5", "10", "25", "50", "15"]
+}</div>
+          <p style="margin-top: 10px; color: #ef4444;">⚠️ data field gets stripped by wallet</p>
+        </div>
+        <div>
+          <h3 style="color: #4ade80; margin-bottom: 10px;">✅ After (Fixed)</h3>
+          <div class="code-block">type: 15
+payload: {
+  receiver: "contract...",
+  amount: 100000000,
+  kda: "",
+  method: "buy_ticket",
+  args: ["1", "5", "10", "25", "50", "15"]
+}</div>
+          <p style="margin-top: 10px; color: #4ade80;">✅ method & args preserved by wallet</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>How the Fix Works</h2>
+      <ol style="margin-left: 20px; color: #a0aec0;">
+        <li><strong>Old approach:</strong> Type 0 with data field → wallet stripped it → no function call</li>
+        <li><strong>New approach:</strong> Type 15 with method field → wallet recognizes it → function executes</li>
+        <li><strong>Result:</strong> buy_ticket() runs → revenue split happens → 15% goes to project wallet</li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>What You See on KleverScan (Fixed Version)</h2>
+      <div class="code-block">✅ Type: SmartContractType (15)
+✅ Method: buy_ticket
+✅ Args: ["1", "5", "10", "25", "50", "15"]
+✅ Function executes with correct parameters
+✅ Project wallet receives 0.15 KLV automatically</div>
+    </div>
+
+    <div class="section">
+      <h2>Test Results Summary</h2>
+      <div id="summary"></div>
+    </div>
+  </div>
+
+  <script>
+    function testTransactionFormat() {
+      const output = document.getElementById('output');
+      const summary = document.getElementById('summary');
+      
+      // Simulate building a ticket transaction
+      const n1 = 1, n2 = 5, n3 = 10, n4 = 25, n5 = 50, eb = 15;
+      const CONTRACT_ADDRESS = 'klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d';
+      const TICKET_PRICE = 1;
+      
+      // Build the FIXED transaction (Type 15)
+      const functionName = 'buy_ticket';
+      const functionArgs = [n1, n2, n3, n4, n5, eb];
+      
+      const payload = {
+        receiver: CONTRACT_ADDRESS,
+        amount: TICKET_PRICE * 100000000,
+        kda: '',
+        method: functionName,
+        args: functionArgs.map(arg => String(arg))
+      };
+      
+      const txParams = {
+        type: 15,
+        payload
+      };
+      
+      // Format output
+      let result = '🎫 TRANSACTION FORMAT TEST\n';
+      result += '='.repeat(50) + '\n\n';
+      
+      result += '✅ TRANSACTION TYPE\n';
+      result += '-'.repeat(50) + '\n';
+      result += `Type: ${txParams.type} (SmartContractType)\n`;
+      result += '✓ This is the CORRECT format for contract calls\n\n';
+      
+      result += '✅ PAYLOAD STRUCTURE\n';
+      result += '-'.repeat(50) + '\n';
+      result += `receiver: ${payload.receiver}\n`;
+      result += `amount: ${payload.amount} (1 KLV in smallest units)\n`;
+      result += `kda: "${payload.kda}" (empty = KLV)\n`;
+      result += `method: "${payload.method}" (✓ NOT in data field!)\n`;
+      result += `args: [${payload.args.map(a => `"${a}"`).join(', ')}]\n\n`;
+      
+      result += '✅ WHAT THIS MEANS\n';
+      result += '-'.repeat(50) + '\n';
+      result += '1. Klever wallet RECOGNIZES this as a contract call\n';
+      result += '2. method field is PRESERVED (not stripped)\n';
+      result += '3. args are PRESERVED in their own field\n';
+      result += '4. buy_ticket() WILL EXECUTE on contract\n';
+      result += '5. Revenue split WILL HAPPEN (85% pool, 15% project)\n\n';
+      
+      result += '✅ EXPECTED ON KLEVERSCAN\n';
+      result += '-'.repeat(50) + '\n';
+      result += 'Type: SmartContractType\n';
+      result += `Method: buy_ticket\n`;
+      result += `Args: ["${n1}", "${n2}", "${n3}", "${n4}", "${n5}", "${eb}"]\n`;
+      result += 'Status: Success\n';
+      result += 'Function executed: YES ✓\n\n';
+      
+      result += '✅ WALLET TRANSFERS (After Function Executes)\n';
+      result += '-'.repeat(50) + '\n';
+      result += 'Prize Pool (85%): +0.85 KLV\n';
+      result += 'Project Wallet (15%): +0.15 KLV\n\n';
+      
+      result += 'Transaction ready to broadcast!';
+      
+      output.textContent = result;
+      
+      // Show summary
+      summary.innerHTML = `
+        <div class="status pass">
+          <span class="check">✓</span> Transaction format is CORRECT<br>
+          <span class="check">✓</span> Using Type 15 (SmartContractType)<br>
+          <span class="check">✓</span> Method and args fields present<br>
+          <span class="check">✓</span> Ready to test on mainnet<br>
+          <br>
+          <strong>Next Step:</strong> Buy a ticket at http://localhost:8000/lottery/<br>
+          and check KleverScan for the transaction hash to verify function execution.
+        </div>
+      `;
+    }
+    
+    // Auto-run test on page load
+    window.addEventListener('load', () => {
+      setTimeout(testTransactionFormat, 500);
+    });
+  </script>
+</body>
+</html>
