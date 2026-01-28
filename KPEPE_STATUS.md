@@ -155,7 +155,7 @@ Detailed technical audit showing:
 | Feature | Status | Notes |
 |---------|--------|-------|
 | **Ticket Purchase** | ✅ Working | 1 KLV = 1 ticket |
-| **Revenue Split** | ✅ Working | 15% project / 85% prize |
+| **Revenue Split** | ✅ Working | 15% project / 85% contract pool |
 | **Free Tickets** | ✅ FIXED | Now verifies 50K KPEPE staking |
 | **Tier System** | ✅ Working | 5 tiers from 10K to 1M KPEPE |
 | **Draw System** | ✅ Working | Generates winners |
@@ -241,11 +241,11 @@ claimKPEPEPrize()  // Winner gets 500K KPEPE transferred
 KPEPE Token:        kpepe-1eod
 Contract Address:   klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
 Project Wallet:     klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
-Prize Pool Wallet:  klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+Fund Location:      Contract internal pool (85% of ticket sales)
 
 Recommended KPEPE Fund: 10,000,000 (covers ~20 jackpot winners)
 Jackpot Prize:         500,000 KPEPE
-Revenue Split:         15% project / 85% prize pool
+Revenue Split:         15% project / 85% contract pool
 ```
 
 ---

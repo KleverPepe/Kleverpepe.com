@@ -1,19 +1,19 @@
-# KPEPE Lottery - Prize Pool Wallet Fund Management
+# KPEPE Lottery - Contract-Based Fund Management
 
 **Updated:** January 28, 2026  
-**Status:** ✅ **PRIZE POOL WALLET AS FUND MANAGER**
+**Status:** ✅ **CONTRACT AS FUND MANAGER (Path B)**
 
 ---
 
-## 🏦 **New Fund Flow Architecture**
+## 🏦 **Fund Flow Architecture**
 
-### **Prize Pool Wallet is Central Hub**
+### **Smart Contract Manages All Funds**
 
 ```
-Prize Pool Wallet: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
-├─ Receives: 85% of all ticket sales (KLV)
-├─ Receives: 500,000 KPEPE (one-time funding)
-└─ Distributes: Prizes to all winners (KLV + KPEPE)
+Smart Contract Address: klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
+├─ Receives: All ticket payments (100 KLV each)
+├─ Holds: Prize pool (85% of payments stored internally)
+└─ Distributes: 15% project fee + all prizes (auto_distribute_prizes)
 ```
 
 ---
@@ -22,82 +22,72 @@ Prize Pool Wallet: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl
 
 ### **STEP 1: User Buys Ticket**
 ```
-User pays: 1 KLV
+User pays: 100 KLV to contract
 │
-├─ 15% (0.15 KLV) → Project Wallet (klv19a7...)
-│  └─ Project funding
+├─ 15 KLV → Project Wallet (klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9)
+│  └─ Immediate transfer (sent from contract)
 │
-└─ 85% (0.85 KLV) → Prize Pool Wallet (klv1zz5...)
-   └─ Accumulates for prize distribution
+└─ 85 KLV → Contract Internal Pool
+   └─ Stored in contract memory as prize_pool counter
+   └─ Remains in contract balance for distribution
 ```
 
-### **STEP 2: Prize Pool Accumulates (80/20 Split)**
+### **STEP 2: Prize Pool Accumulates in Contract**
 ```
-Prize Pool Wallet receives ticket sales (85% of payments)
+Contract internal pool grows with each ticket
 │
-├─ Draw happens
+├─ Pool amount tracked in smart contract storage
 │
-├─ 80% → Distributed to winners (KLV from pool)
-│  ├─ All 9 tiers paid from pool
-│  ├─ Winners get KLV directly
-│  └─ Automatic transfer
+├─ When draw happens
 │
-└─ 20% → Rolls over to next draw (stays in pool)
-   └─ Progressive jackpot grows
+└─ auto_distribute_prizes() processes winners
+   ├─ Calculates prizes based on stored pool amount
+   └─ Sends prizes directly from contract balance
 ```
 
-### **STEP 3: KPEPE Prizes (Jackpot Only)**
+### **STEP 3: Prizes Distributed from Contract**
 ```
-Jackpot Winner (Tier 1: 5 Main + 8-Ball)
+Winning Ticket
 │
-├─ Gets KLV prize from pool (40% of pool)
-│  └─ Automatic transfer from Prize Pool Wallet
+├─ Match Level Determined
+│  └─ (5 matches + 8-ball, 5 matches, 4 + 8-ball, etc.)
 │
-├─ Gets 500K KPEPE bonus
-│  ├─ Tracked by contract
-│  ├─ Credited to pending balance
-│  └─ Winner claims: claimKPEPEPrize()
-│      └─ Transferred from Prize Pool Wallet (where 500K KPEPE is stored)
+├─ Prize Calculated from Pool
+│  ├─ 5 Main + 8-Ball: 40% of pool
+│  ├─ 5 Main: 15% of pool
+│  ├─ 4 Main + 8-Ball: 8% of pool
+│  └─ ... (9 tiers total)
 │
-└─ Result: Winner receives both KLV + KPEPE
+└─ Sent from Contract Balance
+   └─ direct_klv(&owner, &prize_amount)
 ```
 
 ---
 
 ## 🔑 **Key Setup Instructions**
 
-### **SEND 500K KPEPE TO PRIZE POOL WALLET**
+### **No separate Prize Pool Wallet needed for KLV payouts**
+
+The contract itself is the fund manager. All KLV flows through it:
 
 ```
-FROM:     Your KPEPE wallet
-TO:       klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
-TOKEN:    kpepe-1eod
-AMOUNT:   500,000 KPEPE
-```
-
-**NOT to the contract address!**
-
-```
-❌ WRONG: klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
-✅ RIGHT: klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+✅ RIGHT: Contract holds all funds and manages distribution
+❌ NOT USED: Prize pool wallet (klv1zz5...) for KLV transfers
 ```
 
 ---
 
 ## 💰 **Fund Breakdown**
 
-### **In Prize Pool Wallet**
+### **In Contract Balance**
 
 ```
-KLV:   Accumulates from ticket sales (85% of each 1 KLV ticket)
-       Example: 100 tickets sold = 85 KLV in pool
+KLV:   Accumulates from ticket sales (85% of each 100 KLV ticket)
+       Example: 100 tickets sold = 8,500 KLV in contract
+       Used for: Prize distribution
 
-KPEPE: Fixed 500,000 KPEPE (one-time deposit)
-       Distributed to jackpot winners
-       As demand grows, can add more
+Project Fee: 15% of each ticket sent immediately to project wallet
 ```
-
-### **Distribution Per Draw**
 
 ```
 From Pool (80%):

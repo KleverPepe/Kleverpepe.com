@@ -18,10 +18,12 @@
     "@klever/sdk": "^4.2.1",
     "@klever/sdk-node": "^2.4.2",
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "bip32": "^5.0.0",
     "bip39": "^3.1.0",
     "dotenv": "^17.2.3",
     "hardhat": "^2.22.0",
-    "hdkey": "^2.1.0"
+    "hdkey": "^2.1.0",
+    "tiny-secp256k1": "^2.2.4"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.0"

@@ -26,7 +26,7 @@ pm2 logs kpepe-signing --follow
 ✅ **Signing Server:** Running on port 3001  
 ✅ **Contract:** 32.29 KB, audited and packaged  
 ✅ **Environment:** All variables configured  
-✅ **Wallets:** Project (15%) + Prize Pool (85%)  
+✅ **Wallets:** Project (15%) + Contract Pool (85%)  
 ✅ **Documentation:** 20+ guides created  
 ✅ **Website:** Ready to launch
 
@@ -50,9 +50,9 @@ pm2 logs kpepe-signing --follow
 klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
 ```
 
-**Prize Pool (85% revenue):**
+**Smart Contract (holds 85% pool internally):**
 ```
-klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
 ```
 
 **KPEPE Token:** `kpepe-1eod`

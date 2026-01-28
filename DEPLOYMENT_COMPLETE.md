@@ -32,12 +32,12 @@ Transaction broadcasts to KleverChain → Ticket stored on contract
 ```
 - **Verified**: Multiple test transactions confirmed on KleverScan
 - **Last Test**: Transaction hash `371843b8375c6e031481416de7293cfd8e88bafe946a7c9099a98ef16a910ec7`
-- **Payment Split**: 85% to prize pool, 15% to project wallet
+- **Payment Split**: 85% held in contract, 15% to project wallet
 
 #### 2. Claiming Prizes ✅ (NEW)
 ```
 Winner receives draw results → Enters ticket ID → Calls claim_prize endpoint →
-Contract calculates matches → Prize transferred to wallet address
+Contract calculates matches → Prize transferred from contract balance
 ```
 - **Transaction Type**: Type 0 (Transfer with data field)
 - **Function Call**: `claim_prize(ticket_id)`
@@ -130,9 +130,9 @@ The smart contract records:
 ## 💰 Prize Pool Management
 
 ### Automatic Operations
-1. **On Purchase**: 85% of ticket price added to prize pool
-2. **On Claim**: Percentage calculated, prize transferred to winner
-3. **On Draw**: Pool remains intact, available for next prizes
+1. **On Purchase**: 85% of ticket price held in contract (stored in prize_pool variable)
+2. **On Claim**: Percentage calculated, prize transferred from contract balance
+3. **On Draw**: Pool amount tracked internally, available for next prizes
 
 ### Storage
 - **Storage Key**: `prize_pool`

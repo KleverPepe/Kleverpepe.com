@@ -1,24 +1,44 @@
 #![no_std]
 
-extern crate wee_alloc;
-
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-#[panic_handler]
-fn panic(_info: &core::panic::PanicInfo) -> ! {
-    loop {}
-}
-
 klever_sc::imports!();
+
+// Draw interval (24 hours in seconds)
+const DRAW_INTERVAL: u64 = 86400;
+
+/**
+ * FUND FLOW MODEL (Path B - Contract Manager)
+ * 
+ * This contract manages all funds internally:
+ * 1. User buys ticket for 100 KLV
+ * 2. Contract receives 100 KLV
+ * 3. Split immediately:
+ *    - 15 KLV → Project Wallet (klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9)
+ *    - 85 KLV → Stored in contract memory as `prize_pool` counter
+ * 4. When winners are determined:
+ *    - auto_distribute_prizes() calculates prizes from stored pool amount
+ *    - Sends prizes directly from contract balance
+ * 
+ * Note: Prize pool wallet (klv1zz5...) is NOT used for fund transfers.
+ * Contract is the sole fund manager. All payouts come from contract balance.
+ */
 
 #[klever_sc::contract]
 pub trait KPEPEJackpot: ContractBase {
     #[init]
     fn init(&self) {
-        self.draw_interval().set(86400u64);
+        // Everything is hardcoded - no parameters needed!
+        // Just deploy and it's ready to go
+        
+        self.prize_pool().set(&BigUint::zero());
+        self.draw_interval().set(DRAW_INTERVAL);
         self.last_draw_time().set(self.blockchain().get_block_timestamp());
         self.round_active().set(true);
+        self.total_tickets().set(0u64);
+        self.last_distributed_ticket().set(0u64);
+        
+        // Set project wallet to owner (pre-configured address)
+        let owner = self.blockchain().get_owner_address();
+        self.project_wallet().set(&owner);
     }
 
     // Storage
@@ -60,6 +80,9 @@ pub trait KPEPEJackpot: ContractBase {
 
     #[storage_mapper("ticket_claimed")]
     fn ticket_claimed(&self, id: u64) -> SingleValueMapper<bool>;
+
+    #[storage_mapper("last_distributed_ticket")]
+    fn last_distributed_ticket(&self) -> SingleValueMapper<u64>;
 
     // Owner Functions
     #[only_owner]
@@ -233,5 +256,66 @@ pub trait KPEPEJackpot: ContractBase {
     #[view]
     fn is_drawing(&self) -> bool {
         self.draw_in_progress().get()
+    }
+
+    // Auto-Payout Function (called by backend after draw)
+    #[only_owner]
+    #[endpoint]
+    fn auto_distribute_prizes(&self, batch_size: u64) {
+        require!(!self.draw_in_progress().get(), "Draw in progress");
+        require!(self.winning_numbers().get().len() > 0, "No winning numbers set");
+        
+        let mut last_ticket = self.last_distributed_ticket().get();
+        let total_tickets = self.total_tickets().get();
+        let end_ticket = core::cmp::min(last_ticket + batch_size, total_tickets);
+        let pool = self.prize_pool().get();
+        
+        for ticket_id in last_ticket..end_ticket {
+            if self.ticket_claimed(ticket_id).get() {
+                continue;
+            }
+            
+            let owner = self.ticket_owner(ticket_id).get();
+            if owner.is_zero() {
+                continue;
+            }
+            
+            let ticket_nums = self.ticket_numbers(ticket_id).get();
+            let ticket_eb = self.ticket_eight_ball(ticket_id).get();
+            let winning_nums = self.winning_numbers().get();
+            let winning_eb = self.winning_eight_ball().get();
+            
+            let mut matches = 0u8;
+            for i in 0..5 {
+                for j in 0..5 {
+                    if ticket_nums.get(i) == winning_nums.get(j) {
+                        matches += 1;
+                        break;
+                    }
+                }
+            }
+            
+            let eb_match = ticket_eb == winning_eb;
+            
+            let prize = match (matches, eb_match) {
+                (5, true) => &pool * 40u64 / 100u64,
+                (5, false) => &pool * 15u64 / 100u64,
+                (4, true) => &pool * 8u64 / 100u64,
+                (4, false) => &pool * 5u64 / 100u64,
+                (3, true) => &pool * 6u64 / 100u64,
+                (3, false) => &pool * 45u64 / 1000u64,
+                (2, true) => &pool * 3u64 / 100u64,
+                (1, true) => &pool * 15u64 / 1000u64,
+                (0, true) => &pool * 125u64 / 10000u64,
+                _ => BigUint::zero(),
+            };
+            
+            if prize > BigUint::zero() {
+                self.ticket_claimed(ticket_id).set(true);
+                self.send().direct_klv(&owner, &prize);
+            }
+        }
+        
+        self.last_distributed_ticket().set(end_ticket);
     }
 }

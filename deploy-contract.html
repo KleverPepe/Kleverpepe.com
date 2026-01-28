@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPEPE Contract Deployment</title>
+    <script src="https://unpkg.com/@klever/sdk-web@latest/dist/index.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .status-item .icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .log {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 KPEPE Lottery Contract Deployment</h1>
+        <p class="subtitle">Automated deployment to KleverChain Mainnet</p>
+        
+        <div class="status">
+            <div class="status-item">
+                <span class="icon">📄</span>
+                <span>Contract: KPEPEJackpot.js (32.27 KB)</span>
+            </div>
+            <div class="status-item">
+                <span class="icon">🔐</span>
+                <span>Security Audit: 95/100</span>
+            </div>
+            <div class="status-item">
+                <span class="icon">💰</span>
+                <span>Revenue Split: 15% Project / 85% Prize Pool</span>
+            </div>
+            <div class="status-item">
+                <span class="icon">🌐</span>
+                <span>Network: KleverChain Mainnet</span>
+            </div>
+        </div>
+
+        <button id="deployBtn" onclick="deployContract()">
+            🚀 Deploy Contract to Mainnet
+        </button>
+
+        <div id="log" class="log" style="display:none"></div>
+    </div>
+
+    <script>
+        const CONTRACT_CODE = `// Contract will be loaded here`;
+        
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            logEl.style.display = 'block';
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type;
+            logEl.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        async function deployContract() {
+            const btn = document.getElementById('deployBtn');
+            btn.disabled = true;
+            btn.textContent = '🔄 Deploying...';
+            
+            try {
+                log('🚀 Starting contract deployment...', 'info');
+                
+                // Check for Klever extension
+                if (typeof window.kleverWeb === 'undefined') {
+                    log('❌ Klever Extension not found!', 'error');
+                    log('📥 Please install Klever Extension:', 'warning');
+                    log('   Chrome: https://chrome.google.com/webstore/detail/klever-wallet', 'warning');
+                    log('   Then refresh this page', 'warning');
+                    btn.textContent = '❌ Klever Extension Required';
+                    return;
+                }
+                
+                log('✅ Klever Extension detected', 'success');
+                
+                // Initialize connection
+                log('🔌 Connecting to Klever Wallet...', 'info');
+                await window.kleverWeb.initialize();
+                log('✅ Connected to Klever Wallet', 'success');
+                
+                // Get account
+                const account = await window.kleverWeb.getWalletAddress();
+                log('👤 Account: ' + account.substring(0, 20) + '...', 'info');
+                
+                // Load contract code
+                log('📄 Loading contract code...', 'info');
+                const response = await fetch('../deployment-package/KPEPEJackpot.js');
+                const contractCode = await response.text();
+                log('✅ Contract loaded: ' + (contractCode.length / 1024).toFixed(2) + ' KB', 'success');
+                
+                // Build deployment transaction
+                log('🔨 Building deployment transaction...', 'info');
+                const payload = {
+                    scType: 0,
+                    code: btoa(contractCode), // Base64 encode
+                    codeMetadata: '',
+                    vmType: 'WasmVM'
+                };
+                
+                const unsignedTx = await window.kleverWeb.buildTransaction([{
+                    type: 27, // SmartContract deployment
+                    payload: payload
+                }]);
+                
+                log('✅ Transaction built successfully', 'success');
+                log('🔑 Requesting signature...', 'info');
+                
+                // Sign transaction
+                const signedTx = await window.kleverWeb.signTransaction(unsignedTx);
+                log('✅ Transaction signed', 'success');
+                
+                // Broadcast
+                log('📡 Broadcasting to KleverChain...', 'info');
+                const result = await window.kleverWeb.broadcastTransactions([signedTx]);
+                
+                if (result && result.hash) {
+                    log('🎉 CONTRACT DEPLOYED SUCCESSFULLY!', 'success');
+                    log('📊 Transaction Hash: ' + result.hash, 'success');
+                    log('🔗 View on KleverScan:', 'success');
+                    log('   https://kleverscan.org/transaction/' + result.hash, 'info');
+                    log('', 'info');
+                    log('✅ Next steps:', 'success');
+                    log('1. Wait for transaction confirmation', 'info');
+                    log('2. Copy contract address from KleverScan', 'info');
+                    log('3. Update .env file with CONTRACT_ADDRESS', 'info');
+                    log('4. Restart signing server: pm2 restart kpepe-signing', 'info');
+                    log('5. Launch website: npm start', 'info');
+                    
+                    btn.textContent = '✅ Deployment Complete!';
+                    btn.style.background = '#28a745';
+                    
+                    // Auto-open KleverScan
+                    setTimeout(() => {
+                        window.open('https://kleverscan.org/transaction/' + result.hash, '_blank');
+                    }, 2000);
+                } else {
+                    throw new Error('No transaction hash received');
+                }
+                
+            } catch (error) {
+                log('❌ Deployment failed: ' + error.message, 'error');
+                console.error(error);
+                btn.textContent = '❌ Deployment Failed';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -4,13 +4,11 @@ version = "1.0.0"
 edition = "2021"
 authors = ["KPEPE Team"]
 
+[lib]
+path = "src/lib.rs"
+
 [dependencies]
 klever-sc = "0.45.0"
-klever-sc-wasm-adapter = "0.45.0"
-wee_alloc = "0.4.5"
-
-[lib]
-crate-type = ["cdylib"]
 
 [profile.release]
 opt-level = 3

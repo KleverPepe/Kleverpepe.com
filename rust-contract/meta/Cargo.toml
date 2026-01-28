@@ -1,0 +1,13 @@
+[package]
+name = "kpepe-jackpot-meta"
+version = "1.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+kpepe-jackpot = { path = ".." }
+klever-sc-meta = "0.45.0"
+
+[[bin]]
+name = "kpepe-jackpot-meta"
+path = "src/main.rs"

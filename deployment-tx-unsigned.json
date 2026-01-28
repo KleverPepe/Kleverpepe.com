@@ -1,0 +1,8 @@
+{
+  "data": {
+    "result": null,
+    "txHash": ""
+  },
+  "error": "validation error: json: cannot unmarshal array into Go value of type models.ContractInfo",
+  "code": "bad_request"
+}

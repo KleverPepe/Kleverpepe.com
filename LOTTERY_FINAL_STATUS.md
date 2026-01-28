@@ -34,23 +34,24 @@
 
 ### Configuration
 ```javascript
-PROJECT_WALLET    = klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
-PRIZE_POOL_WALLET = klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2
+PROJECT_WALLET = klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9
+SMART_CONTRACT = klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d
 
 PROJECT_PERCENTAGE    = 15%
-PRIZE_POOL_PERCENTAGE = 85%
+PRIZE_POOL_PERCENTAGE = 85% (held in contract)
 ```
 
-### Example: 1 KLV Ticket Purchase
+### Example: 100 KLV Ticket Purchase
 
 **Payment Breakdown:**
-- Total Received: 100,000,000 units (1.00 KLV)
-- Project Share: 15,000,000 units (0.15 KLV) ← 15%
-- Prize Pool: 85,000,000 units (0.85 KLV) ← 85%
+- Total Received by Contract: 100,000,000 units (100 KLV)
+- Project Share: 15,000,000 units (15 KLV) ← Sent to project wallet
+- Prize Pool: 85,000,000 units (85 KLV) ← Kept in contract for prizes
 
-**Transactions Created:**
-1. **Project TX:** Sends 0.15 KLV to project wallet
-2. **Prize TX:** Sends 0.85 KLV to prize pool (includes ticket data)
+**Fund Flow:**
+1. **Immediate Transfer:** 15 KLV sent to project wallet
+2. **Contract Retention:** 85 KLV stays in contract balance (tracked in prize_pool variable)
+3. **Later Distribution:** auto_distribute_prizes() sends prizes directly from contract balance
 
 ---
 

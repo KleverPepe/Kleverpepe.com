@@ -1,0 +1,9 @@
+/Users/chotajarvis/clawd/klevertepepe-redesign/rust-contract/meta/target/wasm32-unknown-unknown/debug/deps/wasm_bindgen_futures-20bb88056d10029a.d: /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/lib.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/queue.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/task/singlethread.rs
+
+/Users/chotajarvis/clawd/klevertepepe-redesign/rust-contract/meta/target/wasm32-unknown-unknown/debug/deps/libwasm_bindgen_futures-20bb88056d10029a.rlib: /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/lib.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/queue.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/task/singlethread.rs
+
+/Users/chotajarvis/clawd/klevertepepe-redesign/rust-contract/meta/target/wasm32-unknown-unknown/debug/deps/libwasm_bindgen_futures-20bb88056d10029a.rmeta: /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/lib.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/queue.rs /Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/task/singlethread.rs
+
+/Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/lib.rs:
+/Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/queue.rs:
+/Users/chotajarvis/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/wasm-bindgen-futures-0.4.58/src/task/singlethread.rs:
