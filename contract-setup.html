@@ -3,173 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPEPE Contract Setup</title>
-    <script src="https://cdn.jsdelivr.net/npm/@klever/web3-sdk@latest/dist/klever-web3.min.js"></script>
+    <title>KPEPE Contract Setup - Manual</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, sans-serif; background: #0d0d1a; color: #fff; padding: 20px; }
         h1 { color: #4ade80; margin-bottom: 20px; }
-        .step { background: #1a1a2e; padding: 20px; border-radius: 12px; margin-bottom: 15px; }
-        .step h3 { color: #a855f7; margin-bottom: 10px; }
-        button { width: 100%; padding: 15px; background: #4ade80; border: none; border-radius: 8px; color: #000; font-size: 16px; font-weight: bold; margin: 5px 0; cursor: pointer; }
-        button:disabled { background: #666; color: #999; }
-        .connect-btn { background: #f97316; }
-        .result { background: #000; padding: 10px; border-radius: 8px; margin-top: 10px; font-family: monospace; font-size: 12px; overflow-x: auto; white-space: pre-wrap; }
-        .status { margin: 20px 0; padding: 15px; background: #1a1a2e; border-radius: 8px; }
-        .status.connected { border: 2px solid #4ade80; }
-        .status.disconnected { border: 2px solid #f97316; }
+        .step { background: #1a1a2e; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .step h3 { color: #a855f7; margin-bottom: 15px; }
+        .data-box { background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; font-size: 12px; word-break: break-all; }
+        .copy-btn { background: #4ade80; color: #000; padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin: 10px 0; }
+        .copy-btn:active { transform: scale(0.98); }
+        .instruction { color: #fbbf24; margin-bottom: 10px; font-size: 14px; line-height: 1.6; }
+        .wallet-addr { background: #1a1a2e; padding: 15px; border-radius: 8px; margin: 10px 0; font-family: monospace; }
+        input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; margin: 10px 0; }
+        label { display: block; margin: 10px 0 5px; color: #999; font-size: 14px; }
     </style>
 </head>
 <body>
-    <h1>🎱 KPEPE Contract Setup</h1>
+    <h1>🎱 KPEPE Contract Setup - Manual</h1>
     
-    <div id="status" class="status disconnected">
-        <p>🔗 Wallet: <span id="wallet">Not connected</span></p>
-        <button class="connect-btn" onclick="tryConnect()" style="margin-top: 10px;">🔗 Connect Wallet</button>
+    <div class="step">
+        <h3>Your Wallet Address</h3>
+        <p class="instruction">Enter your KLV address (starts with klv1):</p>
+        <input type="text" id="walletAddr" placeholder="klv1..." oninput="updateAll()">
     </div>
 
     <div class="step">
         <h3>Step 1: Initialize Wallets</h3>
-        <p style="color: #999; margin-bottom: 10px; font-size: 14px;">Sets your wallet as project & prize pool wallet</p>
-        <button id="btn1" onclick="runStep1()" disabled>Initialize Wallets</button>
-        <div id="res1" class="result"></div>
+        <p class="instruction">
+            1. Open Klever Wallet app<br>
+            2. Go to KleverScan: <strong>kleverscan.org/contract/klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</strong><br>
+            3. Click "Write Contract"<br>
+            4. Look for <strong>initialize_wallets</strong> function<br>
+            5. Fill BOTH fields with your address below
+        </p>
+        <div class="wallet-addr" id="step1Data"></div>
+        <button class="copy-btn" onclick="copy('step1Data')">📋 Copy Your Address</button>
     </div>
 
     <div class="step">
         <h3>Step 2: Set KPEPE Token</h3>
-        <p style="color: #999; margin-bottom: 10px; font-size: 14px;">Links the KPEPE token address</p>
-        <button id="btn2" onclick="runStep2()" disabled>Set KPEPE Token</button>
-        <div id="res2" class="result"></div>
+        <p class="instruction">
+            1. In KleverScan, look for <strong>set_kpepe_token</strong><br>
+            2. Fill with this address:
+        </p>
+        <div class="data-box">klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl</div>
+        <button class="copy-btn" onclick="copyText('klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl')">📋 Copy KPEPE Token</button>
     </div>
 
     <div class="step">
         <h3>Step 3: Start Lottery</h3>
-        <p style="color: #999; margin-bottom: 10px; font-size: 14px;">Enables ticket purchases</p>
-        <button id="btn3" onclick="runStep3()" disabled>Start Lottery</button>
-        <div id="res3" class="result"></div>
+        <p class="instruction">
+            1. In KleverScan, look for <strong>toggle_round</strong><br>
+            2. No parameters needed - just click Write
+        </p>
     </div>
 
     <script>
-        const CONTRACT = 'klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d';
-        const KPEPE_TOKEN = 'klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl';
-        let connectedAccount = null;
-
-        function log(step, msg) {
-            document.getElementById('res' + step).innerHTML = msg;
+        function updateAll() {
+            const addr = document.getElementById('walletAddr').value.trim();
+            document.getElementById('step1Data').innerText = addr || 'Enter your address above';
         }
-
-        async function tryConnect() {
-            log(1, '🔄 Trying to connect...');
-            
-            // Try different methods
-            const methods = [
-                () => window.klever?.provider?.api?.getAccount(),
-                () => window.klever?.provider?.api?.klever_requestAccounts?.(),
-                () => window.kleverWeb?.request?.({ method: 'account' }),
-                () => window.klever?.request?.({ method: 'account' }),
-                () => window.kleverWeb?.enable?.(),
-                () => window.klever?.enable?.()
-            ];
-            
-            for (let i = 0; i < methods.length; i++) {
-                try {
-                    const method = methods[i];
-                    if (!method) continue;
-                    const res = await method();
-                    if (res && (res.address || (Array.isArray(res) && res[0]) || (res.length > 0))) {
-                        connectedAccount = res.address || (Array.isArray(res) ? res[0] : res);
-                        document.getElementById('wallet').innerText = connectedAccount.substring(0, 10) + '...' + connectedAccount.substring(connectedAccount.length - 6);
-                        document.getElementById('status').className = 'status connected';
-                        document.getElementById('btn1').disabled = false;
-                        document.getElementById('btn2').disabled = false;
-                        document.getElementById('btn3').disabled = false;
-                        log(1, '✅ Connected: ' + connectedAccount);
-                        return;
-                    }
-                } catch (e) {
-                    console.log('Method ' + i + ' failed:', e.message);
-                }
-            }
-            
-            log(1, '❌ Could not connect. Make sure Klever Wallet is unlocked.');
+        
+        function copy(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            copyText(text);
         }
-
-        async function getProvider() {
-            return window.kleverWeb || window.klever || null;
+        
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied!');
+            }).catch(() => {
+                prompt('Copy this:', text);
+            });
         }
-
-        async function getAccount() {
-            if (connectedAccount) return connectedAccount;
-            
-            // Try to get account
-            const methods = [
-                () => window.klever?.provider?.api?.getAccount?.(),
-                () => window.klever?.request?.({ method: 'account' }),
-                () => window.kleverWeb?.request?.({ method: 'account' })
-            ];
-            
-            for (const method of methods) {
-                if (!method) continue;
-                try {
-                    const res = await method();
-                    if (res?.address || (Array.isArray(res) && res[0])) {
-                        return res.address || res[0];
-                    }
-                } catch (e) {}
-            }
-            throw new Error('No account found');
-        }
-
-        async function sendTx(fn, args = []) {
-            const account = await getAccount();
-            const tx = {
-                chainId: 1,
-                type: 'call',
-                sender: account,
-                contractAddress: CONTRACT,
-                functionName: fn,
-                args: args,
-                gasLimit: 300000
-            };
-            const kp = getProvider();
-            return await kp.request({ method: 'contractCall', params: tx });
-        }
-
-        async function runStep1() {
-            try {
-                const account = await getAccount();
-                log(1, '⏳ Sending transaction...');
-                const res = await sendTx('initialize_wallets', [account, account]);
-                log(1, '✅ Success!\nTx: ' + (res?.transactionHash || JSON.stringify(res).substring(0, 200)));
-            } catch (e) {
-                log(1, '❌ Error: ' + e.message);
-            }
-        }
-
-        async function runStep2() {
-            try {
-                log(2, '⏳ Sending transaction...');
-                const res = await sendTx('set_kpepe_token', [KPEPE_TOKEN]);
-                log(2, '✅ Success!\nTx: ' + (res?.transactionHash || JSON.stringify(res).substring(0, 200)));
-            } catch (e) {
-                log(2, '❌ Error: ' + e.message);
-            }
-        }
-
-        async function runStep3() {
-            try {
-                log(3, '⏳ Sending transaction...');
-                const res = await sendTx('toggle_round', []);
-                log(3, '✅ Success!\nTx: ' + (res?.transactionHash || JSON.stringify(res).substring(0, 200)));
-            } catch (e) {
-                log(3, '❌ Error: ' + e.message);
-            }
-        }
-
-        // Auto-check for wallet
-        window.addEventListener('load', () => {
-            setTimeout(tryConnect, 2000);
-        });
+        
+        updateAll();
     </script>
 </body>
 </html>
