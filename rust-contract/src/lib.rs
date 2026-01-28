@@ -44,6 +44,9 @@ pub trait KPEPEJackpot: ContractBase {
     }
 
     // Storage
+    #[storage_mapper("project_balance")]
+    fn project_balance(&self) -> SingleValueMapper<BigUint>;
+
     #[storage_mapper("draw_interval")]
     fn draw_interval(&self) -> SingleValueMapper<u64>;
 
@@ -105,6 +108,17 @@ pub trait KPEPEJackpot: ContractBase {
     fn claim_project_share(&self, amount: BigUint) {
         let caller = self.blockchain().get_caller();
         self.send().direct_klv(&caller, &amount);
+    }
+
+    #[only_owner]
+    #[endpoint]
+    fn claim_project_balance(&self) {
+        let amount = self.project_balance().get();
+        require!(amount > BigUint::zero(), "No balance");
+        
+        let owner = self.blockchain().get_owner_address();
+        self.send().direct_klv(&owner, &amount);
+        self.project_balance().set(&BigUint::zero());
     }
 
     #[only_owner]
@@ -184,10 +198,10 @@ pub trait KPEPEJackpot: ContractBase {
         let current = self.prize_pool().get();
         self.prize_pool().set(&(current + pool_share));
         
-        let wallet = self.project_wallet().get();
-        if !wallet.is_zero() {
-            self.send().direct_klv(&wallet, &project_share);
-        }
+        // Hold project share in contract - transfer via claim_project_share() later
+        // This avoids "account not found" errors during ticket purchase
+        let proj_balance = self.project_balance().get();
+        self.project_balance().set(&(proj_balance + project_share));
         
         self.total_tickets().set(ticket_id + 1);
     }
