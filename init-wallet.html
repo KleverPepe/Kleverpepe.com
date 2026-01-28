@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KPEPE Contract Initialization</title>
+    <script src="https://cdn.jsdelivr.net/npm/@klever/web3-sdk@latest/dist/klever-web3.min.js"></script>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #1a1a2e; color: #fff; }
+        .btn { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; background: #4ade80; border: none; border-radius: 8px; }
+        .btn:hover { background: #22c55e; }
+        .status { margin: 20px 0; padding: 15px; background: #1a1a2e; border-radius: 8px; }
+        #log { white-space: pre-wrap; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🎱 KPEPE Jackpot - Contract Initialization</h1>
+    
+    <div class="status">
+        <p><strong>Contract:</strong> klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d</p>
+        <p><strong>Your Wallet:</strong> <span id="wallet">Connect wallet first...</span></p>
+    </div>
+
+    <button class="btn" onclick="initContract()">1️⃣ Initialize Wallets</button>
+    <button class="btn" onclick="setToken()">2️⃣ Set KPEPE Token</button>
+    <button class="btn" onclick="startLottery()">3️⃣ Start Lottery</button>
+    <button class="btn" onclick="runAll()">🚀 Run All 3 Steps</button>
+
+    <div class="status" id="log">Log will appear here...</div>
+
+    <script>
+        const CONTRACT = 'klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d';
+        const KPEPE_TOKEN = 'klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl';
+
+        function log(msg) {
+            document.getElementById('log').innerHTML += msg + '\n';
+            console.log(msg);
+        }
+
+        function getProvider() {
+            if (window.kleverWeb && window.kleverWeb.provider && window.kleverWeb.provider.api) {
+                return window.kleverWeb;
+            }
+            if (window.klever && window.klever.provider && window.klever.provider.api) {
+                return window.klever;
+            }
+            return null;
+        }
+
+        async function getAccount() {
+            const klever = getProvider();
+            if (!klever) throw new Error('Klever wallet not found');
+            if (typeof klever.request !== 'function') throw new Error('Klever provider not ready');
+            const accounts = await klever.request({ method: 'account' });
+            if (!accounts || !accounts.length) throw new Error('No accounts found');
+            return accounts[0];
+        }
+
+        async function sendTx(functionName, args = []) {
+            const account = await getAccount();
+            log(`📤 Calling ${functionName}...`);
+            
+            const tx = {
+                chainId: 1,
+                type: 'call',
+                sender: account,
+                contractAddress: CONTRACT,
+                functionName: functionName,
+                args: args,
+                gasLimit: 300000
+            };
+
+            try {
+                const klever = getProvider();
+                const res = await klever.request({ method: 'contractCall', params: tx });
+                log(`✅ Success! Tx: ${res?.transactionHash || JSON.stringify(res).substring(0, 100)}`);
+                return res;
+            } catch (e) {
+                log(`❌ Error: ${e.message}`);
+                throw e;
+            }
+        }
+
+        async function initContract() {
+            try {
+                const account = await getAccount();
+                document.getElementById('wallet').innerText = account;
+                await sendTx('initialize_wallets', [account, account]);
+            } catch (e) {
+                log(`❌ ${e.message}`);
+            }
+        }
+
+        async function setToken() {
+            try {
+                await sendTx('set_kpepe_token', [KPEPE_TOKEN]);
+            } catch (e) {
+                log(`❌ ${e.message}`);
+            }
+        }
+
+        async function startLottery() {
+            try {
+                await sendTx('toggle_round', []);
+            } catch (e) {
+                log(`❌ ${e.message}`);
+            }
+        }
+
+        async function runAll() {
+            log('🚀 Starting full initialization...\n');
+            try {
+                const account = await getAccount();
+                document.getElementById('wallet').innerText = account;
+                
+                log('Step 1: Initialize wallets...');
+                await sendTx('initialize_wallets', [account, account]);
+                
+                log('\nStep 2: Set KPEPE token...');
+                await sendTx('set_kpepe_token', [KPEPE_TOKEN]);
+                
+                log('\nStep 3: Start lottery...');
+                await sendTx('toggle_round', []);
+                
+                log('\n🎉 ALL DONE! Lottery is now active!');
+            } catch (e) {
+                log(`\n❌ Failed: ${e.message}`);
+            }
+        }
+
+        // Check for wallet
+        window.addEventListener('load', () => {
+            setTimeout(async () => {
+                try {
+                    const account = await getAccount();
+                    document.getElementById('wallet').innerText = account;
+                    log('✅ Wallet connected: ' + account);
+                } catch (e) {
+                    log('⚠️ Connect your Klever wallet and click a button');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
