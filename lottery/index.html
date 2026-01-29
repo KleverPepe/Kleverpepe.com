@@ -3,658 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KPEPE Lottery - VIP Loyalty</title>
+    <title>🎱 KPEPE Jackpot - Win KLV + KPEPE!</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a25;
-            --bg-elevated: #222230;
-            --accent-primary: #00ff88;
-            --accent-secondary: #00ccff;
-            --accent-gold: #ffd700;
-            --bronze: #cd7f32;
-            --silver: #c0c0c0;
-            --gold: #ffd700;
-            --platinum: #e5e4e2;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0b0;
-            --text-muted: #606070;
-            --border-color: #2a2a3a;
-            --success: #00ff88;
-            --warning: #ffaa00;
-            --danger: #ff4466;
-            --fire-orange: #ff6b35;
-            --fire-red: #ff3366;
-        }
-
+        
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a25 50%, #0a0a0f 100%);
+            color: #ffffff;
             min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
             padding: 16px;
-            min-height: 100vh;
         }
-
+        
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
         .header {
             text-align: center;
-            padding: 24px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            border-bottom: 1px solid #2a2a3a;
             margin-bottom: 20px;
         }
-
+        
         .logo {
             font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
-
-        .tagline {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .vip-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .vip-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--bronze), var(--gold), var(--platinum));
-        }
-
-        .vip-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .vip-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .current-tier {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tier-badge {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+        
+        /* Wallet Status */
+        .wallet-status {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            position: relative;
-        }
-
-        .tier-badge.bronze { background: linear-gradient(135deg, var(--bronze), #8b4513); box-shadow: 0 4px 20px rgba(205, 127, 50, 0.3); }
-        .tier-badge.silver { background: linear-gradient(135deg, var(--silver), #808080); box-shadow: 0 4px 20px rgba(192, 192, 192, 0.3); }
-        .tier-badge.gold { background: linear-gradient(135deg, var(--gold), #b8860b); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
-        .tier-badge.platinum { background: linear-gradient(135deg, var(--platinum), #a0a0a0); box-shadow: 0 4px 20px rgba(229, 228, 226, 0.4); }
-
-        .tier-glow {
-            position: absolute;
-            inset: -2px;
-            border-radius: 14px;
-            opacity: 0.5;
-            filter: blur(8px);
-            z-index: -1;
-        }
-
-        .tier-badge.bronze .tier-glow { background: var(--bronze); }
-        .tier-badge.silver .tier-glow { background: var(--silver); }
-        .tier-badge.gold .tier-glow { background: var(--gold); }
-        .tier-badge.platinum .tier-glow { background: var(--platinum); }
-
-        .tier-name {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .tier-name.bronze { color: var(--bronze); }
-        .tier-name.silver { color: var(--silver); }
-        .tier-name.gold { color: var(--gold); }
-        .tier-name.platinum { color: var(--platinum); }
-
-        .tier-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 8px;
-        }
-
-        .pool-info {
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .progress-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 12px;
             margin-bottom: 16px;
-            border: 1px solid var(--border-color);
+            font-size: 14px;
         }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .progress-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .progress-tickets {
-            font-size: 13px;
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .progress-bar-container {
-            background: var(--bg-elevated);
-            border-radius: 8px;
-            height: 12px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            border-radius: 8px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transition: width 0.5s ease;
-            position: relative;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .progress-milestones {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-        }
-
-        .milestone {
-            font-size: 10px;
-            color: var(--text-muted);
-            position: relative;
-        }
-
-        .milestone.active {
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .milestone::before {
-            content: '';
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
+        
+        .wallet-dot {
             width: 8px;
             height: 8px;
+            background: #00ff88;
             border-radius: 50%;
-            background: var(--border-color);
         }
-
-        .milestone.active::before {
-            background: var(--accent-primary);
-            box-shadow: 0 0 10px var(--accent-primary);
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
         }
-
-        .next-tier-info {
-            margin-top: 16px;
-            padding: 12px;
-            background: var(--bg-elevated);
-            border-radius: 10px;
+        
+        .stat-card {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 16px 12px;
             text-align: center;
         }
-
-        .next-tier-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .next-tier-name {
-            color: var(--accent-gold);
-            font-weight: 700;
-        }
-
-        .tickets-needed {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-top: 4px;
-        }
-
-        .streak-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .streak-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-
-        .streak-title {
-            font-size: 14px;
-            color: var(--text-secondary);
+        
+        .stat-label {
+            font-size: 11px;
+            color: #a0a0b0;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 4px;
         }
-
-        .streak-days {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .streak-days span {
-            font-size: 16px;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .streak-fire {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .fire-icon {
-            font-size: 28px;
-            animation: fire 0.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes fire {
-            0% { transform: scale(1) rotate(-5deg); }
-            100% { transform: scale(1.1) rotate(5deg); }
-        }
-
-        .streak-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--success);
-            margin-bottom: 16px;
-        }
-
-        .streak-indicator::before {
-            content: '●';
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .streak-milestones {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .streak-milestone {
-            background: var(--bg-elevated);
-            border-radius: 10px;
-            padding: 10px 6px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .streak-milestone.achieved {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 51, 102, 0.2));
-            border: 1px solid var(--fire-orange);
-        }
-
-        .streak-milestone.current {
-            border: 2px solid var(--fire-orange);
-            animation: glow 2s infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 5px var(--fire-orange); }
-            50% { box-shadow: 0 0 20px var(--fire-orange), 0 0 30px var(--fire-red); }
-        }
-
-        .milestone-day {
+        
+        .stat-value {
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 4px;
         }
-
-        .milestone-day.achieved { color: var(--fire-orange); }
-        .milestone-day.current { color: var(--fire-orange); }
-        .milestone-day.locked { color: var(--text-muted); }
-
-        .milestone-reward {
-            font-size: 9px;
-            color: var(--text-muted);
+        
+        .stat-value.highlight {
+            color: #00ff88;
         }
-
-        .milestone-reward.achieved { color: var(--accent-primary); }
-        .milestone-reward.current { color: var(--fire-orange); }
-
-        .bonus-section {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-
-        .bonus-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .bonus-icon {
-            font-size: 20px;
-        }
-
-        .bonus-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .bonus-amount {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 16px;
-        }
-
-        .bonus-breakdown {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .bonus-item {
-            background: var(--bg-elevated);
-            border-radius: 10px;
-            padding: 12px;
-        }
-
-        .bonus-item-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .bonus-item-value {
+        
+        .stat-value.klv-pool {
+            color: #00ff88;
             font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
         }
-
-        .bonus-item-value.multiplier {
-            color: var(--accent-gold);
-        }
-
-        .rollover-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .rollover-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .rollover-icon {
-            font-size: 20px;
-        }
-
-        .rollover-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .rollover-alert {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(255, 170, 0, 0.1);
-            border: 1px solid var(--warning);
-            border-radius: 10px;
-            margin-bottom: 16px;
-        }
-
-        .rollover-alert-icon {
-            font-size: 20px;
-        }
-
-        .rollover-alert-text {
-            font-size: 13px;
-            color: var(--warning);
-        }
-
-        .rollover-tiers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .rollover-tier {
-            display: flex;
+        
+        /* VIP Badge */
+        .vip-badge {
+            display: inline-flex;
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
-            background: var(--bg-elevated);
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
             border-radius: 20px;
             font-size: 12px;
+            font-weight: 600;
+            color: #0a0a0f;
+            margin-top: 8px;
         }
-
-        .rollover-tier.rolled {
-            background: rgba(255, 68, 102, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
+        
+        /* Streak */
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid #ff6b35;
+            border-radius: 16px;
+            font-size: 12px;
+            margin-top: 4px;
         }
-
-        .rollover-amount {
-            text-align: center;
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(255, 170, 0, 0.1), rgba(255, 107, 53, 0.1));
-            border-radius: 12px;
+        
+        .streak-fire {
+            font-size: 14px;
         }
-
-        .rollover-amount-label {
-            font-size: 11px;
-            color: var(--text-muted);
+        
+        /* How to Play */
+        .section-title {
+            font-size: 14px;
+            color: #a0a0b0;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-
-        .rollover-amount-value {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--warning);
-        }
-
-        .pool-display-section {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--accent-primary);
-            text-align: center;
-        }
-
-        .pool-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
             margin-bottom: 12px;
         }
-
-        .pool-icon {
-            font-size: 20px;
-        }
-
-        .pool-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .pool-amount {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--accent-primary);
-            margin-bottom: 4px;
-        }
-
-        .pool-usd {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .benefits-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .benefits-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        
+        .how-to-play {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 16px;
             margin-bottom: 16px;
         }
-
-        .benefit-item {
+        
+        .steps {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
+            justify-content: space-between;
+            text-align: center;
         }
-
-        .benefit-item:last-child {
-            border-bottom: none;
+        
+        .step {
+            flex: 1;
         }
-
-        .benefit-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-elevated);
-            border-radius: 8px;
+        
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-        }
-
-        .benefit-content {
-            flex: 1;
-        }
-
-        .benefit-name {
             font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 2px;
+            font-weight: 700;
+            color: #0a0a0f;
+            margin: 0 auto 8px;
         }
-
-        .benefit-value {
+        
+        .step-text {
+            font-size: 11px;
+            color: #a0a0b0;
+            line-height: 1.3;
+        }
+        
+        /* Countdown */
+        .countdown {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            border: 1px solid #00ff88;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .countdown-label {
             font-size: 12px;
-            color: var(--accent-primary);
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-
-        .action-section {
-            margin-top: 24px;
+        
+        .countdown-time {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
         }
-
+        
+        .countdown-unit {
+            text-align: center;
+        }
+        
+        .countdown-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #00ff88;
+            line-height: 1;
+        }
+        
+        .countdown-unit-label {
+            font-size: 10px;
+            color: #606070;
+            text-transform: uppercase;
+        }
+        
+        /* Number Picker */
+        .number-picker {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .picker-title {
+            font-size: 14px;
+            color: #a0a0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .number-btn {
+            aspect-ratio: 1;
+            border: 2px solid #2a2a3a;
+            background: #222230;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .number-btn:hover {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .number-btn.selected {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border-color: #00ff88;
+            color: #0a0a0f;
+        }
+        
+        .eightball-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 4px;
+        }
+        
+        .eightball-btn {
+            aspect-ratio: 1;
+            border: 2px solid #ffd700;
+            background: #222230;
+            border-radius: 6px;
+            color: #ffd700;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .eightball-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+        }
+        
+        .eightball-btn.selected {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border-color: #ffd700;
+            color: #0a0a0f;
+        }
+        
+        /* Prize Table */
+        .prize-table {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        
+        .prize-header {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 255, 0.2));
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .prize-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #2a2a3a;
+        }
+        
+        .prize-row:last-child {
+            border-bottom: none;
+        }
+        
+        .prize-match {
+            font-weight: 600;
+        }
+        
+        .prize-value {
+            color: #00ff88;
+            font-weight: 700;
+        }
+        
+        /* Bonus Pool */
+        .bonus-pool {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border: 1px solid #ffd700;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .bonus-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 12px;
+        }
+        
+        .bonus-amounts {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .bonus-item {
+            text-align: center;
+        }
+        
+        .bonus-item-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffd700;
+        }
+        
+        .bonus-item-label {
+            font-size: 11px;
+            color: #a0a0b0;
+        }
+        
+        /* Action Button */
         .play-button {
             width: 100%;
             padding: 18px 24px;
@@ -662,916 +374,404 @@
             font-weight: 700;
             border: none;
             border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent-primary), #00cc6a);
-            color: var(--bg-primary);
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0a0f;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s;
         }
-
-        .play-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: translateX(-100%);
-            animation: buttonShine 3s infinite;
-        }
-
-        @keyframes buttonShine {
-            0% { transform: translateX(-100%); }
-            50%, 100% { transform: translateX(100%); }
-        }
-
+        
         .play-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+            transform: scale(1.02);
         }
-
-        .play-button:active {
-            transform: translateY(0);
-        }
-
-        .wallet-button {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            border: 2px solid var(--accent-primary);
-            border-radius: 14px;
-            background: transparent;
-            color: var(--accent-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .wallet-button:hover {
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .clear-button {
-            width: 100%;
-            padding: 14px 24px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 2px solid var(--danger);
-            border-radius: 14px;
-            background: transparent;
-            color: var(--danger);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .clear-button:hover {
-            background: rgba(255, 68, 102, 0.1);
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .numbers-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-
-        .numbers-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .numbers-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .numbers-selected {
-            font-size: 14px;
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .wallet-required {
-            text-align: center;
-            padding: 12px;
-            background: rgba(255, 170, 0, 0.1);
-            border: 1px solid var(--warning);
-            border-radius: 8px;
-            color: var(--warning);
-            font-size: 14px;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .wallet-required.hidden {
-            display: none;
-        }
-
-        .numbers-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .number-btn {
-            width: 100%;
-            aspect-ratio: 1;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-elevated);
-            color: var(--text-primary);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .number-btn:hover {
-            border-color: var(--accent-primary);
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .number-btn.selected {
-            background: linear-gradient(135deg, var(--accent-primary), #00cc6a);
-            border-color: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-
-        .number-btn:disabled {
+        
+        .play-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
-
-        .eightball-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-        }
-
-        .eightball-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .eightball-grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-        }
-
-        .eightball-btn {
-            width: 100%;
-            aspect-ratio: 1;
-            border: 2px solid var(--accent-gold);
-            border-radius: 8px;
-            background: var(--bg-elevated);
-            color: var(--accent-gold);
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .eightball-btn:hover {
-            background: rgba(255, 215, 0, 0.2);
-        }
-
-        .eightball-btn.selected {
-            background: linear-gradient(135deg, var(--accent-gold), var(--fire-orange));
-            border-color: var(--accent-gold);
-            color: var(--bg-primary);
-        }
-
-        .wallet-section {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 16px 20px;
+        
+        /* VIP Progress */
+        .vip-progress {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 12px 16px;
             margin-bottom: 16px;
-            border: 1px solid var(--accent-primary);
+            display: none;
         }
-
-        .wallet-info {
+        
+        .vip-progress.visible {
+            display: block;
+        }
+        
+        .progress-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            margin-bottom: 8px;
         }
-
-        .wallet-label {
+        
+        .progress-bar {
+            height: 8px;
+            background: #2a2a3a;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cd7f32, #ffd700, #e5e4e2);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        /* Rollover Alert */
+        .rollover-alert {
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid #ff4466;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
             font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #ff4466;
+            display: none;
         }
-
-        .wallet-address {
-            font-size: 14px;
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .milestone-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
+        
+        .rollover-alert.visible {
             display: flex;
             align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .milestone-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .milestone-modal-content {
-            background: var(--bg-card);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            max-width: 320px;
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-
-        .milestone-modal.active .milestone-modal-content {
-            transform: scale(1);
-        }
-
-        .milestone-modal-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            animation: bounce 0.6s ease infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .milestone-modal-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--fire-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .milestone-modal-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .milestone-modal-button {
-            padding: 12px 32px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--bg-primary);
-            cursor: pointer;
-        }
-
-        @media (max-width: 380px) {
-            .streak-milestones {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .bonus-breakdown {
-                grid-template-columns: 1fr;
-            }
+            gap: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header class="header">
-            <div class="logo">🎰 KPEPE LOTTERY</div>
-            <div class="tagline">VIP Loyalty Program</div>
+            <div class="logo">🎱 KPEPE Jackpot</div>
         </header>
-
-        <section class="vip-section">
-            <div class="vip-header">
-                <span class="vip-title">Your VIP Status</span>
-                <div class="current-tier">
-                    <div class="tier-badge gold" id="tierBadge">
-                        <div class="tier-glow"></div>
-                        👑
-                    </div>
-                    <span class="tier-name gold" id="tierName">Gold</span>
-                </div>
+        
+        <!-- Wallet Status -->
+        <div class="wallet-status">
+            <div class="wallet-dot"></div>
+            <span id="walletStatus">● Not Connected</span>
+        </div>
+        
+        <!-- Stats Grid with VIP & Streak -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tickets sold</div>
+                <div class="stat-value" id="ticketsSold">127</div>
             </div>
-            <div class="tier-info">
-                <span id="ticketsOwned">127 tickets owned</span>
-                <span class="pool-info" id="poolInfo">💰 Pool: <span id="klvPool">127,000</span> KLV</span>
-                <span id="tierLevel">Level 3 of 4</span>
+            <div class="stat-card">
+                <div class="stat-label">💰 KLV Pool</div>
+                <div class="stat-value klv-pool" id="klvPool">127,000</div>
             </div>
-        </section>
-
-        <section class="progress-section">
+            <div class="stat-card">
+                <div class="stat-label">💰 Up to</div>
+                <div class="stat-value highlight">~$1,090</div>
+            </div>
+        </div>
+        
+        <!-- VIP Badge & Streak -->
+        <div id="vipSection" style="text-align: center; margin-bottom: 16px;">
+            <div class="vip-badge" id="vipBadge">🥉 Bronze VIP</div>
+            <div class="streak-badge" id="streakBadge">
+                <span class="streak-fire">🔥</span>
+                <span>Streak: <span id="streakDays">0</span> days</span>
+            </div>
+        </div>
+        
+        <!-- VIP Progress -->
+        <div class="vip-progress" id="vipProgress">
             <div class="progress-header">
-                <span class="progress-label">Progress to Platinum</span>
-                <span class="progress-tickets" id="progressTickets">373 tickets to go</span>
+                <span class="progress-label" id="progressTo">Progress to Silver</span>
+                <span class="progress-count" id="progressCount">43 tickets to go</span>
             </div>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar" style="width: 25.4%"></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
             </div>
-            <div class="progress-milestones">
-                <span class="milestone" data-tickets="10">Bronze</span>
-                <span class="milestone active" data-tickets="50">Silver</span>
-                <span class="milestone active" data-tickets="100">Gold</span>
-                <span class="milestone" data-tickets="500">Platinum</span>
-            </div>
-            <div class="next-tier-info">
-                <div class="next-tier-text">Only <span class="next-tier-name">373 more tickets</span> to reach Platinum!</div>
-                <div class="tickets-needed" id="ticketsNeeded">373</div>
-            </div>
-        </section>
-
-        <section class="streak-section">
-            <div class="streak-header">
-                <span class="streak-title">Play Streak</span>
-                <div class="streak-fire">
-                    <span class="fire-icon" id="fireIcon">🔥</span>
-                    <span class="streak-days"><span id="streakDays">7</span> <span>days</span></span>
+        </div>
+        
+        <!-- Rollover Alert -->
+        <div class="rollover-alert" id="rolloverAlert">
+            <span>🔄</span>
+            <span>Unclaimed prizes rolling over to next draw!</span>
+        </div>
+        
+        <!-- How to Play -->
+        <div class="how-to-play">
+            <div class="section-title">🎮 How to Play</div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Pick Numbers<br>(5 + 8Ball)</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Buy Ticket<br>100 KLV</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-text">Win Prizes!<br>KLV + KPEPE</div>
                 </div>
             </div>
-            <div class="streak-indicator" id="streakIndicator">Streak active - Play today to continue!</div>
-            <div class="streak-milestones">
-                <div class="streak-milestone" id="milestone3">
-                    <div class="milestone-day">3</div>
-                    <div class="milestone-reward">+50 KPEPE</div>
+        </div>
+        
+        <!-- Countdown -->
+        <div class="countdown">
+            <div class="countdown-label">Next draw in</div>
+            <div class="countdown-time">
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="hours">14</div>
+                    <div class="countdown-unit-label">Hrs</div>
                 </div>
-                <div class="streak-milestone current" id="milestone7">
-                    <div class="milestone-day">7</div>
-                    <div class="milestone-reward">+200 KPEPE</div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="minutes">32</div>
+                    <div class="countdown-unit-label">Min</div>
                 </div>
-                <div class="streak-milestone" id="milestone14">
-                    <div class="milestone-day">14</div>
-                    <div class="milestone-reward">+500 KPEPE</div>
-                </div>
-                <div class="streak-milestone" id="milestone30">
-                    <div class="milestone-day">30</div>
-                    <div class="milestone-reward">+2,000 KPEPE</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="bonus-section">
-            <div class="bonus-header">
-                <span class="bonus-icon">⭐</span>
-                <span class="bonus-title">Bonus Preview</span>
-            </div>
-            <div class="bonus-amount" id="bonusAmount">+250 KPEPE</div>
-            <div class="bonus-breakdown">
-                <div class="bonus-item">
-                    <div class="bonus-item-label">Base Bonus</div>
-                    <div class="bonus-item-value" id="baseBonus">+100 KPEPE</div>
-                </div>
-                <div class="bonus-item">
-                    <div class="bonus-item-label">VIP Multiplier</div>
-                    <div class="bonus-item-value multiplier" id="vipMultiplier">2.5x</div>
-                </div>
-                <div class="bonus-item">
-                    <div class="bonus-item-label">Streak Bonus</div>
-                    <div class="bonus-item-value" id="streakBonus">+50 KPEPE</div>
-                </div>
-                <div class="bonus-item">
-                    <div class="bonus-item-label">Total Multiplier</div>
-                    <div class="bonus-item-value multiplier" id="totalMultiplier">2.5x</div>
+                <div class="countdown-unit">
+                    <div class="countdown-value" id="seconds">18</div>
+                    <div class="countdown-unit-label">Sec</div>
                 </div>
             </div>
-        </section>
-
-        <section class="rollover-section">
-            <div class="rollover-header">
-                <span class="rollover-icon">🔄</span>
-                <span class="rollover-title">Prize Rollover</span>
-            </div>
-            <div class="rollover-alert">
-                <span class="rollover-alert-icon">⚠️</span>
-                <span class="rollover-alert-text">Unclaimed prizes rolling over to next draw!</span>
-            </div>
-            <div class="rollover-tiers">
-                <span class="rollover-tier rolled">🥉 Bronze</span>
-                <span class="rollover-tier rolled">🥈 Silver</span>
-                <span class="rollover-tier">🥇 Gold</span>
-                <span class="rollover-tier">💎 Platinum</span>
-            </div>
-            <div class="rollover-amount">
-                <div class="rollover-amount-label">Next Draw Rollover Pool</div>
-                <div class="rollover-amount-value" id="rolloverAmount">+15,000 KPEPE</div>
-            </div>
-        </section>
-
-        <section class="pool-display-section">
-            <div class="pool-header">
-                <span class="pool-icon">💰</span>
-                <span class="pool-title">KLV Prize Pool</span>
-            </div>
-            <div class="pool-amount" id="poolDisplay">127,000 KLV</div>
-            <div class="pool-usd">~$1,090 USD</div>
-        </section>
-
-        <section class="benefits-section" id="benefitsSection">
-            <div class="benefits-title">Your Tier Benefits</div>
-            <div id="benefitsList"></div>
-        </section>
-
-        <section class="numbers-section" id="numbersSection">
-            <div class="numbers-header">
-                <span class="numbers-title">Pick Your Numbers</span>
-                <span class="numbers-selected" id="numbersSelected">0/5 selected</span>
-            </div>
-            <div class="wallet-required" id="walletRequired">
-                🔗 Connect wallet to play
-            </div>
+        </div>
+        
+        <!-- Number Picker -->
+        <div class="number-picker">
+            <div class="picker-title">Pick 5 numbers (1-50)</div>
             <div class="numbers-grid" id="numbersGrid"></div>
             
-            <div class="eightball-section">
-                <div class="eightball-label">🎱 8-Ball Number</div>
-                <div class="eightball-grid" id="eightballGrid"></div>
+            <div class="picker-title">🎱 Pick Lucky 8Ball (1-20)</div>
+            <div class="eightball-grid" id="eightballGrid"></div>
+        </div>
+        
+        <!-- Prize Table -->
+        <div class="prize-table">
+            <div class="prize-header">🎰 JACKPOT - Pool + 100K KPEPE</div>
+            <div class="prize-row">
+                <span class="prize-match">Match 5</span>
+                <span class="prize-value">0 KLV + 31K KPEPE</span>
             </div>
-        </section>
-
-        <section class="wallet-section" id="walletSection" style="display: none;">
-            <div class="wallet-info">
-                <span class="wallet-label">Connected Wallet</span>
-                <span class="wallet-address" id="walletAddress">...</span>
+            <div class="prize-row">
+                <span class="prize-match">Match 4 + 8B</span>
+                <span class="prize-value">0 KLV + 20K KPEPE</span>
             </div>
-        </section>
-
-        <div class="action-section">
-            <div class="action-buttons">
-                <button class="wallet-button" id="walletButton">🔗 Connect Klever Wallet</button>
-                <button class="play-button" id="playButton" style="display: none;">🎰 Play Now</button>
-                <button class="clear-button" id="clearButton" style="display: none;">🗑️ Clear Numbers</button>
+            <div class="prize-row">
+                <span class="prize-match">Match 4</span>
+                <span class="prize-value">0 KLV + 13K KPEPE</span>
+            </div>
+            <div class="prize-row">
+                <span class="prize-match">Match 3 + 8B</span>
+                <span class="prize-value">0 KLV + 13K KPEPE</span>
+            </div>
+            <div class="prize-row">
+                <span class="prize-match">Match 3</span>
+                <span class="prize-value">0 KLV + 9K KPEPE</span>
+            </div>
+            <div class="prize-row">
+                <span class="prize-match">Match 2 + 8B</span>
+                <span class="prize-value">0 KLV + 7K KPEPE</span>
+            </div>
+            <div class="prize-row">
+                <span class="prize-match">Match 1 + 8B</span>
+                <span class="prize-value">0 KLV + 4K KPEPE</span>
+            </div>
+            <div class="prize-row">
+                <span class="prize-match">Lucky 8Ball</span>
+                <span class="prize-value">0 KLV + 2K KPEPE</span>
             </div>
         </div>
-    </div>
-
-    <div class="milestone-modal" id="milestoneModal">
-        <div class="milestone-modal-content">
-            <div class="milestone-modal-icon" id="modalIcon">🏆</div>
-            <div class="milestone-modal-title" id="modalTitle">Streak Milestone!</div>
-            <div class="milestone-modal-text" id="modalText">You've reached a 7-day streak! Claim your +200 KPEPE bonus.</div>
-            <button class="milestone-modal-button" onclick="closeModal()">Claim Reward</button>
+        
+        <!-- Bonus Pool -->
+        <div class="bonus-pool">
+            <div class="bonus-title">🎁 1 Million KPEPE Bonus Pool!</div>
+            <div class="bonus-amounts">
+                <div class="bonus-item">
+                    <div class="bonus-item-value">100K</div>
+                    <div class="bonus-item-label">Jackpot<br>Per Draw</div>
+                </div>
+                <div class="bonus-item">
+                    <div class="bonus-item-value">800K</div>
+                    <div class="bonus-item-label">Reserve</div>
+                </div>
+            </div>
         </div>
+        
+        <!-- Instant Prizes -->
+        <div style="text-align: center; padding: 16px; margin-bottom: 16px; color: #a0a0b0;">
+            ✨ Instant Prizes - Prizes sent automatically to your wallet when you win!
+        </div>
+        
+        <!-- Play Button -->
+        <button class="play-button" id="playButton" disabled>🎰 Play Now (100 KLV)</button>
     </div>
 
     <script>
+        // State
         const state = {
             tickets: 127,
             klvPool: 127000,
-            tier: 'gold',
-            streak: 7,
-            lastPlayed: new Date().toDateString(),
-            baseBonus: 100,
-            rolloverPool: 15000,
-            selectedNumbers: [],
-            selectedEightBall: null,
+            tier: 'bronze',
+            streak: 0,
             walletConnected: false,
-            walletAddress: ''
+            selectedNumbers: [],
+            selectedEightBall: null
         };
-
-        const tierThresholds = {
-            bronze: { min: 10, name: 'Bronze', emoji: '🥉', multiplier: 1.0, discount: 5 },
-            silver: { min: 50, name: 'Silver', emoji: '🥈', multiplier: 1.5, discount: 10 },
-            gold: { min: 100, name: 'Gold', emoji: '🥇', multiplier: 2.5, discount: 15 },
-            platinum: { min: 500, name: 'Platinum', emoji: '💎', multiplier: 4.0, discount: 25 }
+        
+        const tierInfo = {
+            bronze: { name: 'Bronze', emoji: '🥉', min: 10, bonus: 5 },
+            silver: { name: 'Silver', emoji: '🥈', min: 50, bonus: 8 },
+            gold: { name: 'Gold', emoji: '🥇', min: 100, bonus: 12 },
+            platinum: { name: 'Platinum', emoji: '💎', min: 500, bonus: 15 }
         };
-
-        const elements = {
-            tierBadge: document.getElementById('tierBadge'),
-            tierName: document.getElementById('tierName'),
-            ticketsOwned: document.getElementById('ticketsOwned'),
-            tierLevel: document.getElementById('tierLevel'),
-            progressTickets: document.getElementById('progressTickets'),
-            progressBar: document.getElementById('progressBar'),
-            ticketsNeeded: document.getElementById('ticketsNeeded'),
-            streakDays: document.getElementById('streakDays'),
-            fireIcon: document.getElementById('fireIcon'),
-            streakIndicator: document.getElementById('streakIndicator'),
-            bonusAmount: document.getElementById('bonusAmount'),
-            baseBonus: document.getElementById('baseBonus'),
-            vipMultiplier: document.getElementById('vipMultiplier'),
-            streakBonus: document.getElementById('streakBonus'),
-            totalMultiplier: document.getElementById('totalMultiplier'),
-            rolloverAmount: document.getElementById('rolloverAmount'),
-            klvPool: document.getElementById('klvPool'),
-            poolDisplay: document.getElementById('poolDisplay'),
-            milestoneModal: document.getElementById('milestoneModal'),
-            modalIcon: document.getElementById('modalIcon'),
-            modalTitle: document.getElementById('modalTitle'),
-            modalText: document.getElementById('modalText'),
-            milestones: {
-                3: document.getElementById('milestone3'),
-                7: document.getElementById('milestone7'),
-                14: document.getElementById('milestone14'),
-                30: document.getElementById('milestone30')
-            }
-        };
-
-        function getCurrentTier(tickets) {
-            if (tickets >= 500) return 'platinum';
-            if (tickets >= 100) return 'gold';
-            if (tickets >= 50) return 'silver';
-            return 'bronze';
-        }
-
-        function getNextTier(currentTier) {
-            const tiers = ['bronze', 'silver', 'gold', 'platinum'];
-            const currentIndex = tiers.indexOf(currentTier);
-            if (currentIndex === tiers.length - 1) return null;
-            return tiers[currentIndex + 1];
-        }
-
-        function updateUI() {
-            const tier = getCurrentTier(state.tickets);
-            state.tier = tier;
-            const tierInfo = tierThresholds[tier];
-            const nextTier = getNextTier(tier);
-
-            elements.tierBadge.className = `tier-badge ${tier}`;
-            elements.tierBadge.innerHTML = `<div class="tier-glow"></div>${tierInfo.emoji}`;
-            elements.tierName.textContent = tierInfo.name;
-            elements.tierName.className = `tier-name ${tier}`;
-
-            elements.ticketsOwned.textContent = `${state.tickets.toLocaleString()} tickets owned`;
-            elements.klvPool.textContent = state.klvPool.toLocaleString();
-            elements.poolDisplay.textContent = `${state.klvPool.toLocaleString()} KLV`;
-
-            const tierLevels = { bronze: 1, silver: 2, gold: 3, platinum: 4 };
-            elements.tierLevel.textContent = `Level ${tierLevels[tier]} of 4`;
-
-            if (nextTier) {
-                const nextTierInfo = tierThresholds[nextTier];
-                const ticketsToNext = nextTierInfo.min - state.tickets;
-                const progress = (state.tickets - tierInfo.min) / (nextTierInfo.min - tierInfo.min) * 100;
-                
-                elements.progressTickets.textContent = `${ticketsToNext.toLocaleString()} tickets to go`;
-                elements.progressBar.style.width = `${Math.max(0, Math.min(100, progress))}%`;
-                elements.ticketsNeeded.textContent = ticketsToNext.toLocaleString();
-            } else {
-                elements.progressTickets.textContent = 'Max tier reached!';
-                elements.progressBar.style.width = '100%';
-                elements.ticketsNeeded.textContent = '0';
-            }
-
-            elements.streakDays.textContent = state.streak;
-
-            const milestoneBonuses = { 3: 50, 7: 200, 14: 500, 30: 2000 };
-            Object.keys(elements.milestones).forEach(days => {
-                const el = elements.milestones[days];
-                const dayNum = parseInt(days);
-                
-                el.classList.remove('achieved', 'current');
-                
-                if (dayNum <= state.streak) {
-                    el.classList.add('achieved');
-                } else if (dayNum === state.streak + 1 || (state.streak < 3 && dayNum === 3)) {
-                    el.classList.add('current');
-                }
-            });
-
-            const streakBonusAmount = milestoneBonuses[state.streak] || 0;
-            const totalBonus = Math.round(state.baseBonus * tierInfo.multiplier) + streakBonusAmount;
-
-            elements.bonusAmount.textContent = `+${totalBonus.toLocaleString()} KPEPE`;
-            elements.baseBonus.textContent = `+${state.baseBonus} KPEPE`;
-            elements.vipMultiplier.textContent = `${tierInfo.multiplier}x`;
-            elements.streakBonus.textContent = `+${streakBonusAmount} KPEPE`;
-            elements.totalMultiplier.textContent = `${tierInfo.multiplier}x`;
-
-            elements.rolloverAmount.textContent = `+${state.rolloverPool.toLocaleString()} KPEPE`;
-            
-            // Update dynamic content
-            renderBenefits(tier);
-            updateStreakIndicator();
-            
-            // Update rollover tier indicators based on actual state
-            const rolloverTiers = document.querySelectorAll('.rollover-tier');
-            rolloverTiers.forEach((el, index) => {
-                const tiers = ['bronze', 'silver', 'gold', 'platinum'];
-                const tierName = tiers[index];
-                const rolledTiers = ['bronze', 'silver']; // Example: first 2 tiers rolled over
-                if (rolledTiers.includes(tierName)) {
-                    el.classList.add('rolled');
-                } else {
-                    el.classList.remove('rolled');
-                }
-            });
-        }
-
-        function showModal(icon, title, text) {
-            elements.modalIcon.textContent = icon;
-            elements.modalTitle.textContent = title;
-            elements.modalText.textContent = text;
-            elements.milestoneModal.classList.add('active');
-        }
-
-        function closeModal() {
-            elements.milestoneModal.classList.remove('active');
-        }
-
-        function playLottery() {
-            // Validate wallet connection
-            if (!state.walletConnected) {
-                alert('Please connect your Klever Wallet first!');
-                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            
-            // Validate number selection
-            if (state.selectedNumbers.length !== 5) {
-                alert('Please select exactly 5 numbers!');
-                return;
-            }
-            if (!state.selectedEightBall) {
-                alert('Please select your 8-Ball number!');
-                return;
-            }
-            
-            const today = new Date().toDateString();
-            const isNewDay = state.lastPlayed !== today;
-            
-            if (isNewDay) {
-                state.streak++;
-                state.lastPlayed = today;
-            }
-
-            state.tickets++;
-            state.klvPool += 100; // Add 100 KLV per ticket
-            state.rolloverPool = Math.round(state.rolloverPool * 1.2 + Math.random() * 5000);
-
-            const milestoneBonuses = { 3: 50, 7: 200, 14: 500, 30: 2000 };
-
-            if (milestoneBonuses[state.streak]) {
-                showModal(
-                    state.streak >= 30 ? '💎' : (state.streak >= 14 ? '⚡' : (state.streak >= 7 ? '🌟' : '🔥')),
-                    `${state.streak}-Day Streak!`,
-                    `You've played ${state.streak} days in a row! Claim your +${milestoneBonuses[state.streak].toLocaleString()} KPEPE bonus!`
-                );
-            } else {
-                const tierInfo = tierThresholds[state.tier];
-                const newTier = getCurrentTier(state.tickets);
-                if (newTier !== state.tier) {
-                    showModal(
-                        tierThresholds[newTier].emoji,
-                        `🎉 New VIP Tier: ${tierThresholds[newTier].name}!`,
-                        `You've unlocked ${tierThresholds[newTier].name} status with ${tierThresholds[newTier].multiplier}x bonus multiplier!`
-                    );
-                }
-            }
-
-            // Show ticket confirmation with selected numbers
-            const sortedNumbers = [...state.selectedNumbers].sort((a, b) => a - b);
-            showModal(
-                '🎰',
-                'Ticket Purchased!',
-                `Your numbers: ${sortedNumbers.join(', ')} + 🎱${state.selectedEightBall}\n\nGood luck! 🍀`
-            );
-            
-            // Clear selection after playing
-            clearNumbers();
-            
+        
+        // Initialize
+        function init() {
+            createNumberGrid();
+            createEightBallGrid();
             updateUI();
+            startCountdown();
         }
-
-        function renderBenefits(tier) {
-            const benefitsList = document.getElementById('benefitsList');
-            const tierInfo = tierThresholds[tier];
-            const streakBonus = tier === 'bronze' ? '+10 KPEPE' : (tier === 'silver' ? '+25 KPEPE' : (tier === 'gold' ? '+50 KPEPE' : '+100 KPEPE'));
-            const discount = tier === 'bronze' ? '5%' : (tier === 'silver' ? '8%' : (tier === 'gold' ? '12%' : '15%'));
-            
-            const benefits = [
-                { icon: '🎫', name: 'Ticket Discount', value: `${discount} off all ticket purchases` },
-                { icon: '💰', name: 'Bonus Multiplier', value: `Earn ${tierInfo.multiplier}x bonus KPEPE` },
-                { icon: '🔥', name: 'Streak Bonus', value: `${streakBonus} per streak day` },
-                { icon: '🏆', name: 'Priority Prizes', value: tier === 'platinum' ? 'Exclusive draws & early access' : 'Access to exclusive draws' }
-            ];
-            
-            if (tier === 'platinum') {
-                benefits.push({ icon: '👑', name: 'VIP Support', value: '24/7 dedicated support' });
-            }
-            
-            benefitsList.innerHTML = benefits.map(b => `
-                <div class="benefit-item">
-                    <div class="benefit-icon">${b.icon}</div>
-                    <div class="benefit-content">
-                        <div class="benefit-name">${b.name}</div>
-                        <div class="benefit-value">${b.value}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateStreakIndicator() {
-            const indicator = document.getElementById('streakIndicator');
-            if (state.streak === 0) {
-                indicator.textContent = 'Start your streak today! Play to begin earning bonuses.';
-            } else if (state.streak < 3) {
-                indicator.textContent = `🔥 ${3 - state.streak} more days to unlock your first streak bonus!`;
-            } else {
-                indicator.textContent = 'Streak active - Keep playing to maintain your bonus!';
-            }
-        }
-
-        async function connectWallet() {
-            const walletButton = document.getElementById('walletButton');
-            walletButton.textContent = 'Connecting...';
-            
-            try {
-                if (window.klever) {
-                    await window.klever.login();
-                    const accounts = await window.klever.getAccounts();
-                    if (accounts.length > 0) {
-                        state.walletConnected = true;
-                        state.walletAddress = accounts[0];
-                        
-                        document.getElementById('walletAddress').textContent = 
-                            `${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`;
-                        document.getElementById('walletSection').style.display = 'block';
-                        walletButton.style.display = 'none';
-                        document.getElementById('playButton').style.display = 'block';
-                        document.getElementById('clearButton').style.display = 'block';
-                        
-                        updateNumbersDisplay();
-                    } else {
-                        walletButton.textContent = '🔗 Connect Klever Wallet';
-                        alert('No accounts found. Please unlock your Klever Wallet.');
-                    }
-                } else {
-                    // Fallback for demo - simulate wallet connection
-                    state.walletConnected = true;
-                    state.walletAddress = 'demo' + Math.random().toString(36).substr(2, 9);
-                    
-                    document.getElementById('walletAddress').textContent = 
-                        `${state.walletAddress.slice(0, 6)}...${state.walletAddress.slice(-4)}`;
-                    document.getElementById('walletSection').style.display = 'block';
-                    walletButton.style.display = 'none';
-                    document.getElementById('playButton').style.display = 'block';
-                    document.getElementById('clearButton').style.display = 'block';
-                    
-                    alert('Demo mode: Wallet connected! (Install Klever Wallet for real connection)');
-                    updateNumbersDisplay();
-                }
-            } catch (error) {
-                console.error('Wallet connection failed:', error);
-                walletButton.textContent = '🔗 Connect Klever Wallet';
-                alert('Could not connect wallet. Please install Klever Wallet.');
-            }
-        }
-
-        function initNumberGrids() {
-            const numbersGrid = document.getElementById('numbersGrid');
-            const eightballGrid = document.getElementById('eightballGrid');
-            
-            // Create main numbers 1-50
+        
+        function createNumberGrid() {
+            const grid = document.getElementById('numbersGrid');
             for (let i = 1; i <= 50; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'number-btn';
                 btn.textContent = i;
-                btn.dataset.number = i;
-                btn.addEventListener('click', () => toggleNumber(i, btn));
-                numbersGrid.appendChild(btn);
+                btn.onclick = () => toggleNumber(i, btn);
+                grid.appendChild(btn);
             }
-            
-            // Create 8-ball numbers 1-20
+        }
+        
+        function createEightBallGrid() {
+            const grid = document.getElementById('eightballGrid');
             for (let i = 1; i <= 20; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'eightball-btn';
                 btn.textContent = i;
-                btn.dataset.number = i;
-                btn.addEventListener('click', () => toggleEightBall(i, btn));
-                eightballGrid.appendChild(btn);
+                btn.onclick = () => toggleEightBall(i, btn);
+                grid.appendChild(btn);
             }
         }
-
+        
         function toggleNumber(num, btn) {
-            if (!state.walletConnected) {
-                alert('Please connect your Klever Wallet first!');
-                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            
             const index = state.selectedNumbers.indexOf(num);
-            
             if (index > -1) {
-                // Deselect
                 state.selectedNumbers.splice(index, 1);
                 btn.classList.remove('selected');
-            } else {
-                // Select (max 5)
-                if (state.selectedNumbers.length < 5) {
-                    state.selectedNumbers.push(num);
-                    btn.classList.add('selected');
-                } else {
-                    // Flash warning
-                    btn.style.animation = 'shake 0.3s ease';
-                    setTimeout(() => btn.style.animation = '', 300);
-                    return;
-                }
+            } else if (state.selectedNumbers.length < 5) {
+                state.selectedNumbers.push(num);
+                btn.classList.add('selected');
             }
-            
-            updateNumbersDisplay();
+            updatePlayButton();
         }
-
+        
         function toggleEightBall(num, btn) {
-            if (!state.walletConnected) {
-                alert('Please connect your Klever Wallet first!');
-                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            state.selectedEightBall = num;
+            updatePlayButton();
+        }
+        
+        function updatePlayButton() {
+            const btn = document.getElementById('playButton');
+            btn.disabled = !state.walletConnected || state.selectedNumbers.length !== 5 || !state.selectedEightBall;
+        }
+        
+        function updateUI() {
+            document.getElementById('ticketsSold').textContent = state.tickets.toLocaleString();
+            document.getElementById('klvPool').textContent = state.klvPool.toLocaleString();
+            
+            // Update VIP
+            const tier = getTier();
+            state.tier = tier;
+            document.getElementById('vipBadge').textContent = `${tierInfo[tier].emoji} ${tierInfo[tier].name} VIP`;
+            document.getElementById('streakDays').textContent = state.streak;
+            
+            // Update progress
+            updateProgress();
+        }
+        
+        function getTier() {
+            if (state.tickets >= 500) return 'platinum';
+            if (state.tickets >= 100) return 'gold';
+            if (state.tickets >= 50) return 'silver';
+            return 'bronze';
+        }
+        
+        function updateProgress() {
+            const progressSection = document.getElementById('vipProgress');
+            const currentTier = getTier();
+            
+            if (currentTier === 'platinum') {
+                progressSection.style.display = 'none';
                 return;
             }
             
-            // Remove previous selection
-            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
+            progressSection.style.display = 'block';
             
-            // Select new
-            state.selectedEightBall = num;
-            btn.classList.add('selected');
+            const tiers = ['bronze', 'silver', 'gold', 'platinum'];
+            const currentIndex = tiers.indexOf(currentTier);
+            const nextTier = tiers[currentIndex + 1];
+            const nextMin = tierInfo[nextTier].min;
+            
+            document.getElementById('progressTo').textContent = `Progress to ${nextTier}`;
+            document.getElementById('progressCount').textContent = `${nextMin - state.tickets} tickets to go`;
+            
+            const progress = ((state.tickets - tierInfo[currentTier].min) / (nextMin - tierInfo[currentTier].min)) * 100;
+            document.getElementById('progressFill').style.width = `${Math.max(0, Math.min(100, progress))}%`;
         }
-
-        function updateNumbersDisplay() {
-            document.getElementById('numbersSelected').textContent = `${state.selectedNumbers.length}/5 selected`;
+        
+        function startCountdown() {
+            // Countdown timer logic
+            let hours = 14, minutes = 32, seconds = 18;
             
-            // Show/hide wallet required indicator
-            const walletRequired = document.getElementById('walletRequired');
-            if (state.walletConnected) {
-                walletRequired.classList.add('hidden');
-            } else {
-                walletRequired.classList.remove('hidden');
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                }
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                }
+                if (hours < 0) {
+                    hours = 23;
+                    minutes = 59;
+                    seconds = 59;
+                }
+                
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            }, 1000);
+        }
+        
+        // Play button
+        document.getElementById('playButton').onclick = () => {
+            if (!state.walletConnected) {
+                alert('Please connect your wallet first!');
+                return;
             }
             
-            // Show/hide clear and play buttons based on selection
-            const clearBtn = document.getElementById('clearButton');
-            const playBtn = document.getElementById('playButton');
-            
-            if (state.walletConnected) {
-                clearBtn.style.display = state.selectedNumbers.length > 0 || state.selectedEightBall ? 'block' : 'none';
-                playBtn.style.display = state.selectedNumbers.length === 5 && state.selectedEightBall ? 'block' : 'none';
-            } else {
-                clearBtn.style.display = 'none';
-                playBtn.style.display = 'none';
-            }
-        }
-
-        function clearNumbers() {
+            state.tickets += 1;
+            state.klvPool += 100;
             state.selectedNumbers = [];
             state.selectedEightBall = null;
             
-            document.querySelectorAll('.number-btn').forEach(btn => btn.classList.remove('selected'));
-            document.querySelectorAll('.eightball-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             
-            updateNumbersDisplay();
-        }
-
-        document.getElementById('playButton').addEventListener('click', playLottery);
-        document.getElementById('walletButton').addEventListener('click', connectWallet);
-        document.getElementById('clearButton').addEventListener('click', clearNumbers);
-
-        document.getElementById('milestoneModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // Initialize number grids
-        initNumberGrids();
-
-        updateUI();
+            updateUI();
+            updatePlayButton();
+            
+            alert(`Ticket purchased! 🎰\nNumbers: ${state.selectedNumbers.join(', ')}\nGood luck! 🍀`);
+        };
+        
+        init();
     </script>
 </body>
 </html>
