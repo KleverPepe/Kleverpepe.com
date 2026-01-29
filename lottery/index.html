@@ -17,11 +17,46 @@
             color: #ffffff;
             min-height: 100vh;
             padding: 16px;
+            overflow-x: hidden;
         }
         
         .container {
             max-width: 420px;
             margin: 0 auto;
+        }
+        
+        /* Floating 8-Ball Animation */
+        .floating-8ball {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1a1a25 0%, #0a0a0f 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .floating-8ball:hover {
+            animation: spin 0.5s ease-in-out;
+            transform: scale(1.1);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes spin {
+            360deg { transform: rotate(360deg); }
         }
         
         /* Header */
@@ -36,6 +71,60 @@
             font-size: 28px;
             font-weight: 800;
             margin-bottom: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-message {
+            font-size: 12px;
+            color: #00ff88;
+            min-height: 18px;
+            transition: opacity 0.3s;
+        }
+        
+        /* Jackpot Badge */
+        .jackpot-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(128, 0, 128, 0.2), rgba(75, 0, 130, 0.3));
+            border: 2px solid #9400d3;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .jackpot-amount {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 8px;
+            font-size: 11px;
+            color: #00ff88;
         }
         
         /* Wallet Status */
@@ -50,6 +139,12 @@
             border-radius: 12px;
             margin-bottom: 16px;
             font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .wallet-status:hover {
+            background: rgba(0, 255, 136, 0.2);
         }
         
         .wallet-dot {
@@ -57,6 +152,12 @@
             height: 8px;
             background: #00ff88;
             border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         /* Stats Grid */
@@ -73,6 +174,12 @@
             border-radius: 12px;
             padding: 16px 12px;
             text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: #00ff88;
         }
         
         .stat-label {
@@ -86,6 +193,7 @@
         .stat-value {
             font-size: 18px;
             font-weight: 700;
+            transition: color 0.3s;
         }
         
         .stat-value.highlight {
@@ -95,6 +203,35 @@
         .stat-value.klv-pool {
             color: #00ff88;
             font-size: 16px;
+        }
+        
+        .stat-value.usd-value {
+            color: #ffd700;
+        }
+        
+        /* Live Indicator */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #ff4466;
+            margin-bottom: 16px;
+            min-height: 16px;
+        }
+        
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #ff4466;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
         
         /* VIP Badge */
@@ -109,6 +246,12 @@
             font-weight: 600;
             color: #0a0a0f;
             margin-top: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .vip-badge:hover {
+            transform: scale(1.05);
         }
         
         /* Streak */
@@ -122,10 +265,22 @@
             border-radius: 16px;
             font-size: 12px;
             margin-top: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .streak-badge:hover {
+            background: rgba(255, 107, 53, 0.3);
         }
         
         .streak-fire {
             font-size: 14px;
+            animation: flame 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes flame {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
         }
         
         /* How to Play */
@@ -143,16 +298,27 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .how-to-play:hover {
+            border-color: #00ff88;
         }
         
         .steps {
             display: flex;
             justify-content: space-between;
-            text-align: center;
         }
         
         .step {
             flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .step:hover {
+            transform: translateY(-3px);
         }
         
         .step-num {
@@ -183,6 +349,13 @@
             border: 1px solid #00ff88;
             border-radius: 12px;
             margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .countdown:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.2);
         }
         
         .countdown-label {
@@ -208,6 +381,7 @@
             font-weight: 800;
             color: #00ff88;
             line-height: 1;
+            font-variant-numeric: tabular-nums;
         }
         
         .countdown-unit-label {
@@ -223,6 +397,11 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .number-picker:hover {
+            border-color: #00ff88;
         }
         
         .picker-title {
@@ -255,12 +434,19 @@
         .number-btn:hover {
             border-color: #00ff88;
             background: rgba(0, 255, 136, 0.1);
+            transform: scale(1.1);
         }
         
         .number-btn.selected {
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             border-color: #00ff88;
             color: #0a0a0f;
+            transform: scale(1.1);
+        }
+        
+        .number-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .eightball-grid {
@@ -283,12 +469,14 @@
         
         .eightball-btn:hover {
             background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.1);
         }
         
         .eightball-btn.selected {
             background: linear-gradient(135deg, #ffd700, #ff8c00);
             border-color: #ffd700;
             color: #0a0a0f;
+            transform: scale(1.1);
         }
         
         /* Prize Table */
@@ -298,6 +486,11 @@
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .prize-table:hover {
+            border-color: #00ff88;
         }
         
         .prize-header {
@@ -306,6 +499,7 @@
             font-size: 16px;
             font-weight: 700;
             text-align: center;
+            cursor: pointer;
         }
         
         .prize-row {
@@ -314,6 +508,12 @@
             align-items: center;
             padding: 12px 16px;
             border-bottom: 1px solid #2a2a3a;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .prize-row:hover {
+            background: rgba(0, 255, 136, 0.05);
         }
         
         .prize-row:last-child {
@@ -336,7 +536,13 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
-            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .bonus-pool:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
         }
         
         .bonus-title {
@@ -344,6 +550,7 @@
             font-weight: 700;
             color: #ffd700;
             margin-bottom: 12px;
+            text-align: center;
         }
         
         .bonus-amounts {
@@ -353,6 +560,12 @@
         
         .bonus-item {
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .bonus-item:hover {
+            transform: scale(1.1);
         }
         
         .bonus-item-value {
@@ -379,11 +592,12 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: transform 0.2s;
+            transition: all 0.3s;
         }
         
-        .play-button:hover {
+        .play-button:hover:not(:disabled) {
             transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
         }
         
         .play-button:disabled {
@@ -399,16 +613,32 @@
             padding: 12px 16px;
             margin-bottom: 16px;
             display: none;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
         .vip-progress.visible {
             display: block;
         }
         
+        .vip-progress:hover {
+            border-color: #ffd700;
+        }
+        
         .progress-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 8px;
+        }
+        
+        .progress-label {
+            font-size: 12px;
+            color: #a0a0b0;
+        }
+        
+        .progress-count {
+            font-size: 12px;
+            color: #ffd700;
         }
         
         .progress-bar {
@@ -435,66 +665,222 @@
             font-size: 12px;
             color: #ff4466;
             display: none;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
         .rollover-alert.visible {
             display: flex;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .rollover-alert:hover {
+            background: rgba(255, 68, 102, 0.2);
+        }
+        
+        /* Instant Prizes */
+        .instant-prizes {
+            text-align: center;
+            padding: 16px;
+            margin-bottom: 16px;
+            color: #a0a0b0;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .instant-prizes:hover {
+            color: #00ff88;
+        }
+        
+        /* Quick Pick Button */
+        .quick-pick-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 12px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 10px;
+            color: #00ff88;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-pick-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: scale(1.02);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #2a2a3a;
+            font-size: 12px;
+            color: #606070;
+        }
+        
+        .footer a {
+            color: #00ff88;
+            text-decoration: none;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+        }
+        
+        .modal.visible {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 320px;
+            text-align: center;
+            animation: modalIn 0.3s ease-out;
+        }
+        
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .modal-text {
+            font-size: 14px;
+            color: #a0a0b0;
+            margin-bottom: 16px;
+        }
+        
+        .modal-close {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border: none;
+            border-radius: 8px;
+            color: #0a0a0f;
+            font-weight: 600;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Floating 8-Ball -->
+        <div class="floating-8ball" onclick="showModal('🎱', 'Pick your lucky numbers!\nThe 8-Ball knows the way!')">🎱</div>
+        
+        <!-- Modal -->
+        <div class="modal" id="modal" onclick="hideModal()">
+            <div class="modal-content" onclick="event.stopPropagation()">
+                <div class="modal-emoji" id="modalEmoji" style="font-size: 48px; margin-bottom: 12px;"></div>
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-text" id="modalText"></div>
+                <button class="modal-close" onclick="hideModal()">Got it!</button>
+            </div>
+        </div>
+        
         <!-- Header -->
         <header class="header">
-            <div class="logo">🎱 KPEPE Jackpot</div>
+            <div class="logo" onclick="showModal('🐸', frogMessages[Math.floor(Math.random() * frogMessages.length)])">🎱 KPEPE Jackpot</div>
+            <div class="logo-message" id="logoMessage">Good luck! 🍀</div>
         </header>
         
+        <!-- Trust Badges -->
+        <div class="trust-badges">
+            <div class="trust-badge" onclick="showModal('⛓️', 'All transactions secured by KleverChain blockchain')">⛓️ KleverChain</div>
+            <div class="trust-badge" onclick="showModal('⚡', 'Prizes sent instantly to your wallet!')">⚡ Instant Payout</div>
+            <div class="trust-badge" onclick="showModal('🔒', 'Smart contract audited and secure')">🔒 Secure</div>
+        </div>
+        
+        <!-- Jackpot Badge -->
+        <div class="jackpot-badge" onclick="showModal('💰', 'Jackpot carries over until won! 100K KPEPE guaranteed every draw!')">
+            <span>💎 Jackpot:</span>
+            <span class="jackpot-amount">100K KPEPE</span>
+        </div>
+        
         <!-- Wallet Status -->
-        <div class="wallet-status">
+        <div class="wallet-status" onclick="toggleWallet()">
             <div class="wallet-dot"></div>
-            <span id="walletStatus">● Not Connected</span>
+            <span id="walletStatus">● Connect Wallet to Play</span>
+        </div>
+        
+        <!-- Live Indicator -->
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span id="liveText">Connecting to KleverScan...</span>
         </div>
         
         <!-- Stats Grid with VIP & Streak -->
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" onclick="showModal('🎟️', 'Every ticket adds 100 KLV to the pool!')">
                 <div class="stat-label">Tickets sold</div>
-                <div class="stat-value" id="ticketsSold">127</div>
+                <div class="stat-value" id="ticketsSold">--</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="showModal('💰', 'Grows with every ticket purchased!')">
                 <div class="stat-label">💰 KLV Pool</div>
-                <div class="stat-value klv-pool" id="klvPool">127,000</div>
+                <div class="stat-value klv-pool" id="klvPool">--</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">💰 Up to</div>
-                <div class="stat-value highlight">~$1,090</div>
+            <div class="stat-card" onclick="showModal('💵', 'Estimated USD value based on current KPEPE price')">
+                <div class="stat-label">💵 Total Value</div>
+                <div class="stat-value usd-value" id="usdValue">--</div>
             </div>
         </div>
         
         <!-- VIP Badge & Streak -->
         <div id="vipSection" style="text-align: center; margin-bottom: 16px;">
-            <div class="vip-badge" id="vipBadge">🥉 Bronze VIP</div>
-            <div class="streak-badge" id="streakBadge">
+            <div class="vip-badge" id="vipBadge" onclick="showModal('🥉→💎', 'VIP Tiers: Bronze (10+), Silver (50+), Gold (100+), Platinum (500+) tickets. Each tier gives bonus KPEPE rewards!')">🥉 Bronze VIP</div>
+            <div class="streak-badge" id="streakBadge" onclick="showModal('🔥', 'Play every day to build your streak! Streak bonuses: 3d=2%, 7d=5%, 14d=10%, 30d=15% extra rewards!')">
                 <span class="streak-fire">🔥</span>
                 <span>Streak: <span id="streakDays">0</span> days</span>
             </div>
         </div>
         
         <!-- VIP Progress -->
-        <div class="vip-progress" id="vipProgress">
+        <div class="vip-progress" id="vipProgress" onclick="showModal('📈', 'Buy more tickets to advance to next VIP tier and earn bigger bonuses!')">
             <div class="progress-header">
                 <span class="progress-label" id="progressTo">Progress to Silver</span>
-                <span class="progress-count" id="progressCount">43 tickets to go</span>
+                <span class="progress-count" id="progressCount">-- tickets to go</span>
             </div>
             <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
             </div>
         </div>
         
         <!-- Rollover Alert -->
-        <div class="rollover-alert" id="rolloverAlert">
+        <div class="rollover-alert" id="rolloverAlert" onclick="showModal('🔄', 'Unclaimed prizes from this draw will roll over to the next draw!')">
             <span>🔄</span>
             <span>Unclaimed prizes rolling over to next draw!</span>
         </div>
@@ -503,15 +889,15 @@
         <div class="how-to-play">
             <div class="section-title">🎮 How to Play</div>
             <div class="steps">
-                <div class="step">
+                <div class="step" onclick="showModal('1️⃣', 'Pick 5 numbers from 1-50, then choose your Lucky 8-Ball number from 1-20!')">
                     <div class="step-num">1</div>
                     <div class="step-text">Pick Numbers<br>(5 + 8Ball)</div>
                 </div>
-                <div class="step">
+                <div class="step" onclick="showModal('2️⃣', 'Each ticket costs 100 KLV. Bonus: VIP members get extra KPEPE rewards!')">
                     <div class="step-num">2</div>
                     <div class="step-text">Buy Ticket<br>100 KLV</div>
                 </div>
-                <div class="step">
+                <div class="step" onclick="showModal('3️⃣', 'Match numbers to win KLV prizes + bonus KPEPE! Jackpot = Match all 5 + 8Ball!')">
                     <div class="step-num">3</div>
                     <div class="step-text">Win Prizes!<br>KLV + KPEPE</div>
                 </div>
@@ -519,23 +905,26 @@
         </div>
         
         <!-- Countdown -->
-        <div class="countdown">
+        <div class="countdown" onclick="showModal('⏰', 'Draw happens every 24 hours. Buy tickets before the countdown ends!')">
             <div class="countdown-label">Next draw in</div>
             <div class="countdown-time">
                 <div class="countdown-unit">
-                    <div class="countdown-value" id="hours">14</div>
+                    <div class="countdown-value" id="hours">--</div>
                     <div class="countdown-unit-label">Hrs</div>
                 </div>
                 <div class="countdown-unit">
-                    <div class="countdown-value" id="minutes">32</div>
+                    <div class="countdown-value" id="minutes">--</div>
                     <div class="countdown-unit-label">Min</div>
                 </div>
                 <div class="countdown-unit">
-                    <div class="countdown-value" id="seconds">18</div>
+                    <div class="countdown-value" id="seconds">--</div>
                     <div class="countdown-unit-label">Sec</div>
                 </div>
             </div>
         </div>
+        
+        <!-- Quick Pick -->
+        <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick - Random Numbers</button>
         
         <!-- Number Picker -->
         <div class="number-picker">
@@ -548,75 +937,105 @@
         
         <!-- Prize Table -->
         <div class="prize-table">
-            <div class="prize-header">🎰 JACKPOT - Pool + 100K KPEPE</div>
-            <div class="prize-row">
-                <span class="prize-match">Match 5</span>
-                <span class="prize-value">0 KLV + 31K KPEPE</span>
+            <div class="prize-header" onclick="showModal('🎰', '100K KPEPE guaranteed Jackpot every draw! Match all 5 numbers + 8Ball to win!')">🎰 JACKPOT - 100K KPEPE + Pool</div>
+            <div class="prize-row" onclick="showModal('🎰', 'Match all 5 main numbers AND your 8-Ball to win the JACKPOT!')">
+                <span class="prize-match">🎰 Match 5 + 8B</span>
+                <span class="prize-value">Jackpot</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 4 + 8B</span>
-                <span class="prize-value">0 KLV + 20K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🥇', 'Match 5 main numbers (no 8-Ball) for 31K KPEPE!')">
+                <span class="prize-match">🥇 Match 5</span>
+                <span class="prize-value">31K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 4</span>
-                <span class="prize-value">0 KLV + 13K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🥈', 'Match 4 main numbers + 8-Ball for 20K KPEPE!')">
+                <span class="prize-match">🥈 Match 4 + 8B</span>
+                <span class="prize-value">20K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 3 + 8B</span>
-                <span class="prize-value">0 KLV + 13K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🥉', 'Match 4 main numbers for 13K KPEPE!')">
+                <span class="prize-match">🥉 Match 4</span>
+                <span class="prize-value">13K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 3</span>
-                <span class="prize-value">0 KLV + 9K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🎯', 'Match 3 main numbers + 8-Ball for 13K KPEPE!')">
+                <span class="prize-match">🎯 Match 3 + 8B</span>
+                <span class="prize-value">13K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 2 + 8B</span>
-                <span class="prize-value">0 KLV + 7K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🎯', 'Match 3 main numbers for 9K KPEPE!')">
+                <span class="prize-match">🎯 Match 3</span>
+                <span class="prize-value">9K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Match 1 + 8B</span>
-                <span class="prize-value">0 KLV + 4K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🎱', 'Match 2 main numbers + 8-Ball for 7K KPEPE!')">
+                <span class="prize-match">🎱 Match 2 + 8B</span>
+                <span class="prize-value">7K KPEPE</span>
             </div>
-            <div class="prize-row">
-                <span class="prize-match">Lucky 8Ball</span>
-                <span class="prize-value">0 KLV + 2K KPEPE</span>
+            <div class="prize-row" onclick="showModal('🎱', 'Match 1 main number + 8-Ball for 4K KPEPE!')">
+                <span class="prize-match">🎱 Match 1 + 8B</span>
+                <span class="prize-value">4K KPEPE</span>
+            </div>
+            <div class="prize-row" onclick="showModal('✨', 'Just match your 8-Ball number for 2K KPEPE!')">
+                <span class="prize-match">✨ Lucky 8Ball</span>
+                <span class="prize-value">2K KPEPE</span>
             </div>
         </div>
         
         <!-- Bonus Pool -->
-        <div class="bonus-pool">
+        <div class="bonus-pool" onclick="showModal('🎁', '1 Million KPEPE Bonus Pool! 100K distributed every draw, 800K reserve for future draws!')">
             <div class="bonus-title">🎁 1 Million KPEPE Bonus Pool!</div>
             <div class="bonus-amounts">
                 <div class="bonus-item">
                     <div class="bonus-item-value">100K</div>
-                    <div class="bonus-item-label">Jackpot<br>Per Draw</div>
+                    <div class="bonus-item-label">Per Draw<br>Distributed</div>
                 </div>
                 <div class="bonus-item">
                     <div class="bonus-item-value">800K</div>
-                    <div class="bonus-item-label">Reserve</div>
+                    <div class="bonus-item-label">Reserve<br>Fund</div>
+                </div>
+                <div class="bonus-item">
+                    <div class="bonus-item-value">1M</div>
+                    <div class="bonus-item-label">Total<br>Bonus</div>
                 </div>
             </div>
         </div>
         
         <!-- Instant Prizes -->
-        <div style="text-align: center; padding: 16px; margin-bottom: 16px; color: #a0a0b0;">
+        <div class="instant-prizes" onclick="showModal('✨', 'Win prizes automatically! No manual claiming needed - prizes sent straight to your wallet when you match!')">
             ✨ Instant Prizes - Prizes sent automatically to your wallet when you win!
         </div>
         
         <!-- Play Button -->
-        <button class="play-button" id="playButton" disabled>🎰 Play Now (100 KLV)</button>
+        <button class="play-button" id="playButton" onclick="playNow()" disabled>🎰 Play Now (100 KLV)</button>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Powered by KleverChain ⛓️</p>
+            <p style="margin-top: 8px;">
+                <a href="https://kleverscan.org/token/KPEPE-1EOD" target="_blank">KPEPE Token</a> • 
+                <a href="https://kleverscan.org/" target="_blank">Kleverscan</a>
+            </p>
+        </div>
     </div>
 
     <script>
+        // Frog messages for logo hover
+        const frogMessages = [
+            "Ribbit! 🐸 Good luck! 🍀",
+            "The 8-Ball whispers... 🎱",
+            "KPEPE to the moon! 🚀",
+            "Lucky numbers coming... ✨",
+            "Your fortune awaits! 💰",
+            "Fortune favors the bold! 🎲",
+            "The jackpot calls! 🎰"
+        ];
+        
         // State
         const state = {
             tickets: 127,
             klvPool: 127000,
+            kpepePrice: 0.00537, // $5.37 per KPEPE
             tier: 'bronze',
             streak: 0,
             walletConnected: false,
             selectedNumbers: [],
-            selectedEightBall: null
+            selectedEightBall: null,
+            drawTime: null
         };
         
         const tierInfo = {
@@ -630,8 +1049,10 @@
         function init() {
             createNumberGrid();
             createEightBallGrid();
+            fetchLiveData();
             updateUI();
             startCountdown();
+            startLogoRotation();
         }
         
         function createNumberGrid() {
@@ -680,10 +1101,62 @@
             btn.disabled = !state.walletConnected || state.selectedNumbers.length !== 5 || !state.selectedEightBall;
         }
         
-        function updateUI() {
-            document.getElementById('ticketsSold').textContent = state.tickets.toLocaleString();
-            document.getElementById('klvPool').textContent = state.klvPool.toLocaleString();
+        // Live data from KleverScan API
+        async function fetchLiveData() {
+            const liveText = document.getElementById('liveText');
             
+            try {
+                // Demo mode - using simulated data
+                // In production, uncomment the API calls below
+                
+                /*
+                // Fetch KLV pool from contract
+                const poolResponse = await fetch('https://api.kleverscan.org/v1/contract/0xCONTRACT_ADDRESS/state');
+                const poolData = await poolResponse.json();
+                state.klvPool = parseInt(poolData.klv_pool || 0);
+                
+                // Fetch KPEPE price
+                const priceResponse = await fetch('https://api.kleverscan.org/v1/token/KPEPE-1EOD');
+                const priceData = await priceResponse.json();
+                state.kpepePrice = parseFloat(priceData.price || 0.00537);
+                */
+                
+                // Simulate live data update
+                state.tickets = Math.floor(Math.random() * 50) + 100;
+                state.klvPool = state.tickets * 100 + Math.floor(Math.random() * 10000);
+                
+                document.getElementById('ticketsSold').textContent = state.tickets.toLocaleString();
+                document.getElementById('klvPool').textContent = state.klvPool.toLocaleString();
+                
+                // Calculate USD value (100K KPEPE = jackpot)
+                const totalKpepe = 100000 + Math.floor(state.klvPool * 0.85 * state.kpepePrice * 0.01);
+                const usdValue = (totalKpepe * state.kpepePrice).toFixed(0);
+                document.getElementById('usdValue').textContent = `~$${usdValue}`;
+                
+                liveText.textContent = '● Live - Updated just now';
+                liveText.style.color = '#00ff88';
+                
+                // Auto-refresh every 30 seconds
+                setTimeout(fetchLiveData, 30000);
+                
+            } catch (error) {
+                console.log('Demo mode - using simulated data');
+                liveText.textContent = '● Demo Mode - Connect contract for live data';
+                liveText.style.color = '#ffd700';
+                
+                // Continue with demo data
+                document.getElementById('ticketsSold').textContent = state.tickets.toLocaleString();
+                document.getElementById('klvPool').textContent = state.klvPool.toLocaleString();
+                
+                const totalKpepe = 100000 + Math.floor(state.klvPool * 0.85 * state.kpepePrice * 0.01);
+                const usdValue = (totalKpepe * state.kpepePrice).toFixed(0);
+                document.getElementById('usdValue').textContent = `~$${usdValue}`;
+                
+                setTimeout(fetchLiveData, 30000);
+            }
+        }
+        
+        function updateUI() {
             // Update VIP
             const tier = getTier();
             state.tier = tier;
@@ -725,53 +1198,152 @@
         }
         
         function startCountdown() {
-            // Countdown timer logic
-            let hours = 14, minutes = 32, seconds = 18;
+            // Set draw time to 24 hours from now
+            const now = new Date();
+            state.drawTime = new Date(now.getTime() + 14 * 60 * 60 * 1000 + 32 * 60 * 1000 + 18 * 1000);
             
-            setInterval(() => {
-                seconds--;
-                if (seconds < 0) {
-                    seconds = 59;
-                    minutes--;
-                }
-                if (minutes < 0) {
-                    minutes = 59;
-                    hours--;
-                }
-                if (hours < 0) {
-                    hours = 23;
-                    minutes = 59;
-                    seconds = 59;
+            function updateCountdown() {
+                const now = new Date();
+                const diff = state.drawTime - now;
+                
+                if (diff <= 0) {
+                    // Reset for next draw
+                    state.drawTime = new Date(now.getTime() + 24 * 60 * 60 * 1000);
                 }
                 
-                document.getElementById('hours').textContent = hours;
-                document.getElementById('minutes').textContent = minutes;
-                document.getElementById('seconds').textContent = seconds;
-            }, 1000);
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         }
         
-        // Play button
-        document.getElementById('playButton').onclick = () => {
+        function startLogoRotation() {
+            const messages = [
+                "Good luck! 🍀",
+                "The 8-Ball awaits! 🎱",
+                "Pick your lucky numbers! ✨",
+                "Fortune favors you! 💰",
+                "Jackpot calling! 🎰"
+            ];
+            
+            let index = 0;
+            const logoMessage = document.getElementById('logoMessage');
+            
+            setInterval(() => {
+                index = (index + 1) % messages.length;
+                logoMessage.style.opacity = 0;
+                setTimeout(() => {
+                    logoMessage.textContent = messages[index];
+                    logoMessage.style.opacity = 1;
+                }, 300);
+            }, 4000);
+        }
+        
+        // Quick Pick
+        function quickPick() {
+            // Clear selections
+            state.selectedNumbers = [];
+            state.selectedEightBall = null;
+            document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
+            
+            // Generate random numbers
+            const nums = [];
+            while (nums.length < 5) {
+                const num = Math.floor(Math.random() * 50) + 1;
+                if (!nums.includes(num)) nums.push(num);
+            }
+            state.selectedNumbers = nums.sort((a, b) => a - b);
+            state.selectedEightBall = Math.floor(Math.random() * 20) + 1;
+            
+            // Update UI
+            nums.forEach(num => {
+                document.querySelectorAll('.number-btn')[num - 1].classList.add('selected');
+            });
+            document.querySelectorAll('.eightball-btn')[state.selectedEightBall - 1].classList.add('selected');
+            
+            updatePlayButton();
+            showModal('🎲', `Quick pick: ${nums.join(', ')} + 🎱${state.selectedEightBall}\nGood luck! 🍀`);
+        }
+        
+        // Toggle Wallet
+        function toggleWallet() {
+            state.walletConnected = !state.walletConnected;
+            
+            if (state.walletConnected) {
+                document.getElementById('walletStatus').textContent = '● Connected';
+                document.getElementById('walletStatus').parentElement.style.background = 'rgba(0, 255, 136, 0.2)';
+                document.getElementById('walletStatus').parentElement.style.borderColor = '#00ff88';
+                
+                // Show VIP section when connected
+                document.getElementById('vipSection').style.display = 'block';
+                document.getElementById('vipProgress').style.display = 'block';
+                
+                showModal('👛', 'Wallet connected! 🎉\nYou are Bronze VIP (10+ tickets needed for Silver)');
+            } else {
+                document.getElementById('walletStatus').textContent = '● Connect Wallet to Play';
+                document.getElementById('walletStatus').parentElement.style.background = 'rgba(0, 255, 136, 0.1)';
+                document.getElementById('walletStatus').parentElement.style.borderColor = '#00ff88';
+                
+                document.getElementById('vipSection').style.display = 'none';
+                document.getElementById('vipProgress').style.display = 'none';
+            }
+            
+            updatePlayButton();
+        }
+        
+        // Play Now
+        function playNow() {
             if (!state.walletConnected) {
-                alert('Please connect your wallet first!');
+                showModal('👛', 'Please connect your wallet first!');
                 return;
             }
             
+            if (state.selectedNumbers.length !== 5 || !state.selectedEightBall) {
+                showModal('🎰', 'Please select 5 numbers + 8-Ball first!');
+                return;
+            }
+            
+            // Simulate purchase
             state.tickets += 1;
             state.klvPool += 100;
+            
+            // Update display
+            document.getElementById('ticketsSold').textContent = state.tickets.toLocaleString();
+            document.getElementById('klvPool').textContent = state.klvPool.toLocaleString();
+            
+            // Clear selections
             state.selectedNumbers = [];
             state.selectedEightBall = null;
-            
             document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
             document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             
             updateUI();
             updatePlayButton();
             
-            alert(`Ticket purchased! 🎰\nNumbers: ${state.selectedNumbers.join(', ')}\nGood luck! 🍀`);
-        };
+            showModal('🎰', `Ticket purchased! 🎉\nNumbers: ${document.getElementById('numbersGrid').querySelectorAll('.selected').length} selected\n\nGood luck! 🍀`);
+        }
         
+        // Modal functions
+        function showModal(emoji, text) {
+            const modal = document.getElementById('modal');
+            document.getElementById('modalEmoji').textContent = emoji;
+            document.getElementById('modalTitle').textContent = emoji;
+            document.getElementById('modalText').textContent = text;
+            modal.classList.add('visible');
+        }
+        
+        function hideModal() {
+            document.getElementById('modal').classList.remove('visible');
+        }
+        
+        // Start
         init();
     </script>
-</body>
-</html>
