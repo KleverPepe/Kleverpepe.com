@@ -556,6 +556,46 @@
             color: var(--warning);
         }
 
+        .pool-display-section {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--accent-primary);
+            text-align: center;
+        }
+
+        .pool-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .pool-icon {
+            font-size: 20px;
+        }
+
+        .pool-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pool-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 4px;
+        }
+
+        .pool-usd {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
         .benefits-section {
             background: var(--bg-card);
             border-radius: 16px;
@@ -1054,6 +1094,15 @@
             </div>
         </section>
 
+        <section class="pool-display-section">
+            <div class="pool-header">
+                <span class="pool-icon">💰</span>
+                <span class="pool-title">KLV Prize Pool</span>
+            </div>
+            <div class="pool-amount" id="poolDisplay">127,000 KLV</div>
+            <div class="pool-usd">~$1,090 USD</div>
+        </section>
+
         <section class="benefits-section" id="benefitsSection">
             <div class="benefits-title">Your Tier Benefits</div>
             <div id="benefitsList"></div>
@@ -1140,6 +1189,7 @@
             totalMultiplier: document.getElementById('totalMultiplier'),
             rolloverAmount: document.getElementById('rolloverAmount'),
             klvPool: document.getElementById('klvPool'),
+            poolDisplay: document.getElementById('poolDisplay'),
             milestoneModal: document.getElementById('milestoneModal'),
             modalIcon: document.getElementById('modalIcon'),
             modalTitle: document.getElementById('modalTitle'),
@@ -1179,6 +1229,7 @@
 
             elements.ticketsOwned.textContent = `${state.tickets.toLocaleString()} tickets owned`;
             elements.klvPool.textContent = state.klvPool.toLocaleString();
+            elements.poolDisplay.textContent = `${state.klvPool.toLocaleString()} KLV`;
 
             const tierLevels = { bronze: 1, silver: 2, gold: 3, platinum: 4 };
             elements.tierLevel.textContent = `Level ${tierLevels[tier]} of 4`;
