@@ -3,455 +3,197 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🎱 KPEPE Jackpot - Win KLV + 1M KPEPE Bonus!</title>
+    <title>🎱 KPEPE Jackpot - Win KLV + KPEPE!</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐸</text></svg>">
-    <!-- Klever Web3 SDK (fallback) -->
     <script src="https://cdn.jsdelivr.net/npm/@klever/web3-sdk@latest/dist/klever-web3.min.js"></script>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
       :root {
+        --bg: #0a0a0f;
+        --bg-card: #12121a;
+        --border: rgba(255,255,255,0.08);
         --primary: #4ade80;
-        --purple: #a855f7;
-        --orange: #f97316;
+        --purple: #a78bfa;
         --gold: #fbbf24;
-        --bg-dark: #0f0f1a;
-        --bg-card: #1a1a2e;
-        --text: #ffffff;
-        --text-muted: #9ca3af;
-        --border: rgba(255,255,255,0.1);
+        --orange: #f97316;
+        --red: #ef4444;
+        --text: #f5f5f5;
+        --text-muted: #888;
       }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
       
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: var(--bg-dark);
-        color: var(--text);
-        min-height: 100vh;
-      }
+      .bg-particles { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+      .particle { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50; opacity: 0.3; animation: float 15s infinite; }
+      @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 0.3; } 90% { opacity: 0.3; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
       
-      /* Interactive Background */
-      .bg-particles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        overflow: hidden;
-      }
-      
-      .particle {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background: rgba(168, 85, 247, 0.3);
-        border-radius: 50%;
-        animation: float 15s infinite ease-in-out;
-      }
-      
-      .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-      .particle:nth-child(2) { left: 20%; animation-delay: 2s; background: rgba(74, 222, 128, 0.3); }
-      .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
-      .particle:nth-child(4) { left: 40%; animation-delay: 1s; background: rgba(249, 115, 22, 0.3); }
-      .particle:nth-child(5) { left: 50%; animation-delay: 3s; }
-      .particle:nth-child(6) { left: 60%; animation-delay: 5s; background: rgba(251, 191, 36, 0.3); }
-      .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; }
-      .particle:nth-child(8) { left: 80%; animation-delay: 0.5s; background: rgba(168, 85, 247, 0.3); }
-      .particle:nth-child(9) { left: 90%; animation-delay: 3.5s; }
-      
-      @keyframes float {
-        0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translateY(-100px) scale(1); opacity: 0; }
-      }
-      
-      .glow-orb {
-        position: fixed;
-        width: 400px;
-        height: 400px;
-        border-radius: 50%;
-        filter: blur(100px);
-        opacity: 0.15;
-        pointer-events: none;
-        z-index: 0;
-      }
-      
+      .glow-orb { position: fixed; width: 400px; height: 400px; border-radius: 50%; filter: blur(100px); opacity: 0.15; pointer-events: none; z-index: 0; }
       .glow-orb.purple { top: -200px; left: -200px; background: var(--purple); animation: pulse-purple 8s ease-in-out infinite; }
       .glow-orb.green { bottom: -200px; right: -200px; background: var(--primary); animation: pulse-green 8s ease-in-out infinite 4s; }
-      .glow-orb.orange { top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--orange); animation: pulse-orange 8s ease-in-out infinite 2s; }
-      
       @keyframes pulse-purple { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.1); } }
       @keyframes pulse-green { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.1); } }
-      @keyframes pulse-orange { 0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.2); } }
       
-      .container { position: relative; z-index: 1; max-width: 500px; margin: 0 auto; padding: 16px; }
+      .container { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 16px; }
       
       /* Header */
       .header { text-align: center; padding: 20px 0 16px; }
-      .header h1 { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-      .header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
-      .network-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; background: rgba(251, 191, 36, 0.15); color: var(--gold); margin-top: 10px; }
-      
-      /* Interactive Header 8-Ball */
       .header-8ball { font-size: 2.5rem; display: inline-block; animation: float-8ball 4s ease-in-out infinite; cursor: pointer; transition: all 0.3s ease; }
       .header-8ball:hover { animation: spin-8ball 0.6s ease-out; transform: scale(1.1); filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.8)); }
       @keyframes float-8ball { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-10px) rotate(5deg); } }
       @keyframes spin-8ball { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
       
-      /* Header tagline */
-      .header-tagline { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
-      .tagline-text { color: var(--text-muted); font-size: 0.85rem; }
-      .tagline-highlight { background: linear-gradient(135deg, var(--purple), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-      .tagline-balls { display: flex; gap: 4px; }
-      .tagline-ball { width: 20px; height: 20px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; color: #fff; }
-      .tagline-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; }
+      .header h1 { font-size: 1.8rem; font-weight: 900; margin-top: 12px; background: linear-gradient(135deg, var(--primary), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .jackpot-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2)); border: 1px solid rgba(251, 191, 36, 0.4); padding: 10px 20px; border-radius: 30px; margin: 12px 0; }
+      .jackpot-badge-text { text-align: left; }
+      .jackpot-badge-label { font-size: 0.7rem; color: var(--text-muted); }
+      .jackpot-badge-amount { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
+      .header-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; }
+      .trust-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-top: 8px; }
       
-      /* Jackpot Card */
-      .jackpot-card { background: linear-gradient(145deg, rgba(168, 85, 247, 0.12), rgba(74, 222, 128, 0.08)); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 20px; padding: 24px; text-align: center; margin-bottom: 16px; position: relative; overflow: hidden; }
-      .jackpot-card::before { content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 50%); animation: rotate 20s linear infinite; }
-      @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-      .jackpot-content { position: relative; z-index: 2; }
-      
-      /* Interactive Frog */
-      .frog-logo { font-size: 3rem; cursor: pointer; transition: all 0.3s ease; display: inline-block; animation: bounce-frog 3s ease-in-out infinite; }
-      .frog-logo:hover { transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.8)); }
-      @keyframes bounce-frog { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-      
-      .jackpot-amount { font-size: 2.5rem; font-weight: 900; background: linear-gradient(135deg, var(--purple), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
-      .jackpot-usd { color: var(--text-muted); font-size: 0.9rem; }
-      .grand-prize { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 10px 20px; border-radius: 30px; margin: 16px 0; font-weight: 700; font-size: 0.95rem; animation: glow-prize 2s ease-in-out infinite; }
-      @keyframes glow-prize { 0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); } 50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.5); } }
-      
-      /* Grand Prize Highlight */
-      .grand-prize { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, var(--purple), var(--orange)); padding: 12px 24px; border-radius: 30px; margin: 12px 0; font-weight: 700; font-size: 1.1rem; animation: glow-prize 2s ease-in-out infinite; }
-      .grand-prize .prize-highlight { background: linear-gradient(135deg, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-      @keyframes glow-prize { 0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); } 50% { box-shadow: 0 0 35px rgba(249, 115, 22, 0.6); } }
-      
-      .pool-amount { font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, var(--primary), #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
-      
-      /* Countdown */
-      .countdown { background: rgba(251, 191, 36, 0.1); border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 16px; }
-      .countdown-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
-      .countdown-timer { display: flex; justify-content: center; gap: 12px; }
-      .countdown-unit { background: rgba(251, 191, 36, 0.2); padding: 10px 16px; border-radius: 10px; min-width: 60px; }
-      .countdown-value { font-size: 1.6rem; font-weight: 800; color: var(--gold); }
-      .countdown-unit-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+      /* Wallet */
+      .wallet-section { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg-card); padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; border: 1px solid var(--border); }
+      .wallet-status { font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
+      .wallet-status.connected { color: var(--primary); }
+      .wallet-status.disconnected { color: var(--text-muted); }
+      .wallet-status span { font-size: 0.7rem; }
+      .wallet-section .buy-btn { padding: 10px 20px; font-size: 0.9rem; }
       
       /* Section Card */
-      .section-card { background: var(--bg-card); border-radius: 16px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border); }
-      .section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 600; }
-      .section-title .badge { background: var(--purple); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-      .section-title .badge.complete { background: var(--primary); color: #000; }
+      .section-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+      .section-title { font-weight: 700; font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+      .badge { font-size: 0.65rem; padding: 3px 8px; border-radius: 10px; background: rgba(251, 191, 36, 0.15); color: var(--gold); font-weight: 600; }
       
-      /* Number Grid - ALL VISIBLE */
-      .number-grid { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 100%; }
+      /* How to Play */
+      .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .step { text-align: center; padding: 12px 8px; background: rgba(255,255,255,0.03); border-radius: 12px; }
+      .step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.9rem; margin: 0 auto 8px; }
+      .step-1 { background: linear-gradient(135deg, var(--primary), #22c55e); }
+      .step-2 { background: linear-gradient(135deg, var(--purple), #c084fc); }
+      .step-3 { background: linear-gradient(135deg, var(--gold), #f59e0b); }
+      .step-title { font-weight: 700; font-size: 0.8rem; margin-bottom: 4px; }
+      .step-desc { font-size: 0.7rem; color: var(--text-muted); }
       
-      .number-btn { 
-        width: 36px; 
-        height: 36px; 
-        border-radius: 50%; 
-        border: 2px solid rgba(255,255,255,0.3); 
-        background: #2a2a3e; 
-        color: #ffffff; 
-        font-size: 0.85rem; 
-        font-weight: 700; 
-        cursor: pointer; 
-        transition: all 0.2s; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .number-btn:hover { border-color: var(--purple); background: rgba(168, 85, 247, 0.3); transform: scale(1.1); }
-      .number-btn.selected { background: linear-gradient(135deg, var(--purple), #7c3aed); border-color: var(--purple); color: #fff; box-shadow: 0 0 15px rgba(168, 85, 247, 0.6); transform: scale(1.1); }
+      /* Countdown */
+      .countdown { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(249, 115, 22, 0.1)); border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 16px; border: 1px solid rgba(139, 92, 246, 0.2); }
+      .countdown-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+      .countdown-timer { display: flex; justify-content: center; gap: 12px; }
+      .countdown-unit { text-align: center; }
+      .countdown-value { font-size: 2rem; font-weight: 900; color: var(--text); font-variant-numeric: tabular-nums; }
+      .countdown-unit-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
       
-      /* Pool 8 Ball */
-      .pool-8ball { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: #fff; position: relative; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-      
-      .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; }
-      .number-btn.eightball:hover { background: linear-gradient(145deg, #333, #111); box-shadow: 0 0 15px rgba(255,255,255,0.5); transform: scale(1.1); }
-      .number-btn.eightball.selected { background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.6); transform: scale(1.1); }
-      
-      /* Ticket Preview */
-      .ticket-preview { background: rgba(74, 222, 128, 0.08); border: 2px dashed rgba(74, 222, 128, 0.25); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
-      .ticket-numbers { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-      .ticket-num { width: 34px; height: 34px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
-      .ticket-num.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 2px solid #fff; color: #fff; }
-      .ticket-empty { color: var(--text-muted); font-size: 0.8rem; }
+      /* Number Picker */
+      .number-section { margin-bottom: 16px; }
+      .number-label { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+      .number-grid { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 12px; }
+      .number-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--border); background: var(--bg-card); color: var(--text); font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+      .number-btn:hover { border-color: var(--primary); background: rgba(74, 222, 128, 0.1); }
+      .number-btn.selected { background: var(--primary); border-color: var(--primary); color: #000; }
+      .number-btn.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border-color: #fff; color: #fff; }
+      .number-btn.eightball.selected { background: #fff; color: #000; }
       
       /* Quick Pick */
-      .quick-pick { display: flex; justify-content: center; gap: 10px; margin-bottom: 12px; }
-      .quick-btn { padding: 8px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: var(--text); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
-      .quick-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(251, 191, 36, 0.1); }
-      
-      /* Cost */
-      .cost-display { background: var(--bg-card); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-      .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 0.85rem; }
-      .cost-row.total { border-top: 1px dashed var(--border); margin-top: 8px; padding-top: 10px; font-weight: 700; font-size: 1rem; }
-      .cost-row .pool { color: var(--primary); }
-      .cost-row .project { color: var(--purple); }
+      .quick-pick { display: flex; gap: 10px; margin-bottom: 16px; }
+      .quick-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+      .quick-btn:hover { border-color: var(--primary); background: rgba(74, 222, 128, 0.1); }
       
       /* Buy Button */
-      .buy-btn { width: 100%; padding: 14px; border: none; border-radius: 12px; background: linear-gradient(135deg, var(--primary), #22c55e); color: #000; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
-      .buy-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74, 222, 128, 0.3); }
-      .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .buy-btn { background: linear-gradient(135deg, var(--primary), #22c55e); border: none; border-radius: 12px; padding: 14px 24px; color: #000; font-weight: 800; font-size: 1rem; cursor: pointer; width: 100%; transition: all 0.2s; }
+      .buy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 222, 128, 0.3); }
+      .buy-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
       
-      /* Prize Tables */
-      .prize-table { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-      .prize-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+      /* Prize Table */
+      .prize-table { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+      .prize-header { font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; }
       .prize-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
       .prize-row:last-child { border-bottom: none; }
       .prize-match { display: flex; align-items: center; gap: 6px; }
       .prize-balls { display: flex; gap: 3px; }
       .prize-ball { width: 22px; height: 22px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; }
       .prize-ball.eightball { background: linear-gradient(145deg, #1a1a1a, #000); border: 1px solid #fff; color: #fff; }
-      .prize-amount { font-weight: 700; color: var(--primary); }
-      .prize-row.jackpot { background: linear-gradient(90deg, rgba(74, 222, 128, 0.15), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
-      .prize-row.jackpot .prize-match { color: var(--primary); font-weight: 700; }
+      .prize-amount { font-weight: 700; color: var(--primary); text-align: right; }
+      .prize-kpepe { display: block; font-size: 0.7rem; color: var(--gold); margin-top: 2px; }
+      .prize-row.jackpot { background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), transparent); margin: -8px -16px 8px; padding: 10px 16px; border-radius: 10px; border-bottom: none; }
+      .prize-row.jackpot .prize-match { color: var(--gold); font-weight: 700; }
       .prize-row.jackpot .prize-amount { color: var(--gold); }
       
-      /* KPEPE prize section */
-      .kpepe-section { background: linear-gradient(145deg, rgba(168, 85, 247, 0.2), rgba(249, 115, 22, 0.15)); border: 2px solid rgba(168, 85, 247, 0.5); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
-      .kpepe-section .prize-header { color: var(--gold); font-weight: 800; font-size: 1.1rem; }
-      .kpepe-section .prize-amount { color: var(--gold); font-weight: 900; font-size: 1.1rem; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
-      .kpepe-section .prize-row { border-bottom-color: rgba(251, 191, 36, 0.3); }
-      .kpepe-section .prize-row.jackpot { background: linear-gradient(90deg, rgba(168, 85, 247, 0.3), transparent); margin: -8px -16px 8px; padding: 12px 16px; border-radius: 10px; border-bottom: none; }
-      .kpepe-section .prize-row.jackpot .prize-match { color: var(--gold); font-weight: 800; }
-      .kpepe-section .prize-balls .prize-ball.eightball { color: #fff; }
+      /* KPEPE Pool Info */
+      .kpepe-pool { background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(249, 115, 22, 0.1)); border-radius: 12px; padding: 14px; margin-bottom: 12px; border: 1px solid rgba(251, 191, 36, 0.2); }
+      .kpepe-pool-title { font-size: 0.8rem; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+      .kpepe-pool-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+      .kpepe-stat { padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px; }
+      .kpepe-stat-value { font-size: 1rem; font-weight: 800; }
+      .kpepe-stat-label { font-size: 0.6rem; color: var(--text-muted); }
       
-      /* Wallet */
-      .wallet-section { background: var(--bg-card); border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 12px; }
-      .wallet-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 10px; }
-      .wallet-status.disconnected { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-      .wallet-status.connected { background: rgba(74, 222, 128, 0.15); color: var(--primary); }
+      /* Instant Prizes */
+      .instant-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(16, 185, 129, 0.15); border-radius: 20px; font-size: 0.75rem; color: #10b981; margin-bottom: 10px; }
       
-      .footer { text-align: center; padding: 16px; color: var(--text-muted); font-size: 0.75rem; }
+      /* Footer */
+      .footer { text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.6; }
       
-      /* Frog Popup */
-      #frog-popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, var(--purple), var(--orange));
-        padding: 20px 40px;
-        border-radius: 16px;
-        font-weight: 700;
-        font-size: 1.2rem;
-        color: #fff;
-        z-index: 9999;
-        animation: popup-bounce 0.5s ease-out;
-        box-shadow: 0 0 50px rgba(168, 85, 247, 0.8);
-        text-align: center;
-        min-width: 200px;
-        display: none;
-      }
+      /* Frog popup */
+      #frog-popup { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--bg-card); padding: 10px 20px; border-radius: 10px; font-size: 0.9rem; z-index: 1000; opacity: 0; transition: opacity 0.3s; pointer-events: none; border: 1px solid var(--border); }
+      #frog-popup.show { opacity: 1; }
       
-      @keyframes popup-bounce {
-        0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-        50% { transform: translate(-50%, -50%) scale(1.1); }
-        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      /* Responsive */
+      @media (max-width: 400px) {
+        .header h1 { font-size: 1.5rem; }
+        .steps-grid { gap: 8px; }
+        .countdown-value { font-size: 1.5rem; }
       }
     </style>
   </head>
   <body>
-    <!-- Interactive Background -->
+    <div id="frog-popup"></div>
     <div class="bg-particles">
-      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+      <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+      <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+      <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+      <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
     </div>
     <div class="glow-orb purple"></div>
     <div class="glow-orb green"></div>
-    <div class="glow-orb orange"></div>
-
-    <!-- Network/Extension banner -->
-    <div id="network-banner" style="display:none; position:fixed; top:0; left:0; right:0; padding:10px; background:#f97316; color:#0f0f1a; font-weight:700; text-align:center; z-index:50; box-shadow:0 2px 6px rgba(0,0,0,0.35);">
-      ⚠️ Klever Wallet Required! Install <a href="https://klever.io/wallet" target="_blank" style="color:#0f0f1a; text-decoration:underline;">Klever Extension</a>, then <button onclick="location.reload()" style="background:#0f0f1a; color:#f97316; border:none; padding:4px 12px; border-radius:4px; cursor:pointer; font-weight:700; margin-left:8px;">Reload Page</button>
-    </div>
-    
-    <!-- Frog Popup -->
-    <div id="frog-popup"></div>
     
     <div class="container">
       <!-- Header -->
-      <div class="header" style="padding: 24px 0 20px;">
-        <div class="header-8ball" onclick="showFrogMessage()" style="font-size: 2.5rem;">🎱</div>
-        <h1 style="font-size: 2rem; font-weight: 900; margin-top: 12px; background: linear-gradient(135deg, var(--primary), var(--gold), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">KPEPE JACKPOT</h1>
-        
-        <!-- Jackpot Badge -->
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.2)); border: 1px solid rgba(251, 191, 36, 0.4); padding: 10px 20px; border-radius: 30px; margin: 12px 0;">
-          <span style="font-size: 1.5rem;">💰</span>
-          <div style="text-align: left;">
-            <div style="font-size: 0.75rem; color: var(--text-muted);">JACKPOT</div>
-            <div style="font-size: 1.1rem; font-weight: 900; color: #fbbf24;">100,000 KPEPE</div>
+      <div class="header">
+        <div class="header-8ball" onclick="showFrogMessage()">🎱</div>
+        <h1>KPEPE JACKPOT</h1>
+        <div class="jackpot-badge">
+          <span style="font-size: 1.3rem;">💰</span>
+          <div class="jackpot-badge-text">
+            <div class="jackpot-badge-label">JACKPOT</div>
+            <div class="jackpot-badge-amount">100,000 KPEPE</div>
           </div>
         </div>
-        
-        <!-- Jackpot Info -->
-        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
-          🎯 Jackpot <span style="color: #4ade80;">carries over</span> until won! + 100K KPEPE tier prizes every draw
-        </div>
-        
-        <!-- Stats Row -->
-        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;">
-          <div style="padding: 8px 16px; background: rgba(139, 92, 246, 0.15); border-radius: 10px; text-align: center;">
-            <div style="font-size: 0.7rem; color: var(--text-muted);">⏰ Next Draw</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #a78bfa;">~14h</div>
-          </div>
-          <div style="padding: 8px 16px; background: rgba(74, 222, 128, 0.15); border-radius: 10px; text-align: center;">
-            <div style="font-size: 0.7rem; color: var(--text-muted);">🎟️ Sold</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #4ade80;">127</div>
-          </div>
-          <div style="padding: 8px 16px; background: rgba(251, 191, 36, 0.15); border-radius: 10px; text-align: center;">
-            <div style="font-size: 0.7rem; color: var(--text-muted);">💰 Pool</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #fbbf24;">10.7K KLV</div>
-          </div>
-        </div>
-        
-        <!-- Trust Badge -->
-        <div class="network-badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; margin-top: 8px;">
-          🔗 KleverChain Mainnet  │  ⚡ Instant Payout  │  🔒 Secure
-        </div>
+        <div class="header-sub">🎯 Jackpot carries over! + tier prizes every draw</div>
+        <div class="trust-badge">🔗 KleverChain Mainnet  │  ⚡ Instant Payout</div>
       </div>
       
-      <!-- Wallet (TOP PRIORITY) -->
+      <!-- Wallet -->
       <div class="wallet-section">
-        <div id="wallet-warning" style="display:none; color:#f97316; font-size:0.85rem; margin-bottom:6px;">
-          ⚠️ No wallet detected. Install <a href="https://klever.io/wallet" target="_blank" style="color:#f97316; text-decoration:underline;">Klever Extension</a> or <a href="https://metamask.io" target="_blank" style="color:#f97316; text-decoration:underline;">MetaMask</a>
-        </div>
         <div class="wallet-status disconnected" id="wallet-status"><span>●</span> Not Connected</div>
-        <button class="buy-btn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect Wallet</button>
-      </div>
-      
-      <!-- Hero: KPEPE Bonus Pool -->
-      <div class="jackpot-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(249, 115, 22, 0.15)); border: 1px solid rgba(168, 85, 247, 0.3);">
-        <div class="jackpot-content">
-          <div class="frog-logo" onclick="showFrogMessage()">🐸</div>
-          <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px;">🎁 KPEPE Bonus Pool</div>
-          <div class="prize-highlight" style="font-size: 1.8rem; font-weight: 900; color: #fbbf24; line-height: 1.2;">1 Million<br>KPEPE</div>
-          <div style="font-size: 0.85rem; color: var(--text-muted); margin: 8px 0;">Total Fund Available</div>
-          
-          <!-- Quick Stats -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0;">
-            <div style="padding: 8px; background: rgba(251, 191, 36, 0.15); border-radius: 6px; text-align: center;">
-              <div style="font-size: 1rem; font-weight: 700; color: #fbbf24;">100K</div>
-              <div style="font-size: 0.65rem; color: var(--text-muted);">Jackpot</div>
-            </div>
-            <div style="padding: 8px; background: rgba(74, 222, 128, 0.15); border-radius: 6px; text-align: center;">
-              <div style="font-size: 1rem; font-weight: 700; color: #4ade80;">100K</div>
-              <div style="font-size: 0.65rem; color: var(--text-muted);">Per Draw</div>
-            </div>
-            <div style="padding: 8px; background: rgba(59, 130, 246, 0.15); border-radius: 6px; text-align: center;">
-              <div style="font-size: 1rem; font-weight: 700; color: #3b82f6;">800K</div>
-              <div style="font-size: 0.65rem; color: var(--text-muted);">Reserve</div>
-            </div>
-          </div>
-          
-          <!-- Prize System Explanation -->
-          <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.6; margin: 12px 0; padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.2);">
-            <div style="color: #fbbf24; font-weight: 700; margin-bottom: 4px;">💰 JACKPOT: 100K KPEPE</div>
-            <div style="margin-bottom: 8px;">→ Match 5+8Ball to win the jackpot!</div>
-            <div style="color: #4ade80; font-weight: 700; margin-bottom: 4px;">🎯 TIER PRIZES: 100K KPEPE every draw</div>
-            <div>→ Distributed across 8 prize tiers, guaranteed every draw!</div>
-          </div>
-          
-          <!-- Reserve Progress Bar -->
-          <div style="margin: 12px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;">
-              <span>📦 Reserve Remaining</span>
-              <span id="reserve-percent">80%</span>
-            </div>
-            <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-              <div id="reserve-bar" style="width: 80%; height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); border-radius: 4px; transition: width 0.5s ease;"></div>
-            </div>
-            <div style="font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; text-align: center;">Refills jackpot when won + tier prizes every draw</div>
-          </div>
-          
-          <div class="pool-amount"><span id="jackpot-klv">0</span> KLV</div>
-          <div class="jackpot-usd" id="jackpot-usd">Total: $0 USD (inc. 1M KPEPE)</div>
-          <div style="margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
-            <button onclick="showCalculatedPool()" style="padding: 6px 16px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.3); background: rgba(74,222,128,0.1); color: #4ade80; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(74,222,128,0.2)'" onmouseout="this.style.background='rgba(74,222,128,0.1)'">
-              🔄 Refresh Pool
-            </button>
-            <div style="font-size: 0.75rem; color: #fbbf24;">📊 Based on confirmed tickets</div>
-          </div>
-        </div>
+        <button class="buy-btn" style="width: auto; padding: 10px 20px; font-size: 0.9rem;" onclick="connectWallet()">🔗 Connect</button>
       </div>
       
       <!-- How to Play -->
       <div class="section-card">
         <div class="section-title">🎮 How to Play</div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-          <div style="text-align: center;">
-            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--primary), #22c55e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; margin: 0 auto 8px;">1</div>
-            <div style="font-weight: 700; color: var(--primary); margin-bottom: 4px;">Pick Numbers</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Select 5 numbers (1-50) + 8Ball</div>
+        <div class="steps-grid">
+          <div class="step">
+            <div class="step-num step-1">1</div>
+            <div class="step-title" style="color: var(--primary);">Pick Numbers</div>
+            <div class="step-desc">5 numbers + 8Ball</div>
           </div>
-          <div style="text-align: center;">
-            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--purple), #c084fc); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; margin: 0 auto 8px;">2</div>
-            <div style="font-weight: 700; color: var(--purple); margin-bottom: 4px;">Buy Ticket</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">100 KLV per ticket</div>
+          <div class="step">
+            <div class="step-num step-2">2</div>
+            <div class="step-title" style="color: var(--purple);">Buy Ticket</div>
+            <div class="step-desc">100 KLV per ticket</div>
           </div>
-          <div style="text-align: center;">
-            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, var(--gold), #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; margin: 0 auto 8px;">3</div>
-            <div style="font-weight: 700; color: var(--gold); margin-bottom: 4px;">Win Prizes!</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">KLV + KPEPE automatically</div>
+          <div class="step">
+            <div class="step-num step-3">3</div>
+            <div class="step-title" style="color: var(--gold);">Win Prizes!</div>
+            <div class="step-desc">KLV + KPEPE</div>
           </div>
-        </div>
-      </div>
-
-      <!-- Last Winning Numbers -->
-      <div class="section-card" id="last-draw-section" style="display: none;">
-        <div class="section-title">🎲 Last Draw Results</div>
-        <div style="text-align: center; padding: 20px;">
-          <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;" id="last-draw-date">Draw #1 - Jan 27, 2026</div>
-          <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
-            <div style="display: flex; gap: 8px;">
-              <div class="prize-ball" id="last-num-1">5</div>
-              <div class="prize-ball" id="last-num-2">12</div>
-              <div class="prize-ball" id="last-num-3">23</div>
-              <div class="prize-ball" id="last-num-4">34</div>
-              <div class="prize-ball" id="last-num-5">47</div>
-            </div>
-            <div style="font-size: 1.5rem; color: var(--text-muted);">+</div>
-            <div class="prize-ball eightball" id="last-8ball">8</div>
-          </div>
-          <div style="margin-top: 16px;">
-            <button onclick="checkMyTickets()" style="padding: 8px 20px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.3); background: rgba(74,222,128,0.1); color: #4ade80; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(74,222,128,0.2)'" onmouseout="this.style.background='rgba(74,222,128,0.1)'">
-              ✓ Check My Tickets
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lottery Stats -->
-      <div class="section-card">
-        <div class="section-title">📈 Lottery Stats</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div style="padding: 12px; background: rgba(74,222,128,0.1); border-radius: 8px;">
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Paid Tickets</div>
-            <div style="font-size: 1.5rem; font-weight: 900; color: #4ade80;" id="stat-paid-tickets">0</div>
-            <div style="font-size: 0.7rem; color: var(--text-muted);">Contributes to pool</div>
-          </div>
-          <div style="padding: 12px; background: rgba(132,204,22,0.1); border-radius: 8px;">
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Free Tickets</div>
-            <div style="font-size: 1.5rem; font-weight: 900; color: #84cc16;" id="stat-free-tickets">0</div>
-            <div style="font-size: 0.7rem; color: var(--text-muted);">50K KPEPE stakers only</div>
-          </div>
-          <div style="padding: 12px; background: rgba(249,115,22,0.1); border-radius: 8px; grid-column: 1 / -1;">
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Current KLV Pool</div>
-            <div style="font-size: 1.5rem; font-weight: 900; color: #f97316;" id="stat-pool-amount">0 KLV</div>
-            <div style="font-size: 0.7rem; color: var(--text-muted);">85% of ticket sales distributed as prizes!</div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Previous Winners -->
-      <div class="section-card" id="winners-section" style="display: none;">
-        <div class="section-title">🏆 Recent Winners</div>
-        <div id="winners-list" style="max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px;">
-          <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center;">No winners yet</div>
         </div>
       </div>
       
@@ -459,601 +201,154 @@
       <div class="countdown">
         <div class="countdown-label">Next draw in</div>
         <div class="countdown-timer">
-          <div class="countdown-unit"><div class="countdown-value" id="timer-h">00</div><div class="countdown-unit-label">Hrs</div></div>
-          <div class="countdown-unit"><div class="countdown-value" id="timer-m">00</div><div class="countdown-unit-label">Min</div></div>
-          <div class="countdown-unit"><div class="countdown-value" id="timer-s">00</div><div class="countdown-unit-label">Sec</div></div>
-        </div>
-        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; text-align: center;" id="next-draw-date">Daily at 12:00 AM UTC</div>
-      </div>
-      
-      <!-- Free Ticket Claim -->
-      <div class="section-card" id="free-ticket-section" style="display: none;">
-        <div class="section-title">
-          <span>🎁 Free Daily Ticket</span>
-          <div class="badge">50K KPEPE Stakers</div>
-        </div>
-        <div style="text-align: center; padding: 20px;">
-          <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
-            You're eligible for 1 free ticket per day!
-          </div>
-          <div style="display: flex; gap: 12px; align-items: center; justify-content: center; margin-bottom: 16px;">
-            <div style="padding: 8px 16px; background: rgba(132,204,22,0.1); border-radius: 8px; border: 1px solid rgba(132,204,22,0.3);">
-              <div style="font-size: 0.7rem; color: var(--text-muted);">Your KPEPE Stake</div>
-              <div style="font-size: 1.2rem; font-weight: 900; color: #84cc16;" id="user-kpepe-stake">50,000+</div>
-            </div>
-            <div style="padding: 8px 16px; background: rgba(74,222,128,0.1); border-radius: 8px; border: 1px solid rgba(74,222,128,0.3);">
-              <div style="font-size: 0.7rem; color: var(--text-muted);">Next Claim</div>
-              <div style="font-size: 1.2rem; font-weight: 900; color: #4ade80;" id="next-free-claim">Available Now</div>
-            </div>
-          </div>
-          <button class="buy-btn" onclick="claimFreeTicket()" id="claim-free-btn" style="background: linear-gradient(135deg, #84cc16, #65a30d);">
-            🎟️ Claim Free Ticket
-          </button>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 12px;">
-            Ticket expires before daily draw. Use Quick Pick to select numbers automatically.
-          </div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-h">14</div><div class="countdown-unit-label">Hrs</div></div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-m">32</div><div class="countdown-unit-label">Min</div></div>
+          <div class="countdown-unit"><div class="countdown-value" id="timer-s">18</div><div class="countdown-unit-label">Sec</div></div>
         </div>
       </div>
       
-      <!-- My Tickets -->
-      <div class="section-card" id="my-tickets-section" style="display: none;">
-        <div class="section-title">
-          <span>🎫 My Tickets</span>
-          <div class="badge" id="my-tickets-count">0</div>
-        </div>
-        <div id="my-tickets-list" style="max-height: 400px; overflow-y: auto;">
-          <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 40px 20px;">
-            Connect your wallet and buy tickets to see them here.
-          </div>
-        </div>
-      </div>
-      
-      <!-- Ticket Preview -->
-      <div class="ticket-preview">
-        <div style="font-size: 0.8rem; color: var(--text-muted);">Your Numbers</div>
-        <div class="ticket-numbers" id="ticket-numbers"><span class="ticket-empty">Pick numbers or Quick Pick</span></div>
-      </div>
-      
-      <!-- Quick Pick -->
-      <div class="quick-pick">
-        <button class="quick-btn" onclick="quickPick()">🎲 Quick Pick</button>
-        <button class="quick-btn" onclick="clearSelection()">🗑️ Clear</button>
-      </div>
-      
-      <!-- Main Numbers - ALL 50 VISIBLE -->
-      <div class="section-card">
-        <div class="section-title"><span>Main Numbers (1-50)</span><span class="badge" id="main-count">0/5</span></div>
+      <!-- Number Picker -->
+      <div class="number-section">
+        <div class="number-label">Pick 5 numbers (1-50)</div>
         <div class="number-grid" id="main-numbers"></div>
-      </div>
-      
-      <!-- Lucky 8Ball - ALL 20 VISIBLE -->
-      <div class="section-card">
-        <div class="section-title">
-          <div style="display: flex; align-items: center; gap: 8px;"><div class="pool-8ball">8</div><span>Lucky 8Ball (1-20)</span></div>
-          <span class="badge" id="8b-count">0/1</span>
-        </div>
+        
+        <div class="number-label" style="margin-top: 12px;">Pick Lucky 8Ball (1-20)</div>
         <div class="number-grid" id="eightball-numbers"></div>
       </div>
       
-      <!-- Buy Button -->
-      <button class="buy-btn" id="buy-btn" onclick="buyTickets()">🎫 Buy Ticket (100 KLV)</button>
+      <button class="quick-btn" onclick="quickPick()">🎲 Quick Pick</button>
       
-      <!-- Prize Pool -->
+      <button class="buy-btn" id="buy-btn" onclick="buyTickets()" style="margin-top: 12px;">🎫 Buy Ticket (100 KLV)</button>
+      
+      <!-- Prize Table -->
       <div class="prize-table">
-        <div class="prize-header">🏆 Prize Pool - Win KLV + KPEPE!</div>
-        <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-bottom: 12px; padding: 0 12px;">
-          85% of ticket sales distributed as prizes | 1M KPEPE bonus pool until exhausted
-        </div>
+        <div class="prize-header">🏆 Win KLV + KPEPE!</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
-          <span class="prize-amount" id="prize-jackpot">0 KLV <span style="color: #fbbf24; font-size: 0.85rem;">+ 100K KPEPE 🎁</span></span>
+          <span class="prize-amount">Pool + 100K KPEPE</span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 31K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 20K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 13K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 13K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">0 KLV <span style="color: #4ade80; font-size: 0.8rem;">+ 9K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">0 KLV <span style="color: #4ade80; font-size: 0.8rem;">+ 7K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">0 KLV <span style="color: #4ade80; font-size: 0.8rem;">+ 4K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">0 KLV <span style="color: #4ade80; font-size: 0.8rem;">+ 2K KPEPE 🎁</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><span id="prize-match5">0 KLV</span><span class="prize-kpepe">+ 31K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><span id="prize-match4_8b">0 KLV</span><span class="prize-kpepe">+ 20K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><span id="prize-match4">0 KLV</span><span class="prize-kpepe">+ 13K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><span id="prize-match3_8b">0 KLV</span><span class="prize-kpepe">+ 13K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount"><span id="prize-match3">0 KLV</span><span class="prize-kpepe">+ 9K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount"><span id="prize-match2_8b">0 KLV</span><span class="prize-kpepe">+ 7K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount"><span id="prize-match1_8b">0 KLV</span><span class="prize-kpepe">+ 4K KPEPE</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball</span></div><span class="prize-amount"><span id="prize-luckyball">0 KLV</span><span class="prize-kpepe">+ 2K KPEPE</span></span></div>
       </div>
       
-      <!-- Automatic Prize Distribution -->
+      <!-- KPEPE Pool Info -->
+      <div class="kpepe-pool">
+        <div class="kpepe-pool-title">🎁 1 Million KPEPE Bonus Pool!</div>
+        <div class="kpepe-pool-stats">
+          <div class="kpepe-stat">
+            <div class="kpepe-stat-value" style="color: var(--gold);">100K</div>
+            <div class="kpepe-stat-label">Jackpot</div>
+          </div>
+          <div class="kpepe-stat">
+            <div class="kpepe-stat-value" style="color: var(--primary);">100K</div>
+            <div class="kpepe-stat-label">Per Draw</div>
+          </div>
+          <div class="kpepe-stat">
+            <div class="kpepe-stat-value" style="color: #3b82f6;">800K</div>
+            <div class="kpepe-stat-label">Reserve</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Instant Prizes -->
       <div class="section-card">
-        <div class="section-title">
-          <span>✨ Instant Prizes</span>
-          <div class="badge">Auto-Paid</div>
-        </div>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">
-          ✅ Prizes sent <strong>automatically</strong> to your wallet when you win!
-        </p>
-        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-          <div style="text-align: center; padding: 12px 20px; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2);">
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">🎟️</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Buy Ticket</div>
-          </div>
-          <div style="text-align: center; padding: 12px 20px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; border: 1px solid rgba(139, 92, 246, 0.2);">
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">🎲</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Wait for Draw</div>
-          </div>
-          <div style="text-align: center; padding: 12px 20px; background: rgba(251, 191, 36, 0.1); border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.2);">
-            <div style="font-size: 1.5rem; margin-bottom: 4px;">💰</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted);">Collect Winnings</div>
-          </div>
+        <div class="instant-badge">✨ Instant Prizes</div>
+        <div style="font-size: 0.9rem; color: var(--text);">
+          Prizes sent <strong>automatically</strong> to your wallet when you win!
         </div>
       </div>
       
-      <div class="footer">🎱 KPEPE Jackpot on KleverChain<br><span style="opacity: 0.6;">Mainnet</span></div>
+      <div class="footer">🎱 KPEPE Jackpot on KleverChain</div>
     </div>
 
     <script>
-      // Validate configuration
-      function validateConfig() {
-        const issues = [];
-        
-        // Check contract address - now using real deployed address
-        if (!CONTRACT_ADDRESS || CONTRACT_ADDRESS === "PLACEHOLDER") {
-          issues.push("⚠️  CONTRACT_ADDRESS not set. Update after deploying contract.");
-        }
-        
-        // Log deployed contract address
-        if (CONTRACT_ADDRESS && !CONTRACT_ADDRESS.includes('placeholder')) {
-          console.log('📝 Using deployed contract address:', CONTRACT_ADDRESS);
-        }
-        
-        if (!KPEPE_TOKEN_ADDRESS || KPEPE_TOKEN_ADDRESS === "unknown") {
-          issues.push("⚠️  KPEPE_TOKEN_ADDRESS not set. Update in .env.example.");
-        }
-        
-        if (issues.length > 0) {
-          console.warn("Configuration Warnings:");
-          issues.forEach(issue => console.warn(issue));
-        }
-      }
-
+      // Config
       const TICKET_PRICE = 1, POOL_SHARE = 0.85, MAIN_NUMBERS = 50, EIGHTBALL_NUMBERS = 20, MAIN_PICK = 5;
       let selectedMainNumbers = [], selectedEightball = null;
-      const KPEPE_JACKPOT = 100000;  // 100K jackpot per draw
-      const KPEPE_TIERS_PER_DRAW = 100000;  // 100K tier prizes per draw
-      const KPEPE_RESERVE = 800000;  // 800K reserve fund
-      const KPEPE_TOTAL_SYSTEM = 1000000;  // 1M total system (100K jackpot + 100K tiers + 800K reserve)
       
-      // Contract address (deployed on KleverChain mainnet)
-      const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl";
-      
-      // KPEPE Token address on KleverChain mainnet
-      const KPEPE_TOKEN_ADDRESS = "kpepe-1eod"; // KleverChain token identifier - verify on mainnet
-      
-      // KleverScan API endpoints (ordered fallback; will be updated at runtime if provider.api exists)
-      const DEFAULT_KLEVERSCAN_API = "https://api.mainnet.klever.org";
-      
-      // Network configuration for KleverChain
-      const KLEVER_NETWORK = {
-        chainId: '0x8F4', // 2292 in decimal for KleverChain mainnet
-        chainName: 'KleverChain Mainnet',
-        nativeCurrency: {
-          name: 'Klever',
-          symbol: 'KLV',
-          decimals: 6
-        },
-        rpcUrls: ['https://node.klever.finance'],
-        blockExplorerUrls: ['https://kleverscan.org']
-      };
-      let KLEVERSCAN_ENDPOINTS = [DEFAULT_KLEVERSCAN_API];
-      const API_TIMEOUT = 30000; // 30 seconds
-      
-      // Validate configuration on page load
-      validateConfig();
-      
-      // Demo: tickets sold (update from contract in production)
-      let TOTAL_TICKETS_SOLD = 0;
-      // Prize percentages of pool (85% total, difficulty-based, whole numbers)
-      const PRIZE_PERCENTAGES = {
-        jackpot: 0.40,
-        match5: 0.14,
-        match4_8b: 0.09,
-        match4: 0.06,
-        match3_8b: 0.06,
-        match3: 0.04,
-        match2_8b: 0.03,
-        match1_8b: 0.02,
-        luckyball: 0.01
-      };
-      // Fixed prices (update these manually if API fails)
-      const KPEPE_PRICE_USD = 0.005371;
-      const KLV_PRICE_USD = 0.00152832;
-      let prizePoolFetchWarned = false;
-      
-      // Enable live prize pool display from test tickets
-      let prizeFetchDisabled = false;
-      let calculatedPoolShown = false;
-
+      // Initialize
       document.addEventListener('DOMContentLoaded', () => {
         initNumberPickers();
-        // Show calculated pool from confirmed test tickets
-        showCalculatedPool();
-        // Try to refresh every 30 seconds
-        setInterval(() => { showCalculatedPool(); }, 30000);
         startCountdown();
-        updateNextDrawDate();
-        
-        // Initialize new features
-        checkFreeTicketEligibility();
-        loadMyTickets();
+        showCalculatedPool();
       });
-      
-      // Backup initialization - ensure number pickers load even if DOMContentLoaded has issues
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initNumberPickers);
-      } else {
-        // DOM already loaded, initialize immediately
-        setTimeout(() => {
-          initNumberPickers();
-          showCalculatedPool();
-        }, 100);
-      }
-      
-      function showFrogMessage() {
-        const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
-        const popup = document.getElementById('frog-popup');
-        popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-        popup.style.display = 'block';
-        setTimeout(() => { popup.style.display = 'none'; }, 2000);
-      }
       
       function initNumberPickers() {
         const mainGrid = document.getElementById('main-numbers');
         const ebGrid = document.getElementById('eightball-numbers');
         
-        // Safety check - ensure elements exist
-        if (!mainGrid || !ebGrid) {
-          console.warn('Number grid elements not found, retrying...');
-          setTimeout(initNumberPickers, 500);
-          return;
+        for (let i = 1; i <= MAIN_NUMBERS; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'number-btn';
+          btn.textContent = i;
+          btn.onclick = () => toggleMainNumber(i, btn);
+          mainGrid.appendChild(btn);
         }
         
-        // Clear any existing content
-        mainGrid.innerHTML = '';
-        ebGrid.innerHTML = '';
-        
-        // Create main number buttons (1-50)
-        for (let i = 1; i <= MAIN_NUMBERS; i++) { 
-          const btn = document.createElement('button'); 
-          btn.className = 'number-btn'; 
-          btn.textContent = i; 
-          btn.onclick = () => toggleMainNumber(i, btn); 
-          mainGrid.appendChild(btn); 
+        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) {
+          const btn = document.createElement('button');
+          btn.className = 'number-btn eightball';
+          btn.textContent = i;
+          btn.onclick = () => toggleEightball(i, btn);
+          ebGrid.appendChild(btn);
         }
-        
-        // Create 8Ball buttons (1-20)
-        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { 
-          const btn = document.createElement('button'); 
-          btn.className = 'number-btn eightball'; 
-          btn.textContent = i; 
-          btn.onclick = () => toggleEightball(i, btn); 
-          ebGrid.appendChild(btn); 
-        }
-        
-        console.log(`✅ Created ${MAIN_NUMBERS} main numbers and ${EIGHTBALL_NUMBERS} 8Ball numbers`);
       }
       
       function toggleMainNumber(num, btn) {
         const idx = selectedMainNumbers.indexOf(num);
-        if (idx > -1) { selectedMainNumbers.splice(idx, 1); btn.classList.remove('selected'); }
-        else if (selectedMainNumbers.length < MAIN_PICK) { selectedMainNumbers.push(num); selectedMainNumbers.sort((a,b) => a-b); btn.classList.add('selected'); }
-        updateUI();
+        if (idx > -1) {
+          selectedMainNumbers.splice(idx, 1);
+          btn.classList.remove('selected');
+        } else if (selectedMainNumbers.length < MAIN_PICK) {
+          selectedMainNumbers.push(num);
+          btn.classList.add('selected');
+        }
       }
       
       function toggleEightball(num, btn) {
-        if (selectedEightball === num) { selectedEightball = null; btn.classList.remove('selected'); }
-        else { selectedEightball = num; document.querySelectorAll('.number-btn.eightball').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); }
-        updateUI();
+        if (selectedEightball === num) {
+          selectedEightball = null;
+          btn.classList.remove('selected');
+        } else {
+          document.querySelectorAll('#eightball-numbers .number-btn').forEach(b => b.classList.remove('selected'));
+          selectedEightball = num;
+          btn.classList.add('selected');
+        }
       }
       
       function quickPick() {
-        selectedMainNumbers = []; selectedEightball = null; document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
-        while (selectedMainNumbers.length < MAIN_PICK) { const n = Math.floor(Math.random() * MAIN_NUMBERS) + 1; if (!selectedMainNumbers.includes(n)) selectedMainNumbers.push(n); }
-        selectedMainNumbers.sort((a,b) => a-b); selectedEightball = Math.floor(Math.random() * EIGHTBALL_NUMBERS) + 1;
-        document.querySelectorAll('.number-btn').forEach(btn => {
-          const n = parseInt(btn.textContent);
-          if (selectedMainNumbers.includes(n)) btn.classList.add('selected');
-          if (btn.classList.contains('eightball') && parseInt(btn.textContent) === selectedEightball) btn.classList.add('selected');
+        selectedMainNumbers = [];
+        selectedEightball = null;
+        document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
+        
+        while (selectedMainNumbers.length < MAIN_PICK) {
+          const num = Math.floor(Math.random() * MAIN_NUMBERS) + 1;
+          if (!selectedMainNumbers.includes(num)) selectedMainNumbers.push(num);
+        }
+        selectedEightball = Math.floor(Math.random() * EIGHTBALL_NUMBERS) + 1;
+        
+        document.querySelectorAll('#main-numbers .number-btn').forEach(btn => {
+          if (selectedMainNumbers.includes(parseInt(btn.textContent))) btn.classList.add('selected');
         });
-        updateUI();
+        document.querySelectorAll('#eightball-numbers .number-btn').forEach(btn => {
+          if (parseInt(btn.textContent) === selectedEightball) btn.classList.add('selected');
+        });
       }
       
       function clearSelection() {
         selectedMainNumbers = [];
         selectedEightball = null;
         document.querySelectorAll('.number-btn').forEach(b => b.classList.remove('selected'));
-        updateUI();
-      }
-      
-      function updateUI() {
-        document.getElementById('main-count').textContent = selectedMainNumbers.length + '/' + MAIN_PICK;
-        document.getElementById('8b-count').textContent = (selectedEightball ? 1 : 0) + '/1';
-        document.getElementById('main-count').classList.toggle('complete', selectedMainNumbers.length === MAIN_PICK);
-        document.getElementById('8b-count').classList.toggle('complete', !!selectedEightball);
-        
-        const ticketNumbers = document.getElementById('ticket-numbers');
-        if (selectedMainNumbers.length === 0 && !selectedEightball) {
-          ticketNumbers.innerHTML = '<span class="ticket-empty">Pick numbers or Quick Pick</span>';
-        } else {
-          let html = '';
-          selectedMainNumbers.forEach(num => { html += '<div class="ticket-num">' + num + '</div>'; });
-          if (selectedEightball) { html += '<div class="ticket-num eightball">' + selectedEightball + '</div>'; }
-          ticketNumbers.innerHTML = html;
-        }
-        
-        const canBuy = selectedMainNumbers.length === MAIN_PICK && selectedEightball;
-        const buyBtn = document.getElementById('buy-btn');
-        buyBtn.disabled = !canBuy;
-        buyBtn.style.opacity = canBuy ? '1' : '0.5';
-      }
-      
-      function loadStats() {
-        // In production, fetch from contract:
-        // fetchPrizePoolFromContract().then(pool => { ... })
-        
-        const poolAmount = Math.floor(TOTAL_TICKETS_SOLD * TICKET_PRICE * POOL_SHARE);
-        // KPEPE per draw: 100K jackpot + 100K tiers = 200K total
-        const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;  // 200K
-        const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;  // ~$1,074
-        const klvValueUSD = poolAmount * KLV_PRICE_USD;
-        const totalUSD = kpepeValueUSD + klvValueUSD;
-        document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = `Total: $${totalUSD.toFixed(2)} USD`;
-        document.getElementById('jackpot-usd').innerHTML += `<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
-        updatePrizeAmounts(poolAmount);
-        
-        // Fetch KPEPE seed fund data from contract
-        fetchKPEPESeedFund();
-      }
-      
-      // Live fetch from KleverChain (for production)
-      // Fetch Prize Pool from Contract with timeout
-      async function fetchPrizePoolFromContract() {
-        for (const base of KLEVERSCAN_ENDPOINTS) {
-          try {
-            const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
-            
-            const response = await fetch(url, { mode: 'cors', signal: controller.signal });
-            clearTimeout(timeoutId);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            const prizePoolRaw = Number(data?.prizePool ?? 0);
-            const ticketsSold = Number(data?.totalTicketsSold ?? 0);
-            const poolAmount = Math.floor(prizePoolRaw / 1e6);
-            TOTAL_TICKETS_SOLD = ticketsSold;
-            document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-            const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;  // 200K per draw
-            const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;
-            const klvValueUSD = poolAmount * KLV_PRICE_USD;
-            const totalUSD = kpepeValueUSD + klvValueUSD;
-            document.getElementById('jackpot-usd').innerHTML = `Total: $${totalUSD.toFixed(2)} USD<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
-            updatePrizeAmounts(poolAmount);
-            return;
-          } catch (err) {
-            console.warn(`KleverScan fetch failed for ${base}`, err.message);
-          }
-        }
-        // Fallback to calculated pool
-        showCalculatedPool();
-      }
-      
-      // Fetch KPEPE seed fund data from contract with timeout
-      async function fetchKPEPESeedFund() {
-        for (const base of KLEVERSCAN_ENDPOINTS) {
-          try {
-            const url = `${base}/v1/contract/${CONTRACT_ADDRESS}/state`;
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
-            
-            const response = await fetch(url, { mode: 'cors', signal: controller.signal });
-            clearTimeout(timeoutId);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            
-            // Extract KPEPE seed fund amounts (in base units, convert by dividing by 1e12)
-            const kpepeSeedFund = {
-              jackpot: Math.floor((data?.storage?.kpepeJackpotPrize ?? 0) / 1e12),
-              match5: Math.floor((data?.storage?.kpepeMatch5Prize ?? 0) / 1e12),
-              match48B: Math.floor((data?.storage?.kpepeMatch48BPrize ?? 0) / 1e12),
-              match4: Math.floor((data?.storage?.kpepeMatch4Prize ?? 0) / 1e12),
-              match38B: Math.floor((data?.storage?.kpepeMatch38BPrize ?? 0) / 1e12),
-              total: 0
-            };
-            
-            // Calculate total
-            kpepeSeedFund.total = kpepeSeedFund.jackpot + kpepeSeedFund.match5 + 
-                                 kpepeSeedFund.match48B + kpepeSeedFund.match4 + 
-                                 kpepeSeedFund.match38B;
-            
-            console.log('📦 KPEPE Seed Fund Loaded:', kpepeSeedFund);
-            updateKPEPESeedDisplay(kpepeSeedFund);
-            return kpepeSeedFund;
-          } catch (err) {
-            console.warn(`KleverScan fetch failed for ${base}`, err.message);
-          }
-        }
-        
-        // Fallback: show warning but continue
-        console.warn('⚠️ Could not fetch KPEPE seed fund - using display values');
-        return null;
-      }
-      
-      function showCalculatedPool() {
-        // Show pool from tickets - fallback to demo values if contract not connected
-        const confirmedTickets = TOTAL_TICKETS_SOLD > 0 ? TOTAL_TICKETS_SOLD : 2;
-        const poolPerTicket = 85; // 85 KLV per ticket to pool (85% of 100 KLV)
-        const poolAmount = confirmedTickets * poolPerTicket; // 170 KLV
-        
-        // Update jackpot display
-        const jackpotEl = document.getElementById('jackpot-klv');
-        const jackpotUsdEl = document.getElementById('jackpot-usd');
-        if (jackpotEl) jackpotEl.textContent = poolAmount.toLocaleString();
-        if (jackpotUsdEl) {
-          // KPEPE per draw: 100K jackpot + 100K tiers = 200K total
-          const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;
-          const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;
-          const klvValueUSD = poolAmount * KLV_PRICE_USD;
-          const totalUSD = kpepeValueUSD + klvValueUSD;
-          jackpotUsdEl.innerHTML = `Total: $${totalUSD.toFixed(2)} USD<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
-        }
-        
-        // Update prize amounts
-        updatePrizeAmounts(poolAmount);
-        updateLotteryStats(confirmedTickets, 0, poolAmount, []);  // 0 free tickets, no winners yet
-        
-        if (!calculatedPoolShown) {
-          console.log(`📊 Prize pool: ${poolAmount} KLV from ${confirmedTickets} tickets`);
-          calculatedPoolShown = true;
-        }
-      }
-      
-      // Update lottery stats display
-      function updateLotteryStats(paidTickets, freeTickets, poolAmount, previousWinners) {
-        // Update ticket counts
-        document.getElementById('stat-paid-tickets').textContent = paidTickets;
-        document.getElementById('stat-free-tickets').textContent = freeTickets;
-        
-        // Update pool amount
-        const formatPool = (amount) => {
-          if (amount >= 1000) return (amount / 1000).toFixed(1) + 'K KLV';
-          return amount.toLocaleString() + ' KLV';
-        };
-        document.getElementById('stat-pool-amount').textContent = formatPool(poolAmount);
-        
-        // Update winners list if there are any
-        const winnersSection = document.getElementById('winners-section');
-        const winnersList = document.getElementById('winners-list');
-        
-        if (previousWinners && previousWinners.length > 0) {
-          winnersSection.style.display = 'block';
-          
-          let winnersHTML = '';
-          previousWinners.forEach(winner => {
-            const tierName = {
-              1: '🎰 JACKPOT',
-              2: '5️⃣ Match 5',
-              3: '4️⃣+8️⃣ Match 4+8B',
-              4: '4️⃣ Match 4',
-              5: '3️⃣+8️⃣ Match 3+8B',
-              6: '3️⃣ Match 3',
-              7: '2️⃣+8️⃣ Match 2+8B',
-              8: '1️⃣+8️⃣ Match 1+8B',
-              9: '8️⃣ Lucky 8Ball'
-            }[winner.tier] || 'Prize';
-            
-            const shortAddr = winner.player ? winner.player.substring(0, 8) + '...' + winner.player.substring(winner.player.length - 6) : 'Unknown';
-            const kpepeText = winner.prizeKPEPE ? ` + ${(winner.prizeKPEPE / 1000000).toLocaleString()}M KPEPE` : '';
-            
-            winnersHTML += `
-              <div style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-                  <span style="color: var(--primary);">${tierName}</span>
-                  <span style="color: #4ade80;">${(winner.prizeKLV / 1e6).toLocaleString()} KLV${kpepeText}</span>
-                </div>
-                <div style="color: var(--text-muted); font-size: 0.75rem;">${shortAddr}</div>
-              </div>
-            `;
-          });
-          
-          winnersList.innerHTML = winnersHTML;
-        }
-      }
-      
-      // Update KPEPE depletion tracking (1M total system)
-      // Per draw: 100K jackpot + 100K tier prizes = 200K total
-      // Reserve: Starts at 800K, depletes as prizes are won
-      // Using existing constants: KPEPE_JACKPOT, KPEPE_TIERS_PER_DRAW, KPEPE_RESERVE
-      
-      let kpepeTiersPaid = 0;
-      let kpepeJackpotPaid = 0;
-      
-      function updateKPEPEDepletion(tiersPaid, jackpotPaid) {
-        if (tiersPaid !== undefined) kpepeTiersPaid = tiersPaid;
-        if (jackpotPaid !== undefined) kpepeJackpotPaid = jackpotPaid;
-        
-        // Calculate total paid out
-        const totalPaid = kpepeTiersPaid + kpepeJackpotPaid;
-        
-        // Calculate reserve remaining
-        const reserveRemaining = Math.max(0, KPEPE_RESERVE - (totalPaid - KPEPE_JACKPOT - KPEPE_TIERS_PER_DRAW));
-        
-        // Update reserve progress bar
-        const reserveBar = document.getElementById('reserve-bar');
-        const reservePercent = document.getElementById('reserve-percent');
-        if (reserveBar) {
-          const percent = (reserveRemaining / KPEPE_RESERVE) * 100;
-          reserveBar.style.width = percent + '%';
-        }
-        if (reservePercent) {
-          reservePercent.textContent = Math.round((reserveRemaining / KPEPE_RESERVE) * 100) + '%';
-        }
-        
-        // Update jackpot display (always 100K if reserve exists)
-        const jpRemEl = document.getElementById('jackpot-remaining');
-        if (jpRemEl) jpRemEl.textContent = reserveRemaining > 0 ? '100K KPEPE' : '0 KPEPE';
-        
-        // Update total display
-        const totalEl = document.getElementById('stat-kpepe-total');
-        const currentTotal = reserveRemaining + KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;
-        if (totalEl) totalEl.textContent = `${(currentTotal / 1000).toFixed(0)}K KPEPE`;
-      }
-      
-      // Initialize KPEPE tracking display
-      updateKPEPEDepletion(0, 0);
-      
-      function updatePrizeAmounts(poolAmount) {
-        const formatPrize = (amount) => {
-          if (amount >= 1000) return (amount / 1000).toFixed(1) + 'K KLV';
-          return amount.toLocaleString() + ' KLV';
-        };
-        
-        const tiers = [
-          'prize-match5',
-          'prize-match4_8b',
-          'prize-match4',
-          'prize-match3_8b',
-          'prize-match3',
-          'prize-match2_8b',
-          'prize-match1_8b',
-          'prize-luckyball'
-        ];
-        
-        // Update each tier (preserve KPEPE span if present)
-        tiers.forEach(id => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          
-          // Check if there's a KPEPE span
-          const kpepeSpan = el.querySelector('span[style*="color: #4ade80"]');
-          if (kpepeSpan) {
-            // Preserve KPEPE span, update only KLV text
-            el.childNodes[0].nodeValue = formatPrize(Math.floor(poolAmount * PRIZE_PERCENTAGES[id.replace('prize-', '')])) + ' ';
-          } else {
-            // No KPEPE span, just update text
-            el.textContent = formatPrize(Math.floor(poolAmount * PRIZE_PERCENTAGES[id.replace('prize-', '')]));
-          }
-        });
-        
-        // Update jackpot (preserve gold KPEPE span)
-        const jackpotEl = document.getElementById('prize-jackpot');
-        if (jackpotEl) {
-          const kpepeSpan = jackpotEl.querySelector('span[style*="color: #fbbf24"]');
-          if (kpepeSpan) {
-            jackpotEl.childNodes[0].nodeValue = formatPrize(poolAmount) + ' ';
-          } else {
-            jackpotEl.textContent = formatPrize(poolAmount);
-          }
-        }
       }
       
       function startCountdown() {
-        const target = new Date().getTime() + (24 * 60 * 60 * 1000);
+        const target = new Date().getTime() + (14 * 60 * 60 * 1000 + 32 * 60 * 1000 + 18 * 1000);
         function update() {
           const now = new Date().getTime(), diff = target - now;
           if (diff <= 0) return;
@@ -1065,677 +360,50 @@
         update(); setInterval(update, 1000);
       }
       
-      // Klever Web3 Integration
-      let kleverWeb3 = null;
-      let connectedWallet = null;
-      let extensionDetected = false;
-      let providerPollTimer = null;
-
-      function resolveKleverProvider() {
-        console.log('🔍 resolveKleverProvider() called');
-        if (window.klever) {
-          console.log('  ✅ Using window.klever');
-          return window.klever;
-        }
+      function showCalculatedPool() {
+        const ticketsSold = 10, poolPerTicket = 85;
+        const poolAmount = ticketsSold * poolPerTicket;
+        const tiers = { jackpot: 0.40, match5: 0.14, match4_8b: 0.09, match4: 0.06, match3_8b: 0.06, match3: 0.04, match2_8b: 0.03, match1_8b: 0.02, luckyball: 0.01 };
         
-        if (window.kleverWeb && window.kleverWeb.provider) {
-          console.log('  ✅ Using window.kleverWeb.provider');
-          return window.kleverWeb.provider;
-        }
-        
-        if (window.kleverWeb) {
-          console.log('  ⚠️ Using window.kleverWeb (no nested provider)');
-          return window.kleverWeb;
-        }
-        
-        if (window.kleverWeb3) {
-          console.log('  ✅ Using window.kleverWeb3');
-          return window.kleverWeb3;
-        }
-        
-        console.log('  ❌ No provider found');
-        return null;
+        Object.keys(tiers).forEach(key => {
+          const el = document.getElementById('prize-' + key);
+          if (el) {
+            const amount = Math.floor(poolAmount * tiers[key]);
+            el.textContent = amount >= 1000 ? (amount / 1000).toFixed(1) + 'K KLV' : amount + ' KLV';
+          }
+        });
       }
-
-      function setNetworkBadge(text) {
-        const badge = document.querySelector('.network-badge');
-        if (badge) badge.textContent = text;
-      }
-
-      function setWalletStatus(text, isConnected) {
-        const statusEl = document.getElementById('wallet-status');
-        const connectBtn = document.querySelector('button[onclick="connectWallet()"]');
-        const warnEl = document.getElementById('wallet-warning');
-        const banner = document.getElementById('network-banner');
-        if (isConnected) {
-          statusEl.classList.remove('disconnected');
-          statusEl.classList.add('connected');
-        } else {
-          statusEl.classList.remove('connected');
-          statusEl.classList.add('disconnected');
-        }
-        statusEl.innerHTML = text;
-        connectBtn.textContent = isConnected ? '🔗 Disconnect Wallet' : '🔗 Connect Wallet';
-        connectBtn.onclick = isConnected ? disconnectWallet : connectWallet;
-        if (warnEl) warnEl.style.display = isConnected ? 'none' : warnEl.style.display;
-        if (banner) banner.style.display = isConnected ? 'none' : banner.style.display;
-      }
-
-      async function initializeKleverWeb3() {
-        const providerApi = (window.kleverWeb && window.kleverWeb.provider && window.kleverWeb.provider.api) ||
-                             (window.klever && window.klever.provider && window.klever.provider.api) ||
-                             DEFAULT_KLEVERSCAN_API;
-        KLEVERSCAN_ENDPOINTS = [providerApi];
-        
-        // Check for Klever provider first, then other Web3 providers
-        kleverWeb3 = resolveKleverProvider();
-        const hasEthereum = typeof window.ethereum !== 'undefined';
-        
-        if (kleverWeb3 || hasEthereum) {
-          extensionDetected = true;
-          if (kleverWeb3) {
-            console.log('✅ Klever Web3 provider detected');
-            console.log('Provider keys:', Object.keys(kleverWeb3 || {}));
-          }
-          if (hasEthereum && !kleverWeb3) {
-            console.log('✅ Ethereum provider detected (MetaMask)');
-          }
-          setNetworkBadge('🔗 Mainnet');
-          setWalletStatus('<span>●</span> Not Connected', false);
-          // Hide banner when provider is available
-          const banner = document.getElementById('network-banner');
-          if (banner) banner.style.display = 'none';
-          const warnEl = document.getElementById('wallet-warning');
-          if (warnEl) warnEl.style.display = 'none';
-        } else {
-          extensionDetected = false;
-          console.warn('⚠️ No Web3 wallet detected');
-          setNetworkBadge('🔗 Mainnet');
-          const warnEl = document.getElementById('wallet-warning');
-          if (warnEl) warnEl.style.display = 'block';
-          const banner = document.getElementById('network-banner');
-          if (banner) banner.style.display = 'block';
-          setWalletStatus('<span>●</span> Connect Wallet', false);
-        }
-      }
-
-      function startProviderPolling() {
-        if (providerPollTimer) return;
-        let attempts = 0;
-        const maxAttempts = 30; // Poll for up to 60 seconds
-        
-        providerPollTimer = setInterval(() => {
-          const hasKlever = !!(window.klever || window.kleverWeb || window.kleverWeb3);
-          const hasEthereum = typeof window.ethereum !== 'undefined';
-          
-          if (kleverWeb3 || hasKlever || hasEthereum) { 
-            clearInterval(providerPollTimer); 
-            providerPollTimer = null;
-            
-            if (hasKlever || hasEthereum) {
-              extensionDetected = true;
-              kleverWeb3 = resolveKleverProvider();
-              
-              console.log('✅ Web3 provider detected via polling on attempt', attempts + 1);
-              console.log('Detected providers:', {
-                klever: !!window.klever,
-                kleverWeb: !!window.kleverWeb,
-                ethereum: !!window.ethereum
-              });
-              
-              const providerApi = (window.kleverWeb && window.kleverWeb.provider && window.kleverWeb.provider.api) || DEFAULT_KLEVERSCAN_API;
-              KLEVERSCAN_ENDPOINTS = [providerApi];
-              setNetworkBadge('🔗 Mainnet');
-              setWalletStatus('<span>●</span> Not Connected', false);
-              
-              const banner = document.getElementById('network-banner');
-              if (banner) banner.style.display = 'none';
-              const warnEl = document.getElementById('wallet-warning');
-              if (warnEl) warnEl.style.display = 'none';
-            }
-            return; 
-          }
-          
-          kleverWeb3 = resolveKleverProvider();
-          attempts += 1;
-          
-          if (attempts % 5 === 0) {
-            console.log(`⏳ Polling for wallet providers... (attempt ${attempts}/${maxAttempts})`);
-          }
-          
-          if (attempts >= maxAttempts) {
-            clearInterval(providerPollTimer); 
-            providerPollTimer = null;
-            console.warn('⚠️ No Web3 wallet detected after polling');
-            console.warn('Please install Klever Extension from: https://klever.io/wallet');
-            console.warn('Or install MetaMask from: https://metamask.io');
-            
-            const banner = document.getElementById('network-banner');
-            if (banner) banner.style.display = 'block';
-          }
-        }, 2000);
-      }
-
-      async function requestAccounts() {
-        if (!kleverWeb3) return [];
-        
-        console.log('🔄 requestAccounts() called');
-        
-        // First, ensure window.kleverWeb is initialized
-        if (window.kleverWeb) {
-          console.log('🔄 Using window.kleverWeb object');
-          console.log('   Properties:', {
-            name: window.kleverWeb.name,
-            address: window.kleverWeb.address,
-            isKlever: window.kleverWeb.isKlever,
-            version: window.kleverWeb.version
-          });
-          
-          // Step 1: Initialize if not already done
-          let initialized = false;
-          if (typeof window.kleverWeb.init === 'function') {
-            console.log('🔄 Initializing window.kleverWeb...');
-            try {
-              const initResult = await window.kleverWeb.init();
-              console.log('✅ init() returned:', initResult);
-              initialized = true;
-            } catch (e) {
-              console.warn('init() failed:', e.message);
-            }
-          }
-          
-          // Try alternative initialize() method
-          if (!initialized && typeof window.kleverWeb.initialize === 'function') {
-            console.log('🔄 Trying initialize() instead...');
-            try {
-              const initResult = await window.kleverWeb.initialize();
-              console.log('✅ initialize() returned:', initResult);
-              initialized = true;
-            } catch (e) {
-              console.warn('initialize() failed:', e.message);
-            }
-          }
-          
-          // Step 2: Now try to get wallet address
-          console.log('🔄 Attempting to get wallet address...');
-          if (typeof window.kleverWeb.getWalletAddress === 'function') {
-            try {
-              const addr = await window.kleverWeb.getWalletAddress();
-              console.log('✅ getWalletAddress returned:', addr);
-              if (addr) return [addr];
-            } catch (e) {
-              console.warn('getWalletAddress failed:', e.message);
-            }
-          }
-          
-          // Step 3: Check if address property is now available
-          if (window.kleverWeb.address) {
-            console.log('✅ wallet address available on property:', window.kleverWeb.address);
-            return [window.kleverWeb.address];
-          }
-          
-          // Step 4: Try calling sendMessage via communication
-          if (window.kleverWeb.communication && typeof window.kleverWeb.communication.sendMessage === 'function') {
-            console.log('🔄 Trying communication.sendMessage()...');
-            try {
-              const msg = {
-                method: 'getAddress',
-                params: {}
-              };
-              console.log('  Sending message:', msg);
-              const response = await window.kleverWeb.communication.sendMessage(msg);
-              console.log('  ✅ Response:', response);
-              if (response && response.address) {
-                return [response.address];
-              }
-            } catch (e) {
-              console.warn('    communication.sendMessage failed:', e.message);
-            }
-          }
-        }
-        
-        console.log('❌ requestAccounts - no accounts found via any method');
-        return [];
-      }
-
-      async function switchToKleverNetwork() {
-        if (typeof window.ethereum === 'undefined') {
-          throw new Error('No Ethereum provider found');
-        }
-        
-        try {
-          // Try to switch to KleverChain network
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: KLEVER_NETWORK.chainId }],
-          });
-          console.log('✅ Switched to KleverChain network');
-        } catch (switchError) {
-          // Network not added, try to add it
-          if (switchError.code === 4902 || switchError.code === -32603) {
-            try {
-              await window.ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [KLEVER_NETWORK],
-              });
-              console.log('✅ Added and switched to KleverChain network');
-            } catch (addError) {
-              console.error('Failed to add KleverChain network:', addError);
-              throw addError;
-            }
-          } else {
-            throw switchError;
-          }
-        }
-      }
-
+      
       async function connectWallet() {
-        console.log('🔍 Attempting wallet connection...');
-        
+        document.getElementById('wallet-status').innerHTML = '<span>●</span> Connecting...';
         try {
-          // Get the resolved provider
-          kleverWeb3 = resolveKleverProvider();
-          console.log('🔍 Resolved provider:', {
-            hasProvider: !!kleverWeb3,
-            providerType: kleverWeb3 ? kleverWeb3.constructor?.name : 'unknown',
-            methods: kleverWeb3 ? Object.keys(kleverWeb3).slice(0, 10) : []
-          });
-
-          if (!kleverWeb3) {
-            alert('❌ Klever Wallet not detected.\n\nPlease install Klever Extension from:\nhttps://klever.io/wallet');
-            return;
-          }
-
-          // Use requestAccounts from the provider
-          console.log('🔄 Requesting accounts from Klever provider...');
-          const accounts = await requestAccounts();
-          
-          if (accounts && accounts.length > 0) {
-            connectedWallet = accounts[0];
-            updateWalletUI(true, connectedWallet);
-            console.log('✅ Wallet successfully connected:', connectedWallet);
-            return;
-          }
-
-          // If no accounts returned, try direct wallet address methods if available
-          if (window.klever && typeof window.klever.getWalletAddress === 'function') {
-            console.log('🔄 Trying direct getWalletAddress() from window.klever...');
-            try {
-              const addr = await window.klever.getWalletAddress();
-              if (addr) {
-                connectedWallet = addr;
-                updateWalletUI(true, connectedWallet);
-                console.log('✅ Wallet connected via getWalletAddress:', connectedWallet);
-                return;
-              }
-            } catch (e) {
-              console.warn('getWalletAddress failed:', e.message);
-            }
-          }
-
-          console.error('❌ No accounts returned from any method');
-          alert('⚠️ Klever Wallet detected but could not retrieve accounts.\n\nPlease:\n1. Unlock your Klever wallet\n2. Approve this site in your extension settings\n3. Ensure you are on KleverChain Mainnet\n4. Try again');
-
-        } catch (error) {
-          console.error('❌ Wallet connection error:', error);
-          console.error('Error details:', {
-            message: error.message,
-            code: error.code,
-            stack: error.stack
-          });
-          alert('❌ Failed to connect Klever Wallet.\n\nError: ' + error.message + '\n\nCheck browser console (F12) for details.');
-        }
-      }
-
-      function disconnectWallet() {
-        connectedWallet = null;
-        updateWalletUI(false, null);
-        console.log('Wallet disconnected');
-      }
-
-      function updateWalletUI(connected, address) {
-        if (connected && address) {
-          const shortAddr = address.substring(0, 8) + '...' + address.substring(address.length - 6);
-          setWalletStatus(`<span>●</span> Connected: ${shortAddr}`, true);
-          
-          // Load user-specific features when wallet connects
-          checkFreeTicketEligibility();
-          loadMyTickets();
-        } else {
-          setWalletStatus('<span>●</span> Not Connected', false);
-          
-          // Hide user-specific sections when disconnected
-          const freeTicketSection = document.getElementById('free-ticket-section');
-          const myTicketsSection = document.getElementById('my-tickets-section');
-          if (freeTicketSection) freeTicketSection.style.display = 'none';
-          if (myTicketsSection) myTicketsSection.style.display = 'none';
-        }
-      }
-
-      function setupWalletListeners() {
-        if (!kleverWeb3) return;
-        if (typeof kleverWeb3.on !== 'function') {
-          console.log('⚠️ Provider does not support .on() events');
-          return;
-        }
-        kleverWeb3.on('accountsChanged', (accounts) => {
-          if (accounts && accounts.length > 0) {
-            connectedWallet = accounts[0];
-            updateWalletUI(true, connectedWallet);
+          if (window.kleverWeb) {
+            await window.kleverWeb.connect();
+            const account = await window.kleverWeb.getAccount();
+            document.getElementById('wallet-status').innerHTML = '<span>●</span> ' + account.slice(0, 6) + '...' + account.slice(-4);
+            document.getElementById('wallet-status').className = 'wallet-status connected';
           } else {
-            disconnectWallet();
+            document.getElementById('wallet-status').innerHTML = '<span>●</span> Klever App needed';
           }
-        });
-      }
-
-      window.addEventListener('load', () => {
-        setNetworkBadge('🔗 Mainnet');
-        initializeKleverWeb3();
-        startProviderPolling();
-        
-        // Initialize kleverWeb if available
-        if (window.kleverWeb && typeof window.kleverWeb.init === 'function') {
-          console.log('🔄 Initializing kleverWeb at page load...');
-          window.kleverWeb.init().then(() => {
-            console.log('✅ kleverWeb initialized successfully');
-          }).catch(e => {
-            console.warn('⚠️ kleverWeb init failed:', e.message);
-          });
+        } catch (e) {
+          document.getElementById('wallet-status').innerHTML = '<span>●</span> Connect failed';
         }
-        
-        window.addEventListener('klever#initialized', () => {
-          console.log('klever#initialized event received');
-          kleverWeb3 = resolveKleverProvider();
-          if (kleverWeb3) {
-            extensionDetected = true;
-            setWalletStatus('<span>●</span> Not Connected', false);
-          }
-        });
-        setupWalletListeners();
-        // If after 3s no provider, keep banner visible to prompt user
-        setTimeout(() => {
-          if (!resolveKleverProvider()) {
-            const banner = document.getElementById('network-banner');
-            if (banner) banner.style.display = 'block';
-          }
-        }, 3000);
-        
-        // Poll KPEPE seed fund every 30 seconds to detect depletion
-        console.log('📡 Starting KPEPE seed fund polling (30s interval)...');
-        setInterval(() => {
-          fetchKPEPESeedFund().catch(err => {
-            console.warn('⚠️ KPEPE poll failed:', err.message);
-          });
-        }, 30000);  // 30 seconds
-      });
+      }
+      
+      function showFrogMessage() {
+        const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
+        const popup = document.getElementById('frog-popup');
+        popup.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        popup.classList.add('show');
+        setTimeout(() => popup.classList.remove('show'), 2000);
+      }
       
       async function buyTickets() {
-        if (!connectedWallet) {
-          alert('❌ Please connect your Klever wallet first!');
-          return;
-        }
         if (selectedMainNumbers.length !== MAIN_PICK || !selectedEightball) {
-          alert('Please select 5 main numbers and 1 Lucky 8Ball!');
+          alert('Please select 5 numbers and 1 Lucky 8Ball!');
           return;
         }
-        const [n1, n2, n3, n4, n5] = selectedMainNumbers;
-        const eb = selectedEightball;
-        
-        console.log('🎫 Attempting to buy ticket...');
-        console.log('Connected wallet:', connectedWallet);
-        console.log('Numbers:', [n1, n2, n3, n4, n5], 'Eight Ball:', eb);
-        
-        try {
-          // Use window.kleverWeb for transactions
-          if (!window.kleverWeb) {
-            alert('❌ Klever Wallet not available.\n\nPlease ensure Klever Extension is installed and connected.');
-            return;
-          }
-          
-          console.log('🔄 Preparing transaction via Klever...');
-          
-          // WASM contract call - use buy_ticket endpoint
-          // Based on Rust contract: #[endpoint] #[payable("KLV")] fn buy_ticket(num1, num2, num3, num4, num5, eb)
-          const functionName = 'buy_ticket'; // Rust endpoint name (snake_case)
-          const functionArgs = [n1, n2, n3, n4, n5, eb]; // Numbers as raw integers
-          
-          // Use Type 15 (SmartContractType) with method and args fields
-          const txParams = {
-            type: 15,
-            payload: {
-              receiver: CONTRACT_ADDRESS,
-              amount: TICKET_PRICE * 100000000, // 1 KLV in smallest units
-              kda: '', // Empty for native KLV
-              method: functionName,
-              args: functionArgs.map(arg => String(arg))
-            }
-          };
-          
-          console.log('📤 Building transaction with params:', txParams);
-          
-          try {
-            // Use Klever wallet to send transaction
-            console.log('🔄 Sending transaction via Klever Wallet...');
-            
-            if (!window.kleverWeb) {
-              throw new Error('Klever Wallet not available');
-            }
-            
-          // Build data field: array of base64-encoded elements
-            const dataArray = ['buy_ticket', n1.toString(), n2.toString(), n3.toString(), n4.toString(), n5.toString(), eb.toString()];
-            const dataBase64 = dataArray.map(item => btoa(item));
-            
-            // Type 0 = Transfer (works for contract calls with data field)
-            const tx = {
-              type: 0,
-              receiver: CONTRACT_ADDRESS,
-              amount: TICKET_PRICE * 100000000,
-              data: dataBase64
-            };
-            
-            console.log('📤 Transaction to send:', tx);
-            console.log('🔄 Sending to signing server...');
-            
-            // Send to signing server to get it signed and broadcast
-            const signingServerUrl = 'http://localhost:3001/sign-transaction';
-            
-            const response = await fetch(signingServerUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(tx)
-            });
-            
-            const result = await response.json();
-            console.log('✅ Server Response:', result);
-            
-            if (!response.ok) {
-              console.error('❌ Signing Error:', result);
-              throw new Error('Signing Error: ' + (result.error || result.message || response.statusText));
-            }
-            
-            if (result && result.hash) {
-              const txHash = result.hash;
-              console.log('✅ Transaction hash:', txHash);
-              alert('🎫 Ticket purchased on KleverChain!\n\nTransaction: ' + txHash + '\n\nYour Numbers:\nMain: ' + selectedMainNumbers.join(', ') + '\nLucky 8Ball: ' + selectedEightball + '\n\nGood luck! 🍀');
-              clearSelection();
-              return;
-            }
-            
-            // If we got here without a hash, something went wrong
-            throw new Error('No transaction hash received: ' + JSON.stringify(result));
-            
-          } catch (err) {
-            console.error('❌ Transaction failed:', err);
-            console.error('Error details:', {
-              message: err?.message,
-              code: err?.code,
-              data: err?.data
-            });
-            
-            let errorMsg = err?.message || String(err);
-            
-            // Check for specific errors
-            if (errorMsg.includes('invalid contract')) {
-              alert('❌ Contract Not Deployed!\n\nThe KPEPE contract hasn\'t been deployed yet.\n\nTo deploy:\n1. Open kleider-deploy/index.html\n2. Click "Deploy Contract"\n3. Initialize the contract\n4. Update CONTRACT_ADDRESS in lottery code');
-            } else if (errorMsg.includes('Cannot read properties of undefined')) {
-              alert('❌ Wallet Connection Error!\n\nMake sure:\n1. Klever Wallet extension is installed\n2. You are on KleverChain Mainnet\n3. Wallet is unlocked');
-            } else {
-              alert('❌ Transaction failed!\n\nError: ' + errorMsg + '\n\nPlease check:\n1. You have enough KLV (' + TICKET_PRICE + ' + gas)\n2. Your wallet is unlocked\n3. The contract is deployed');
-            }
-          }
-        } catch (err) {
-          console.error('❌ Ticket purchase failed:', err);
-          console.error('Error details:', {
-            message: err?.message,
-            code: err?.code,
-            data: err?.data
-          });
-          
-          alert('❌ Transaction failed!\n\nError: ' + (err?.message || err) + '\n\nPlease check:\n1. You have enough KLV (' + TICKET_PRICE + ' + gas)\n2. Your wallet is unlocked\n3. Try again');
-        }
-      }
-
-      // Prize Claim Function
-      // DEPRECATED: Prizes are now sent automatically during draws
-      // No claiming needed - this function is here for compatibility only
-      async function claimPrize() {
-        alert('✨ Prizes are sent automatically!\n\nWhen you win, your KLV and KPEPE prizes are sent directly to your wallet during the draw.\n\nNo claiming needed! 🎉');
-        return;
-      }
-
-      // Free Ticket Claim Function
-      async function claimFreeTicket() {
-        if (!connectedWallet) {
-          alert('❌ Please connect your Klever wallet first!');
-          return;
-        }
-        
-        try {
-          console.log('🎟️ Claiming free ticket for:', connectedWallet);
-          alert('🎟️ Free ticket claim initiated!\n\nThis requires:\n1. Verification of 50K+ KPEPE staking\n2. Contract call to claimFreeTicket()\n\nYour numbers will be auto-selected via Quick Pick.');
-          
-          // Auto-trigger quick pick after claim
-          quickPick();
-          
-        } catch (err) {
-          console.error('❌ Free ticket claim failed:', err);
-          alert('❌ Error: ' + (err?.message || err));
-        }
-      }
-
-      // Check My Tickets Function
-      function checkMyTickets() {
-        if (!connectedWallet) {
-          alert('❌ Please connect your wallet to view your tickets!');
-          return;
-        }
-        
-        const myTicketsSection = document.getElementById('my-tickets-section');
-        myTicketsSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // This will be populated from contract data
-        alert('📋 Checking your tickets...\n\nThis feature will display all tickets purchased with your wallet address once contract integration is complete.');
-      }
-
-      // Update next draw date/time
-      function updateNextDrawDate() {
-        const nextDrawEl = document.getElementById('next-draw-date');
-        if (nextDrawEl) {
-          const tomorrow = new Date();
-          tomorrow.setDate(tomorrow.getDate() + 1);
-          tomorrow.setUTCHours(0, 0, 0, 0);
-          
-          const options = { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            timeZone: 'UTC',
-            timeZoneName: 'short'
-          };
-          
-          nextDrawEl.textContent = tomorrow.toLocaleString('en-US', options);
-        }
-      }
-
-      // Update KPEPE Bonus Pool display from contract
-      function updateKPEPESeedDisplay(kpepeSeedFund) {
-        const totalEl = document.getElementById('stat-kpepe-total');
-        if (totalEl) {
-          if (kpepeSeedFund && kpepeSeedFund.total !== undefined) {
-            // Show remaining KPEPE from contract
-            const totalK = kpepeSeedFund.total / 1000;
-            totalEl.textContent = Math.floor(totalK).toLocaleString() + 'K KPEPE';
-            // Add warning color if low
-            if (kpepeSeedFund.total < 325000) {
-              totalEl.style.color = '#f97316';
-            } else {
-              totalEl.style.color = '#fbbf24';
-            }
-          } else {
-            // Default display when no contract data - show 1M total
-            totalEl.textContent = '1 Million KPEPE';
-          }
-        }
-      }
-
-      // Check if user is eligible for free tickets
-      async function checkFreeTicketEligibility() {
-        if (!connectedWallet) return;
-        
-        try {
-          const freeTicketSection = document.getElementById('free-ticket-section');
-          // Show section when wallet connects
-          // Note: Full KPEPE staking check requires contract update
-          freeTicketSection.style.display = 'block';
-          
-          // Try to get KPEPE staking balance from contract
-          // This is a placeholder - contract needs update to support free tickets
-          const kpepeStakeEl = document.getElementById('user-kpepe-stake');
-          if (kpepeStakeEl) {
-            kpepeStakeEl.textContent = '50,000+ (checking...)';
-          }
-          
-        } catch (err) {
-          console.error('Error checking free ticket eligibility:', err);
-        }
-      }
-
-      // Claim free ticket - requires contract update to work
-      async function claimFreeTicket() {
-        if (!connectedWallet) {
-          alert('❌ Please connect your wallet first!');
-          return;
-        }
-        
-        alert('🎟️ Free Ticket Feature\n\nThis feature requires a contract update.\n\nCurrently showing as a preview only.\n\nContract needs: Free ticket storage, KPEPE staking check, and claim function.');
-      }
-
-      // Load user's tickets
-      async function loadMyTickets() {
-        if (!connectedWallet) return;
-        
-        const myTicketsSection = document.getElementById('my-tickets-section');
-        const myTicketsList = document.getElementById('my-tickets-list');
-        const myTicketsCount = document.getElementById('my-tickets-count');
-        
-        try {
-          // This will query contract for user's tickets
-          // For now, show placeholder
-          myTicketsSection.style.display = 'block';
-          myTicketsCount.textContent = '0';
-          
-          myTicketsList.innerHTML = `
-            <div style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 40px 20px;">
-              No tickets found for this wallet.<br>
-              <span style="font-size: 0.8rem;">Buy tickets to see them here!</span>
-            </div>
-          `;
-          
-        } catch (err) {
-          console.error('Error loading tickets:', err);
-        }
+        alert('🎟️ Ticket purchase requires wallet connection.\n\nNumbers: ' + selectedMainNumbers.join(', ') + ' + 🎱 ' + selectedEightball);
       }
     </script>
   </body>
