@@ -6,42 +6,21 @@
     <title>🎱 KPEPE Jackpot - Win KLV + KPEPE!</title>
     <script src="https://unpkg.com/@klever/klever-web@0.9.0/dist/klever-web.js"></script>
     <style>
-        /* ===== CSS VARIABLES ===== */
-        :root {
-            --bg-dark: #0a0a12;
-            --bg-card: #161622;
-            --bg-card-hover: #1e1e2e;
-            --primary: #00ff88;
-            --primary-dim: rgba(0, 255, 136, 0.15);
-            --gold: #ffd700;
-            --gold-dim: rgba(255, 215, 0, 0.15);
-            --purple: #9400d3;
-            --purple-dim: rgba(148, 0, 211, 0.2);
-            --orange: #ff8c00;
-            --red: #ff6b6b;
-            --blue: #00ccff;
-            --blue-dim: rgba(0, 204, 255, 0.12);
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --border: #2a2a3a;
-        }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-main);
+            background: #0a0a12;
+            color: #fff;
             min-height: 100vh;
             overflow-x: hidden;
         }
         
-        /* ===== ANIMATIONS ===== */
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.1; }
-            90% { opacity: 0.1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        @keyframes float {
+            0% { transform: translateY(110vh); opacity: 0; }
+            10% { opacity: 0.08; }
+            90% { opacity: 0.08; }
+            100% { transform: translateY(-80px); opacity: 0; }
         }
         
         @keyframes shimmer {
@@ -49,18 +28,12 @@
             100% { background-position: 200% 50%; }
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
-        
         @keyframes flame {
             from { transform: scale(1); }
             to { transform: scale(1.1); }
         }
         
-        /* ===== FLOATING BALLS BACKGROUND ===== */
-        .pool-balls-bg {
+        .bg-balls {
             position: fixed;
             inset: 0;
             pointer-events: none;
@@ -68,17 +41,16 @@
             overflow: hidden;
         }
         
-        .pool-ball {
+        .ball {
             position: absolute;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            animation: floatUp 18s infinite linear;
+            animation: float 16s infinite linear;
         }
         
         .container {
@@ -89,106 +61,88 @@
             z-index: 1;
         }
         
-        /* ===== HEADER ===== */
         .header {
             text-align: center;
-            padding: 16px 0 12px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 12px;
+            padding: 14px 0 10px;
+            border-bottom: 1px solid #1a1a28;
+            margin-bottom: 10px;
         }
         
         .logo {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--red), var(--primary), var(--gold));
+            background: linear-gradient(135deg, #fff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        /* ===== FLOATING 8-BALL ===== */
         .floating-8ball {
             position: fixed;
-            top: 16px;
-            right: 16px;
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--bg-card), var(--bg-dark));
+            top: 14px;
+            right: 14px;
+            width: 40px;
+            height: 40px;
+            background: #1a1a28;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            animation: floatUp 4s ease-in-out infinite;
-            z-index: 1000;
-            border: 2px solid var(--gold);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 100;
+            border: 1px solid #333;
+            animation: float 4s ease-in-out infinite;
         }
         
-        /* ===== WALLET ===== */
         .wallet-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 10px 14px;
-            background: var(--primary-dim);
-            border: 1px solid var(--primary);
-            border-radius: 10px;
+            gap: 6px;
+            padding: 10px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
             margin-bottom: 10px;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            width: 100%;
         }
         
-        .wallet-btn:hover { background: rgba(0, 255, 136, 0.2); }
-        
         .wallet-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--primary);
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
             border-radius: 50%;
         }
         
-        /* ===== JACKPOT CARD ===== */
         .jackpot-card {
-            background: linear-gradient(135deg, var(--purple-dim), rgba(75, 0, 130, 0.15));
-            border: 2px solid var(--purple);
-            border-radius: 14px;
-            padding: 16px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 14px;
             text-align: center;
             margin-bottom: 10px;
         }
         
         .jackpot-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 10px;
+            color: #888;
             margin-bottom: 4px;
         }
         
         .jackpot-amount {
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--gold), var(--orange), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 2s infinite linear;
-            background-size: 200% 200%;
+            color: #ffd700;
         }
         
         .jackpot-note {
-            font-size: 10px;
-            color: var(--red);
-            background: rgba(255, 107, 107, 0.15);
-            padding: 3px 10px;
-            border-radius: 12px;
-            display: inline-block;
+            font-size: 9px;
+            color: #ff6b6b;
             margin-top: 6px;
         }
         
-        /* ===== STATS ROW ===== */
         .stats-row {
             display: flex;
             gap: 8px;
@@ -197,131 +151,119 @@
         
         .stat-card {
             flex: 1;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px 8px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 6px;
             text-align: center;
         }
         
         .stat-label {
             font-size: 9px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 3px;
+            color: #888;
+            margin-bottom: 2px;
         }
         
         .stat-value {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
-            color: var(--primary);
+            color: #00ff88;
         }
         
-        /* ===== USD TOTAL ===== */
-        .usd-total {
-            background: linear-gradient(135deg, var(--primary-dim), var(--gold-dim));
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            padding: 14px;
+        .usd-box {
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
             margin-bottom: 10px;
         }
         
         .usd-label {
-            font-size: 10px;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 4px;
+            font-size: 9px;
+            color: #888;
+            margin-bottom: 2px;
         }
         
         .usd-value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
-            color: var(--gold);
-            margin-bottom: 4px;
+            color: #00ff88;
         }
         
         .usd-breakdown {
-            font-size: 10px;
-            color: var(--text-muted);
-            line-height: 1.4;
+            font-size: 9px;
+            color: #666;
+            margin-top: 4px;
         }
         
-        /* ===== VIP CARD ===== */
         .vip-card {
-            background: linear-gradient(135deg, var(--gold-dim), rgba(255, 140, 0, 0.1));
-            border: 1px solid var(--gold);
-            border-radius: 10px;
-            padding: 12px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
             margin-bottom: 10px;
             display: none;
         }
         
         .vip-card.visible { display: block; }
         
-        .vip-header {
+        .vip-row {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
         
-        .vip-info {
+        .vip-left {
             display: flex;
             align-items: center;
             gap: 6px;
         }
         
-        .vip-emoji { font-size: 20px; }
+        .vip-emoji { font-size: 18px; }
         
         .vip-name {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--gold);
+            color: #ffd700;
         }
         
-        .streak-badge {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .streak {
             font-size: 10px;
-            color: var(--red);
-            background: rgba(255, 107, 107, 0.15);
-            padding: 3px 8px;
-            border-radius: 10px;
+            color: #ff6b6b;
         }
         
-        .streak-fire { animation: flame 0.5s ease-in-out infinite alternate; }
+        .streak span {
+            animation: flame 0.5s ease-in-out infinite alternate;
+        }
         
-        .vip-progress { margin-top: 8px; }
-        
-        .progress-header {
+        .progress-row {
             display: flex;
             justify-content: space-between;
             font-size: 9px;
-            color: var(--text-muted);
-            margin-bottom: 3px;
+            color: #888;
+            margin-top: 6px;
         }
         
         .progress-bar {
-            height: 5px;
-            background: var(--border);
-            border-radius: 3px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-top: 4px;
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #cd7f32, var(--gold));
-            border-radius: 3px;
-            transition: width 0.3s;
+            background: #ffd700;
+            border-radius: 2px;
         }
         
-        /* ===== FREE TICKET ===== */
         .free-card {
-            background: linear-gradient(135deg, var(--blue-dim), rgba(128, 0, 128, 0.1));
-            border: 1px solid var(--blue);
-            border-radius: 10px;
-            padding: 12px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
             margin-bottom: 10px;
             display: none;
         }
@@ -330,125 +272,113 @@
         
         .free-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 6px;
         }
         
         .free-title {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--blue);
+            color: #00ccff;
         }
         
         .free-status {
             font-size: 9px;
-            color: var(--primary);
-            background: var(--primary-dim);
-            padding: 2px 6px;
-            border-radius: 8px;
+            color: #00ff88;
         }
         
         .free-desc {
             font-size: 10px;
-            color: var(--text-muted);
+            color: #888;
             margin-bottom: 8px;
         }
         
         .free-btn {
             width: 100%;
             padding: 8px;
-            background: linear-gradient(135deg, var(--blue), #0099cc);
+            background: #00ccff;
             border: none;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
+            border-radius: 6px;
+            color: #0a0a12;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
         }
         
-        .free-expires {
-            font-size: 9px;
-            color: var(--red);
-            text-align: center;
-            margin-top: 5px;
-        }
-        
-        /* ===== HOW TO PLAY ===== */
-        .how-to-play {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
+        .how-to {
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         
-        .steps { display: flex; justify-content: space-between; }
+        .steps {
+            display: flex;
+            justify-content: space-between;
+        }
         
-        .step { flex: 1; text-align: center; }
+        .step {
+            flex: 1;
+            text-align: center;
+        }
         
         .step-num {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, var(--primary), #00cc6a);
+            width: 22px;
+            height: 22px;
+            background: #00ff88;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            color: var(--bg-dark);
-            margin: 0 auto 5px;
+            color: #0a0a12;
+            margin: 0 auto 4px;
         }
         
         .step-text {
             font-size: 9px;
-            color: var(--text-muted);
-            line-height: 1.3;
+            color: #888;
         }
         
-        /* ===== COUNTDOWN ===== */
         .countdown {
-            background: linear-gradient(135deg, var(--primary-dim), rgba(0, 204, 255, 0.1));
-            border: 1px solid var(--primary);
-            border-radius: 10px;
-            padding: 14px;
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px;
             text-align: center;
             margin-bottom: 10px;
         }
         
         .countdown-label {
-            font-size: 10px;
-            color: var(--primary);
-            text-transform: uppercase;
+            font-size: 9px;
+            color: #888;
             margin-bottom: 6px;
         }
         
-        .countdown-time {
+        .time-row {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
         
-        .countdown-unit { text-align: center; }
+        .time-unit {
+            text-align: center;
+        }
         
-        .countdown-value {
-            font-size: 26px;
+        .time-value {
+            font-size: 22px;
             font-weight: 800;
-            color: var(--primary);
-            line-height: 1;
+            color: #00ff88;
         }
         
-        .countdown-unit-label {
+        .time-label {
             font-size: 8px;
-            color: var(--text-muted);
-            text-transform: uppercase;
+            color: #666;
         }
         
-        /* ===== ACTION BUTTONS ===== */
         .action-row {
             display: flex;
             gap: 8px;
@@ -457,44 +387,41 @@
         
         .action-btn {
             flex: 1;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             cursor: pointer;
             border: none;
-            transition: all 0.3s;
         }
         
         .quick-btn {
-            background: rgba(255, 107, 53, 0.2);
-            border: 1px solid var(--red);
-            color: var(--red);
+            background: #1a1a28;
+            border: 1px solid #444;
+            color: #fff;
         }
         
         .clear-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
+            background: #1a1a28;
+            border: 1px solid #444;
+            color: #888;
         }
         
-        /* ===== NUMBER PICKER ===== */
-        .number-picker {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
+        .numbers-box {
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         
-        .picker-title {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
+        .num-title {
+            font-size: 10px;
+            color: #888;
             margin-bottom: 8px;
         }
         
-        .numbers-grid {
+        .nums-grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
             gap: 4px;
@@ -505,20 +432,18 @@
             aspect-ratio: 1;
             border: none;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
-            color: var(--text-main);
-            font-size: 11px;
+            background: #2a2a38;
+            color: #fff;
+            font-size: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
         
-        .num-btn:hover { transform: scale(1.15); }
+        .num-btn:hover { background: #3a3a48; }
         
         .num-btn.selected {
-            background: linear-gradient(135deg, var(--primary), #00cc6a);
-            color: var(--bg-dark);
-            transform: scale(1.1);
+            background: #00ff88;
+            color: #0a0a12;
         }
         
         .eb-grid {
@@ -529,37 +454,52 @@
         
         .eb-btn {
             aspect-ratio: 1;
-            border: 2px solid var(--gold);
+            border: 1px solid #ffd700;
             border-radius: 50%;
             background: transparent;
-            color: var(--gold);
-            font-size: 11px;
+            color: #ffd700;
+            font-size: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
         
-        .eb-btn:hover { background: rgba(255, 215, 0, 0.2); transform: scale(1.15); }
+        .eb-btn:hover { background: rgba(255, 215, 0, 0.1); }
         
         .eb-btn.selected {
-            background: linear-gradient(135deg, var(--gold), var(--orange));
-            color: var(--bg-dark);
-            transform: scale(1.1);
+            background: #ffd700;
+            color: #0a0a12;
         }
         
-        /* ===== PRIZE TABLE ===== */
-        .prize-table {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+        .play-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            background: #00ff88;
+            color: #0a0a12;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .play-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .prize-box {
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
             overflow: hidden;
             margin-bottom: 10px;
         }
         
         .prize-header {
-            background: linear-gradient(135deg, var(--primary-dim), rgba(0, 204, 255, 0.15));
-            padding: 10px;
-            font-size: 13px;
+            background: #2a2a38;
+            padding: 8px;
+            font-size: 12px;
             font-weight: 700;
             text-align: center;
         }
@@ -567,30 +507,28 @@
         .prize-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 12px;
-            border-bottom: 1px solid var(--border);
+            padding: 8px 10px;
+            border-bottom: 1px solid #222;
+            font-size: 11px;
         }
         
         .prize-row:last-child { border-bottom: none; }
         
-        .prize-match { font-size: 12px; font-weight: 600; }
+        .prize-kpepe { color: #00ff88; font-weight: 600; }
         
-        .prize-value { font-size: 12px; font-weight: 700; color: var(--primary); }
-        
-        /* ===== BONUS INFO ===== */
-        .bonus-card {
-            background: linear-gradient(135deg, var(--gold-dim), rgba(255, 140, 0, 0.1));
-            border: 1px solid var(--gold);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 10px;
+        .bonus-box {
+            background: #1a1a28;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
+            margin-bottom: 10px;
         }
         
         .bonus-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
-            color: var(--gold);
+            color: #ffd700;
             margin-bottom: 8px;
         }
         
@@ -599,58 +537,38 @@
             justify-content: space-around;
         }
         
-        .bonus-item { text-align: center; }
+        .bonus-item {
+            text-align: center;
+        }
         
-        .bonus-item-value {
-            font-size: 16px;
+        .bonus-value {
+            font-size: 14px;
             font-weight: 800;
-            color: var(--gold);
+            color: #ffd700;
         }
         
-        .bonus-item-label {
-            font-size: 9px;
-            color: var(--text-muted);
+        .bonus-label {
+            font-size: 8px;
+            color: #888;
         }
         
-        /* ===== PLAY BUTTON ===== */
-        .play-btn {
-            width: 100%;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), #00cc6a);
-            color: var(--bg-dark);
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        
-        .play-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
-            padding: 12px;
-            border-top: 1px solid var(--border);
-            font-size: 10px;
-            color: var(--text-muted);
+            padding: 10px;
+            border-top: 1px solid #1a1a28;
+            font-size: 9px;
+            color: #666;
         }
         
         .footer a {
-            color: var(--primary);
+            color: #00ff88;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <!-- Floating Pool Balls -->
-    <div class="pool-balls-bg" id="poolBalls"></div>
+    <!-- Background -->
+    <div class="bg-balls" id="bgBalls"></div>
     
     <!-- Floating 8-Ball -->
     <div class="floating-8ball">🎱</div>
@@ -670,7 +588,7 @@
         <!-- Jackpot -->
         <div class="jackpot-card">
             <div class="jackpot-label">💎 JACKPOT</div>
-            <div class="jackpot-amount" id="jackpot">100,000 KPEPE</div>
+            <div class="jackpot-amount">100,000 KPEPE</div>
             <div class="jackpot-note">Carries over until won!</div>
         </div>
         
@@ -687,53 +605,46 @@
         </div>
         
         <!-- USD -->
-        <div class="usd-total">
-            <div class="usd-label">Total Up for Grabs</div>
+        <div class="usd-box">
+            <div class="usd-label">TOTAL UP FOR GRABS</div>
             <div class="usd-value" id="usdTotal">~$1,742 USD</div>
             <div class="usd-breakdown" id="usdBreakdown">
-                100K KPEPE + 100K KPEPE Jackpot + $682 KLV Pool
+                100K KPEPE + 100K KPEPE Jackpot + $682 KLV
             </div>
         </div>
         
         <!-- VIP -->
         <div class="vip-card" id="vipCard">
-            <div class="vip-header">
-                <div class="vip-info">
+            <div class="vip-row">
+                <div class="vip-left">
                     <span class="vip-emoji" id="vipEmoji">🥉</span>
                     <span class="vip-name" id="vipName">Bronze VIP</span>
                 </div>
-                <div class="streak-badge">
-                    <span class="streak-fire">🔥</span>
-                    <span id="streak">0</span> days
+                <div class="streak">
+                    🔥 <span id="streak">0</span> days
                 </div>
             </div>
-            <div class="vip-progress">
-                <div class="progress-header">
-                    <span id="progressTo">Progress to Silver</span>
-                    <span id="progressCount">43 to go</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 20%"></div>
-                </div>
+            <div class="progress-row">
+                <span id="progressTo">43 to Silver</span>
+                <span id="progressCount"></span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 20%"></div>
             </div>
         </div>
         
         <!-- Free Ticket -->
         <div class="free-card" id="freeCard">
             <div class="free-header">
-                <div class="free-title">
-                    <span>🎁</span>
-                    <span>Free Daily Ticket</span>
-                </div>
-                <span class="free-status" id="freeStatus">Available</span>
+                <div class="free-title">🎁 Free Daily Ticket</div>
+                <div class="free-status" id="freeStatus">Available</div>
             </div>
             <div class="free-desc">Stake 50K+ KPEPE to claim!</div>
             <button class="free-btn" onclick="claimFreeTicket()">🎁 Claim Free Ticket</button>
-            <div class="free-expires">Expires at next draw</div>
         </div>
         
         <!-- How to Play -->
-        <div class="how-to-play">
+        <div class="how-to">
             <div class="steps">
                 <div class="step">
                     <div class="step-num">1</div>
@@ -753,18 +664,18 @@
         <!-- Countdown -->
         <div class="countdown">
             <div class="countdown-label">Next draw in</div>
-            <div class="countdown-time">
-                <div class="countdown-unit">
-                    <div class="countdown-value" id="hours">14</div>
-                    <div class="countdown-unit-label">Hrs</div>
+            <div class="time-row">
+                <div class="time-unit">
+                    <div class="time-value" id="hours">14</div>
+                    <div class="time-label">Hrs</div>
                 </div>
-                <div class="countdown-unit">
-                    <div class="countdown-value" id="minutes">32</div>
-                    <div class="countdown-unit-label">Min</div>
+                <div class="time-unit">
+                    <div class="time-value" id="minutes">32</div>
+                    <div class="time-label">Min</div>
                 </div>
-                <div class="countdown-unit">
-                    <div class="countdown-value" id="seconds">18</div>
-                    <div class="countdown-unit-label">Sec</div>
+                <div class="time-unit">
+                    <div class="time-value" id="seconds">18</div>
+                    <div class="time-label">Sec</div>
                 </div>
             </div>
         </div>
@@ -776,73 +687,73 @@
         </div>
         
         <!-- Numbers -->
-        <div class="number-picker">
-            <div class="picker-title">Pick 5 numbers (1-50)</div>
-            <div class="numbers-grid" id="numbersGrid"></div>
+        <div class="numbers-box">
+            <div class="num-title">Pick 5 numbers (1-50)</div>
+            <div class="nums-grid" id="numsGrid"></div>
             
-            <div class="picker-title">🎱 Lucky 8Ball (1-20)</div>
+            <div class="num-title">🎱 Lucky 8Ball (1-20)</div>
             <div class="eb-grid" id="ebGrid"></div>
         </div>
         
-        <!-- Play Button (right after number picker) -->
+        <!-- Play -->
         <button class="play-btn" id="playBtn" onclick="playNow()" disabled>🎰 Play Now (100 KLV)</button>
         
-        <!-- Prize Table (KLV + KPEPE) -->
-        <div class="prize-table">
-            <div class="prize-header">🎰 UP TO 100K KPEPE IN PRIZES!</div>
+        <!-- Prize Table with KLV amounts -->
+        <div class="prize-box">
+            <div class="prize-header">🎰 UP TO 100K KPEPE + KLV POOL!</div>
             <div class="prize-row">
-                <span class="prize-match">🎰 Match 5 + 8B</span>
-                <span class="prize-value">Jackpot + KLV</span>
+                <span>🎰 Match 5 + 8B</span>
+                <span class="prize-kpepe">Jackpot + ~2,890 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🥇 Match 5</span>
-                <span class="prize-value">32K KPEPE + KLV</span>
+                <span>🥇 Match 5</span>
+                <span class="prize-kpepe">32K KPEPE + ~1,012 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🥈 Match 4 + 8B</span>
-                <span class="prize-value">20K KPEPE + KLV</span>
+                <span>🥈 Match 4 + 8B</span>
+                <span class="prize-kpepe">20K KPEPE + ~650 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🥉 Match 4</span>
-                <span class="prize-value">13K KPEPE + KLV</span>
+                <span>🥉 Match 4</span>
+                <span class="prize-kpepe">13K KPEPE + ~434 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🎯 Match 3 + 8B</span>
-                <span class="prize-value">13K KPEPE + KLV</span>
+                <span>🎯 Match 3 + 8B</span>
+                <span class="prize-kpepe">13K KPEPE + ~434 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🎯 Match 3</span>
-                <span class="prize-value">9K KPEPE + KLV</span>
+                <span>🎯 Match 3</span>
+                <span class="prize-kpepe">9K KPEPE + ~289 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🎱 Match 2 + 8B</span>
-                <span class="prize-value">7K KPEPE + KLV</span>
+                <span>🎱 Match 2 + 8B</span>
+                <span class="prize-kpepe">7K KPEPE + ~217 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">🎱 Match 1 + 8B</span>
-                <span class="prize-value">4K KPEPE + KLV</span>
+                <span>🎱 Match 1 + 8B</span>
+                <span class="prize-kpepe">4K KPEPE + ~144 KLV</span>
             </div>
             <div class="prize-row">
-                <span class="prize-match">✨ Lucky 8Ball</span>
-                <span class="prize-value">2K KPEPE + KLV</span>
+                <span>✨ Lucky 8Ball</span>
+                <span class="prize-kpepe">2K KPEPE + ~72 KLV</span>
             </div>
         </div>
         
         <!-- Bonus -->
-        <div class="bonus-card">
+        <div class="bonus-box">
             <div class="bonus-title">🎁 UP TO 100K KPEPE PER DRAW!</div>
             <div class="bonus-row">
                 <div class="bonus-item">
-                    <div class="bonus-item-value">100K</div>
-                    <div class="bonus-item-label">Max/Draw</div>
+                    <div class="bonus-value">100K</div>
+                    <div class="bonus-label">Max/Draw</div>
                 </div>
                 <div class="bonus-item">
-                    <div class="bonus-item-value">800K</div>
-                    <div class="bonus-item-label">Reserve</div>
+                    <div class="bonus-value">800K</div>
+                    <div class="bonus-label">Reserve</div>
                 </div>
                 <div class="bonus-item">
-                    <div class="bonus-item-value">1M</div>
-                    <div class="bonus-item-label">Total</div>
+                    <div class="bonus-value">1M</div>
+                    <div class="bonus-label">Total</div>
                 </div>
             </div>
         </div>
@@ -850,29 +761,15 @@
         <!-- Footer -->
         <div class="footer">
             Powered by KleverChain ⛓️ | 
-            <a href="https://kleverscan.org/token/KPEPE-1EOD" target="_blank">KPEPE</a> | 
-            <a href="https://kleverscan.org/" target="_blank">Scan</a>
+            <a href="https://kleverscan.org/token/KPEPE-1EOD">KPEPE</a> | 
+            <a href="https://kleverscan.org/">Scan</a>
         </div>
     </div>
 
     <script>
         // Constants
         const KPEPE_PRICE = 0.0053;
-        const TIER_KPEPE = 100000;
-        const JACKPOT_KPEPE = 100000;
         const KLV_POOL_USD = 682;
-        const CONTRACT = "YOUR_CONTRACT_ADDRESS";
-        
-        // VIP Tiers
-        const VIP = {
-            bronze: { emoji: '🥉', name: 'Bronze', min: 10 },
-            silver: { emoji: '🥈', name: 'Silver', min: 50 },
-            gold: { emoji: '🥇', name: 'Gold', min: 100 },
-            platinum: { emoji: '💎', name: 'Platinum', min: 500 }
-        };
-        
-        // Colors for pool balls
-        const BALL_COLORS = ['#fff', '#ffd700', '#000', '#1e90ff', '#ff4500', '#9400d3', '#ff69b4', '#00ced1'];
         
         // State
         let state = {
@@ -888,24 +785,33 @@
             eb: null
         };
         
-        // Create floating balls
+        // VIP tiers
+        const VIP = {
+            bronze: { emoji: '🥉', min: 10 },
+            silver: { emoji: '🥈', min: 50 },
+            gold: { emoji: '🥇', min: 100 },
+            platinum: { emoji: '💎', min: 500 }
+        };
+        
+        // Create background balls
         function createBalls() {
-            const bg = document.getElementById('poolBalls');
-            for (let i = 1; i <= 12; i++) {
+            const bg = document.getElementById('bgBalls');
+            const colors = ['#444', '#555', '#666', '#444', '#555'];
+            for (let i = 1; i <= 10; i++) {
                 const b = document.createElement('div');
-                b.className = 'pool-ball';
+                b.className = 'ball';
                 b.textContent = i;
-                b.style.background = `linear-gradient(135deg, ${BALL_COLORS[i % 8]}, ${BALL_COLORS[(i + 3) % 8]})`;
-                b.style.left = `${Math.random() * 88 + 6}%`;
-                b.style.width = b.style.height = `${20 + Math.random() * 12}px`;
-                b.style.animationDelay = `${Math.random() * 18}s`;
+                b.style.background = colors[i % 5];
+                b.style.left = `${Math.random() * 90 + 5}%`;
+                b.style.width = b.style.height = `${16 + Math.random() * 10}px`;
+                b.style.animationDelay = `${Math.random() * 16}s`;
                 bg.appendChild(b);
             }
         }
         
         // Create number grids
         function createGrids() {
-            const ng = document.getElementById('numbersGrid');
+            const ng = document.getElementById('numsGrid');
             for (let i = 1; i <= 50; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'num-btn';
@@ -924,7 +830,6 @@
             }
         }
         
-        // Toggle number
         function toggleNum(n, btn) {
             const idx = state.nums.indexOf(n);
             if (idx > -1) {
@@ -937,7 +842,6 @@
             updatePlayBtn();
         }
         
-        // Toggle 8-ball
         function toggleEb(n, btn) {
             document.querySelectorAll('.eb-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -945,23 +849,10 @@
             updatePlayBtn();
         }
         
-        // Update play button
         function updatePlayBtn() {
             document.getElementById('playBtn').disabled = !state.wallet || state.nums.length !== 5 || !state.eb;
         }
         
-        // Update USD
-        function updateUSD() {
-            const tiers = (TIER_KPEPE * KPEPE_PRICE).toFixed(0);
-            const jp = (JACKPOT_KPEPE * KPEPE_PRICE).toFixed(0);
-            const total = parseInt(tiers) + parseInt(jp) + KLV_POOL_USD;
-            
-            document.getElementById('usdTotal').textContent = `~$${total.toLocaleString()} USD`;
-            document.getElementById('usdBreakdown').textContent = 
-                `${TIER_KPEPE.toLocaleString()} KPEPE + ${JACKPOT_KPEPE.toLocaleString()} KPEPE Jackpot + $${KLV_POOL_USD.toLocaleString()} KLV`;
-        }
-        
-        // Get VIP tier
         function getTier() {
             if (state.tickets >= VIP.platinum.min) return 'platinum';
             if (state.tickets >= VIP.gold.min) return 'gold';
@@ -969,13 +860,11 @@
             return 'bronze';
         }
         
-        // Update VIP display
         function updateVIP() {
             const t = getTier();
             state.tier = t;
-            
             document.getElementById('vipEmoji').textContent = VIP[t].emoji;
-            document.getElementById('vipName').textContent = VIP[t].name + ' VIP';
+            document.getElementById('vipName').textContent = VIP[t].emoji + ' ' + t.charAt(0).toUpperCase() + t.slice(1);
             document.getElementById('streak').textContent = state.streak;
             
             const tiers = ['bronze', 'silver', 'gold', 'platinum'];
@@ -984,17 +873,14 @@
             if (idx < 3) {
                 const next = tiers[idx + 1];
                 const prog = ((state.tickets - VIP[t].min) / (VIP[next].min - VIP[t].min)) * 100;
-                document.getElementById('progressTo').textContent = `Progress to ${VIP[next].name}`;
-                document.getElementById('progressCount').textContent = `${VIP[next].min - state.tickets} to go`;
+                document.getElementById('progressTo').textContent = `${VIP[next].min - state.tickets} to ${next}`;
                 document.getElementById('progressFill').style.width = `${Math.max(0, Math.min(100, prog))}%`;
             } else {
-                document.getElementById('progressTo').textContent = 'Max VIP Level!';
-                document.getElementById('progressCount').textContent = '';
+                document.getElementById('progressTo').textContent = 'Max Level!';
                 document.getElementById('progressFill').style.width = '100%';
             }
         }
         
-        // Start countdown
         function startTimer() {
             let h = 14, m = 32, s = 18;
             setInterval(() => {
@@ -1008,7 +894,6 @@
             }, 1000);
         }
         
-        // Quick Pick
         function quickPick() {
             state.nums = [];
             state.eb = null;
@@ -1028,7 +913,6 @@
             updatePlayBtn();
         }
         
-        // Clear
         function clearSelection() {
             state.nums = [];
             state.eb = null;
@@ -1037,11 +921,9 @@
             updatePlayBtn();
         }
         
-        // Toggle Wallet
         async function toggleWallet() {
             if (state.wallet) {
                 state.wallet = null;
-                state.address = null;
                 document.getElementById('walletText').textContent = 'Connect Wallet';
                 document.getElementById('vipCard').classList.remove('visible');
                 document.getElementById('freeCard').classList.remove('visible');
@@ -1051,30 +933,21 @@
                         await kleverWeb.connect();
                         state.wallet = kleverWeb;
                         state.address = await kleverWeb.getAddress();
-                        const short = state.address.substring(0, 8) + '...' + state.address.slice(-6);
+                        const short = state.address.slice(0, 6) + '...' + state.address.slice(-4);
                         document.getElementById('walletText').textContent = short;
                         document.getElementById('vipCard').classList.add('visible');
                         document.getElementById('freeCard').classList.add('visible');
-                        await fetchUserData();
+                        updateVIP();
                     } else {
                         alert('Klever Wallet not detected');
                     }
                 } catch (e) {
-                    console.error(e);
                     alert('Connection failed');
                 }
             }
             updatePlayBtn();
         }
         
-        // Fetch user data
-        async function fetchUserData() {
-            console.log('Fetching data for:', state.address);
-            // Contract calls would go here
-            updateVIP();
-        }
-        
-        // Play Now
         async function playNow() {
             if (!state.wallet) return alert('Connect wallet first!');
             if (state.nums.length !== 5 || !state.eb) return alert('Select numbers first!');
@@ -1083,29 +956,27 @@
             state.klvPool += 100;
             document.getElementById('tickets').textContent = state.tickets;
             document.getElementById('klvPool').textContent = state.klvPool;
-            updateUSD();
             updateVIP();
             clearSelection();
-            alert(`🎰 Ticket purchased!\nNumbers: ${state.nums.join(', ')} + 🎱${state.eb}\nGood luck! 🍀`);
+            alert('🎰 Ticket purchased! Good luck! 🍀');
         }
         
-        // Claim Free Ticket
         function claimFreeTicket() {
             if (!state.wallet) return alert('Connect wallet first!');
-            alert('🎁 Free Ticket Claimed!\n(Requires 50K+ KPEPE staked)');
+            alert('🎁 Free Ticket Claimed!');
             state.freeTicket = false;
             document.getElementById('freeStatus').textContent = 'Used';
             document.getElementById('freeStatus').style.color = '#ff6b6b';
         }
         
-        // Initialize
         function init() {
             createBalls();
             createGrids();
             startTimer();
-            updateUSD();
             updateVIP();
         }
         
         init();
     </script>
+</body>
+</html>
