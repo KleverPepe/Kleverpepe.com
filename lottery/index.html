@@ -501,16 +501,16 @@
         <div class="prize-header">🏆 Prize Pool - Win Both KLV & KPEPE!</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
-          <span class="prize-amount" id="prize-jackpot">~0 KLV <span style="color: #fbbf24; font-size: 0.85rem;">+ 500K KPEPE 🎁</span></span>
+          <span class="prize-amount" id="prize-jackpot">0 KLV <span style="color: #fbbf24; font-size: 0.85rem;">500K KPEPE 🎁</span></span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 50K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 40K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 35K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ 25K KPEPE 🎁</span></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">~0 KLV</span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">50K KPEPE 🎁</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">40K KPEPE 🎁</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">35K KPEPE 🎁</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">25K KPEPE 🎁</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">0 KLV</span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">0 KLV</span></div>
       </div>
       
       <!-- Bonus Info -->
@@ -914,8 +914,8 @@
       
       function updatePrizeAmounts(poolAmount) {
         const formatPrize = (amount) => {
-          if (amount >= 1000) return '~' + (amount / 1000).toFixed(1) + 'K KLV';
-          return '~' + amount.toLocaleString() + ' KLV';
+          if (amount >= 1000) return (amount / 1000).toFixed(1) + 'K KLV';
+          return amount.toLocaleString() + ' KLV';
         };
         
         const prizes = {
