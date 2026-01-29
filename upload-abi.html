@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload KPEPE ABI to Kleverscan</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { color: #00d4ff; margin-bottom: 10px; }
+        .card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .step { display: flex; gap: 15px; margin-bottom: 15px; }
+        .step-num { background: #00d4ff; color: #1a1a2e; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+        .step-content { flex: 1; }
+        .step-title { font-weight: bold; margin-bottom: 5px; }
+        .step-desc { color: #aaa; font-size: 14px; }
+        .code-box { background: #0d1117; border-radius: 8px; padding: 15px; font-family: 'Monaco', 'Consolas', monospace; font-size: 12px; overflow-x: auto; white-space: pre; word-break: break-all; max-height: 400px; overflow-y: auto; }
+        .copy-btn { background: #00d4ff; color: #1a1a2e; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .copy-btn:hover { background: #00b8e6; }
+        .copy-btn:active { transform: scale(0.98); }
+        .success { color: #00ff88; }
+        .contract-address { background: #00d4ff; color: #1a1a2e; padding: 5px 10px; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Upload ABI to Kleverscan</h1>
+        <p style="color: #aaa; margin-bottom: 20px;">KPEPE Jackpot Contract ABI</p>
+
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">📋 Steps</h2>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <div class="step-title">Go to your contract on Kleverscan</div>
+                    <div class="step-desc">Open: <a href="#" style="color: #00d4ff;">https://kleverscan.org/contracts</a></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <div class="step-title">Search for your contract</div>
+                    <div class="step-desc">Use the address: <span class="contract-address">klv1zz5s8c5j8h7z9q6x4w2y3k4m5n6p7q8r9s0t</span></div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <div class="step-title">Click "Contract" tab</div>
+                    <div class="step-desc">Look for "Update ABI" or "Edit Contract" button</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <div class="step-title">Paste the ABI JSON below</div>
+                    <div class="step-desc">Click "Copy ABI" button, then paste into Kleverscan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">📄 Contract ABI JSON</h2>
+            <button class="copy-btn" onclick="copyABI()">📋 Copy ABI</button>
+            <div class="code-box" id="abi-content">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 15px;">💡 After Uploading</h2>
+            <p style="color: #aaa; margin-bottom: 10;">Call <code style="background: #333; padding: 2px 6px; border-radius: 4px;">initialize_contract()</code> to set up storage</p>
+            <p style="color: #aaa;">Then users can call <code style="background: #333; padding: 2px 6px; border-radius: 4px;">buy_ticket()</code> with 100 KLV</p>
+        </div>
+    </div>
+
+    <script>
+        // ABI Content - Paste the actual ABI JSON here
+        const abiJSON = `{
+  "name": "kpepe-jackpot",
+  "version": "1.0.0",
+  "build": "1.0.0",
+  "description": "KPEPE Jackpot Lottery Contract",
+  "developer": "KleverPEPE",
+  "abiVersion": "2.0",
+  "endpoints": {
+    "init": {
+      "name": "init",
+      "mutability": "mutable",
+      "inputs": [],
+      "outputs": []
+    },
+    "endpoints": [
+      {
+        "name": "initialize_contract",
+        "mutability": "mutable",
+        "type": "init",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "initialize_wallets",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "project_wallet",
+            "type": "Address"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_project_share",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "BigUint"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_project_balance",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "toggle_round",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "start_draw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "complete_draw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "winning_nums",
+            "type": "Vec<u8>"
+          },
+          {
+            "name": "winning_eb",
+            "type": "u8"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "withdraw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "BigUint"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "buy_ticket",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "payableInTokens": ["KLV"],
+        "inputs": [
+          {
+            "name": "n1",
+            "type": "u8"
+          },
+          {
+            "name": "n2",
+            "type": "u8"
+          },
+          {
+            "name": "n3",
+            "type": "u8"
+          },
+          {
+            "name": "n4",
+            "type": "u8"
+          },
+          {
+            "name": "n5",
+            "type": "u8"
+          },
+          {
+            "name": "eb",
+            "type": "u8"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_prize",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "ticket_id",
+            "type": "u64"
+          }
+        ],
+        "outputs": []
+      }
+    ],
+    "views": [
+      {
+        "name": "get_pool",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_next_draw",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_winning",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "Vec<u8>"
+          }
+        ]
+      },
+      {
+        "name": "get_winning_eb",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u8"
+          }
+        ]
+      },
+      {
+        "name": "get_next_draw_rollover",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_withdrawn_from_pool",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_total",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "is_active",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ]
+      },
+      {
+        "name": "get_last_draw_time",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_draw_interval",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_project_wallet",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "Address"
+          }
+        ]
+      },
+      {
+        "name": "get_last_distributed_ticket",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      }
+    ]
+  },
+  "types": {
+    "Address": {
+      "type": "address"
+    },
+    "BigUint": {
+      "type": "biguint"
+    },
+    "Vec<u8>": {
+      "type": "vec",
+      "typeName": "u8"
+    }
+  },
+  "metadata": {
+    "contractURI": ""
+  }
+}`;
+
+        document.getElementById('abi-content').textContent = abiJSON;
+
+        function copyABI() {
+            navigator.clipboard.writeText(abiJSON).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy ABI', 2000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+{
+  "name": "kpepe-jackpot",
+  "version": "1.0.0",
+  "build": "1.0.0",
+  "description": "KPEPE Jackpot Lottery Contract",
+  "developer": "KleverPEPE",
+  "abiVersion": "2.0",
+  "endpoints": {
+    "init": {
+      "name": "init",
+      "mutability": "mutable",
+      "inputs": [],
+      "outputs": []
+    },
+    "endpoints": [
+      {
+        "name": "initialize_contract",
+        "mutability": "mutable",
+        "type": "init",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "initialize_wallets",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "project_wallet",
+            "type": "Address"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_project_share",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "BigUint"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_project_balance",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "toggle_round",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "start_draw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [],
+        "outputs": []
+      },
+      {
+        "name": "complete_draw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "winning_nums",
+            "type": "Vec<u8>"
+          },
+          {
+            "name": "winning_eb",
+            "type": "u8"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "withdraw",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "amount",
+            "type": "BigUint"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "buy_ticket",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "payableInTokens": ["KLV"],
+        "inputs": [
+          {
+            "name": "n1",
+            "type": "u8"
+          },
+          {
+            "name": "n2",
+            "type": "u8"
+          },
+          {
+            "name": "n3",
+            "type": "u8"
+          },
+          {
+            "name": "n4",
+            "type": "u8"
+          },
+          {
+            "name": "n5",
+            "type": "u8"
+          },
+          {
+            "name": "eb",
+            "type": "u8"
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "claim_prize",
+        "mutability": "mutable",
+        "type": "endpoint",
+        "inputs": [
+          {
+            "name": "ticket_id",
+            "type": "u64"
+          }
+        ],
+        "outputs": []
+      }
+    ],
+    "views": [
+      {
+        "name": "get_pool",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_next_draw",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_winning",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "Vec<u8>"
+          }
+        ]
+      },
+      {
+        "name": "get_winning_eb",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u8"
+          }
+        ]
+      },
+      {
+        "name": "get_next_draw_rollover",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_withdrawn_from_pool",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "BigUint"
+          }
+        ]
+      },
+      {
+        "name": "get_total",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "is_active",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ]
+      },
+      {
+        "name": "get_last_draw_time",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_draw_interval",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "get_project_wallet",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "Address"
+          }
+        ]
+      },
+      {
+        "name": "get_last_distributed_ticket",
+        "mutability": "readonly",
+        "type": "view",
+        "inputs": [],
+        "outputs": [
+          {
+            "name": "",
+            "type": "u64"
+          }
+        ]
+      }
+    ]
+  },
+  "types": {
+    "Address": {
+      "type": "address"
+    },
+    "BigUint": {
+      "type": "biguint"
+    },
+    "Vec<u8>": {
+      "type": "vec",
+      "typeName": "u8"
+    }
+  },
+  "metadata": {
+    "contractURI": ""
+  }
+}

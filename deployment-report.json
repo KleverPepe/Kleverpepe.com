@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-01-28T10:08:15.442Z",
-  "status": "INFRASTRUCTURE_READY",
+  "timestamp": "2026-01-28T18:58:00.000Z",
+  "status": "CONTRACT_DEPLOYED",
   "deployment": {
     "network": "KleverChain Mainnet",
-    "contractAddress": "klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq",
+    "contractAddress": "klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl",
     "projectWallet": "klv19a7hrp2wgx0m9tl5kvtu5qpd9p40zm2ym2mh4evxflz64lk8w38qs7hdl9",
     "prizePoolWallet": "klv1zz5tyqpa50y5ty7xz9jwegt85p0gt0fces63cde8pjncn7mgeyyqnvucl2",
     "kpepeToken": "kpepe-1eod"
@@ -20,9 +20,8 @@
     }
   },
   "nextSteps": [
-    "Deploy contract on KleverScan if not yet done",
-    "Initialize contract functions",
-    "Monitor signing server",
+    "Upload ABI to Kleverscan",
+    "Initialize contract with initialize_contract()",
     "Test lottery functionality",
     "Launch announcement"
   ]

@@ -34,7 +34,7 @@ async function runDeployment() {
 
   // Step 1: Prompt for contract address if not set
   log.section('Contract Deployment');
-  if (deploymentAddress && deploymentAddress !== 'klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq') {
+  if (deploymentAddress && deploymentAddress !== 'klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl') {
     log.ok(`Using existing contract: ${deploymentAddress}`);
   } else {
     log.info('📌 CONTRACT DEPLOYMENT REQUIRED (Manual Step on KleverScan)');

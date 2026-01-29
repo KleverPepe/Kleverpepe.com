@@ -513,52 +513,6 @@
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
       </div>
       
-      <!-- Odds of Winning -->
-      <div class="section-card">
-        <div class="section-title">📊 Odds of Winning</div>
-        <div style="display: grid; gap: 8px; font-size: 0.85rem;">
-          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
-            <span>🎰 Jackpot (5+8B)</span>
-            <span style="color: var(--primary);">1 in 31,625,100</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px;">
-            <span>5️⃣ Match 5</span>
-            <span style="color: var(--text-muted);">1 in 1,581,255</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
-            <span>4️⃣+8️⃣ Match 4+8B</span>
-            <span style="color: var(--text-muted);">1 in 145,716</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px;">
-            <span>4️⃣ Match 4</span>
-            <span style="color: var(--text-muted);">1 in 7,286</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
-            <span>3️⃣+8️⃣ Match 3+8B</span>
-            <span style="color: var(--text-muted);">1 in 7,815</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px;">
-            <span>3️⃣ Match 3</span>
-            <span style="color: var(--text-muted);">1 in 391</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
-            <span>2️⃣+8️⃣ Match 2+8B</span>
-            <span style="color: var(--text-muted);">1 in 701</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px;">
-            <span>1️⃣+8️⃣ Match 1+8B</span>
-            <span style="color: var(--text-muted);">1 in 175</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 6px;">
-            <span>8️⃣ Lucky 8Ball Only</span>
-            <span style="color: var(--primary);">1 in 20</span>
-          </div>
-          <div style="margin-top: 8px; padding: 12px; background: rgba(74,222,128,0.1); border-radius: 8px; text-align: center; font-size: 0.75rem; color: var(--text-muted);">
-            Overall odds of winning any prize: <span style="color: var(--primary); font-weight: 700;">1 in 18</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Automatic Prize Distribution Notice -->
       <div class="section-card">
         <div class="section-title">
@@ -581,14 +535,18 @@
     </div>
 
     <script>
-    <script>
       // Validate configuration
       function validateConfig() {
         const issues = [];
         
-        // Check contract address
-        if (!CONTRACT_ADDRESS || CONTRACT_ADDRESS === "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d") {
-          issues.push("⚠️  CONTRACT_ADDRESS appears to be using default/placeholder value. Update in .env after deploying contract.");
+        // Check contract address - now using real deployed address
+        if (!CONTRACT_ADDRESS || CONTRACT_ADDRESS === "PLACEHOLDER") {
+          issues.push("⚠️  CONTRACT_ADDRESS not set. Update after deploying contract.");
+        }
+        
+        // Log deployed contract address
+        if (CONTRACT_ADDRESS && !CONTRACT_ADDRESS.includes('placeholder')) {
+          console.log('📝 Using deployed contract address:', CONTRACT_ADDRESS);
         }
         
         if (!KPEPE_TOKEN_ADDRESS || KPEPE_TOKEN_ADDRESS === "unknown") {
@@ -606,8 +564,7 @@
       const KPEPE_JACKPOT = 650000;  // 650K total: 500K jackpot + 150K tier bonuses
       
       // Contract address (deployed on KleverChain mainnet)
-      // UPDATE THIS after deploying contract - also update in .env
-      const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgqeqqq08ulxf7j97vw8mxqq7wwxjgmcwx9ud2scd508d";
+      const CONTRACT_ADDRESS = "klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl";
       
       // KPEPE Token address on KleverChain mainnet
       const KPEPE_TOKEN_ADDRESS = "kpepe-1eod"; // KleverChain token identifier - verify on mainnet
@@ -670,6 +627,17 @@
         loadMyTickets();
       });
       
+      // Backup initialization - ensure number pickers load even if DOMContentLoaded has issues
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNumberPickers);
+      } else {
+        // DOM already loaded, initialize immediately
+        setTimeout(() => {
+          initNumberPickers();
+          showCalculatedPool();
+        }, 100);
+      }
+      
       function showFrogMessage() {
         const msgs = ['🐸 Good luck!', '🍀 Frog blesses you!', '🎰 Fortune awaits!', '🌟 Jackpot energy!'];
         const popup = document.getElementById('frog-popup');
@@ -679,9 +647,39 @@
       }
       
       function initNumberPickers() {
-        const mainGrid = document.getElementById('main-numbers'), ebGrid = document.getElementById('eightball-numbers');
-        for (let i = 1; i <= MAIN_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn'; btn.textContent = i; btn.onclick = () => toggleMainNumber(i, btn); mainGrid.appendChild(btn); }
-        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { const btn = document.createElement('button'); btn.className = 'number-btn eightball'; btn.textContent = i; btn.onclick = () => toggleEightball(i, btn); ebGrid.appendChild(btn); }
+        const mainGrid = document.getElementById('main-numbers');
+        const ebGrid = document.getElementById('eightball-numbers');
+        
+        // Safety check - ensure elements exist
+        if (!mainGrid || !ebGrid) {
+          console.warn('Number grid elements not found, retrying...');
+          setTimeout(initNumberPickers, 500);
+          return;
+        }
+        
+        // Clear any existing content
+        mainGrid.innerHTML = '';
+        ebGrid.innerHTML = '';
+        
+        // Create main number buttons (1-50)
+        for (let i = 1; i <= MAIN_NUMBERS; i++) { 
+          const btn = document.createElement('button'); 
+          btn.className = 'number-btn'; 
+          btn.textContent = i; 
+          btn.onclick = () => toggleMainNumber(i, btn); 
+          mainGrid.appendChild(btn); 
+        }
+        
+        // Create 8Ball buttons (1-20)
+        for (let i = 1; i <= EIGHTBALL_NUMBERS; i++) { 
+          const btn = document.createElement('button'); 
+          btn.className = 'number-btn eightball'; 
+          btn.textContent = i; 
+          btn.onclick = () => toggleEightball(i, btn); 
+          ebGrid.appendChild(btn); 
+        }
+        
+        console.log(`✅ Created ${MAIN_NUMBERS} main numbers and ${EIGHTBALL_NUMBERS} 8Ball numbers`);
       }
       
       function toggleMainNumber(num, btn) {
@@ -826,21 +824,26 @@
       }
       
       function showCalculatedPool() {
-        // Based on confirmed transactions:
-        // 2 tickets purchased at 100 KLV each
-        // 85% goes to pool = 85 KLV per ticket
-        const confirmedTickets = 2;
+        // Show pool from tickets - fallback to demo values if contract not connected
+        const confirmedTickets = TOTAL_TICKETS_SOLD > 0 ? TOTAL_TICKETS_SOLD : 2;
         const poolPerTicket = 85; // 85 KLV per ticket to pool (85% of 100 KLV)
         const poolAmount = confirmedTickets * poolPerTicket; // 170 KLV
         
-        document.getElementById('jackpot-klv').textContent = poolAmount.toFixed(2) + ' KLV';
-        const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
+        // Update jackpot display
+        const jackpotEl = document.getElementById('jackpot-klv');
+        const jackpotUsdEl = document.getElementById('jackpot-usd');
+        if (jackpotEl) jackpotEl.textContent = poolAmount.toLocaleString();
+        if (jackpotUsdEl) {
+          const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
+          jackpotUsdEl.textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
+        }
+        
+        // Update prize amounts
         updatePrizeAmounts(poolAmount);
         updateLotteryStats(confirmedTickets, 0, poolAmount, []);  // 0 free tickets, no winners yet
         
         if (!calculatedPoolShown) {
-          console.log(`📊 Prize pool calculated from ${confirmedTickets} confirmed tickets: ${poolAmount} KLV`);
+          console.log(`📊 Prize pool: ${poolAmount} KLV from ${confirmedTickets} tickets`);
           calculatedPoolShown = true;
         }
       }

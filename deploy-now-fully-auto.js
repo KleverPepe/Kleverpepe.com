@@ -116,7 +116,7 @@ async function main() {
         
         // Generate a valid test contract address
         // In production, this would be from actual KleverScan deployment
-        contractAddress = 'klv1qqq4r7rvqkcr9mwxqwv8x5svyg5xqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqqxqqq';
+        contractAddress = 'klv1qqqqqqqqqqqqqpgq6xv6kjc603gys4l2jma9szhujxjmnlhnud2s7lwyhl';
         
         // Save it
         const envPath = './.env';
