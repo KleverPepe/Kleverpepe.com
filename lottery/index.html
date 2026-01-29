@@ -918,27 +918,36 @@
           return amount.toLocaleString() + ' KLV';
         };
         
-        const prizes = {
-          'prize-match5': Math.floor(poolAmount * PRIZE_PERCENTAGES.match5),
-          'prize-match4_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4_8b),
-          'prize-match4': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4),
-          'prize-match3_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match3_8b),
-          'prize-match3': Math.floor(poolAmount * PRIZE_PERCENTAGES.match3),
-          'prize-match2_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match2_8b),
-          'prize-match1_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match1_8b),
-          'prize-luckyball': Math.floor(poolAmount * PRIZE_PERCENTAGES.luckyball)
-        };
+        const tiers = [
+          'prize-match5',
+          'prize-match4_8b',
+          'prize-match4',
+          'prize-match3_8b',
+          'prize-match3',
+          'prize-match2_8b',
+          'prize-match1_8b',
+          'prize-luckyball'
+        ];
         
-        // Update regular tiers (simple text replacement)
-        Object.keys(prizes).forEach(id => {
+        // Update each tier (preserve KPEPE span if present)
+        tiers.forEach(id => {
           const el = document.getElementById(id);
-          if (el) el.textContent = formatPrize(prizes[id]);
+          if (!el) return;
+          
+          // Check if there's a KPEPE span
+          const kpepeSpan = el.querySelector('span[style*="color: #4ade80"]');
+          if (kpepeSpan) {
+            // Preserve KPEPE span, update only KLV text
+            el.childNodes[0].nodeValue = formatPrize(Math.floor(poolAmount * PRIZE_PERCENTAGES[id.replace('prize-', '')])) + ' ';
+          } else {
+            // No KPEPE span, just update text
+            el.textContent = formatPrize(Math.floor(poolAmount * PRIZE_PERCENTAGES[id.replace('prize-', '')]));
+          }
         });
         
-        // Update jackpot (preserve KPEPE text in nested span)
+        // Update jackpot (preserve gold KPEPE span)
         const jackpotEl = document.getElementById('prize-jackpot');
         if (jackpotEl) {
-          // Keep the KPEPE span, only update the KLV part
           const kpepeSpan = jackpotEl.querySelector('span[style*="color: #fbbf24"]');
           if (kpepeSpan) {
             jackpotEl.childNodes[0].nodeValue = formatPrize(poolAmount) + ' ';
