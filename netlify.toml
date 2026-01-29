@@ -1,6 +1,12 @@
 [build]
   publish = "."
 
+# Cache control for lottery - force fresh deploy
+[[headers]]
+  for = "/lottery/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
 # Lottery subdirectory - serve from lottery folder
 [[redirects]]
   from = "/lottery"
