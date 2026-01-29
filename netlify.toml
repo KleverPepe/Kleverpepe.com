@@ -17,3 +17,5 @@
   from = "/lottery/*"
   to = "/lottery/index.html"
   status = 200
+
+# Auto-deploy connected via GitHub ✅
