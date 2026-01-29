@@ -661,6 +661,26 @@
             <div class="progress-text" id="progressText">43 tickets to Silver</div>
         </div>
         
+        <!-- Free Ticket Section -->
+        <div class="free-ticket-section" id="freeTicketSection" style="display: none; background: linear-gradient(135deg, rgba(0, 204, 255, 0.1), rgba(128, 0, 128, 0.1)); border: 1px solid #00ccff; border-radius: 12px; padding: 16px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 24px;">🎁</span>
+                    <span style="font-size: 16px; font-weight: 700; color: #00ccff;">Free Daily Ticket</span>
+                </div>
+                <span id="freeTicketStatus" style="font-size: 12px; color: #00ff88;">Available</span>
+            </div>
+            <div style="font-size: 12px; color: #a0a0b0; margin-bottom: 12px;">
+                Stake 50K+ KPEPE to claim your free ticket! 🎟️
+            </div>
+            <button id="claimFreeTicketBtn" class="play-button" style="font-size: 14px; padding: 12px;" onclick="claimFreeTicket()">
+                🎁 Claim Free Ticket
+            </button>
+            <div id="freeTicketExpires" style="font-size: 11px; color: #ff6b6b; text-align: center; margin-top: 8px;">
+                Expires at next draw
+            </div>
+        </div>
+        
         <!-- How to Play -->
         <div class="how-to-play">
             <div class="steps">
@@ -698,8 +718,11 @@
             </div>
         </div>
         
-        <!-- Quick Pick -->
-        <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick - Random Numbers</button>
+        <!-- Quick Pick & Clear -->
+        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+            <button class="quick-pick-btn" onclick="quickPick()">🎲 Quick Pick</button>
+            <button class="quick-pick-btn" onclick="clearSelection()" style="flex: 1;">❌ Clear</button>
+        </div>
         
         <!-- Number Picker -->
         <div class="number-picker">
@@ -988,10 +1011,12 @@
             if (state.walletConnected) {
                 document.getElementById('walletStatus').textContent = '● Connected';
                 document.getElementById('vipSection').classList.add('visible');
+                updateFreeTicketSection();
                 updateUI();
             } else {
                 document.getElementById('walletStatus').textContent = '● Connect Wallet to Play';
                 document.getElementById('vipSection').classList.remove('visible');
+                document.getElementById('freeTicketSection').style.display = 'none';
             }
             
             updatePlayButton();
@@ -1020,6 +1045,34 @@
             updatePlayButton();
             
             alert(`Ticket purchased! 🎰\nGood luck! 🍀`);
+        }
+        
+        function clearSelection() {
+            state.selectedNumbers = [];
+            state.selectedEightBall = null;
+            document.querySelectorAll('.pool-ball-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
+            updatePlayButton();
+        }
+        
+        function claimFreeTicket() {
+            if (!state.walletConnected) {
+                alert('Please connect your wallet first!');
+                return;
+            }
+            
+            // In production, this would check contract for KPEPE staking balance
+            // and call claim_free_ticket() endpoint
+            alert('🎁 Free Ticket Claimed!\n\nNote: Requires 50K+ KPEPE staked.\nContract integration pending.');
+        }
+        
+        function updateFreeTicketSection() {
+            const freeTicketSection = document.getElementById('freeTicketSection');
+            if (state.walletConnected) {
+                freeTicketSection.style.display = 'block';
+            } else {
+                freeTicketSection.style.display = 'none';
+            }
         }
         
         // Start
