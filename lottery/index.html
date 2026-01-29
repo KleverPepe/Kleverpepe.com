@@ -720,6 +720,22 @@
             font-weight: 600;
         }
 
+        .wallet-required {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            color: var(--warning);
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .wallet-required.hidden {
+            display: none;
+        }
+
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -1040,6 +1056,9 @@
                 <span class="numbers-title">Pick Your Numbers</span>
                 <span class="numbers-selected" id="numbersSelected">0/5 selected</span>
             </div>
+            <div class="wallet-required" id="walletRequired">
+                🔗 Connect wallet to play
+            </div>
             <div class="numbers-grid" id="numbersGrid"></div>
             
             <div class="eightball-section">
@@ -1224,6 +1243,13 @@
         }
 
         function playLottery() {
+            // Validate wallet connection
+            if (!state.walletConnected) {
+                alert('Please connect your Klever Wallet first!');
+                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            
             // Validate number selection
             if (state.selectedNumbers.length !== 5) {
                 alert('Please select exactly 5 numbers!');
@@ -1335,6 +1361,12 @@
                         document.getElementById('walletSection').style.display = 'block';
                         walletButton.style.display = 'none';
                         document.getElementById('playButton').style.display = 'block';
+                        document.getElementById('clearButton').style.display = 'block';
+                        
+                        updateNumbersDisplay();
+                    } else {
+                        walletButton.textContent = '🔗 Connect Klever Wallet';
+                        alert('No accounts found. Please unlock your Klever Wallet.');
                     }
                 } else {
                     // Fallback for demo - simulate wallet connection
@@ -1346,7 +1378,10 @@
                     document.getElementById('walletSection').style.display = 'block';
                     walletButton.style.display = 'none';
                     document.getElementById('playButton').style.display = 'block';
+                    document.getElementById('clearButton').style.display = 'block';
+                    
                     alert('Demo mode: Wallet connected! (Install Klever Wallet for real connection)');
+                    updateNumbersDisplay();
                 }
             } catch (error) {
                 console.error('Wallet connection failed:', error);
@@ -1381,6 +1416,12 @@
         }
 
         function toggleNumber(num, btn) {
+            if (!state.walletConnected) {
+                alert('Please connect your Klever Wallet first!');
+                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            
             const index = state.selectedNumbers.indexOf(num);
             
             if (index > -1) {
@@ -1404,6 +1445,12 @@
         }
 
         function toggleEightBall(num, btn) {
+            if (!state.walletConnected) {
+                alert('Please connect your Klever Wallet first!');
+                document.getElementById('walletButton').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            
             // Remove previous selection
             document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             
@@ -1415,6 +1462,14 @@
         function updateNumbersDisplay() {
             document.getElementById('numbersSelected').textContent = `${state.selectedNumbers.length}/5 selected`;
             
+            // Show/hide wallet required indicator
+            const walletRequired = document.getElementById('walletRequired');
+            if (state.walletConnected) {
+                walletRequired.classList.add('hidden');
+            } else {
+                walletRequired.classList.remove('hidden');
+            }
+            
             // Show/hide clear and play buttons based on selection
             const clearBtn = document.getElementById('clearButton');
             const playBtn = document.getElementById('playButton');
@@ -1422,6 +1477,9 @@
             if (state.walletConnected) {
                 clearBtn.style.display = state.selectedNumbers.length > 0 || state.selectedEightBall ? 'block' : 'none';
                 playBtn.style.display = state.selectedNumbers.length === 5 && state.selectedEightBall ? 'block' : 'none';
+            } else {
+                clearBtn.style.display = 'none';
+                playBtn.style.display = 'none';
             }
         }
 
