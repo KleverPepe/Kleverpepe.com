@@ -383,14 +383,14 @@
           <div style="padding: 12px; background: rgba(249,115,22,0.1); border-radius: 8px; grid-column: 1 / -1;">
             <div style="font-size: 0.75rem; color: var(--text-muted);">Current KLV Pool</div>
             <div style="font-size: 1.5rem; font-weight: 900; color: #f97316;" id="stat-pool-amount">0 KLV</div>
-            <div style="font-size: 0.7rem; color: var(--text-muted);">85% from tickets (20% rolls over each draw)</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">Grows with every ticket purchased!</div>
           </div>
           <div style="padding: 12px; background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(234,88,12,0.15)); border-radius: 8px; grid-column: 1 / -1; border: 1px solid rgba(249,115,22,0.3);">
-            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">🎁 KPEPE Launch Bonus</div>
-            <div style="font-size: 1.2rem; font-weight: 900; color: #f97316; margin-bottom: 8px;" id="stat-kpepe-total">650K KPEPE</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">🎁 KPEPE Launch Bonus Pool</div>
+            <div style="font-size: 1.2rem; font-weight: 900; color: #f97316; margin-bottom: 8px;" id="stat-kpepe-total">650,000 KPEPE</div>
             <div style="font-size: 0.7rem; color: var(--text-muted); line-height: 1.4;">
-              One-time seed fund: 500K Jackpot + 50K/40K/35K/25K for Tiers 2-5<br>
-              <span style="color: #f97316; font-weight: 600;">Depletes as prizes are won!</span>
+              One-time bonus for early players! Pool is shared across all tiers.<br>
+              <span style="color: #f97316; font-weight: 600;">🎯 Buy tickets now before the bonus pool runs out!</span>
             </div>
           </div>
         </div>
@@ -498,19 +498,31 @@
       
       <!-- KLV Prize Pool -->
       <div class="prize-table">
-        <div class="prize-header">🏆 KLV Prize Pool</div>
+        <div class="prize-header">🏆 Prize Pool - Win Both KLV & KPEPE!</div>
         <div class="prize-row jackpot">
           <div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div><div class="prize-ball eightball">8</div></div><span>🎰 JACKPOT</span></div>
-          <span class="prize-amount" id="prize-jackpot">~0 KLV <span style="color: #f97316; font-size: 0.8rem;">+ 500K KPEPE</span> <span class="badge" style="background: linear-gradient(135deg, #f97316, #ea580c); font-size: 0.65rem; margin-left: 4px;">LAUNCH BONUS</span></span>
+          <span class="prize-amount" id="prize-jackpot">~0 KLV <span style="color: #fbbf24; font-size: 0.85rem;">+ KPEPE Bonus</span></span>
         </div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">~0 KLV</div><div id="kpepe-bonus-tier2" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 50K KPEPE 🎁</div></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">~0 KLV</div><div id="kpepe-bonus-tier3" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 40K KPEPE 🎁</div></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">~0 KLV</div><div id="kpepe-bonus-tier4" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 35K KPEPE 🎁</div></span></div>
-        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">~0 KLV</div><div id="kpepe-bonus-tier5" style="color: #4ade80; font-weight: 700; margin-top: 4px;">+ 25K KPEPE 🎁</div></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">5</div></div><span>Match 5</span></div><span class="prize-amount"><div id="prize-match5">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ KPEPE Bonus</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div><div class="prize-ball eightball">8</div></div><span>Match 4+8B</span></div><span class="prize-amount"><div id="prize-match4_8b">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ KPEPE Bonus</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">4</div></div><span>Match 4</span></div><span class="prize-amount"><div id="prize-match4">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ KPEPE Bonus</span></span></div>
+        <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div><div class="prize-ball eightball">8</div></div><span>Match 3+8B</span></div><span class="prize-amount"><div id="prize-match3_8b">~0 KLV</div><span style="color: #4ade80; font-size: 0.8rem;">+ KPEPE Bonus</span></span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">3</div></div><span>Match 3</span></div><span class="prize-amount" id="prize-match3">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">2</div><div class="prize-ball eightball">8</div></div><span>Match 2+8B</span></div><span class="prize-amount" id="prize-match2_8b">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball">1</div><div class="prize-ball eightball">8</div></div><span>Match 1+8B</span></div><span class="prize-amount" id="prize-match1_8b">~0 KLV</span></div>
         <div class="prize-row"><div class="prize-match"><div class="prize-balls"><div class="prize-ball eightball">8</div></div><span>Lucky 8Ball only</span></div><span class="prize-amount" id="prize-luckyball">~0 KLV</span></div>
+      </div>
+      
+      <!-- Bonus Info -->
+      <div class="section-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(249, 115, 22, 0.1)); border: 1px solid rgba(168, 85, 247, 0.3);">
+        <div style="text-align: center;">
+          <div style="font-size: 1.1rem; font-weight: 700; color: #fbbf24; margin-bottom: 8px;">🎁 650,000 KPEPE Launch Bonus Pool</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            <strong>Win KPEPE on top of KLV prizes!</strong><br/>
+            Early players get a share of the 650K KPEPE bonus pool.<br/>
+            <span style="color: #f97316;">🎯 The more you play, the bigger your share!</span>
+          </div>
+        </div>
       </div>
       
       <!-- Automatic Prize Distribution Notice -->
@@ -1531,48 +1543,23 @@
         }
       }
 
-      // Update KPEPE seed fund display dynamically - Hide bonuses when depleted
+      // Update KPEPE Launch Bonus display
       function updateKPEPESeedDisplay(kpepeSeedFund) {
-        if (!kpepeSeedFund) {
-          // If no data provided, assume all tiers still have bonuses
-          document.getElementById('kpepe-bonus-tier2').style.display = 'block';
-          document.getElementById('kpepe-bonus-tier3').style.display = 'block';
-          document.getElementById('kpepe-bonus-tier4').style.display = 'block';
-          document.getElementById('kpepe-bonus-tier5').style.display = 'block';
-          return;
-        }
-        
-        // Hide KPEPE bonus line if that tier's seed fund is depleted (0)
-        const tiers = {
-          'kpepe-bonus-tier2': kpepeSeedFund.match5,      // Tier 2: 50K
-          'kpepe-bonus-tier3': kpepeSeedFund.match48B,    // Tier 3: 40K
-          'kpepe-bonus-tier4': kpepeSeedFund.match4,      // Tier 4: 35K
-          'kpepe-bonus-tier5': kpepeSeedFund.match38B     // Tier 5: 25K
-        };
-        
-        Object.keys(tiers).forEach(elementId => {
-          const amount = tiers[elementId];
-          const element = document.getElementById(elementId);
-          if (element) {
-            // Show if amount > 0, hide if amount = 0 or undefined
-            element.style.display = (amount && amount > 0) ? 'block' : 'none';
-          }
-        });
-        
-        // Update KPEPE Launch Bonus total in stats
-        if (kpepeSeedFund.total !== undefined) {
-          const totalEl = document.getElementById('stat-kpepe-total');
-          if (totalEl) {
-            // kpepeSeedFund.total is already in thousands (after dividing by 1e12)
-            // e.g., 650000 = 650K KPEPE
+        const totalEl = document.getElementById('stat-kpepe-total');
+        if (totalEl) {
+          if (kpepeSeedFund && kpepeSeedFund.total !== undefined) {
+            // Show remaining KPEPE from contract
             const totalK = kpepeSeedFund.total / 1000;
             totalEl.textContent = Math.floor(totalK).toLocaleString() + 'K KPEPE';
-            // Add warning if less than 50% remaining
-            if (kpepeSeedFund.total < 325000) { // < 325K
-              totalEl.style.color = '#f97316';  // Orange warning
+            // Add warning color if low
+            if (kpepeSeedFund.total < 325000) {
+              totalEl.style.color = '#f97316';
             } else {
-              totalEl.style.color = '#10b981';  // Green - normal color
+              totalEl.style.color = '#fbbf24';
             }
+          } else {
+            // Default display when no contract data
+            totalEl.textContent = '650,000 KPEPE';
           }
         }
       }
