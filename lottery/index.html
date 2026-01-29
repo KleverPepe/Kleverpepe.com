@@ -304,7 +304,7 @@
           <div class="grand-prize">🌟 <span class="prize-highlight">650,000 KPEPE</span> Launch Bonus!</div>
           <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: -4px; margin-bottom: 8px;">500K Jackpot + 150K Prize Tiers (One-Time)</div>
           <div class="pool-amount"><span id="jackpot-klv">0</span> KLV</div>
-          <div class="jackpot-usd" id="jackpot-usd">Total: ~$0 USD</div>
+          <div class="jackpot-usd" id="jackpot-usd">Total: $0 USD</div>
           <div style="margin-top: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
             <button onclick="showCalculatedPool()" style="padding: 6px 16px; border-radius: 8px; border: 1px solid rgba(74,222,128,0.3); background: rgba(74,222,128,0.1); color: #4ade80; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(74,222,128,0.2)'" onmouseout="this.style.background='rgba(74,222,128,0.1)'">
               🔄 Refresh Pool
@@ -757,7 +757,7 @@
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
         const totalUSD = kpepeValueUSD + klvValueUSD;
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
+        document.getElementById('jackpot-usd').textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
         updatePrizeAmounts(poolAmount);
         
         // Fetch KPEPE seed fund data from contract
@@ -783,7 +783,7 @@
             TOTAL_TICKETS_SOLD = ticketsSold;
             document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
             const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);  // 650K KPEPE
-            document.getElementById('jackpot-usd').textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
+            document.getElementById('jackpot-usd').textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
             updatePrizeAmounts(poolAmount);
             return;
           } catch (err) {
@@ -847,7 +847,7 @@
         if (jackpotEl) jackpotEl.textContent = poolAmount.toLocaleString();
         if (jackpotUsdEl) {
           const totalUSD = (KPEPE_JACKPOT * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-          jackpotUsdEl.textContent = 'Total: ~$' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
+          jackpotUsdEl.textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 650K KPEPE bonus)';
         }
         
         // Update prize amounts
