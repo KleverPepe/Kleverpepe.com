@@ -155,9 +155,16 @@
 
         .tier-info {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
             font-size: 12px;
             color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .pool-info {
+            color: var(--accent-primary);
+            font-weight: 600;
         }
 
         .progress-section {
@@ -946,6 +953,7 @@
             </div>
             <div class="tier-info">
                 <span id="ticketsOwned">127 tickets owned</span>
+                <span class="pool-info" id="poolInfo">💰 Pool: <span id="klvPool">127,000</span> KLV</span>
                 <span id="tierLevel">Level 3 of 4</span>
             </div>
         </section>
@@ -1095,6 +1103,7 @@
     <script>
         const state = {
             tickets: 127,
+            klvPool: 127000,
             tier: 'gold',
             streak: 7,
             lastPlayed: new Date().toDateString(),
@@ -1130,6 +1139,7 @@
             streakBonus: document.getElementById('streakBonus'),
             totalMultiplier: document.getElementById('totalMultiplier'),
             rolloverAmount: document.getElementById('rolloverAmount'),
+            klvPool: document.getElementById('klvPool'),
             milestoneModal: document.getElementById('milestoneModal'),
             modalIcon: document.getElementById('modalIcon'),
             modalTitle: document.getElementById('modalTitle'),
@@ -1168,6 +1178,7 @@
             elements.tierName.className = `tier-name ${tier}`;
 
             elements.ticketsOwned.textContent = `${state.tickets.toLocaleString()} tickets owned`;
+            elements.klvPool.textContent = state.klvPool.toLocaleString();
 
             const tierLevels = { bronze: 1, silver: 2, gold: 3, platinum: 4 };
             elements.tierLevel.textContent = `Level ${tierLevels[tier]} of 4`;
@@ -1269,6 +1280,7 @@
             }
 
             state.tickets++;
+            state.klvPool += 100; // Add 100 KLV per ticket
             state.rolloverPool = Math.round(state.rolloverPool * 1.2 + Math.random() * 5000);
 
             const milestoneBonuses = { 3: 50, 7: 200, 14: 500, 30: 2000 };
