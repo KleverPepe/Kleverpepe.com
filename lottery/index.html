@@ -761,11 +761,14 @@
         // fetchPrizePoolFromContract().then(pool => { ... })
         
         const poolAmount = Math.floor(TOTAL_TICKETS_SOLD * TICKET_PRICE * POOL_SHARE);
-        const kpepeValueUSD = KPEPE_TOTAL_SYSTEM * KPEPE_PRICE_USD;  // 1M KPEPE in play
+        // KPEPE per draw: 100K jackpot + 100K tiers = 200K total
+        const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;  // 200K
+        const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;  // ~$1,074
         const klvValueUSD = poolAmount * KLV_PRICE_USD;
         const totalUSD = kpepeValueUSD + klvValueUSD;
         document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-        document.getElementById('jackpot-usd').textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 1M KPEPE)';
+        document.getElementById('jackpot-usd').textContent = `Total: $${totalUSD.toFixed(2)} USD`;
+        document.getElementById('jackpot-usd').innerHTML += `<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
         updatePrizeAmounts(poolAmount);
         
         // Fetch KPEPE seed fund data from contract
@@ -790,8 +793,11 @@
             const poolAmount = Math.floor(prizePoolRaw / 1e6);
             TOTAL_TICKETS_SOLD = ticketsSold;
             document.getElementById('jackpot-klv').textContent = poolAmount.toLocaleString();
-            const totalUSD = (KPEPE_TOTAL_SYSTEM * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);  // 1M KPEPE
-            document.getElementById('jackpot-usd').textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 1M KPEPE)';
+            const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;  // 200K per draw
+            const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;
+            const klvValueUSD = poolAmount * KLV_PRICE_USD;
+            const totalUSD = kpepeValueUSD + klvValueUSD;
+            document.getElementById('jackpot-usd').innerHTML = `Total: $${totalUSD.toFixed(2)} USD<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
             updatePrizeAmounts(poolAmount);
             return;
           } catch (err) {
@@ -854,8 +860,12 @@
         const jackpotUsdEl = document.getElementById('jackpot-usd');
         if (jackpotEl) jackpotEl.textContent = poolAmount.toLocaleString();
         if (jackpotUsdEl) {
-          const totalUSD = (KPEPE_TOTAL_SYSTEM * KPEPE_PRICE_USD) + (poolAmount * KLV_PRICE_USD);
-          jackpotUsdEl.textContent = 'Total: $' + totalUSD.toFixed(2) + ' USD (inc. 1M KPEPE)';
+          // KPEPE per draw: 100K jackpot + 100K tiers = 200K total
+          const kpepePerDraw = KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;
+          const kpepeValueUSD = kpepePerDraw * KPEPE_PRICE_USD;
+          const klvValueUSD = poolAmount * KLV_PRICE_USD;
+          const totalUSD = kpepeValueUSD + klvValueUSD;
+          jackpotUsdEl.innerHTML = `Total: $${totalUSD.toFixed(2)} USD<br><span style="font-size:0.75rem;color:#4ade80;">(incl. ${(kpepePerDraw/1000).toFixed(0)}K KPEPE = $${kpepeValueUSD.toFixed(2)} USD)</span>`;
         }
         
         // Update prize amounts
@@ -923,9 +933,7 @@
       // Update KPEPE depletion tracking (1M total system)
       // Per draw: 100K jackpot + 100K tier prizes = 200K total
       // Reserve: Starts at 800K, depletes as prizes are won
-      const KPEPE_JACKPOT_PER_DRAW = 100000;
-      const KPEPE_TIERS_PER_DRAW = 100000;
-      const KPEPE_RESERVE_TOTAL = 800000;
+      // Using existing constants: KPEPE_JACKPOT, KPEPE_TIERS_PER_DRAW, KPEPE_RESERVE
       
       let kpepeTiersPaid = 0;
       let kpepeJackpotPaid = 0;
@@ -938,17 +946,17 @@
         const totalPaid = kpepeTiersPaid + kpepeJackpotPaid;
         
         // Calculate reserve remaining
-        const reserveRemaining = Math.max(0, KPEPE_RESERVE_TOTAL - (totalPaid - KPEPE_JACKPOT_PER_DRAW - KPEPE_TIERS_PER_DRAW));
+        const reserveRemaining = Math.max(0, KPEPE_RESERVE - (totalPaid - KPEPE_JACKPOT - KPEPE_TIERS_PER_DRAW));
         
         // Update reserve progress bar
         const reserveBar = document.getElementById('reserve-bar');
         const reservePercent = document.getElementById('reserve-percent');
         if (reserveBar) {
-          const percent = (reserveRemaining / KPEPE_RESERVE_TOTAL) * 100;
+          const percent = (reserveRemaining / KPEPE_RESERVE) * 100;
           reserveBar.style.width = percent + '%';
         }
         if (reservePercent) {
-          reservePercent.textContent = Math.round((reserveRemaining / KPEPE_RESERVE_TOTAL) * 100) + '%';
+          reservePercent.textContent = Math.round((reserveRemaining / KPEPE_RESERVE) * 100) + '%';
         }
         
         // Update jackpot display (always 100K if reserve exists)
@@ -957,7 +965,7 @@
         
         // Update total display
         const totalEl = document.getElementById('stat-kpepe-total');
-        const currentTotal = reserveRemaining + KPEPE_JACKPOT_PER_DRAW + KPEPE_TIERS_PER_DRAW;
+        const currentTotal = reserveRemaining + KPEPE_JACKPOT + KPEPE_TIERS_PER_DRAW;
         if (totalEl) totalEl.textContent = `${(currentTotal / 1000).toFixed(0)}K KPEPE`;
       }
       
@@ -1616,7 +1624,7 @@
         }
       }
 
-      // Update KPEPE Launch Bonus display
+      // Update KPEPE Bonus Pool display from contract
       function updateKPEPESeedDisplay(kpepeSeedFund) {
         const totalEl = document.getElementById('stat-kpepe-total');
         if (totalEl) {
@@ -1631,8 +1639,8 @@
               totalEl.style.color = '#fbbf24';
             }
           } else {
-            // Default display when no contract data
-            totalEl.textContent = '600,000 KPEPE';
+            // Default display when no contract data - show 1M total
+            totalEl.textContent = '1 Million KPEPE';
           }
         }
       }
