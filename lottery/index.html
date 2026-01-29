@@ -604,17 +604,17 @@
       
       // Demo: tickets sold (update from contract in production)
       let TOTAL_TICKETS_SOLD = 0;
-      // Prize percentages of pool (totals 85% - 0.75% rolls over as extra house edge)
+      // Prize percentages of pool (85% total, difficulty-based, whole numbers)
       const PRIZE_PERCENTAGES = {
         jackpot: 0.40,
-        match5: 0.15,
-        match4_8b: 0.08,
-        match4: 0.05,
+        match5: 0.14,
+        match4_8b: 0.09,
+        match4: 0.06,
         match3_8b: 0.06,
-        match3: 0.045,
+        match3: 0.04,
         match2_8b: 0.03,
-        match1_8b: 0.015,
-        luckyball: 0.02
+        match1_8b: 0.02,
+        luckyball: 0.01
       };
       // Fixed prices (update these manually if API fails)
       const KPEPE_PRICE_USD = 0.005371;

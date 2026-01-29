@@ -345,15 +345,15 @@ pub trait KPEPEJackpot: ContractBase {
             let eb_match = ticket_eb == winning_eb;
             
             let prize = match (matches, eb_match) {
-                (5, true) => &pool * 40u64 / 100u64,
-                (5, false) => &pool * 15u64 / 100u64,
-                (4, true) => &pool * 8u64 / 100u64,
-                (4, false) => &pool * 5u64 / 100u64,
-                (3, true) => &pool * 6u64 / 100u64,
-                (3, false) => &pool * 45u64 / 1000u64,
-                (2, true) => &pool * 3u64 / 100u64,
-                (1, true) => &pool * 15u64 / 1000u64,
-                (0, true) => &pool * 125u64 / 10000u64,
+                (5, true) => &pool * 40u64 / 100u64,      // Jackpot: 40%
+                (5, false) => &pool * 14u64 / 100u64,     // Match 5: 14%
+                (4, true) => &pool * 9u64 / 100u64,       // Match 4+8B: 9%
+                (4, false) => &pool * 6u64 / 100u64,      // Match 4: 6%
+                (3, true) => &pool * 6u64 / 100u64,       // Match 3+8B: 6%
+                (3, false) => &pool * 4u64 / 100u64,      // Match 3: 4%
+                (2, true) => &pool * 3u64 / 100u64,       // Match 2+8B: 3%
+                (1, true) => &pool * 2u64 / 100u64,       // Match 1+8B: 2%
+                (0, true) => &pool * 1u64 / 100u64,       // Lucky 8Ball: 1%
                 _ => BigUint::zero(),
             };
             
