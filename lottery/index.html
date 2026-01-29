@@ -919,7 +919,6 @@
         };
         
         const prizes = {
-          'prize-jackpot': poolAmount,
           'prize-match5': Math.floor(poolAmount * PRIZE_PERCENTAGES.match5),
           'prize-match4_8b': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4_8b),
           'prize-match4': Math.floor(poolAmount * PRIZE_PERCENTAGES.match4),
@@ -930,10 +929,23 @@
           'prize-luckyball': Math.floor(poolAmount * PRIZE_PERCENTAGES.luckyball)
         };
         
+        // Update regular tiers (simple text replacement)
         Object.keys(prizes).forEach(id => {
           const el = document.getElementById(id);
           if (el) el.textContent = formatPrize(prizes[id]);
         });
+        
+        // Update jackpot (preserve KPEPE text in nested span)
+        const jackpotEl = document.getElementById('prize-jackpot');
+        if (jackpotEl) {
+          // Keep the KPEPE span, only update the KLV part
+          const kpepeSpan = jackpotEl.querySelector('span[style*="color: #fbbf24"]');
+          if (kpepeSpan) {
+            jackpotEl.childNodes[0].nodeValue = formatPrize(poolAmount) + ' ';
+          } else {
+            jackpotEl.textContent = formatPrize(poolAmount);
+          }
+        }
       }
       
       function startCountdown() {
