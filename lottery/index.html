@@ -144,30 +144,44 @@
             background: linear-gradient(135deg, rgba(128, 0, 128, 0.3), rgba(75, 0, 130, 0.2));
             border: 2px solid #9400d3;
             border-radius: 16px;
-            padding: 20px;
+            padding: 24px 20px;
             text-align: center;
             margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(148, 0, 211, 0.2);
         }
         
         .jackpot-title {
             font-size: 14px;
             color: #a0a0b0;
             margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .jackpot-amount {
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 800;
-            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 8px;
+            animation: shimmer 2s infinite linear;
+            background-size: 200% 200%;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
         
         .jackpot-subtitle {
             font-size: 12px;
             color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
         }
         
         /* Stats Row */
@@ -200,30 +214,33 @@
         
         /* USD Total Section */
         .usd-total {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(255, 215, 0, 0.1));
-            border: 1px solid #00ff88;
-            border-radius: 12px;
-            padding: 16px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(255, 215, 0, 0.15));
+            border: 2px solid #00ff88;
+            border-radius: 16px;
+            padding: 20px;
             text-align: center;
             margin-bottom: 16px;
         }
         
         .usd-label {
             font-size: 12px;
-            color: #a0a0b0;
-            margin-bottom: 4px;
+            color: #00ff88;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .usd-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 800;
             color: #ffd700;
+            margin-bottom: 8px;
         }
         
         .usd-breakdown {
-            font-size: 11px;
-            color: #606070;
-            margin-top: 4px;
+            font-size: 12px;
+            color: #a0a0b0;
+            line-height: 1.5;
         }
         
         /* VIP Section */
@@ -475,16 +492,16 @@
         /* Prize Table */
         .prize-table {
             background: #1a1a25;
-            border: 1px solid #2a2a3a;
-            border-radius: 12px;
+            border: 2px solid #2a2a3a;
+            border-radius: 16px;
             overflow: hidden;
             margin-bottom: 16px;
         }
         
         .prize-header {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 255, 0.2));
-            padding: 12px 16px;
-            font-size: 16px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.3), rgba(0, 204, 255, 0.3));
+            padding: 16px;
+            font-size: 18px;
             font-weight: 700;
             text-align: center;
         }
@@ -493,8 +510,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 14px 16px;
             border-bottom: 1px solid #2a2a3a;
+            transition: background 0.2s;
+        }
+        
+        .prize-row:hover {
+            background: rgba(0, 255, 136, 0.05);
         }
         
         .prize-row:last-child {
@@ -503,28 +525,30 @@
         
         .prize-match {
             font-weight: 600;
+            font-size: 14px;
         }
         
         .prize-value {
             color: #00ff88;
             font-weight: 700;
+            font-size: 14px;
         }
         
         /* Bonus Pool */
         .bonus-pool {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
-            border: 1px solid #ffd700;
-            border-radius: 12px;
-            padding: 16px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.15));
+            border: 2px solid #ffd700;
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 16px;
             text-align: center;
         }
         
         .bonus-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             color: #ffd700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
         
         .bonus-amounts {
@@ -537,9 +561,10 @@
         }
         
         .bonus-item-value {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 800;
             color: #ffd700;
+            margin-bottom: 4px;
         }
         
         .bonus-item-label {
@@ -776,11 +801,11 @@
         
         <!-- Bonus Pool -->
         <div class="bonus-pool">
-            <div class="bonus-title">🎁 100K KPEPE PER DRAW DISTRIBUTED!</div>
+            <div class="bonus-title">🎁 UP TO 100K KPEPE PER DRAW!</div>
             <div class="bonus-amounts">
                 <div class="bonus-item">
                     <div class="bonus-item-value">100K</div>
-                    <div class="bonus-item-label">Per Draw<br>Distributed</div>
+                    <div class="bonus-item-label">Max Per<br>Draw</div>
                 </div>
                 <div class="bonus-item">
                     <div class="bonus-item-value">800K</div>
