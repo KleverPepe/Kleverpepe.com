@@ -19,8 +19,8 @@
             overflow-x: hidden;
         }
         
-        /* Floating Balls Background */
-        .floating-balls {
+        /* Floating Pool Balls Background */
+        .pool-balls-bg {
             position: fixed;
             top: 0;
             left: 0;
@@ -31,39 +31,34 @@
             overflow: hidden;
         }
         
-        .floating-ball {
+        .pool-ball {
             position: absolute;
             border-radius: 50%;
-            opacity: 0.1;
-            animation: floatUp 15s infinite linear;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            opacity: 0.15;
+            animation: floatPoolBall 20s infinite linear;
+            box-shadow: inset -3px -3px 8px rgba(0,0,0,0.3), 2px 2px 8px rgba(0,0,0,0.2);
         }
         
-        .floating-ball:nth-child(1) { width: 20px; height: 20px; background: #ff6b6b; left: 10%; animation-delay: 0s; }
-        .floating-ball:nth-child(2) { width: 15px; height: 15px; background: #4ecdc4; left: 20%; animation-delay: 2s; }
-        .floating-ball:nth-child(3) { width: 25px; height: 25px; background: #ffe66d; left: 30%; animation-delay: 4s; }
-        .floating-ball:nth-child(4) { width: 18px; height: 18px; background: #ff6b6b; left: 40%; animation-delay: 6s; }
-        .floating-ball:nth-child(5) { width: 22px; height: 22px; background: #4ecdc4; left: 50%; animation-delay: 8s; }
-        .floating-ball:nth-child(6) { width: 16px; height: 16px; background: #ffe66d; left: 60%; animation-delay: 10s; }
-        .floating-ball:nth-child(7) { width: 20px; height: 20px; background: #ff6b6b; left: 70%; animation-delay: 12s; }
-        .floating-ball:nth-child(8) { width: 15px; height: 15px; background: #4ecdc4; left: 80%; animation-delay: 14s; }
-        .floating-ball:nth-child(9) { width: 24px; height: 24px; background: #ffe66d; left: 90%; animation-delay: 1s; }
-        .floating-ball:nth-child(10) { width: 18px; height: 18px; background: #ff6b6b; left: 15%; animation-delay: 3s; }
-        .floating-ball:nth-child(11) { width: 12px; height: 12px; background: #4ecdc4; left: 25%; animation-delay: 5s; }
-        .floating-ball:nth-child(12) { width: 20px; height: 20px; background: #ffe66d; left: 35%; animation-delay: 7s; }
-        
-        @keyframes floatUp {
+        @keyframes floatPoolBall {
             0% {
-                transform: translateY(100vh) rotate(0deg);
+                transform: translateY(110vh) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 0.1;
+                opacity: 0.15;
             }
             90% {
-                opacity: 0.1;
+                opacity: 0.15;
             }
             100% {
-                transform: translateY(-100px) rotate(360deg);
+                transform: translateY(-150px) rotate(360deg);
                 opacity: 0;
             }
         }
@@ -87,7 +82,6 @@
         .logo {
             font-size: 28px;
             font-weight: 800;
-            margin-bottom: 8px;
             background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #ffe66d);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -121,6 +115,28 @@
         
         @keyframes spin {
             360deg { transform: rotate(360deg); }
+        }
+        
+        /* Wallet Status */
+        .wallet-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .wallet-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
         }
         
         /* Jackpot Section */
@@ -180,10 +196,6 @@
             font-size: 20px;
             font-weight: 700;
             color: #00ff88;
-        }
-        
-        .stat-value.usd {
-            color: #ffd700;
         }
         
         /* USD Total Section */
@@ -280,6 +292,45 @@
             text-align: center;
         }
         
+        /* How to Play */
+        .how-to-play {
+            background: #1a1a25;
+            border: 1px solid #2a2a3a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f0f1a;
+            margin: 0 auto 8px;
+        }
+        
+        .step-text {
+            font-size: 11px;
+            color: #a0a0b0;
+            line-height: 1.3;
+        }
+        
         /* Countdown */
         .countdown {
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
@@ -322,6 +373,26 @@
             text-transform: uppercase;
         }
         
+        /* Quick Pick */
+        .quick-pick-btn {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 12px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid #ff6b6b;
+            border-radius: 10px;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-pick-btn:hover {
+            background: rgba(255, 107, 53, 0.3);
+            transform: scale(1.02);
+        }
+        
         /* Number Picker */
         .number-picker {
             background: #1a1a25;
@@ -346,7 +417,7 @@
             margin-bottom: 16px;
         }
         
-        .number-ball {
+        .pool-ball-btn {
             aspect-ratio: 1;
             border: none;
             border-radius: 50%;
@@ -359,12 +430,12 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
-        .number-ball:hover {
+        .pool-ball-btn:hover {
             transform: scale(1.15);
             box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
         
-        .number-ball.selected {
+        .pool-ball-btn.selected {
             background: linear-gradient(135deg, #00ff88, #00cc6a);
             color: #0f0f1a;
             transform: scale(1.1);
@@ -377,7 +448,7 @@
             gap: 6px;
         }
         
-        .eightball-ball {
+        .eightball-btn {
             aspect-ratio: 1;
             border: 2px solid #ffd700;
             border-radius: 50%;
@@ -389,36 +460,16 @@
             transition: all 0.2s;
         }
         
-        .eightball-ball:hover {
+        .eightball-btn:hover {
             background: rgba(255, 215, 0, 0.2);
             transform: scale(1.15);
         }
         
-        .eightball-ball.selected {
+        .eightball-btn.selected {
             background: linear-gradient(135deg, #ffd700, #ff8c00);
             color: #0f0f1a;
             transform: scale(1.1);
             box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
-        }
-        
-        /* Quick Pick */
-        .quick-pick-btn {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 12px;
-            background: rgba(255, 107, 53, 0.2);
-            border: 1px solid #ff6b6b;
-            border-radius: 10px;
-            color: #ff6b6b;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .quick-pick-btn:hover {
-            background: rgba(255, 107, 53, 0.3);
-            transform: scale(1.02);
         }
         
         /* Prize Table */
@@ -546,85 +597,11 @@
             color: #00ff88;
             text-decoration: none;
         }
-        
-        /* Wallet Status */
-        .wallet-status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid #00ff88;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .wallet-dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff88;
-            border-radius: 50%;
-        }
-        
-        /* How to Play */
-        .how-to-play {
-            background: #1a1a25;
-            border: 1px solid #2a2a3a;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .steps {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .step {
-            flex: 1;
-            text-align: center;
-        }
-        
-        .step-num {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            color: #0f0f1a;
-            margin: 0 auto 8px;
-        }
-        
-        .step-text {
-            font-size: 11px;
-            color: #a0a0b0;
-            line-height: 1.3;
-        }
     </style>
 </head>
 <body>
-    <!-- Floating Balls Background -->
-    <div class="floating-balls">
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-        <div class="floating-ball"></div>
-    </div>
+    <!-- Floating Pool Balls Background -->
+    <div class="pool-balls-bg" id="poolBalls"></div>
     
     <!-- Floating 8-Ball -->
     <div class="floating-8ball">🎱</div>
@@ -643,9 +620,9 @@
         
         <!-- Jackpot Section -->
         <div class="jackpot-section">
-            <div class="jackpot-title">💎 GRAND PRIZE</div>
-            <div class="jackpot-amount">100K KPEPE</div>
-            <div class="jackpot-subtitle">+ KLV Pool</div>
+            <div class="jackpot-title">💎 100K KPEPE JACKPOT</div>
+            <div class="jackpot-amount">100,000 KPEPE</div>
+            <div class="jackpot-subtitle">Carries over until won!</div>
         </div>
         
         <!-- Stats Row -->
@@ -663,8 +640,8 @@
         <!-- USD Total -->
         <div class="usd-total">
             <div class="usd-label">TOTAL UP FOR GRABS</div>
-            <div class="usd-value" id="usdTotal">~$1,090 USD</div>
-            <div class="usd-breakdown" id="usdBreakdown">100K KPEPE + $682 KLV Pool</div>
+            <div class="usd-value" id="usdTotal">~$1,742 USD</div>
+            <div class="usd-breakdown" id="usdBreakdown">100K KPEPE Tiers + 100K KPEPE Jackpot + $682 KLV Pool</div>
         </div>
         
         <!-- VIP Section -->
@@ -735,48 +712,48 @@
         
         <!-- Prize Table -->
         <div class="prize-table">
-            <div class="prize-header">🎰 JACKPOT - Pool + 100K KPEPE</div>
+            <div class="prize-header">🎰 UP TO 100K KPEPE IN PRIZES!</div>
             <div class="prize-row">
                 <span class="prize-match">🎰 Match 5 + 8B</span>
                 <span class="prize-value">Jackpot</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🥇 Match 5</span>
-                <span class="prize-value">31K KPEPE</span>
+                <span class="prize-value">32,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🥈 Match 4 + 8B</span>
-                <span class="prize-value">20K KPEPE</span>
+                <span class="prize-value">20,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🥉 Match 4</span>
-                <span class="prize-value">13K KPEPE</span>
+                <span class="prize-value">13,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🎯 Match 3 + 8B</span>
-                <span class="prize-value">13K KPEPE</span>
+                <span class="prize-value">13,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🎯 Match 3</span>
-                <span class="prize-value">9K KPEPE</span>
+                <span class="prize-value">9,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🎱 Match 2 + 8B</span>
-                <span class="prize-value">7K KPEPE</span>
+                <span class="prize-value">7,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">🎱 Match 1 + 8B</span>
-                <span class="prize-value">4K KPEPE</span>
+                <span class="prize-value">4,000 KPEPE</span>
             </div>
             <div class="prize-row">
                 <span class="prize-match">✨ Lucky 8Ball</span>
-                <span class="prize-value">2K KPEPE</span>
+                <span class="prize-value">2,000 KPEPE</span>
             </div>
         </div>
         
         <!-- Bonus Pool -->
         <div class="bonus-pool">
-            <div class="bonus-title">🎁 1 Million KPEPE Bonus Pool!</div>
+            <div class="bonus-title">🎁 100K KPEPE PER DRAW DISTRIBUTED!</div>
             <div class="bonus-amounts">
                 <div class="bonus-item">
                     <div class="bonus-item-value">100K</div>
@@ -807,11 +784,39 @@
     </div>
 
     <script>
+        // Constants
+        const KPEPE_PRICE = 0.0053;
+        const TIER_KPEPE = 100000;
+        const JACKPOT_KPEPE = 100000;
+        const KLV_POOL_USD = 682;
+        
+        // Pool ball colors
+        const poolBallColors = [
+            '#ffffff', '#ffd700', '#000000', '#1e90ff', '#ff4500', 
+            '#9400d3', '#ff69b4', '#00ced1', '#8b0000', '#2e8b57'
+        ];
+        
+        // Create floating pool balls
+        function createPoolBalls() {
+            const container = document.getElementById('poolBalls');
+            for (let i = 1; i <= 15; i++) {
+                const ball = document.createElement('div');
+                ball.className = 'pool-ball';
+                ball.textContent = i;
+                ball.style.background = `linear-gradient(135deg, ${poolBallColors[i % poolBallColors.length]}, ${poolBallColors[(i + 3) % poolBallColors.length]})`;
+                ball.style.left = `${Math.random() * 90 + 5}%`;
+                ball.style.width = `${25 + Math.random() * 15}px`;
+                ball.style.height = ball.style.width;
+                ball.style.animationDelay = `${Math.random() * 20}s`;
+                ball.style.animationDuration = `${15 + Math.random() * 10}s`;
+                container.appendChild(ball);
+            }
+        }
+        
         // State
         const state = {
             tickets: 127,
             klvPool: 127000,
-            kpepePrice: 0.00537,
             tier: 'bronze',
             streak: 0,
             walletConnected: false,
@@ -828,9 +833,9 @@
         
         // Initialize
         function init() {
+            createPoolBalls();
             createNumberGrid();
             createEightBallGrid();
-            updateUSD();
             startCountdown();
         }
         
@@ -838,7 +843,7 @@
             const grid = document.getElementById('numbersGrid');
             for (let i = 1; i <= 50; i++) {
                 const btn = document.createElement('button');
-                btn.className = 'number-ball';
+                btn.className = 'pool-ball-btn';
                 btn.textContent = i;
                 btn.onclick = () => toggleNumber(i, btn);
                 grid.appendChild(btn);
@@ -849,7 +854,7 @@
             const grid = document.getElementById('eightballGrid');
             for (let i = 1; i <= 20; i++) {
                 const btn = document.createElement('button');
-                btn.className = 'eightball-ball';
+                btn.className = 'eightball-btn';
                 btn.textContent = i;
                 btn.onclick = () => toggleEightBall(i, btn);
                 grid.appendChild(btn);
@@ -869,7 +874,7 @@
         }
         
         function toggleEightBall(num, btn) {
-            document.querySelectorAll('.eightball-ball').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
             state.selectedEightBall = num;
             updatePlayButton();
@@ -881,17 +886,12 @@
         }
         
         function updateUSD() {
-            // KLV pool USD (85% of pool distributed, so 85% of pool value)
-            const klvUsd = (state.klvPool * 85 / 100 * 0.00537).toFixed(0);
-            
-            // KPEPE jackpot value (100K)
-            const kpepeUsd = (100000 * state.kpepePrice).toFixed(0);
-            
-            // Total
-            const totalUsd = parseInt(klvUsd) + parseInt(kpepeUsd);
+            const tiersUsd = (TIER_KPEPE * KPEPE_PRICE).toFixed(0);
+            const jackpotUsd = (JACKPOT_KPEPE * KPEPE_PRICE).toFixed(0);
+            const totalUsd = parseInt(tiersUsd) + parseInt(jackpotUsd) + KLV_POOL_USD;
             
             document.getElementById('usdTotal').textContent = `~$${totalUsd.toLocaleString()} USD`;
-            document.getElementById('usdBreakdown').textContent = `100K KPEPE + $${parseInt(klvUsd).toLocaleString()} KLV Pool`;
+            document.getElementById('usdBreakdown').textContent = `${TIER_KPEPE.toLocaleString()} KPEPE Tiers + ${JACKPOT_KPEPE.toLocaleString()} KPEPE Jackpot + $${KLV_POOL_USD.toLocaleString()} KLV Pool`;
         }
         
         function updateUI() {
@@ -964,8 +964,8 @@
         function quickPick() {
             state.selectedNumbers = [];
             state.selectedEightBall = null;
-            document.querySelectorAll('.number-ball').forEach(b => b.classList.remove('selected'));
-            document.querySelectorAll('.eightball-ball').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.pool-ball-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             
             const nums = [];
             while (nums.length < 5) {
@@ -976,9 +976,9 @@
             state.selectedEightBall = Math.floor(Math.random() * 20) + 1;
             
             nums.forEach(num => {
-                document.querySelectorAll('.number-ball')[num - 1].classList.add('selected');
+                document.querySelectorAll('.pool-ball-btn')[num - 1].classList.add('selected');
             });
-            document.querySelectorAll('.eightball-ball')[state.selectedEightBall - 1].classList.add('selected');
+            document.querySelectorAll('.eightball-btn')[state.selectedEightBall - 1].classList.add('selected');
             updatePlayButton();
         }
         
@@ -1013,8 +1013,8 @@
             
             state.selectedNumbers = [];
             state.selectedEightBall = null;
-            document.querySelectorAll('.number-ball').forEach(b => b.classList.remove('selected'));
-            document.querySelectorAll('.eightball-ball').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.pool-ball-btn').forEach(b => b.classList.remove('selected'));
+            document.querySelectorAll('.eightball-btn').forEach(b => b.classList.remove('selected'));
             
             updateUI();
             updatePlayButton();
@@ -1025,3 +1025,5 @@
         // Start
         init();
     </script>
+</body>
+</html>
